@@ -1,0 +1,52 @@
+name: iOS CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install xcpretty
+        run: sudo gem install xcpretty --no-document
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      # Cache Swift Package Manager (si utilisé)
+      - name: Cache SwiftPM
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.swiftpm
+            ~/Library/Developer/Xcode/DerivedData
+          key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+
+      # BUILD
+      - name: Build iOS app
+        run: |
+          xcodebuild \
+            -project eTix.xcodeproj \
+            -scheme eTix \
+            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            -configuration Debug \
+            clean build | xcpretty
+
+      # TESTS
+      - name: Run unit & UI tests
+        run: |
+          xcodebuild \
+            -project eTix.xcodeproj \
+            -scheme eTix \
+            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            -configuration Debug \
+            test | xcpretty
