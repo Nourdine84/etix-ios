@@ -1,0 +1,30 @@
+# Xcode
+DerivedData/
+build/
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+*.xcworkspace/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+# Xcode user data (NEVER COMMIT)
+*.xcuserdata/
+# Shared schemes
+*.xcodeproj/xcshareddata/WorkspaceSettings.xcsettings
+!*.xcodeproj/xcshareddata/xcschemes/*.xcscheme
+
+# SwiftPM
+.swiftpm/
+.build/
+
+# CocoaPods
+Pods/
+
+# Archives
+*.xcarchive
+*.ipa
+*.dSYM.zip
+
+# Secrets
+*.env
+*.xcconfig.local

@@ -1,0 +1,33 @@
+import SwiftUI
+
+@main
+struct eTixApp: App {
+    @StateObject private var persistence = PersistenceController.shared
+    @StateObject private var session = SessionViewModel()
+
+    var body: some Scene {
+        WindowGroup {
+            RootView()
+                .environment(\.managedObjectContext, persistence.container.viewContext)
+                .environmentObject(session)
+                .tint(Theme.primaryBlue)
+        }
+    }
+}
+
+struct RootView: View {
+    @EnvironmentObject var session: SessionViewModel
+
+    var body: some View {
+        Group {
+            switch session.appState {
+            case .splash:
+                SplashView()
+            case .unauthenticated:
+                LoginView()
+            case .authenticated:
+                MainView()
+            }
+        }
+    }
+}

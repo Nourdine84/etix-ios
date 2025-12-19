@@ -6,7 +6,69 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		634EA0362E9E8136001F7BBB /* eTixApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0352E9E80EF001F7BBB /* eTixApp.swift */; };
+		634EA0382E9E8149001F7BBB /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0372E9E813E001F7BBB /* Theme.swift */; };
+		634EA03A2E9E8164001F7BBB /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0392E9E814E001F7BBB /* PersistenceController.swift */; };
+		634EA04B2E9E899E001F7BBB /* SessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03D2E9E81D2001F7BBB /* SessionViewModel.swift */; };
+		634EA04D2E9E8A95001F7BBB /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0412E9E8271001F7BBB /* LoginView.swift */; };
+		634EA04E2E9E8AB8001F7BBB /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0432E9E82A4001F7BBB /* MainView.swift */; };
+		634EA04F2E9E8F80001F7BBB /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03B2E9E818C001F7BBB /* Ticket.swift */; };
+		634EA0502E9E8F8C001F7BBB /* AddTicketViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03E2E9E81E8001F7BBB /* AddTicketViewModel.swift */; };
+		634EA0512E9E8F95001F7BBB /* TicketHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0402E9E8234001F7BBB /* TicketHistoryViewModel.swift */; };
+		634EA0522E9E8F9F001F7BBB /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03F2E9E8211001F7BBB /* CategoryViewModel.swift */; };
+		634EA0532E9E8FBC001F7BBB /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0482E9E8393001F7BBB /* HomeView.swift */; };
+		634EA0542E9E8FC3001F7BBB /* AddTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0472E9E8378001F7BBB /* AddTicketView.swift */; };
+		634EA0552E9E8FCB001F7BBB /* TicketHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0462E9E82F2001F7BBB /* TicketHistoryView.swift */; };
+		634EA0562E9E8FD3001F7BBB /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0452E9E82DA001F7BBB /* CategoryView.swift */; };
+		634EA0572E9E8FDB001F7BBB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0442E9E82C0001F7BBB /* SettingsView.swift */; };
+		634EA0582E9E8FE4001F7BBB /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0422E9E8287001F7BBB /* RegisterView.swift */; };
+		634EA0592E9E8FF0001F7BBB /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03C2E9E81AD001F7BBB /* DateUtils.swift */; };
+		634EA0812E9EDF04001F7BBB /* CategoryTotal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0802E9EDEF4001F7BBB /* CategoryTotal.swift */; };
+		634EA0832E9EE15F001F7BBB /* RangePickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0822E9EE141001F7BBB /* RangePickerSheet.swift */; };
+		634EA0852E9EE423001F7BBB /* AppAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0842E9EE3FF001F7BBB /* AppAppearance.swift */; };
+		634EA0882E9FD77E001F7BBB /* eTixButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0872E9FD768001F7BBB /* eTixButton.swift */; };
+		634EA08A2E9FD7CD001F7BBB /* Haptic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0892E9FD7AD001F7BBB /* Haptic.swift */; };
+		634EA08D2E9FDA49001F7BBB /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA08C2E9FDA3D001F7BBB /* SplashView.swift */; };
+		634EA0A22E9FF550001F7BBB /* OnboardingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0A12E9FF536001F7BBB /* OnboardingPage.swift */; };
+		634EA0A42E9FF5DF001F7BBB /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0A32E9FF5C6001F7BBB /* OnboardingViewModel.swift */; };
+		634EA0AA2EA0199D001F7BBB /* MonthlyStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0A92EA0198B001F7BBB /* MonthlyStat.swift */; };
+		634EA0AC2EA019D2001F7BBB /* StatsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0AB2EA019BF001F7BBB /* StatsViewModel.swift */; };
+		634EA0AE2EA01A0F001F7BBB /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0AD2EA019F5001F7BBB /* StatisticsView.swift */; };
+		634EA0B02EA01E52001F7BBB /* WidgetSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0AF2EA01E3E001F7BBB /* WidgetSync.swift */; };
+		634EA0C72EA02D53001F7BBB /* eTixWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 634EA0B52EA02D4F001F7BBB /* eTixWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		634EA0CC2EA031E3001F7BBB /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0372E9E813E001F7BBB /* Theme.swift */; };
+		634EA0CD2EA0350C001F7BBB /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B92EA02D50001F7BBB /* SwiftUI.framework */; };
+		634EA0CE2EA0350C001F7BBB /* SwiftUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B92EA02D50001F7BBB /* SwiftUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		634EA0D02EA0350E001F7BBB /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B72EA02D50001F7BBB /* WidgetKit.framework */; };
+		634EA0D12EA0350E001F7BBB /* WidgetKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B72EA02D50001F7BBB /* WidgetKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */; };
+		63DBD7D92EE8650500D1A8EF /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */; };
+		63DBD7DB2EE8656F00D1A8EF /* TicketExportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7DA2EE8655900D1A8EF /* TicketExportButton.swift */; };
+		63DBD7DE2EEAD75100D1A8EF /* TicketDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7DD2EEAD73700D1A8EF /* TicketDetailView.swift */; };
+		63DBD7E02EEAD76700D1A8EF /* TicketEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7DF2EEAD75600D1A8EF /* TicketEditView.swift */; };
+		63DBD7E22EEAD88E00D1A8EF /* TicketFilterSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7E12EEAD87900D1A8EF /* TicketFilterSheet.swift */; };
+		63DBD7E52EEADA6D00D1A8EF /* CameraPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7E42EEADA5D00D1A8EF /* CameraPermission.swift */; };
+		63DBD7E72EEADCED00D1A8EF /* OCRNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7E62EEADCCC00D1A8EF /* OCRNotifications.swift */; };
+		63DBD7EA2EEADDED00D1A8EF /* OCRExtractedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7E92EEADDB100D1A8EF /* OCRExtractedData.swift */; };
+		63DBD7EC2EEADE1A00D1A8EF /* OCRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7EB2EEADE0900D1A8EF /* OCRScannerView.swift */; };
+		63DBD7F22EEAFEA400D1A8EF /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7F12EEAFE9300D1A8EF /* OnboardingView.swift */; };
+		63DBD7F62EEB015100D1A8EF /* AnimatedPageSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7F52EEB015100D1A8EF /* AnimatedPageSymbol.swift */; };
+		63DBD8002EEB1CBF00D1A8EF /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03B2E9E818C001F7BBB /* Ticket.swift */; };
+		63DBD8082EEC425400D1A8EF /* PopupContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD8072EEC423B00D1A8EF /* PopupContainer.swift */; };
+		63DBD80A2EEC429B00D1A8EF /* SuccessPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD8092EEC428500D1A8EF /* SuccessPopup.swift */; };
+		63DBD80C2EEC42E500D1A8EF /* ErrorPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD80B2EEC42BC00D1A8EF /* ErrorPopup.swift */; };
+		63DBD80E2EEC434400D1A8EF /* ConfirmDeletePopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD80D2EEC430600D1A8EF /* ConfirmDeletePopup.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
+		634EA0C42EA02D53001F7BBB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63E50DD12E6DBF8F009D8B0B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 634EA0B42EA02D4F001F7BBB;
+			remoteInfo = eTixWidgetExtension;
+		};
 		63E50DEB2E6DBF91009D8B0B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 63E50DD12E6DBF8F009D8B0B /* Project object */;
@@ -23,13 +85,95 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		634EA0C62EA02D53001F7BBB /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				634EA0C72EA02D53001F7BBB /* eTixWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		634EA0CF2EA0350C001F7BBB /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				634EA0CE2EA0350C001F7BBB /* SwiftUI.framework in Embed Frameworks */,
+				634EA0D12EA0350E001F7BBB /* WidgetKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		634EA0352E9E80EF001F7BBB /* eTixApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eTixApp.swift; sourceTree = "<group>"; tabWidth = 4; };
+		634EA0372E9E813E001F7BBB /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		634EA0392E9E814E001F7BBB /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		634EA03B2E9E818C001F7BBB /* Ticket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ticket.swift; sourceTree = "<group>"; };
+		634EA03C2E9E81AD001F7BBB /* DateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
+		634EA03D2E9E81D2001F7BBB /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
+		634EA03E2E9E81E8001F7BBB /* AddTicketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTicketViewModel.swift; sourceTree = "<group>"; };
+		634EA03F2E9E8211001F7BBB /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
+		634EA0402E9E8234001F7BBB /* TicketHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketHistoryViewModel.swift; sourceTree = "<group>"; };
+		634EA0412E9E8271001F7BBB /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		634EA0422E9E8287001F7BBB /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		634EA0432E9E82A4001F7BBB /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		634EA0442E9E82C0001F7BBB /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		634EA0452E9E82DA001F7BBB /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
+		634EA0462E9E82F2001F7BBB /* TicketHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketHistoryView.swift; sourceTree = "<group>"; };
+		634EA0472E9E8378001F7BBB /* AddTicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTicketView.swift; sourceTree = "<group>"; };
+		634EA0482E9E8393001F7BBB /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		634EA0802E9EDEF4001F7BBB /* CategoryTotal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTotal.swift; sourceTree = "<group>"; };
+		634EA0822E9EE141001F7BBB /* RangePickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangePickerSheet.swift; sourceTree = "<group>"; };
+		634EA0842E9EE3FF001F7BBB /* AppAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearance.swift; sourceTree = "<group>"; };
+		634EA0872E9FD768001F7BBB /* eTixButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eTixButton.swift; sourceTree = "<group>"; };
+		634EA0892E9FD7AD001F7BBB /* Haptic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptic.swift; sourceTree = "<group>"; };
+		634EA08C2E9FDA3D001F7BBB /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		634EA0A12E9FF536001F7BBB /* OnboardingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPage.swift; sourceTree = "<group>"; };
+		634EA0A32E9FF5C6001F7BBB /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		634EA0A92EA0198B001F7BBB /* MonthlyStat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyStat.swift; sourceTree = "<group>"; };
+		634EA0AB2EA019BF001F7BBB /* StatsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewModel.swift; sourceTree = "<group>"; };
+		634EA0AD2EA019F5001F7BBB /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
+		634EA0AF2EA01E3E001F7BBB /* WidgetSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSync.swift; sourceTree = "<group>"; };
+		634EA0B52EA02D4F001F7BBB /* eTixWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = eTixWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		634EA0B72EA02D50001F7BBB /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		634EA0B92EA02D50001F7BBB /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExportService.swift; sourceTree = "<group>"; };
+		63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
+		63DBD7DA2EE8655900D1A8EF /* TicketExportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketExportButton.swift; sourceTree = "<group>"; };
+		63DBD7DD2EEAD73700D1A8EF /* TicketDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketDetailView.swift; sourceTree = "<group>"; };
+		63DBD7DF2EEAD75600D1A8EF /* TicketEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketEditView.swift; sourceTree = "<group>"; };
+		63DBD7E12EEAD87900D1A8EF /* TicketFilterSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketFilterSheet.swift; sourceTree = "<group>"; };
+		63DBD7E42EEADA5D00D1A8EF /* CameraPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermission.swift; sourceTree = "<group>"; };
+		63DBD7E62EEADCCC00D1A8EF /* OCRNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRNotifications.swift; sourceTree = "<group>"; };
+		63DBD7E92EEADDB100D1A8EF /* OCRExtractedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRExtractedData.swift; sourceTree = "<group>"; };
+		63DBD7EB2EEADE0900D1A8EF /* OCRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRScannerView.swift; sourceTree = "<group>"; };
+		63DBD7F12EEAFE9300D1A8EF /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		63DBD7F42EEAFF9000D1A8EF /* Untitled 2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Untitled 2.swift"; sourceTree = "<group>"; };
+		63DBD7F52EEB015100D1A8EF /* AnimatedPageSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedPageSymbol.swift; sourceTree = "<group>"; };
+		63DBD8072EEC423B00D1A8EF /* PopupContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupContainer.swift; sourceTree = "<group>"; };
+		63DBD8092EEC428500D1A8EF /* SuccessPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessPopup.swift; sourceTree = "<group>"; };
+		63DBD80B2EEC42BC00D1A8EF /* ErrorPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPopup.swift; sourceTree = "<group>"; };
+		63DBD80D2EEC430600D1A8EF /* ConfirmDeletePopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmDeletePopup.swift; sourceTree = "<group>"; };
 		63E50DD92E6DBF8F009D8B0B /* eTix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = eTix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63E50DEA2E6DBF91009D8B0B /* eTixTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = eTixTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		63E50DF42E6DBF91009D8B0B /* eTixUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = eTixUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		634EA0CB2EA02D53001F7BBB /* Exceptions for "eTixWidget" folder in "eTixWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 634EA0B42EA02D4F001F7BBB /* eTixWidgetExtension */;
+		};
 		63E50DFC2E6DBF91009D8B0B /* Exceptions for "eTix" folder in "eTix" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -40,6 +184,14 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		634EA0BB2EA02D50001F7BBB /* eTixWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				634EA0CB2EA02D53001F7BBB /* Exceptions for "eTixWidget" folder in "eTixWidgetExtension" target */,
+			);
+			path = eTixWidget;
+			sourceTree = "<group>";
+		};
 		63E50DDB2E6DBF8F009D8B0B /* eTix */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -61,6 +213,15 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		634EA0B22EA02D4F001F7BBB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				634EA0CD2EA0350C001F7BBB /* SwiftUI.framework in Frameworks */,
+				634EA0D02EA0350E001F7BBB /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		63E50DD62E6DBF8F009D8B0B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -85,12 +246,189 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		634EA02B2E9E7EE9001F7BBB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				63DBD7E82EEADDA300D1A8EF /* OCR */,
+				634EA0A92EA0198B001F7BBB /* MonthlyStat.swift */,
+				634EA0A12E9FF536001F7BBB /* OnboardingPage.swift */,
+				634EA0842E9EE3FF001F7BBB /* AppAppearance.swift */,
+				634EA0802E9EDEF4001F7BBB /* CategoryTotal.swift */,
+				634EA03B2E9E818C001F7BBB /* Ticket.swift */,
+				634EA02C2E9E7F09001F7BBB /* ViewModels */,
+				634EA02D2E9E7F1E001F7BBB /* Views */,
+				634EA0342E9E8045001F7BBB /* Utils */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		634EA02C2E9E7F09001F7BBB /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				634EA0AB2EA019BF001F7BBB /* StatsViewModel.swift */,
+				634EA0A32E9FF5C6001F7BBB /* OnboardingViewModel.swift */,
+				634EA03D2E9E81D2001F7BBB /* SessionViewModel.swift */,
+				634EA03E2E9E81E8001F7BBB /* AddTicketViewModel.swift */,
+				634EA0402E9E8234001F7BBB /* TicketHistoryViewModel.swift */,
+				634EA03F2E9E8211001F7BBB /* CategoryViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		634EA02D2E9E7F1E001F7BBB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				63DBD8062EEC420F00D1A8EF /* Components */,
+				63DBD7E32EEADA4F00D1A8EF /* OCR */,
+				63DBD7DC2EEAD71A00D1A8EF /* Tickets */,
+				63DBD7D72EE864DC00D1A8EF /* Shared */,
+				634EA0A62E9FF638001F7BBB /* Onboarding */,
+				634EA08B2E9FDA2C001F7BBB /* Splash */,
+				634EA0332E9E802B001F7BBB /* Main */,
+				634EA0322E9E801F001F7BBB /* Auth */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		634EA0322E9E801F001F7BBB /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				634EA0412E9E8271001F7BBB /* LoginView.swift */,
+				634EA0422E9E8287001F7BBB /* RegisterView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		634EA0332E9E802B001F7BBB /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				63DBD7DA2EE8655900D1A8EF /* TicketExportButton.swift */,
+				634EA0AD2EA019F5001F7BBB /* StatisticsView.swift */,
+				634EA0822E9EE141001F7BBB /* RangePickerSheet.swift */,
+				634EA0432E9E82A4001F7BBB /* MainView.swift */,
+				634EA0482E9E8393001F7BBB /* HomeView.swift */,
+				634EA0472E9E8378001F7BBB /* AddTicketView.swift */,
+				634EA0462E9E82F2001F7BBB /* TicketHistoryView.swift */,
+				634EA0452E9E82DA001F7BBB /* CategoryView.swift */,
+				634EA0442E9E82C0001F7BBB /* SettingsView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		634EA0342E9E8045001F7BBB /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				63DBD7E62EEADCCC00D1A8EF /* OCRNotifications.swift */,
+				63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */,
+				634EA0AF2EA01E3E001F7BBB /* WidgetSync.swift */,
+				634EA0892E9FD7AD001F7BBB /* Haptic.swift */,
+				634EA03C2E9E81AD001F7BBB /* DateUtils.swift */,
+				634EA0862E9FD717001F7BBB /* UIComponents */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		634EA0862E9FD717001F7BBB /* UIComponents */ = {
+			isa = PBXGroup;
+			children = (
+				634EA0872E9FD768001F7BBB /* eTixButton.swift */,
+			);
+			path = UIComponents;
+			sourceTree = "<group>";
+		};
+		634EA08B2E9FDA2C001F7BBB /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				634EA08C2E9FDA3D001F7BBB /* SplashView.swift */,
+			);
+			path = Splash;
+			sourceTree = "<group>";
+		};
+		634EA0A62E9FF638001F7BBB /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				63DBD7F42EEAFF9000D1A8EF /* Untitled 2.swift */,
+				63DBD7F12EEAFE9300D1A8EF /* OnboardingView.swift */,
+				63DBD7F52EEB015100D1A8EF /* AnimatedPageSymbol.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		634EA0B62EA02D50001F7BBB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				634EA0B72EA02D50001F7BBB /* WidgetKit.framework */,
+				634EA0B92EA02D50001F7BBB /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		63DBD7D72EE864DC00D1A8EF /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		63DBD7DC2EEAD71A00D1A8EF /* Tickets */ = {
+			isa = PBXGroup;
+			children = (
+				63DBD7E12EEAD87900D1A8EF /* TicketFilterSheet.swift */,
+				63DBD7DF2EEAD75600D1A8EF /* TicketEditView.swift */,
+				63DBD7DD2EEAD73700D1A8EF /* TicketDetailView.swift */,
+			);
+			path = Tickets;
+			sourceTree = "<group>";
+		};
+		63DBD7E32EEADA4F00D1A8EF /* OCR */ = {
+			isa = PBXGroup;
+			children = (
+				63DBD7EB2EEADE0900D1A8EF /* OCRScannerView.swift */,
+				63DBD7E42EEADA5D00D1A8EF /* CameraPermission.swift */,
+			);
+			path = OCR;
+			sourceTree = "<group>";
+		};
+		63DBD7E82EEADDA300D1A8EF /* OCR */ = {
+			isa = PBXGroup;
+			children = (
+				63DBD7E92EEADDB100D1A8EF /* OCRExtractedData.swift */,
+			);
+			path = OCR;
+			sourceTree = "<group>";
+		};
+		63DBD7F72EEB0B9500D1A8EF /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				634EA0392E9E814E001F7BBB /* PersistenceController.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		63DBD8062EEC420F00D1A8EF /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				63DBD80D2EEC430600D1A8EF /* ConfirmDeletePopup.swift */,
+				63DBD80B2EEC42BC00D1A8EF /* ErrorPopup.swift */,
+				63DBD8092EEC428500D1A8EF /* SuccessPopup.swift */,
+				63DBD8072EEC423B00D1A8EF /* PopupContainer.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		63E50DD02E6DBF8F009D8B0B = {
 			isa = PBXGroup;
 			children = (
+				634EA0352E9E80EF001F7BBB /* eTixApp.swift */,
+				634EA0372E9E813E001F7BBB /* Theme.swift */,
+				63DBD7F72EEB0B9500D1A8EF /* Persistence */,
+				634EA02B2E9E7EE9001F7BBB /* Models */,
 				63E50DDB2E6DBF8F009D8B0B /* eTix */,
 				63E50DED2E6DBF91009D8B0B /* eTixTests */,
 				63E50DF72E6DBF91009D8B0B /* eTixUITests */,
+				634EA0BB2EA02D50001F7BBB /* eTixWidget */,
+				634EA0B62EA02D50001F7BBB /* Frameworks */,
 				63E50DDA2E6DBF8F009D8B0B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -101,6 +439,7 @@
 				63E50DD92E6DBF8F009D8B0B /* eTix.app */,
 				63E50DEA2E6DBF91009D8B0B /* eTixTests.xctest */,
 				63E50DF42E6DBF91009D8B0B /* eTixUITests.xctest */,
+				634EA0B52EA02D4F001F7BBB /* eTixWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -108,6 +447,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		634EA0B42EA02D4F001F7BBB /* eTixWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 634EA0C82EA02D53001F7BBB /* Build configuration list for PBXNativeTarget "eTixWidgetExtension" */;
+			buildPhases = (
+				634EA0B12EA02D4F001F7BBB /* Sources */,
+				634EA0B22EA02D4F001F7BBB /* Frameworks */,
+				634EA0B32EA02D4F001F7BBB /* Resources */,
+				634EA0CF2EA0350C001F7BBB /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				634EA0BB2EA02D50001F7BBB /* eTixWidget */,
+			);
+			name = eTixWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = eTixWidgetExtension;
+			productReference = 634EA0B52EA02D4F001F7BBB /* eTixWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		63E50DD82E6DBF8F009D8B0B /* eTix */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 63E50DFD2E6DBF91009D8B0B /* Build configuration list for PBXNativeTarget "eTix" */;
@@ -115,10 +477,12 @@
 				63E50DD52E6DBF8F009D8B0B /* Sources */,
 				63E50DD62E6DBF8F009D8B0B /* Frameworks */,
 				63E50DD72E6DBF8F009D8B0B /* Resources */,
+				634EA0C62EA02D53001F7BBB /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				634EA0C52EA02D53001F7BBB /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				63E50DDB2E6DBF8F009D8B0B /* eTix */,
@@ -186,6 +550,9 @@
 				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
+					634EA0B42EA02D4F001F7BBB = {
+						CreatedOnToolsVersion = 16.4;
+					};
 					63E50DD82E6DBF8F009D8B0B = {
 						CreatedOnToolsVersion = 16.4;
 					};
@@ -216,11 +583,19 @@
 				63E50DD82E6DBF8F009D8B0B /* eTix */,
 				63E50DE92E6DBF91009D8B0B /* eTixTests */,
 				63E50DF32E6DBF91009D8B0B /* eTixUITests */,
+				634EA0B42EA02D4F001F7BBB /* eTixWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		634EA0B32EA02D4F001F7BBB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		63E50DD72E6DBF8F009D8B0B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -245,10 +620,64 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		634EA0B12EA02D4F001F7BBB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				634EA0CC2EA031E3001F7BBB /* Theme.swift in Sources */,
+				63DBD8002EEB1CBF00D1A8EF /* Ticket.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		63E50DD52E6DBF8F009D8B0B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63DBD7F62EEB015100D1A8EF /* AnimatedPageSymbol.swift in Sources */,
+				634EA0AA2EA0199D001F7BBB /* MonthlyStat.swift in Sources */,
+				634EA0562E9E8FD3001F7BBB /* CategoryView.swift in Sources */,
+				634EA0532E9E8FBC001F7BBB /* HomeView.swift in Sources */,
+				63DBD80A2EEC429B00D1A8EF /* SuccessPopup.swift in Sources */,
+				63DBD80C2EEC42E500D1A8EF /* ErrorPopup.swift in Sources */,
+				634EA0812E9EDF04001F7BBB /* CategoryTotal.swift in Sources */,
+				63DBD7DB2EE8656F00D1A8EF /* TicketExportButton.swift in Sources */,
+				634EA0572E9E8FDB001F7BBB /* SettingsView.swift in Sources */,
+				63DBD80E2EEC434400D1A8EF /* ConfirmDeletePopup.swift in Sources */,
+				63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */,
+				634EA0AE2EA01A0F001F7BBB /* StatisticsView.swift in Sources */,
+				63DBD7DE2EEAD75100D1A8EF /* TicketDetailView.swift in Sources */,
+				634EA04E2E9E8AB8001F7BBB /* MainView.swift in Sources */,
+				634EA08A2E9FD7CD001F7BBB /* Haptic.swift in Sources */,
+				634EA0552E9E8FCB001F7BBB /* TicketHistoryView.swift in Sources */,
+				634EA0AC2EA019D2001F7BBB /* StatsViewModel.swift in Sources */,
+				63DBD7E02EEAD76700D1A8EF /* TicketEditView.swift in Sources */,
+				634EA0B02EA01E52001F7BBB /* WidgetSync.swift in Sources */,
+				634EA0502E9E8F8C001F7BBB /* AddTicketViewModel.swift in Sources */,
+				634EA04B2E9E899E001F7BBB /* SessionViewModel.swift in Sources */,
+				634EA0582E9E8FE4001F7BBB /* RegisterView.swift in Sources */,
+				634EA0382E9E8149001F7BBB /* Theme.swift in Sources */,
+				634EA0512E9E8F95001F7BBB /* TicketHistoryViewModel.swift in Sources */,
+				63DBD7E72EEADCED00D1A8EF /* OCRNotifications.swift in Sources */,
+				63DBD7EC2EEADE1A00D1A8EF /* OCRScannerView.swift in Sources */,
+				634EA0362E9E8136001F7BBB /* eTixApp.swift in Sources */,
+				63DBD7D92EE8650500D1A8EF /* ShareSheet.swift in Sources */,
+				634EA0852E9EE423001F7BBB /* AppAppearance.swift in Sources */,
+				63DBD7F22EEAFEA400D1A8EF /* OnboardingView.swift in Sources */,
+				634EA03A2E9E8164001F7BBB /* PersistenceController.swift in Sources */,
+				63DBD8082EEC425400D1A8EF /* PopupContainer.swift in Sources */,
+				634EA0522E9E8F9F001F7BBB /* CategoryViewModel.swift in Sources */,
+				634EA0882E9FD77E001F7BBB /* eTixButton.swift in Sources */,
+				634EA0A42E9FF5DF001F7BBB /* OnboardingViewModel.swift in Sources */,
+				634EA0542E9E8FC3001F7BBB /* AddTicketView.swift in Sources */,
+				634EA0A22E9FF550001F7BBB /* OnboardingPage.swift in Sources */,
+				634EA04F2E9E8F80001F7BBB /* Ticket.swift in Sources */,
+				634EA08D2E9FDA49001F7BBB /* SplashView.swift in Sources */,
+				634EA0592E9E8FF0001F7BBB /* DateUtils.swift in Sources */,
+				634EA0832E9EE15F001F7BBB /* RangePickerSheet.swift in Sources */,
+				634EA04D2E9E8A95001F7BBB /* LoginView.swift in Sources */,
+				63DBD7E52EEADA6D00D1A8EF /* CameraPermission.swift in Sources */,
+				63DBD7E22EEAD88E00D1A8EF /* TicketFilterSheet.swift in Sources */,
+				63DBD7EA2EEADDED00D1A8EF /* OCRExtractedData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,6 +698,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		634EA0C52EA02D53001F7BBB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 634EA0B42EA02D4F001F7BBB /* eTixWidgetExtension */;
+			targetProxy = 634EA0C42EA02D53001F7BBB /* PBXContainerItemProxy */;
+		};
 		63E50DEC2E6DBF91009D8B0B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 63E50DD82E6DBF8F009D8B0B /* eTix */;
@@ -282,6 +716,70 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		634EA0C92EA02D53001F7BBB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = eTixWidget/eTixWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = eTixWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = eTixWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Nourdine84.eTix.eTixWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		634EA0CA2EA02D53001F7BBB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = eTixWidget/eTixWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = eTixWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = eTixWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Nourdine84.eTix.eTixWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		63E50DFE2E6DBF91009D8B0B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -561,6 +1059,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		634EA0C82EA02D53001F7BBB /* Build configuration list for PBXNativeTarget "eTixWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				634EA0C92EA02D53001F7BBB /* Debug */,
+				634EA0CA2EA02D53001F7BBB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		63E50DD42E6DBF8F009D8B0B /* Build configuration list for PBXProject "eTix" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
