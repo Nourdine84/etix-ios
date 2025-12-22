@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		63148A6B2EF9AE97003D8ED3 /* etix.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 63148A692EF9AE97003D8ED3 /* etix.xcdatamodeld */; };
+		63148A912EF9BB14003D8ED3 /* CategoryCRUDViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63148A902EF9BB01003D8ED3 /* CategoryCRUDViewModel.swift */; };
 		634EA0362E9E8136001F7BBB /* eTixApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0352E9E80EF001F7BBB /* eTixApp.swift */; };
 		634EA0382E9E8149001F7BBB /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0372E9E813E001F7BBB /* Theme.swift */; };
 		634EA03A2E9E8164001F7BBB /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0392E9E814E001F7BBB /* PersistenceController.swift */; };
@@ -17,7 +18,7 @@
 		634EA04F2E9E8F80001F7BBB /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03B2E9E818C001F7BBB /* Ticket.swift */; };
 		634EA0502E9E8F8C001F7BBB /* AddTicketViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03E2E9E81E8001F7BBB /* AddTicketViewModel.swift */; };
 		634EA0512E9E8F95001F7BBB /* TicketHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0402E9E8234001F7BBB /* TicketHistoryViewModel.swift */; };
-		634EA0522E9E8F9F001F7BBB /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03F2E9E8211001F7BBB /* CategoryViewModel.swift */; };
+		634EA0522E9E8F9F001F7BBB /* CategoryStatsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03F2E9E8211001F7BBB /* CategoryStatsViewModel.swift */; };
 		634EA0532E9E8FBC001F7BBB /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0482E9E8393001F7BBB /* HomeView.swift */; };
 		634EA0542E9E8FC3001F7BBB /* AddTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0472E9E8378001F7BBB /* AddTicketView.swift */; };
 		634EA0552E9E8FCB001F7BBB /* TicketHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0462E9E82F2001F7BBB /* TicketHistoryView.swift */; };
@@ -114,6 +115,7 @@
 
 /* Begin PBXFileReference section */
 		63148A6A2EF9AE97003D8ED3 /* etix.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = etix.xcdatamodel; sourceTree = "<group>"; };
+		63148A902EF9BB01003D8ED3 /* CategoryCRUDViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCRUDViewModel.swift; sourceTree = "<group>"; };
 		631A6B492EF96A8F005B325A /* HomeV2ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeV2ViewModel.swift; sourceTree = "<group>"; };
 		631A6B4A2EF96AF6005B325A /* HomeV2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeV2View.swift; sourceTree = "<group>"; };
 		631A6B4B2EF96B31005B325A /* HomeKPIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeKPIView.swift; sourceTree = "<group>"; };
@@ -125,7 +127,7 @@
 		634EA03C2E9E81AD001F7BBB /* DateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
 		634EA03D2E9E81D2001F7BBB /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
 		634EA03E2E9E81E8001F7BBB /* AddTicketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTicketViewModel.swift; sourceTree = "<group>"; };
-		634EA03F2E9E8211001F7BBB /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
+		634EA03F2E9E8211001F7BBB /* CategoryStatsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryStatsViewModel.swift; sourceTree = "<group>"; };
 		634EA0402E9E8234001F7BBB /* TicketHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketHistoryViewModel.swift; sourceTree = "<group>"; };
 		634EA0412E9E8271001F7BBB /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		634EA0422E9E8287001F7BBB /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
@@ -290,12 +292,13 @@
 		634EA02C2E9E7F09001F7BBB /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				63148A902EF9BB01003D8ED3 /* CategoryCRUDViewModel.swift */,
 				634EA0AB2EA019BF001F7BBB /* StatsViewModel.swift */,
 				634EA0A32E9FF5C6001F7BBB /* OnboardingViewModel.swift */,
 				634EA03D2E9E81D2001F7BBB /* SessionViewModel.swift */,
 				634EA03E2E9E81E8001F7BBB /* AddTicketViewModel.swift */,
 				634EA0402E9E8234001F7BBB /* TicketHistoryViewModel.swift */,
-				634EA03F2E9E8211001F7BBB /* CategoryViewModel.swift */,
+				634EA03F2E9E8211001F7BBB /* CategoryStatsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -675,6 +678,7 @@
 				63DBD7DE2EEAD75100D1A8EF /* TicketDetailView.swift in Sources */,
 				634EA04E2E9E8AB8001F7BBB /* MainView.swift in Sources */,
 				634EA08A2E9FD7CD001F7BBB /* Haptic.swift in Sources */,
+				63148A912EF9BB14003D8ED3 /* CategoryCRUDViewModel.swift in Sources */,
 				634EA0552E9E8FCB001F7BBB /* TicketHistoryView.swift in Sources */,
 				634EA0AC2EA019D2001F7BBB /* StatsViewModel.swift in Sources */,
 				63DBD7E02EEAD76700D1A8EF /* TicketEditView.swift in Sources */,
@@ -692,7 +696,7 @@
 				63DBD7F22EEAFEA400D1A8EF /* OnboardingView.swift in Sources */,
 				634EA03A2E9E8164001F7BBB /* PersistenceController.swift in Sources */,
 				63DBD8082EEC425400D1A8EF /* PopupContainer.swift in Sources */,
-				634EA0522E9E8F9F001F7BBB /* CategoryViewModel.swift in Sources */,
+				634EA0522E9E8F9F001F7BBB /* CategoryStatsViewModel.swift in Sources */,
 				634EA0882E9FD77E001F7BBB /* eTixButton.swift in Sources */,
 				634EA0A42E9FF5DF001F7BBB /* OnboardingViewModel.swift in Sources */,
 				63148A6B2EF9AE97003D8ED3 /* etix.xcdatamodeld in Sources */,
