@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		63148A6B2EF9AE97003D8ED3 /* etix.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 63148A692EF9AE97003D8ED3 /* etix.xcdatamodeld */; };
 		634EA0362E9E8136001F7BBB /* eTixApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0352E9E80EF001F7BBB /* eTixApp.swift */; };
 		634EA0382E9E8149001F7BBB /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0372E9E813E001F7BBB /* Theme.swift */; };
 		634EA03A2E9E8164001F7BBB /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0392E9E814E001F7BBB /* PersistenceController.swift */; };
@@ -112,6 +113,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		63148A6A2EF9AE97003D8ED3 /* etix.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = etix.xcdatamodel; sourceTree = "<group>"; };
 		631A6B492EF96A8F005B325A /* HomeV2ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeV2ViewModel.swift; sourceTree = "<group>"; };
 		631A6B4A2EF96AF6005B325A /* HomeV2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeV2View.swift; sourceTree = "<group>"; };
 		631A6B4B2EF96B31005B325A /* HomeKPIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeKPIView.swift; sourceTree = "<group>"; };
@@ -443,6 +445,7 @@
 		63E50DD02E6DBF8F009D8B0B = {
 			isa = PBXGroup;
 			children = (
+				63148A692EF9AE97003D8ED3 /* etix.xcdatamodeld */,
 				631A6B472EF96A35005B325A /* Features */,
 				634EA0352E9E80EF001F7BBB /* eTixApp.swift */,
 				634EA0372E9E813E001F7BBB /* Theme.swift */,
@@ -692,6 +695,7 @@
 				634EA0522E9E8F9F001F7BBB /* CategoryViewModel.swift in Sources */,
 				634EA0882E9FD77E001F7BBB /* eTixButton.swift in Sources */,
 				634EA0A42E9FF5DF001F7BBB /* OnboardingViewModel.swift in Sources */,
+				63148A6B2EF9AE97003D8ED3 /* etix.xcdatamodeld in Sources */,
 				634EA0542E9E8FC3001F7BBB /* AddTicketView.swift in Sources */,
 				634EA0A22E9FF550001F7BBB /* OnboardingPage.swift in Sources */,
 				634EA04F2E9E8F80001F7BBB /* Ticket.swift in Sources */,
@@ -1133,6 +1137,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		63148A692EF9AE97003D8ED3 /* etix.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				63148A6A2EF9AE97003D8ED3 /* etix.xcdatamodel */,
+			);
+			currentVersion = 63148A6A2EF9AE97003D8ED3 /* etix.xcdatamodel */;
+			path = etix.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 63E50DD12E6DBF8F009D8B0B /* Project object */;
 }
