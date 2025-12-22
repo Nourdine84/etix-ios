@@ -112,6 +112,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		631A6B492EF96A8F005B325A /* HomeV2ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeV2ViewModel.swift; sourceTree = "<group>"; };
+		631A6B4A2EF96AF6005B325A /* HomeV2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeV2View.swift; sourceTree = "<group>"; };
+		631A6B4B2EF96B31005B325A /* HomeKPIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeKPIView.swift; sourceTree = "<group>"; };
+		631A6B4C2EF96BB2005B325A /* HomeQuickActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeQuickActionsView.swift; sourceTree = "<group>"; };
 		634EA0352E9E80EF001F7BBB /* eTixApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eTixApp.swift; sourceTree = "<group>"; tabWidth = 4; };
 		634EA0372E9E813E001F7BBB /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		634EA0392E9E814E001F7BBB /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
@@ -246,6 +250,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		631A6B472EF96A35005B325A /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				631A6B482EF96A6D005B325A /* HomeV2 */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		631A6B482EF96A6D005B325A /* HomeV2 */ = {
+			isa = PBXGroup;
+			children = (
+				631A6B4C2EF96BB2005B325A /* HomeQuickActionsView.swift */,
+				631A6B4B2EF96B31005B325A /* HomeKPIView.swift */,
+				631A6B4A2EF96AF6005B325A /* HomeV2View.swift */,
+				631A6B492EF96A8F005B325A /* HomeV2ViewModel.swift */,
+			);
+			path = HomeV2;
+			sourceTree = "<group>";
+		};
 		634EA02B2E9E7EE9001F7BBB /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -420,6 +443,7 @@
 		63E50DD02E6DBF8F009D8B0B = {
 			isa = PBXGroup;
 			children = (
+				631A6B472EF96A35005B325A /* Features */,
 				634EA0352E9E80EF001F7BBB /* eTixApp.swift */,
 				634EA0372E9E813E001F7BBB /* Theme.swift */,
 				63DBD7F72EEB0B9500D1A8EF /* Persistence */,
@@ -722,8 +746,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = eTixWidget/eTixWidget.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9CX6779BPS;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = eTixWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = eTixWidget;
@@ -738,6 +764,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Nourdine84.eTix.eTixWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -785,9 +812,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = eTix/eTix.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9CX6779BPS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = eTix/Info.plist;
@@ -810,7 +837,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
@@ -823,7 +850,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = eTix/eTix.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
@@ -848,7 +874,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
@@ -976,6 +1002,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9CX6779BPS;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				MACOSX_DEPLOYMENT_TARGET = 15.5;
@@ -983,7 +1010,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Nourdine84.eTixTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
@@ -1005,7 +1032,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Nourdine84.eTixTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
@@ -1019,6 +1046,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9CX6779BPS;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				MACOSX_DEPLOYMENT_TARGET = 15.5;
