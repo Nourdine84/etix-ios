@@ -20,7 +20,7 @@
 		634EA0532E9E8FBC001F7BBB /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0482E9E8393001F7BBB /* HomeView.swift */; };
 		634EA0542E9E8FC3001F7BBB /* AddTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0472E9E8378001F7BBB /* AddTicketView.swift */; };
 		634EA0552E9E8FCB001F7BBB /* TicketHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0462E9E82F2001F7BBB /* TicketHistoryView.swift */; };
-		634EA0562E9E8FD3001F7BBB /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0452E9E82DA001F7BBB /* CategoryView.swift */; };
+		634EA0562E9E8FD3001F7BBB /* CategoryStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0452E9E82DA001F7BBB /* CategoryStatsView.swift */; };
 		634EA0572E9E8FDB001F7BBB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0442E9E82C0001F7BBB /* SettingsView.swift */; };
 		634EA0582E9E8FE4001F7BBB /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0422E9E8287001F7BBB /* RegisterView.swift */; };
 		634EA0592E9E8FF0001F7BBB /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03C2E9E81AD001F7BBB /* DateUtils.swift */; };
@@ -42,6 +42,7 @@
 		634EA0CE2EA0350C001F7BBB /* SwiftUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B92EA02D50001F7BBB /* SwiftUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		634EA0D02EA0350E001F7BBB /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B72EA02D50001F7BBB /* WidgetKit.framework */; };
 		634EA0D12EA0350E001F7BBB /* WidgetKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B72EA02D50001F7BBB /* WidgetKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		63A23B992EFB01EA00F53E50 /* NavigationNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A23B982EFB01D600F53E50 /* NavigationNotifications.swift */; };
 		63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */; };
 		63DBD7D92EE8650500D1A8EF /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */; };
 		63DBD7DB2EE8656F00D1A8EF /* TicketExportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7DA2EE8655900D1A8EF /* TicketExportButton.swift */; };
@@ -129,7 +130,7 @@
 		634EA0422E9E8287001F7BBB /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		634EA0432E9E82A4001F7BBB /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		634EA0442E9E82C0001F7BBB /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		634EA0452E9E82DA001F7BBB /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
+		634EA0452E9E82DA001F7BBB /* CategoryStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryStatsView.swift; sourceTree = "<group>"; };
 		634EA0462E9E82F2001F7BBB /* TicketHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketHistoryView.swift; sourceTree = "<group>"; };
 		634EA0472E9E8378001F7BBB /* AddTicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTicketView.swift; sourceTree = "<group>"; };
 		634EA0482E9E8393001F7BBB /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -148,6 +149,7 @@
 		634EA0B52EA02D4F001F7BBB /* eTixWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = eTixWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		634EA0B72EA02D50001F7BBB /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		634EA0B92EA02D50001F7BBB /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		63A23B982EFB01D600F53E50 /* NavigationNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationNotifications.swift; sourceTree = "<group>"; };
 		63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExportService.swift; sourceTree = "<group>"; };
 		63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		63DBD7DA2EE8655900D1A8EF /* TicketExportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketExportButton.swift; sourceTree = "<group>"; };
@@ -332,7 +334,7 @@
 				634EA0482E9E8393001F7BBB /* HomeView.swift */,
 				634EA0472E9E8378001F7BBB /* AddTicketView.swift */,
 				634EA0462E9E82F2001F7BBB /* TicketHistoryView.swift */,
-				634EA0452E9E82DA001F7BBB /* CategoryView.swift */,
+				634EA0452E9E82DA001F7BBB /* CategoryStatsView.swift */,
 				634EA0442E9E82C0001F7BBB /* SettingsView.swift */,
 			);
 			path = Main;
@@ -341,6 +343,7 @@
 		634EA0342E9E8045001F7BBB /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				63A23B982EFB01D600F53E50 /* NavigationNotifications.swift */,
 				63DBD7E62EEADCCC00D1A8EF /* OCRNotifications.swift */,
 				63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */,
 				634EA0AF2EA01E3E001F7BBB /* WidgetSync.swift */,
@@ -657,9 +660,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63A23B992EFB01EA00F53E50 /* NavigationNotifications.swift in Sources */,
 				63DBD7F62EEB015100D1A8EF /* AnimatedPageSymbol.swift in Sources */,
 				634EA0AA2EA0199D001F7BBB /* MonthlyStat.swift in Sources */,
-				634EA0562E9E8FD3001F7BBB /* CategoryView.swift in Sources */,
+				634EA0562E9E8FD3001F7BBB /* CategoryStatsView.swift in Sources */,
 				634EA0532E9E8FBC001F7BBB /* HomeView.swift in Sources */,
 				63DBD80A2EEC429B00D1A8EF /* SuccessPopup.swift in Sources */,
 				63DBD80C2EEC42E500D1A8EF /* ErrorPopup.swift in Sources */,

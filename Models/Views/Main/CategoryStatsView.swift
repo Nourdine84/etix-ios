@@ -1,7 +1,7 @@
 import SwiftUI
 import CoreData
 
-struct CategoryView: View {
+struct CategoryStatsView: View {
     @Environment(\.managedObjectContext) private var context
     @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
     private var tickets: FetchedResults<Ticket>
