@@ -1,30 +1,30 @@
 import SwiftUI
-import CoreData
 
 struct SettingsView: View {
 
+    // MARK: - Environment
     @EnvironmentObject var session: SessionViewModel
-    @Environment(\.managedObjectContext) private var context
 
-    @StateObject private var vm: SettingsViewModel
+    // MARK: - App storage
+    @AppStorage("app.appearance")
+    private var appearanceRaw: String = AppAppearance.system.rawValue
 
+    // MARK: - UI State
+    @State private var showLogoutAlert = false
     @State private var showWipeAlert = false
-    @AppStorage("app.appearance") private var appearanceRaw: String = AppAppearance.default.rawValue
 
-    init() {
-        let ctx = PersistenceController.shared.container.viewContext
-        _vm = StateObject(wrappedValue: SettingsViewModel(context: ctx))
-    }
-
+    // MARK: - Body
     var body: some View {
         NavigationStack {
             Form {
 
                 // MARK: - Compte
                 Section(header: Text("Compte")) {
-                    Button("Se déconnecter") {
+                    Button {
                         Haptic.medium()
-                        session.logout()
+                        showLogoutAlert = true
+                    } label: {
+                        Text("Se déconnecter")
                     }
                     .foregroundColor(.blue)
                 }
@@ -40,42 +40,56 @@ struct SettingsView: View {
 
                 // MARK: - Données
                 Section(header: Text("Données")) {
-                    Button("Supprimer toutes les données") {
+                    Button {
                         Haptic.warning()
                         showWipeAlert = true
+                    } label: {
+                        Text("Supprimer toutes les données")
                     }
                     .foregroundColor(.red)
                 }
 
                 // MARK: - À propos
                 Section(header: Text("À propos")) {
-                    HStack {
-                        Text("Version")
-                        Spacer()
-                        Text(vm.appVersion)
-                            .foregroundColor(.secondary)
-                    }
-
-                    HStack {
-                        Text("Build")
-                        Spacer()
-                        Text(vm.buildNumber)
-                            .foregroundColor(.secondary)
-                    }
+                    infoRow(title: "Version", value: appVersion)
+                    infoRow(title: "Build", value: appBuild)
                 }
             }
             .navigationTitle("Paramètres")
-            .alert("Supprimer toutes les données ?", isPresented: $showWipeAlert) {
-                Button("Supprimer", role: .destructive) {
-                    do {
-                        try vm.resetDatabase()
-                        Haptic.success()
-                    } catch {
-                        Haptic.error()
-                    }
-                }
-                Button("Annuler", role: .cancel) {}
-            }
         }
+
+        // MARK: - Logout Alert
+        .alert("Se déconnecter ?", isPresented: $showLogoutAlert) {
+            Button("Se déconnecter", role: .destructive) {
+                session.logout()
+            }
+            Button("Annuler", role: .cancel) {}
+        }
+
+        // MARK: - Wipe Data Alert
+        .alert("Supprimer toutes les données ?", isPresented: $showWipeAlert) {
+            Button("Supprimer", role: .destructive) {
+                PersistenceController.shared.wipeDatabase()
+            }
+            Button("Annuler", role: .cancel) {}
+        }
+    }
+
+    // MARK: - Helpers
+    private func infoRow(title: String, value: String) -> some View {
+        HStack {
+            Text(title)
+            Spacer()
+            Text(value)
+                .foregroundColor(.secondary)
+        }
+    }
+
+    private var appVersion: String {
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+    }
+
+    private var appBuild: String {
+        Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
     }
 }
