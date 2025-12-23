@@ -2,13 +2,14 @@ import SwiftUI
 import CoreData
 
 struct AddTicketView: View {
+
     @EnvironmentObject var viewModel: AddTicketViewModel
 
-    // ✅ Popups custom
+    // MARK: - Popups
     @State private var showSuccessPopup = false
     @State private var showErrorPopup = false
 
-    // OCR
+    // MARK: - OCR
     @State private var showPermission = false
     @State private var showOCRScanner = false
 
@@ -20,7 +21,10 @@ struct AddTicketView: View {
                     // 🔵 Bouton SCAN OCR
                     Button {
                         Haptic.light()
-                        NotificationCenter.default.post(name: .openCameraPermission, object: nil)
+                        NotificationCenter.default.post(
+                            name: .openCameraPermission,
+                            object: nil
+                        )
                     } label: {
                         HStack(spacing: 12) {
                             Image(systemName: "camera.viewfinder")
@@ -44,19 +48,36 @@ struct AddTicketView: View {
                             .padding(.bottom, 4)
 
                         Group {
+
+                            // Magasin
                             TextField("Nom du magasin", text: $viewModel.storeName)
                                 .textInputAutocapitalization(.words)
 
+                            // Montant
                             TextField("Montant (€)", text: $viewModel.amount)
                                 .keyboardType(.decimalPad)
 
-                            DatePicker("Date",
-                                       selection: $viewModel.date,
-                                       displayedComponents: .date)
+                            // Date
+                            DatePicker(
+                                "Date",
+                                selection: $viewModel.date,
+                                displayedComponents: .date
+                            )
 
-                            TextField("Catégorie", text: $viewModel.category)
+                            // ✅ Catégorie réelle (Picker normalisé)
+                            Picker("Catégorie", selection: $viewModel.category) {
+                                ForEach(TicketCategory.allCases) { category in
+                                    Text(category.rawValue)
+                                        .tag(category)
+                                }
+                            }
+                            .pickerStyle(.menu)
 
-                            TextField("Description (optionnel)", text: $viewModel.description)
+                            // Description
+                            TextField(
+                                "Description (optionnel)",
+                                text: $viewModel.description
+                            )
                         }
                         .textFieldStyle(.roundedBorder)
                     }
@@ -67,18 +88,17 @@ struct AddTicketView: View {
                     .padding(.horizontal)
 
                     // 🔵 Enregistrer
-                    eTixButton(title: "Enregistrer", icon: "tray.and.arrow.down.fill") {
+                    eTixButton(
+                        title: "Enregistrer",
+                        icon: "tray.and.arrow.down.fill"
+                    ) {
                         if viewModel.saveTicket() {
                             Haptic.success()
-
-                            // ✅ popup custom
                             showSuccessPopup = true
 
-                            // 🔥 Mise à jour du widget
-                            WidgetSync.updateSnapshot(context: viewModel.context)
-
-                            print("🧪 Widget monthTotal:",
-                                  UserDefaults(suiteName: "group.etix.shared")?.double(forKey: "monthTotal") ?? -1
+                            // 🔥 Mise à jour widget
+                            WidgetSync.updateSnapshot(
+                                context: viewModel.context
                             )
                         } else {
                             Haptic.error()
@@ -91,25 +111,36 @@ struct AddTicketView: View {
             }
             .navigationTitle("Ajouter un ticket")
 
-            // 🔥 OCR listeners
-            .onReceive(NotificationCenter.default.publisher(for: .openOCRScanner)) { _ in
+            // MARK: - OCR listeners
+            .onReceive(
+                NotificationCenter.default.publisher(
+                    for: .openOCRScanner
+                )
+            ) { _ in
                 showOCRScanner = true
             }
-            .onReceive(NotificationCenter.default.publisher(for: .openCameraPermission)) { _ in
+
+            .onReceive(
+                NotificationCenter.default.publisher(
+                    for: .openCameraPermission
+                )
+            ) { _ in
                 showPermission = true
             }
 
-            // 🔵 Sheets OCR
+            // MARK: - OCR Sheets
             .sheet(isPresented: $showPermission) {
                 CameraPermissionView()
             }
+
             .sheet(isPresented: $showOCRScanner) {
                 OCRScannerView { result in
                     handleOCRResult(result)
                 }
             }
         }
-        // ✅ Popups overlay (remplace les .alert système)
+
+        // MARK: - Popups custom
         .overlay {
             if showSuccessPopup {
                 SuccessPopup(
@@ -132,10 +163,16 @@ struct AddTicketView: View {
         }
     }
 
-    // MARK: - 🎯 OCR → Pré-remplissage
+    // MARK: - OCR → Pré-remplissage
     private func handleOCRResult(_ result: OCRExtractedData) {
-        if let store = result.storeName { viewModel.storeName = store }
-        if let amount = result.amount { viewModel.amount = String(amount) }
-        if let date = result.date { viewModel.date = date }
+        if let store = result.storeName {
+            viewModel.storeName = store
+        }
+        if let amount = result.amount {
+            viewModel.amount = String(amount)
+        }
+        if let date = result.date {
+            viewModel.date = date
+        }
     }
 }
