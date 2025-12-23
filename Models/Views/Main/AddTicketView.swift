@@ -83,7 +83,14 @@ private extension AddTicketView {
                 displayedComponents: .date
             )
 
-            categoryPicker
+            // ✅ Picker Catégorie normalisé
+            Picker("Catégorie", selection: $viewModel.category) {
+                ForEach(TicketCategory.allCases, id: \.self) { category in
+                    Text(category.rawValue)
+                        .tag(category)
+                }
+            }
+            .pickerStyle(.menu)
 
             TextField(
                 "Description (optionnel)",
@@ -98,17 +105,6 @@ private extension AddTicketView {
         .padding(.horizontal)
     }
 
-    // ✅ Picker Catégorie (enum normalisé)
-    var categoryPicker: some View {
-        Picker("Catégorie", selection: $viewModel.category) {
-            ForEach(TicketCategory.allCases, id: \.self) { category in
-                Text(category.rawValue)
-                    .tag(category)
-            }
-        }
-        .pickerStyle(.menu)
-    }
-
     // 💾 Bouton Enregistrer
     var saveButton: some View {
         eTixButton(
@@ -116,13 +112,21 @@ private extension AddTicketView {
             icon: "tray.and.arrow.down.fill"
         ) {
             if viewModel.saveTicket() {
+
                 Haptic.success()
                 showSuccessPopup = true
 
-                // 🔥 Refresh widget
+                // 🔁 Refresh Widget
                 WidgetSync.updateSnapshot(
                     context: viewModel.context
                 )
+
+                // 🔁 EVENT MÉTIER → navigation + refresh KPI
+                NotificationCenter.default.post(
+                    name: .ticketAdded,
+                    object: nil
+                )
+
             } else {
                 Haptic.error()
                 showErrorPopup = true

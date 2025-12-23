@@ -1,46 +1,49 @@
 import SwiftUI
 
-struct MainView: View {
-    enum Tab: Hashable {
-        case home, add, history, settings
-    }
+enum MainTab {
+    case home, add, history, categories, settings
+}
 
-    @State private var selected: Tab = .home
+struct MainView: View {
+
+    @State private var selectedTab: MainTab = .home
 
     var body: some View {
-        TabView(selection: $selected) {
+        TabView(selection: $selectedTab) {
 
-            // MARK: - Accueil
             HomeView()
                 .tabItem {
                     Label("Accueil", systemImage: "house")
                 }
-                .tag(Tab.home)
+                .tag(MainTab.home)
 
-            // MARK: - Ajouter
             AddTicketView()
                 .tabItem {
                     Label("Ajouter", systemImage: "plus.circle")
                 }
-                .tag(Tab.add)
+                .tag(MainTab.add)
 
-            // MARK: - Historique
             TicketHistoryView()
                 .tabItem {
                     Label("Historique", systemImage: "list.bullet")
                 }
-                .tag(Tab.history)
+                .tag(MainTab.history)
 
-            // MARK: - Paramètres
+            CategoryView()
+                .tabItem {
+                    Label("Catégories", systemImage: "chart.pie")
+                }
+                .tag(MainTab.categories)
+
             SettingsView()
                 .tabItem {
-                    Label("Paramètres", systemImage: "gearshape")
+                    Label("Réglages", systemImage: "gear")
                 }
-                .tag(Tab.settings)
+                .tag(MainTab.settings)
         }
-        .tint(Color(Theme.primaryBlue))
-        .onChange(of: selected) { _ in
-            Haptic.light()
+        // 🔁 RETOUR HOME APRÈS AJOUT
+        .onReceive(NotificationCenter.default.publisher(for: .ticketAdded)) { _ in
+            selectedTab = .home
         }
     }
 }
