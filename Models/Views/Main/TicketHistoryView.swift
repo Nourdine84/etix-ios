@@ -9,10 +9,10 @@ struct TicketHistoryView: View {
     private var tickets: FetchedResults<Ticket>
 
     // MARK: - UI State
-    @State private var searchText = ""
+    @State private var searchText: String = ""
     @State private var startDate: Date?
     @State private var endDate: Date?
-    @State private var showFilterSheet = false
+    @State private var showFilterSheet: Bool = false
 
     var body: some View {
         NavigationView {
@@ -47,7 +47,9 @@ private extension TicketHistoryView {
     var ticketList: some View {
         List {
             ForEach(filteredTickets, id: \.objectID) { ticket in
-                NavigationLink(destination: TicketDetailView(ticket: ticket)) {
+                NavigationLink {
+                    TicketDetailView(ticket: ticket)
+                } label: {
                     ticketRow(ticket)
                 }
                 .listRowSeparator(.hidden)
@@ -58,13 +60,13 @@ private extension TicketHistoryView {
     }
 
     var emptyState: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 12) {
             Image(systemName: "doc.text.magnifyingglass")
-                .font(.system(size: 40))
-                .foregroundColor(.gray)
+                .font(.system(size: 42))
+                .foregroundColor(.secondary)
 
             Text(emptyStateText)
-                .foregroundColor(.gray)
+                .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 24)
         }
@@ -102,6 +104,7 @@ private extension TicketHistoryView {
         .shadow(color: .black.opacity(0.08), radius: 3, y: 2)
     }
 }
+
 // MARK: - Toolbar & Logic
 private extension TicketHistoryView {
 
@@ -113,6 +116,7 @@ private extension TicketHistoryView {
 
             ToolbarItem(placement: .navigationBarTrailing) {
                 HStack(spacing: 16) {
+
                     Button {
                         Haptic.light()
                         showFilterSheet = true
@@ -131,21 +135,23 @@ private extension TicketHistoryView {
     var filteredTickets: [Ticket] {
         var result = Array(tickets)
 
-        let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        // 🔍 Recherche texte
+        let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         if !query.isEmpty {
-            let lower = query.lowercased()
             result = result.filter {
-                $0.storeName.lowercased().contains(lower)
-                || $0.category.lowercased().contains(lower)
-                || ($0.ticketDescription?.lowercased().contains(lower) ?? false)
+                $0.storeName.lowercased().contains(query)
+                || $0.category.lowercased().contains(query)
+                || ($0.ticketDescription?.lowercased().contains(query) ?? false)
             }
         }
 
+        // 📅 Date min
         if let start = startDate {
             let startMs = Int64(start.timeIntervalSince1970 * 1000)
             result = result.filter { $0.dateMillis >= startMs }
         }
 
+        // 📅 Date max
         if let end = endDate {
             let endDay = Calendar.current.date(
                 bySettingHour: 23, minute: 59, second: 59, of: end
@@ -164,8 +170,12 @@ private extension TicketHistoryView {
     }
 
     var emptyStateText: String {
-        if tickets.isEmpty { return "Aucun ticket enregistré" }
-        if hasActiveFilters { return "Aucun ticket ne correspond à vos filtres." }
+        if tickets.isEmpty {
+            return "Aucun ticket enregistré"
+        }
+        if hasActiveFilters {
+            return "Aucun ticket ne correspond à vos filtres."
+        }
         return "Aucun ticket enregistré"
     }
 
@@ -174,8 +184,13 @@ private extension TicketHistoryView {
             .map { filteredTickets[$0] }
             .forEach(viewContext.delete)
 
-        try? viewContext.save()
-        Haptic.medium()
+        do {
+            try viewContext.save()
+            Haptic.medium()
+        } catch {
+            print("❌ Delete error:", error.localizedDescription)
+            Haptic.error()
+        }
     }
 
     func clearFilters() {
