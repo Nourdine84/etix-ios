@@ -1,8 +1,13 @@
 import SwiftUI
 
 struct MainView: View {
+
     enum Tab: Hashable {
-        case home, add, history, settings
+        case home
+        case add
+        case history
+        case categories   // 👈 AJOUT
+        case settings
     }
 
     @State private var selected: Tab = .home
@@ -31,6 +36,13 @@ struct MainView: View {
                 }
                 .tag(Tab.history)
 
+            // MARK: - Catégories (V2)
+            CategoryStatsView()
+                .tabItem {
+                    Label("Catégories", systemImage: "chart.pie.fill")
+                }
+                .tag(Tab.categories)
+
             // MARK: - Paramètres
             SettingsView()
                 .tabItem {
@@ -39,7 +51,7 @@ struct MainView: View {
                 .tag(Tab.settings)
         }
         .tint(Color(Theme.primaryBlue))
-        .onChange(of: selected) { _ in
+        .onChange(of: selected) {
             Haptic.light()
         }
     }

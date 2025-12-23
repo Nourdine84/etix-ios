@@ -6,7 +6,12 @@
         <attribute name="icon" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isAchived" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isArchived" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="updatedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="tickets" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Ticket" inverseName="categoryRef" inverseEntity="Ticket"/>
+    </entity>
+    <entity name="Ticket" representedClassName="Ticket" syncable="YES">
+        <relationship name="categoryRef" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="tickets" inverseEntity="Category"/>
     </entity>
 </model>

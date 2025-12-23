@@ -20,8 +20,10 @@ final class AddTicketViewModel: ObservableObject {
     // MARK: - Public API
     @discardableResult
     func saveTicket() -> Bool {
-        guard let amountValue = validatedAmount(),
-              let store = validatedStore() else {
+        guard
+            let amountValue = validatedAmount(),
+            let store = validatedStore()
+        else {
             return false
         }
 
@@ -38,14 +40,18 @@ final class AddTicketViewModel: ObservableObject {
             resetForm()
             return true
         } catch {
-            print("❌ Save error:", error.localizedDescription)
+            print("❌ CoreData save error:", error.localizedDescription)
             return false
         }
     }
 
     // MARK: - Validation
     private func validatedAmount() -> Double? {
-        Double(amount)
+        Double(
+            amount
+                .replacingOccurrences(of: ",", with: ".")
+                .trimmingCharacters(in: .whitespaces)
+        )
     }
 
     private func validatedStore() -> String? {
@@ -61,18 +67,16 @@ final class AddTicketViewModel: ObservableObject {
         category: String,
         description: String
     ) {
-        let dateMillis = Int64(date.timeIntervalSince1970 * 1000)
+        let ticket = Ticket(context: context)
 
-        Ticket.create(
-            storeName: store,
-            amount: amount,
-            dateMillis: dateMillis,
-            category: category.trimmingCharacters(in: .whitespaces),
-            description: description.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                ? nil
-                : description,
-            in: context
-        )
+        // ✅ PAS DE ticket.id
+        ticket.storeName = store
+        ticket.amount = amount
+        ticket.dateMillis = Int64(date.timeIntervalSince1970 * 1000)
+        ticket.category = category.trimmingCharacters(in: .whitespaces)
+        ticket.ticketDescription = description
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .isEmpty ? nil : description
     }
 
     // MARK: - Reset

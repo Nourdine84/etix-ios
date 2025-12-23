@@ -1,9 +1,15 @@
 import SwiftUI
 import CoreData
 
-struct CategoryView: View {
+struct CategoryStatsView: View {
     @Environment(\.managedObjectContext) private var context
-    @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
+
+    @FetchRequest(
+        sortDescriptors: [
+            NSSortDescriptor(key: "dateMillis", ascending: false)
+        ],
+        animation: .default
+    )
     private var tickets: FetchedResults<Ticket>
 
     // MARK: - Agrégats
@@ -15,7 +21,8 @@ struct CategoryView: View {
     private var summaries: [CategorySummary] {
         // Regroupement par catégorie (vide = "Autre")
         let grouped = Dictionary(grouping: tickets) { (ticket: Ticket) -> String in
-            let raw = ticket.category.trimmingCharacters(in: .whitespacesAndNewlines)
+            let raw = ticket.category
+                .trimmingCharacters(in: .whitespacesAndNewlines)
             return raw.isEmpty ? "Autre" : raw
         }
 
@@ -26,7 +33,15 @@ struct CategoryView: View {
             let total = items.reduce(0) { $0 + $1.amount }
             let count = items.count
             let percent = totalAll > 0 ? (total / totalAll) * 100.0 : 0
-            result.append(CategorySummary(name: name, total: total, count: count, percent: percent))
+
+            result.append(
+                CategorySummary(
+                    name: name,
+                    total: total,
+                    count: count,
+                    percent: percent
+                )
+            )
         }
 
         // Tri par montant décroissant
@@ -40,18 +55,18 @@ struct CategoryView: View {
             ScrollView {
                 VStack(spacing: 20) {
 
-                    // Total général
                     headerTotal
 
                     if tickets.isEmpty {
                         emptyState
                     } else {
-                        // Liste des catégories
                         VStack(spacing: 12) {
                             ForEach(summaries) { summary in
-                                CategoryRow(summary: summary,
-                                            grandTotal: grandTotal)
-                                    .padding(.horizontal)
+                                CategoryRow(
+                                    summary: summary,
+                                    grandTotal: grandTotal
+                                )
+                                .padding(.horizontal)
                             }
                         }
                         .padding(.bottom, 16)
@@ -140,7 +155,7 @@ private struct CategoryRow: View {
                     .foregroundColor(Color(Theme.primaryBlue))
             }
 
-            HStack(spacing: 8) {
+            HStack {
                 Text("\(summary.count) ticket\(summary.count > 1 ? "s" : "")")
                     .font(.footnote)
                     .foregroundColor(.secondary)
@@ -152,12 +167,9 @@ private struct CategoryRow: View {
                     .foregroundColor(.secondary)
             }
 
-            // Barre de progression simple
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
-                    Capsule()
-                        .fill(Color(.systemGray5))
-
+                    Capsule().fill(Color(.systemGray5))
                     Capsule()
                         .fill(Color(Theme.primaryBlue).opacity(0.85))
                         .frame(width: barWidth(in: geo.size.width))

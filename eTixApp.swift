@@ -38,8 +38,8 @@ struct eTixApp: App {
                     WidgetSync.updateSnapshot(context: persistence.container.viewContext)
                 }
                 // 3) Snapshot quand l’app revient active (utile si widget est visible)
-                .onChange(of: scenePhase) { phase in
-                    if phase == .active {
+                .onChange(of: scenePhase) {
+                    if scenePhase == .active {
                         WidgetSync.updateSnapshot(context: persistence.container.viewContext)
                     }
                 }

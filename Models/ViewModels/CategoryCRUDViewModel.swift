@@ -4,15 +4,19 @@ import SwiftUI
 
 final class CategoryCRUDViewModel: ObservableObject {
 
+    // MARK: - Singleton (stable pour SwiftUI)
+    static let shared = CategoryCRUDViewModel()
+
     // MARK: - Published
     @Published var categories: [Category] = []
+    @Published var archivedCategories: [Category] = []
 
     // MARK: - Core Data
     private let context: NSManagedObjectContext
 
     // MARK: - Init
-    init(context: NSManagedObjectContext) {
-        self.context = context
+    private init() {
+        self.context = PersistenceController.shared.container.viewContext
         fetchAll()
         seedIfNeeded()
     }
@@ -25,9 +29,13 @@ final class CategoryCRUDViewModel: ObservableObject {
         ]
 
         do {
-            categories = try context.fetch(request)
+            let result = try context.fetch(request)
+            categories = result.filter { !$0.isArchived }
+            archivedCategories = result.filter { $0.isArchived }
         } catch {
             print("❌ Category fetch error:", error.localizedDescription)
+            categories = []
+            archivedCategories = []
         }
     }
 
@@ -44,12 +52,20 @@ final class CategoryCRUDViewModel: ObservableObject {
         category.colorHex = colorHex
         category.createdAt = Date()
         category.updatedAt = Date()
+        category.isArchived = false
 
         save()
     }
 
-    // MARK: - Update
-    func updateCategory(_ category: Category) {
+    // MARK: - Archive / Restore
+    func archive(_ category: Category) {
+        category.isArchived = true
+        category.updatedAt = Date()
+        save()
+    }
+
+    func restore(_ category: Category) {
+        category.isArchived = false
         category.updatedAt = Date()
         save()
     }

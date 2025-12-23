@@ -3,7 +3,14 @@ import CoreData
 
 struct HomeView: View {
     @Environment(\.managedObjectContext) private var context
-    @FetchRequest(fetchRequest: Ticket.fetchAllRequest()) private var tickets: FetchedResults<Ticket>
+
+    @FetchRequest(
+        sortDescriptors: [
+            NSSortDescriptor(key: "dateMillis", ascending: false)
+        ],
+        animation: .default
+    )
+    private var tickets: FetchedResults<Ticket>
 
     // MARK: - KPI calculés
     private var todayTotal: Double {
@@ -37,10 +44,8 @@ struct HomeView: View {
             ScrollView {
                 VStack(spacing: 32) {
 
-                    // MARK: KPI Section
                     kpiSection
 
-                    // MARK: Derniers tickets
                     VStack(alignment: .leading, spacing: 14) {
                         Text("Derniers tickets")
                             .font(.title3.weight(.semibold))
@@ -62,7 +67,6 @@ struct HomeView: View {
                             .padding(.horizontal)
                         }
                     }
-
                 }
                 .padding(.top, 8)
             }
@@ -70,34 +74,18 @@ struct HomeView: View {
         }
     }
 
-    // MARK: - KPI Section (V1+ Optimisé)
+    // MARK: - KPI Section
     private var kpiSection: some View {
         HStack(spacing: 14) {
-
-            kpiCard(
-                icon: "sun.max.fill",
-                title: "Aujourd’hui",
-                value: String(format: "%.2f €", todayTotal)
-            )
-
-            kpiCard(
-                icon: "calendar",
-                title: "Ce mois",
-                value: String(format: "%.2f €", monthTotal)
-            )
-
-            kpiCard(
-                icon: "doc.plaintext",
-                title: "Tickets",
-                value: "\(totalTickets)"
-            )
+            kpiCard(icon: "sun.max.fill", title: "Aujourd’hui", value: String(format: "%.2f €", todayTotal))
+            kpiCard(icon: "calendar", title: "Ce mois", value: String(format: "%.2f €", monthTotal))
+            kpiCard(icon: "doc.plaintext", title: "Tickets", value: "\(totalTickets)")
         }
         .padding(.horizontal)
     }
 
     private func kpiCard(icon: String, title: String, value: String) -> some View {
         VStack(spacing: 8) {
-
             Image(systemName: icon)
                 .font(.system(size: 18, weight: .semibold))
                 .foregroundColor(Color(Theme.primaryBlue))
@@ -117,23 +105,17 @@ struct HomeView: View {
         .shadow(color: .black.opacity(0.07), radius: 3, y: 2)
     }
 
-    // MARK: - Ticket Row (V1+ amélioré)
+    // MARK: - Ticket Row
     private func ticketRow(_ t: Ticket) -> some View {
-        HStack(alignment: .center, spacing: 12) {
-
-            // petite icône cat
+        HStack(spacing: 12) {
             Image(systemName: "receipt")
                 .font(.system(size: 22))
                 .foregroundColor(Color(Theme.primaryBlue))
 
             VStack(alignment: .leading, spacing: 6) {
-
                 HStack {
-                    Text(t.storeName)
-                        .font(.headline)
-
+                    Text(t.storeName).font(.headline)
                     Spacer()
-
                     Text(String(format: "%.2f €", t.amount))
                         .foregroundColor(Color(Theme.primaryBlue))
                         .fontWeight(.semibold)

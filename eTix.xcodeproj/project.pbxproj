@@ -9,20 +9,22 @@
 /* Begin PBXBuildFile section */
 		63148A6B2EF9AE97003D8ED3 /* etix.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 63148A692EF9AE97003D8ED3 /* etix.xcdatamodeld */; };
 		63148A912EF9BB14003D8ED3 /* CategoryCRUDViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63148A902EF9BB01003D8ED3 /* CategoryCRUDViewModel.swift */; };
+		63148A942EF9C00C003D8ED3 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63148A932EF9BFF2003D8ED3 /* CategoryView.swift */; };
+		63148A962EF9C039003D8ED3 /* CategoryRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63148A952EF9C02E003D8ED3 /* CategoryRowView.swift */; };
+		63148A982EF9C062003D8ED3 /* AddCategorySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63148A972EF9C05D003D8ED3 /* AddCategorySheet.swift */; };
+		63148A9E2EF9E4FF003D8ED3 /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63148A9D2EF9E386003D8ED3 /* Ticket.swift */; };
 		634EA0362E9E8136001F7BBB /* eTixApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0352E9E80EF001F7BBB /* eTixApp.swift */; };
 		634EA0382E9E8149001F7BBB /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0372E9E813E001F7BBB /* Theme.swift */; };
 		634EA03A2E9E8164001F7BBB /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0392E9E814E001F7BBB /* PersistenceController.swift */; };
 		634EA04B2E9E899E001F7BBB /* SessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03D2E9E81D2001F7BBB /* SessionViewModel.swift */; };
 		634EA04D2E9E8A95001F7BBB /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0412E9E8271001F7BBB /* LoginView.swift */; };
 		634EA04E2E9E8AB8001F7BBB /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0432E9E82A4001F7BBB /* MainView.swift */; };
-		634EA04F2E9E8F80001F7BBB /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03B2E9E818C001F7BBB /* Ticket.swift */; };
 		634EA0502E9E8F8C001F7BBB /* AddTicketViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03E2E9E81E8001F7BBB /* AddTicketViewModel.swift */; };
 		634EA0512E9E8F95001F7BBB /* TicketHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0402E9E8234001F7BBB /* TicketHistoryViewModel.swift */; };
-		634EA0522E9E8F9F001F7BBB /* CategoryStatsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03F2E9E8211001F7BBB /* CategoryStatsViewModel.swift */; };
 		634EA0532E9E8FBC001F7BBB /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0482E9E8393001F7BBB /* HomeView.swift */; };
 		634EA0542E9E8FC3001F7BBB /* AddTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0472E9E8378001F7BBB /* AddTicketView.swift */; };
 		634EA0552E9E8FCB001F7BBB /* TicketHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0462E9E82F2001F7BBB /* TicketHistoryView.swift */; };
-		634EA0562E9E8FD3001F7BBB /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0452E9E82DA001F7BBB /* CategoryView.swift */; };
+		634EA0562E9E8FD3001F7BBB /* CategoryStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0452E9E82DA001F7BBB /* CategoryStatsView.swift */; };
 		634EA0572E9E8FDB001F7BBB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0442E9E82C0001F7BBB /* SettingsView.swift */; };
 		634EA0582E9E8FE4001F7BBB /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0422E9E8287001F7BBB /* RegisterView.swift */; };
 		634EA0592E9E8FF0001F7BBB /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03C2E9E81AD001F7BBB /* DateUtils.swift */; };
@@ -44,6 +46,8 @@
 		634EA0CE2EA0350C001F7BBB /* SwiftUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B92EA02D50001F7BBB /* SwiftUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		634EA0D02EA0350E001F7BBB /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B72EA02D50001F7BBB /* WidgetKit.framework */; };
 		634EA0D12EA0350E001F7BBB /* WidgetKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B72EA02D50001F7BBB /* WidgetKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		63A23ADB2EFADD2800F53E50 /*  Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A23ADA2EFADD0300F53E50 /*  Color+Hex.swift */; };
+		63A23ADD2EFADF8100F53E50 /* CategoryStatsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A23ADC2EFADF6800F53E50 /* CategoryStatsViewModel.swift */; };
 		63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */; };
 		63DBD7D92EE8650500D1A8EF /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */; };
 		63DBD7DB2EE8656F00D1A8EF /* TicketExportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7DA2EE8655900D1A8EF /* TicketExportButton.swift */; };
@@ -56,7 +60,6 @@
 		63DBD7EC2EEADE1A00D1A8EF /* OCRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7EB2EEADE0900D1A8EF /* OCRScannerView.swift */; };
 		63DBD7F22EEAFEA400D1A8EF /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7F12EEAFE9300D1A8EF /* OnboardingView.swift */; };
 		63DBD7F62EEB015100D1A8EF /* AnimatedPageSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7F52EEB015100D1A8EF /* AnimatedPageSymbol.swift */; };
-		63DBD8002EEB1CBF00D1A8EF /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03B2E9E818C001F7BBB /* Ticket.swift */; };
 		63DBD8082EEC425400D1A8EF /* PopupContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD8072EEC423B00D1A8EF /* PopupContainer.swift */; };
 		63DBD80A2EEC429B00D1A8EF /* SuccessPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD8092EEC428500D1A8EF /* SuccessPopup.swift */; };
 		63DBD80C2EEC42E500D1A8EF /* ErrorPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD80B2EEC42BC00D1A8EF /* ErrorPopup.swift */; };
@@ -116,6 +119,10 @@
 /* Begin PBXFileReference section */
 		63148A6A2EF9AE97003D8ED3 /* etix.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = etix.xcdatamodel; sourceTree = "<group>"; };
 		63148A902EF9BB01003D8ED3 /* CategoryCRUDViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCRUDViewModel.swift; sourceTree = "<group>"; };
+		63148A932EF9BFF2003D8ED3 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
+		63148A952EF9C02E003D8ED3 /* CategoryRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRowView.swift; sourceTree = "<group>"; };
+		63148A972EF9C05D003D8ED3 /* AddCategorySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategorySheet.swift; sourceTree = "<group>"; };
+		63148A9D2EF9E386003D8ED3 /* Ticket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ticket.swift; sourceTree = "<group>"; };
 		631A6B492EF96A8F005B325A /* HomeV2ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeV2ViewModel.swift; sourceTree = "<group>"; };
 		631A6B4A2EF96AF6005B325A /* HomeV2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeV2View.swift; sourceTree = "<group>"; };
 		631A6B4B2EF96B31005B325A /* HomeKPIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeKPIView.swift; sourceTree = "<group>"; };
@@ -123,17 +130,15 @@
 		634EA0352E9E80EF001F7BBB /* eTixApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eTixApp.swift; sourceTree = "<group>"; tabWidth = 4; };
 		634EA0372E9E813E001F7BBB /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		634EA0392E9E814E001F7BBB /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
-		634EA03B2E9E818C001F7BBB /* Ticket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ticket.swift; sourceTree = "<group>"; };
 		634EA03C2E9E81AD001F7BBB /* DateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
 		634EA03D2E9E81D2001F7BBB /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
 		634EA03E2E9E81E8001F7BBB /* AddTicketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTicketViewModel.swift; sourceTree = "<group>"; };
-		634EA03F2E9E8211001F7BBB /* CategoryStatsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryStatsViewModel.swift; sourceTree = "<group>"; };
 		634EA0402E9E8234001F7BBB /* TicketHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketHistoryViewModel.swift; sourceTree = "<group>"; };
 		634EA0412E9E8271001F7BBB /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		634EA0422E9E8287001F7BBB /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		634EA0432E9E82A4001F7BBB /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		634EA0442E9E82C0001F7BBB /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		634EA0452E9E82DA001F7BBB /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
+		634EA0452E9E82DA001F7BBB /* CategoryStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryStatsView.swift; sourceTree = "<group>"; };
 		634EA0462E9E82F2001F7BBB /* TicketHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketHistoryView.swift; sourceTree = "<group>"; };
 		634EA0472E9E8378001F7BBB /* AddTicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTicketView.swift; sourceTree = "<group>"; };
 		634EA0482E9E8393001F7BBB /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -152,6 +157,8 @@
 		634EA0B52EA02D4F001F7BBB /* eTixWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = eTixWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		634EA0B72EA02D50001F7BBB /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		634EA0B92EA02D50001F7BBB /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		63A23ADA2EFADD0300F53E50 /*  Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " Color+Hex.swift"; sourceTree = "<group>"; };
+		63A23ADC2EFADF6800F53E50 /* CategoryStatsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryStatsViewModel.swift; sourceTree = "<group>"; };
 		63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExportService.swift; sourceTree = "<group>"; };
 		63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		63DBD7DA2EE8655900D1A8EF /* TicketExportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketExportButton.swift; sourceTree = "<group>"; };
@@ -163,7 +170,6 @@
 		63DBD7E92EEADDB100D1A8EF /* OCRExtractedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRExtractedData.swift; sourceTree = "<group>"; };
 		63DBD7EB2EEADE0900D1A8EF /* OCRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRScannerView.swift; sourceTree = "<group>"; };
 		63DBD7F12EEAFE9300D1A8EF /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		63DBD7F42EEAFF9000D1A8EF /* Untitled 2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Untitled 2.swift"; sourceTree = "<group>"; };
 		63DBD7F52EEB015100D1A8EF /* AnimatedPageSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedPageSymbol.swift; sourceTree = "<group>"; };
 		63DBD8072EEC423B00D1A8EF /* PopupContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupContainer.swift; sourceTree = "<group>"; };
 		63DBD8092EEC428500D1A8EF /* SuccessPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessPopup.swift; sourceTree = "<group>"; };
@@ -254,6 +260,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		63148A922EF9BFC8003D8ED3 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				63148A972EF9C05D003D8ED3 /* AddCategorySheet.swift */,
+				63148A952EF9C02E003D8ED3 /* CategoryRowView.swift */,
+				63148A932EF9BFF2003D8ED3 /* CategoryView.swift */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
 		631A6B472EF96A35005B325A /* Features */ = {
 			isa = PBXGroup;
 			children = (
@@ -276,12 +292,12 @@
 		634EA02B2E9E7EE9001F7BBB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				63148A9D2EF9E386003D8ED3 /* Ticket.swift */,
 				63DBD7E82EEADDA300D1A8EF /* OCR */,
 				634EA0A92EA0198B001F7BBB /* MonthlyStat.swift */,
 				634EA0A12E9FF536001F7BBB /* OnboardingPage.swift */,
 				634EA0842E9EE3FF001F7BBB /* AppAppearance.swift */,
 				634EA0802E9EDEF4001F7BBB /* CategoryTotal.swift */,
-				634EA03B2E9E818C001F7BBB /* Ticket.swift */,
 				634EA02C2E9E7F09001F7BBB /* ViewModels */,
 				634EA02D2E9E7F1E001F7BBB /* Views */,
 				634EA0342E9E8045001F7BBB /* Utils */,
@@ -292,13 +308,13 @@
 		634EA02C2E9E7F09001F7BBB /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				63148A902EF9BB01003D8ED3 /* CategoryCRUDViewModel.swift */,
+				63A23ADC2EFADF6800F53E50 /* CategoryStatsViewModel.swift */,
 				634EA0AB2EA019BF001F7BBB /* StatsViewModel.swift */,
 				634EA0A32E9FF5C6001F7BBB /* OnboardingViewModel.swift */,
 				634EA03D2E9E81D2001F7BBB /* SessionViewModel.swift */,
 				634EA03E2E9E81E8001F7BBB /* AddTicketViewModel.swift */,
 				634EA0402E9E8234001F7BBB /* TicketHistoryViewModel.swift */,
-				634EA03F2E9E8211001F7BBB /* CategoryStatsViewModel.swift */,
+				63148A902EF9BB01003D8ED3 /* CategoryCRUDViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -306,6 +322,7 @@
 		634EA02D2E9E7F1E001F7BBB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				63148A922EF9BFC8003D8ED3 /* Category */,
 				63DBD8062EEC420F00D1A8EF /* Components */,
 				63DBD7E32EEADA4F00D1A8EF /* OCR */,
 				63DBD7DC2EEAD71A00D1A8EF /* Tickets */,
@@ -336,8 +353,8 @@
 				634EA0432E9E82A4001F7BBB /* MainView.swift */,
 				634EA0482E9E8393001F7BBB /* HomeView.swift */,
 				634EA0472E9E8378001F7BBB /* AddTicketView.swift */,
+				634EA0452E9E82DA001F7BBB /* CategoryStatsView.swift */,
 				634EA0462E9E82F2001F7BBB /* TicketHistoryView.swift */,
-				634EA0452E9E82DA001F7BBB /* CategoryView.swift */,
 				634EA0442E9E82C0001F7BBB /* SettingsView.swift */,
 			);
 			path = Main;
@@ -346,6 +363,7 @@
 		634EA0342E9E8045001F7BBB /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				63A23ADA2EFADD0300F53E50 /*  Color+Hex.swift */,
 				63DBD7E62EEADCCC00D1A8EF /* OCRNotifications.swift */,
 				63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */,
 				634EA0AF2EA01E3E001F7BBB /* WidgetSync.swift */,
@@ -375,7 +393,6 @@
 		634EA0A62E9FF638001F7BBB /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				63DBD7F42EEAFF9000D1A8EF /* Untitled 2.swift */,
 				63DBD7F12EEAFE9300D1A8EF /* OnboardingView.swift */,
 				63DBD7F52EEB015100D1A8EF /* AnimatedPageSymbol.swift */,
 			);
@@ -655,7 +672,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				634EA0CC2EA031E3001F7BBB /* Theme.swift in Sources */,
-				63DBD8002EEB1CBF00D1A8EF /* Ticket.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -665,7 +681,7 @@
 			files = (
 				63DBD7F62EEB015100D1A8EF /* AnimatedPageSymbol.swift in Sources */,
 				634EA0AA2EA0199D001F7BBB /* MonthlyStat.swift in Sources */,
-				634EA0562E9E8FD3001F7BBB /* CategoryView.swift in Sources */,
+				634EA0562E9E8FD3001F7BBB /* CategoryStatsView.swift in Sources */,
 				634EA0532E9E8FBC001F7BBB /* HomeView.swift in Sources */,
 				63DBD80A2EEC429B00D1A8EF /* SuccessPopup.swift in Sources */,
 				63DBD80C2EEC42E500D1A8EF /* ErrorPopup.swift in Sources */,
@@ -675,18 +691,22 @@
 				63DBD80E2EEC434400D1A8EF /* ConfirmDeletePopup.swift in Sources */,
 				63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */,
 				634EA0AE2EA01A0F001F7BBB /* StatisticsView.swift in Sources */,
+				63A23ADB2EFADD2800F53E50 /*  Color+Hex.swift in Sources */,
 				63DBD7DE2EEAD75100D1A8EF /* TicketDetailView.swift in Sources */,
 				634EA04E2E9E8AB8001F7BBB /* MainView.swift in Sources */,
+				63148A942EF9C00C003D8ED3 /* CategoryView.swift in Sources */,
 				634EA08A2E9FD7CD001F7BBB /* Haptic.swift in Sources */,
 				63148A912EF9BB14003D8ED3 /* CategoryCRUDViewModel.swift in Sources */,
 				634EA0552E9E8FCB001F7BBB /* TicketHistoryView.swift in Sources */,
 				634EA0AC2EA019D2001F7BBB /* StatsViewModel.swift in Sources */,
 				63DBD7E02EEAD76700D1A8EF /* TicketEditView.swift in Sources */,
+				63148A962EF9C039003D8ED3 /* CategoryRowView.swift in Sources */,
 				634EA0B02EA01E52001F7BBB /* WidgetSync.swift in Sources */,
 				634EA0502E9E8F8C001F7BBB /* AddTicketViewModel.swift in Sources */,
 				634EA04B2E9E899E001F7BBB /* SessionViewModel.swift in Sources */,
 				634EA0582E9E8FE4001F7BBB /* RegisterView.swift in Sources */,
 				634EA0382E9E8149001F7BBB /* Theme.swift in Sources */,
+				63A23ADD2EFADF8100F53E50 /* CategoryStatsViewModel.swift in Sources */,
 				634EA0512E9E8F95001F7BBB /* TicketHistoryViewModel.swift in Sources */,
 				63DBD7E72EEADCED00D1A8EF /* OCRNotifications.swift in Sources */,
 				63DBD7EC2EEADE1A00D1A8EF /* OCRScannerView.swift in Sources */,
@@ -696,18 +716,18 @@
 				63DBD7F22EEAFEA400D1A8EF /* OnboardingView.swift in Sources */,
 				634EA03A2E9E8164001F7BBB /* PersistenceController.swift in Sources */,
 				63DBD8082EEC425400D1A8EF /* PopupContainer.swift in Sources */,
-				634EA0522E9E8F9F001F7BBB /* CategoryStatsViewModel.swift in Sources */,
 				634EA0882E9FD77E001F7BBB /* eTixButton.swift in Sources */,
 				634EA0A42E9FF5DF001F7BBB /* OnboardingViewModel.swift in Sources */,
 				63148A6B2EF9AE97003D8ED3 /* etix.xcdatamodeld in Sources */,
 				634EA0542E9E8FC3001F7BBB /* AddTicketView.swift in Sources */,
 				634EA0A22E9FF550001F7BBB /* OnboardingPage.swift in Sources */,
-				634EA04F2E9E8F80001F7BBB /* Ticket.swift in Sources */,
 				634EA08D2E9FDA49001F7BBB /* SplashView.swift in Sources */,
 				634EA0592E9E8FF0001F7BBB /* DateUtils.swift in Sources */,
 				634EA0832E9EE15F001F7BBB /* RangePickerSheet.swift in Sources */,
 				634EA04D2E9E8A95001F7BBB /* LoginView.swift in Sources */,
 				63DBD7E52EEADA6D00D1A8EF /* CameraPermission.swift in Sources */,
+				63148A982EF9C062003D8ED3 /* AddCategorySheet.swift in Sources */,
+				63148A9E2EF9E4FF003D8ED3 /* Ticket.swift in Sources */,
 				63DBD7E22EEAD88E00D1A8EF /* TicketFilterSheet.swift in Sources */,
 				63DBD7EA2EEADDED00D1A8EF /* OCRExtractedData.swift in Sources */,
 			);

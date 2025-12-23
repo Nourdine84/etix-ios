@@ -203,7 +203,7 @@ struct PDFExportService {
         UIColor(white: 0.96, alpha: 1.0).setFill()
         cardPath.fill()
 
-        let calendar = Calendar.current
+        let _ = Calendar.current
         let df = DateFormatter()
         df.locale = .current
         df.setLocalizedDateFormatFromTemplate("MMM yyyy")

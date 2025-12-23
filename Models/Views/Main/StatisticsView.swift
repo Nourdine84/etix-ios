@@ -3,10 +3,17 @@ import CoreData
 
 struct StatisticsView: View {
     @Environment(\.managedObjectContext) private var context
-    @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
+
+    @FetchRequest(
+        sortDescriptors: [
+            NSSortDescriptor(key: "dateMillis", ascending: false)
+        ],
+        animation: .default
+    )
     private var tickets: FetchedResults<Ticket>
 
     // MARK: - Data du mois en cours
+
     private var monthTickets: [Ticket] {
         let now = Date()
         let comps = Calendar.current.dateComponents([.year, .month], from: now)
@@ -35,52 +42,70 @@ struct StatisticsView: View {
     private var topCategory: CategorySummary? {
         let grouped = Dictionary(grouping: monthTickets) { $0.category }
         let mapped = grouped.map { (cat, items) in
-            CategorySummary(name: cat.isEmpty ? "Autre" : cat,
-                            total: items.reduce(0) { $0 + $1.amount },
-                            count: items.count,
-                            percent: 0)
+            CategorySummary(
+                name: cat.isEmpty ? "Autre" : cat,
+                total: items.reduce(0) { $0 + $1.amount },
+                count: items.count,
+                percent: 0
+            )
         }
         return mapped.sorted(by: { $0.total > $1.total }).first
     }
+
+    // MARK: - Body
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 22) {
 
-                    // 🔵 Carte "Résumé du mois"
                     summaryCard
 
                     if monthTickets.isEmpty {
                         emptyState
                     } else {
 
-                        // 🟣 Statistiques détaillées
                         VStack(spacing: 16) {
-                            statRow(title: "Total du mois", value: String(format: "%.2f €", monthTotal))
-                            statRow(title: "Nombre de tickets", value: "\(monthCount)")
-                            statRow(title: "Dépense moyenne", value: String(format: "%.2f €", averageAmount))
+                            statRow(
+                                title: "Total du mois",
+                                value: String(format: "%.2f €", monthTotal)
+                            )
+
+                            statRow(
+                                title: "Nombre de tickets",
+                                value: "\(monthCount)"
+                            )
+
+                            statRow(
+                                title: "Dépense moyenne",
+                                value: String(format: "%.2f €", averageAmount)
+                            )
 
                             if let high = highestTicket {
-                                statRow(title: "Plus grosse dépense",
-                                        value: String(format: "%.2f € — %@", high.amount, high.storeName))
+                                statRow(
+                                    title: "Plus grosse dépense",
+                                    value: String(format: "%.2f € — %@", high.amount, high.storeName)
+                                )
                             }
 
                             if let cat = topCategory {
-                                statRow(title: "Catégorie la plus utilisée",
-                                        value: "\(cat.name) (\(cat.count)×)")
+                                statRow(
+                                    title: "Catégorie la plus utilisée",
+                                    value: "\(cat.name) (\(cat.count)×)"
+                                )
                             }
                         }
                         .padding(.horizontal)
 
-                        // 🟦 Liste des tickets du mois (mode compact)
                         VStack(alignment: .leading, spacing: 12) {
                             Text("Tickets du mois")
                                 .font(.title3.bold())
                                 .padding(.horizontal)
 
-                            ForEach(monthTickets.sorted(by: { $0.dateMillis > $1.dateMillis }),
-                                    id: \.objectID) { t in
+                            ForEach(
+                                monthTickets.sorted(by: { $0.dateMillis > $1.dateMillis }),
+                                id: \.objectID
+                            ) { t in
                                 NavigationLink {
                                     TicketDetailView(ticket: t)
                                 } label: {
@@ -181,7 +206,6 @@ struct StatisticsView: View {
         .padding(.horizontal)
     }
 }
-
 
 // MARK: - Summary Struct
 

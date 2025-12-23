@@ -3,7 +3,14 @@ import CoreData
 
 struct TicketHistoryView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(fetchRequest: Ticket.fetchAllRequest()) private var tickets: FetchedResults<Ticket>
+
+    @FetchRequest(
+        sortDescriptors: [
+            NSSortDescriptor(key: "dateMillis", ascending: false)
+        ],
+        animation: .default
+    )
+    private var tickets: FetchedResults<Ticket>
 
     // 🔍 Recherche & filtres
     @State private var searchText: String = ""
@@ -27,7 +34,9 @@ struct TicketHistoryView: View {
                 } else {
                     List {
                         ForEach(filteredTickets, id: \.objectID) { ticket in
-                            NavigationLink(destination: TicketDetailView(ticket: ticket)) {
+                            NavigationLink(
+                                destination: TicketDetailView(ticket: ticket)
+                            ) {
                                 ticketRow(ticket)
                             }
                             .listRowSeparator(.hidden)
@@ -48,12 +57,14 @@ struct TicketHistoryView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack(spacing: 16) {
                         Button {
-                            Haptic.light()     // ✅ corrigé
+                            Haptic.light()
                             showFilterSheet = true
                         } label: {
-                            Image(systemName: hasActiveFilters ?
-                                  "line.3.horizontal.decrease.circle.fill" :
-                                  "line.3.horizontal.decrease.circle")
+                            Image(
+                                systemName: hasActiveFilters
+                                ? "line.3.horizontal.decrease.circle.fill"
+                                : "line.3.horizontal.decrease.circle"
+                            )
                         }
 
                         TicketExportButton()
@@ -106,11 +117,10 @@ struct TicketHistoryView: View {
         .shadow(color: .black.opacity(0.08), radius: 3, y: 2)
     }
 
-    // MARK: - Filtrage intelligent
+    // MARK: - Filtrage
     private var filteredTickets: [Ticket] {
         var result = Array(tickets)
 
-        // 🔍 Recherche texte
         let trimmed = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         if !trimmed.isEmpty {
             let lower = trimmed.lowercased()
@@ -121,20 +131,22 @@ struct TicketHistoryView: View {
             }
         }
 
-        // 📅 Date min
         if let start = startDate {
             let startMs = Int64(start.timeIntervalSince1970 * 1000)
             result = result.filter { $0.dateMillis >= startMs }
         }
 
-        // 📅 Date max (23:59:59)
         if let end = endDate {
-            let endDay = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: end) ?? end
+            let endDay = Calendar.current.date(
+                bySettingHour: 23,
+                minute: 59,
+                second: 59,
+                of: end
+            ) ?? end
             let endMs = Int64(endDay.timeIntervalSince1970 * 1000)
             result = result.filter { $0.dateMillis <= endMs }
         }
 
-        // Tri descendant
         result.sort { $0.dateMillis > $1.dateMillis }
         return result
     }
@@ -158,7 +170,7 @@ struct TicketHistoryView: View {
             .forEach(viewContext.delete)
 
         try? viewContext.save()
-        Haptic.medium()    // 🔥 amélioré
+        Haptic.medium()
     }
 
     private func clearFilters() {
