@@ -42,6 +42,9 @@
 		634EA0CE2EA0350C001F7BBB /* SwiftUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B92EA02D50001F7BBB /* SwiftUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		634EA0D02EA0350E001F7BBB /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B72EA02D50001F7BBB /* WidgetKit.framework */; };
 		634EA0D12EA0350E001F7BBB /* WidgetKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B72EA02D50001F7BBB /* WidgetKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		63A23C5D2EFB227900F53E50 /* TicketCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A23C5B2EFB227900F53E50 /* TicketCategory.swift */; };
+		63A23C5F2EFB317F00F53E50 /* NavigationNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A23C5E2EFB316B00F53E50 /* NavigationNotifications.swift */; };
+		63A23C622EFB380200F53E50 /* eTix.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 63A23C602EFB380200F53E50 /* eTix.xcdatamodeld */; };
 		63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */; };
 		63DBD7D92EE8650500D1A8EF /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */; };
 		63DBD7DB2EE8656F00D1A8EF /* TicketExportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7DA2EE8655900D1A8EF /* TicketExportButton.swift */; };
@@ -144,6 +147,9 @@
 		634EA0B52EA02D4F001F7BBB /* eTixWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = eTixWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		634EA0B72EA02D50001F7BBB /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		634EA0B92EA02D50001F7BBB /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		63A23C5B2EFB227900F53E50 /* TicketCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketCategory.swift; sourceTree = "<group>"; };
+		63A23C5E2EFB316B00F53E50 /* NavigationNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationNotifications.swift; sourceTree = "<group>"; };
+		63A23C612EFB380200F53E50 /* eTix.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = eTix.xcdatamodel; sourceTree = "<group>"; };
 		63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExportService.swift; sourceTree = "<group>"; };
 		63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		63DBD7DA2EE8655900D1A8EF /* TicketExportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketExportButton.swift; sourceTree = "<group>"; };
@@ -155,7 +161,6 @@
 		63DBD7E92EEADDB100D1A8EF /* OCRExtractedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRExtractedData.swift; sourceTree = "<group>"; };
 		63DBD7EB2EEADE0900D1A8EF /* OCRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRScannerView.swift; sourceTree = "<group>"; };
 		63DBD7F12EEAFE9300D1A8EF /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		63DBD7F42EEAFF9000D1A8EF /* Untitled 2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Untitled 2.swift"; sourceTree = "<group>"; };
 		63DBD7F52EEB015100D1A8EF /* AnimatedPageSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedPageSymbol.swift; sourceTree = "<group>"; };
 		63DBD8072EEC423B00D1A8EF /* PopupContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupContainer.swift; sourceTree = "<group>"; };
 		63DBD8092EEC428500D1A8EF /* SuccessPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessPopup.swift; sourceTree = "<group>"; };
@@ -258,6 +263,7 @@
 				634EA02C2E9E7F09001F7BBB /* ViewModels */,
 				634EA02D2E9E7F1E001F7BBB /* Views */,
 				634EA0342E9E8045001F7BBB /* Utils */,
+				63DBD7F72EEB0B9500D1A8EF /* Persistence */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -311,6 +317,7 @@
 				634EA0462E9E82F2001F7BBB /* TicketHistoryView.swift */,
 				634EA0452E9E82DA001F7BBB /* CategoryView.swift */,
 				634EA0442E9E82C0001F7BBB /* SettingsView.swift */,
+				63A23C5C2EFB227900F53E50 /* Domain  */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -318,6 +325,7 @@
 		634EA0342E9E8045001F7BBB /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				63A23C5E2EFB316B00F53E50 /* NavigationNotifications.swift */,
 				63DBD7E62EEADCCC00D1A8EF /* OCRNotifications.swift */,
 				63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */,
 				634EA0AF2EA01E3E001F7BBB /* WidgetSync.swift */,
@@ -347,7 +355,6 @@
 		634EA0A62E9FF638001F7BBB /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				63DBD7F42EEAFF9000D1A8EF /* Untitled 2.swift */,
 				63DBD7F12EEAFE9300D1A8EF /* OnboardingView.swift */,
 				63DBD7F52EEB015100D1A8EF /* AnimatedPageSymbol.swift */,
 			);
@@ -361,6 +368,14 @@
 				634EA0B92EA02D50001F7BBB /* SwiftUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		63A23C5C2EFB227900F53E50 /* Domain  */ = {
+			isa = PBXGroup;
+			children = (
+				63A23C5B2EFB227900F53E50 /* TicketCategory.swift */,
+			);
+			path = "Domain ";
 			sourceTree = "<group>";
 		};
 		63DBD7D72EE864DC00D1A8EF /* Shared */ = {
@@ -402,6 +417,7 @@
 			isa = PBXGroup;
 			children = (
 				634EA0392E9E814E001F7BBB /* PersistenceController.swift */,
+				63A23C602EFB380200F53E50 /* eTix.xcdatamodeld */,
 			);
 			path = Persistence;
 			sourceTree = "<group>";
@@ -422,7 +438,6 @@
 			children = (
 				634EA0352E9E80EF001F7BBB /* eTixApp.swift */,
 				634EA0372E9E813E001F7BBB /* Theme.swift */,
-				63DBD7F72EEB0B9500D1A8EF /* Persistence */,
 				634EA02B2E9E7EE9001F7BBB /* Models */,
 				63E50DDB2E6DBF8F009D8B0B /* eTix */,
 				63E50DED2E6DBF91009D8B0B /* eTixTests */,
@@ -633,6 +648,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63A23C5F2EFB317F00F53E50 /* NavigationNotifications.swift in Sources */,
+				63A23C622EFB380200F53E50 /* eTix.xcdatamodeld in Sources */,
 				63DBD7F62EEB015100D1A8EF /* AnimatedPageSymbol.swift in Sources */,
 				634EA0AA2EA0199D001F7BBB /* MonthlyStat.swift in Sources */,
 				634EA0562E9E8FD3001F7BBB /* CategoryView.swift in Sources */,
@@ -648,6 +665,7 @@
 				63DBD7DE2EEAD75100D1A8EF /* TicketDetailView.swift in Sources */,
 				634EA04E2E9E8AB8001F7BBB /* MainView.swift in Sources */,
 				634EA08A2E9FD7CD001F7BBB /* Haptic.swift in Sources */,
+				63A23C5D2EFB227900F53E50 /* TicketCategory.swift in Sources */,
 				634EA0552E9E8FCB001F7BBB /* TicketHistoryView.swift in Sources */,
 				634EA0AC2EA019D2001F7BBB /* StatsViewModel.swift in Sources */,
 				63DBD7E02EEAD76700D1A8EF /* TicketEditView.swift in Sources */,
@@ -724,6 +742,7 @@
 				CODE_SIGN_ENTITLEMENTS = eTixWidget/eTixWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9CX6779BPS;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = eTixWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = eTixWidget;
@@ -785,9 +804,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = eTix/eTix.entitlements;
+				CODE_SIGN_ENTITLEMENTS = eTix/eTixDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9CX6779BPS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = eTix/Info.plist;
@@ -1105,6 +1125,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		63A23C602EFB380200F53E50 /* eTix.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				63A23C612EFB380200F53E50 /* eTix.xcdatamodel */,
+			);
+			currentVersion = 63A23C612EFB380200F53E50 /* eTix.xcdatamodel */;
+			path = eTix.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 63E50DD12E6DBF8F009D8B0B /* Project object */;
 }
