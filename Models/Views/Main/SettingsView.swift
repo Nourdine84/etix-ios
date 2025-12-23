@@ -1,15 +1,26 @@
 import SwiftUI
+import CoreData
 
 struct SettingsView: View {
+
     @EnvironmentObject var session: SessionViewModel
+    @Environment(\.managedObjectContext) private var context
+
+    @StateObject private var vm: SettingsViewModel
+
     @State private var showWipeAlert = false
     @AppStorage("app.appearance") private var appearanceRaw: String = AppAppearance.default.rawValue
+
+    init() {
+        let ctx = PersistenceController.shared.container.viewContext
+        _vm = StateObject(wrappedValue: SettingsViewModel(context: ctx))
+    }
 
     var body: some View {
         NavigationStack {
             Form {
 
-                // MARK: - Section Compte
+                // MARK: - Compte
                 Section(header: Text("Compte")) {
                     Button("Se déconnecter") {
                         Haptic.medium()
@@ -18,7 +29,7 @@ struct SettingsView: View {
                     .foregroundColor(.blue)
                 }
 
-                // MARK: - Section Apparence
+                // MARK: - Apparence
                 Section(header: Text("Apparence")) {
                     Picker("Thème", selection: $appearanceRaw) {
                         Text("Système").tag(AppAppearance.system.rawValue)
@@ -27,9 +38,9 @@ struct SettingsView: View {
                     }
                 }
 
-                // MARK: - Section Données
+                // MARK: - Données
                 Section(header: Text("Données")) {
-                    Button("Réinitialiser les tickets") {
+                    Button("Supprimer toutes les données") {
                         Haptic.warning()
                         showWipeAlert = true
                     }
@@ -41,22 +52,30 @@ struct SettingsView: View {
                     HStack {
                         Text("Version")
                         Spacer()
-                        Text(appVersion)
+                        Text(vm.appVersion)
+                            .foregroundColor(.secondary)
+                    }
+
+                    HStack {
+                        Text("Build")
+                        Spacer()
+                        Text(vm.buildNumber)
                             .foregroundColor(.secondary)
                     }
                 }
             }
             .navigationTitle("Paramètres")
-            .alert("Supprimer tous les tickets ?", isPresented: $showWipeAlert) {
+            .alert("Supprimer toutes les données ?", isPresented: $showWipeAlert) {
                 Button("Supprimer", role: .destructive) {
-                    PersistenceController.shared.wipeDatabase()
+                    do {
+                        try vm.resetDatabase()
+                        Haptic.success()
+                    } catch {
+                        Haptic.error()
+                    }
                 }
                 Button("Annuler", role: .cancel) {}
             }
         }
-    }
-
-    private var appVersion: String {
-        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
     }
 }

@@ -42,6 +42,7 @@
 		634EA0CE2EA0350C001F7BBB /* SwiftUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B92EA02D50001F7BBB /* SwiftUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		634EA0D02EA0350E001F7BBB /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B72EA02D50001F7BBB /* WidgetKit.framework */; };
 		634EA0D12EA0350E001F7BBB /* WidgetKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B72EA02D50001F7BBB /* WidgetKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		63A23B032EFAEC4200F53E50 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A23B022EFAEC2D00F53E50 /* SettingsViewModel.swift */; };
 		63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */; };
 		63DBD7D92EE8650500D1A8EF /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */; };
 		63DBD7DB2EE8656F00D1A8EF /* TicketExportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7DA2EE8655900D1A8EF /* TicketExportButton.swift */; };
@@ -148,6 +149,7 @@
 		634EA0B52EA02D4F001F7BBB /* eTixWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = eTixWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		634EA0B72EA02D50001F7BBB /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		634EA0B92EA02D50001F7BBB /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		63A23B022EFAEC2D00F53E50 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExportService.swift; sourceTree = "<group>"; };
 		63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		63DBD7DA2EE8655900D1A8EF /* TicketExportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketExportButton.swift; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 		634EA02C2E9E7F09001F7BBB /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				63A23B022EFAEC2D00F53E50 /* SettingsViewModel.swift */,
 				634EA0AB2EA019BF001F7BBB /* StatsViewModel.swift */,
 				634EA0A32E9FF5C6001F7BBB /* OnboardingViewModel.swift */,
 				634EA03D2E9E81D2001F7BBB /* SessionViewModel.swift */,
@@ -702,6 +705,7 @@
 				63DBD7E52EEADA6D00D1A8EF /* CameraPermission.swift in Sources */,
 				63DBD7E22EEAD88E00D1A8EF /* TicketFilterSheet.swift in Sources */,
 				63DBD7EA2EEADDED00D1A8EF /* OCRExtractedData.swift in Sources */,
+				63A23B032EFAEC4200F53E50 /* SettingsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
