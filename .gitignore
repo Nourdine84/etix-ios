@@ -29,3 +29,4 @@ Pods/
 *.env
 *.xcconfig.local
 .DS_Store
+.DS_Store

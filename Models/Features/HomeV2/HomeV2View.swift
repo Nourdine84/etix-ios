@@ -1,21 +1,27 @@
 import SwiftUI
+import CoreData
 
 struct HomeV2View: View {
+
+    @Environment(\.managedObjectContext) private var context
+
+    // 🔹 Récupération des derniers tickets
+    @FetchRequest(
+        entity: Ticket.entity(),
+        sortDescriptors: [
+            NSSortDescriptor(keyPath: \Ticket.dateMillis, ascending: false)
+        ],
+        animation: .easeInOut
+    )
+    private var tickets: FetchedResults<Ticket>
 
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(spacing: 24) {
+                VStack(spacing: 20) {
 
-                    // 🔵 Header
-                    headerSection
-
-                    // ⚡ Actions rapides
-                    HomeQuickActionsView()
-
-                    // 🧱 Placeholder sections (à venir)
-                    placeholderCard(title: "Derniers tickets")
-                    placeholderCard(title: "Statistiques du mois")
+                    // MARK: - Derniers tickets
+                    lastTicketsSection
 
                 }
                 .padding()
@@ -28,38 +34,48 @@ struct HomeV2View: View {
 // MARK: - Sections
 private extension HomeV2View {
 
-    var headerSection: some View {
-        VStack(alignment: .leading, spacing: 6) {
-
-            Text("Bienvenue 👋")
-                .font(.title2.bold())
-
-            Text("Voici un aperçu de ton activité")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-
-    func placeholderCard(title: String) -> some View {
+    var lastTicketsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
 
-            Text(title)
-                .font(.headline)
+            HStack {
+                Text("Derniers tickets")
+                    .font(.headline)
 
-            Text("Contenu à venir")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
+                Spacer()
+
+                Button("Voir tout") {
+                    NotificationCenter.default.post(name: .goToHistory, object: nil)
+                }
+                .font(.caption)
+                .foregroundColor(Color(Theme.primaryBlue))
+            }
+
+            if tickets.isEmpty {
+                emptyState
+            } else {
+                VStack(spacing: 10) {
+                    ForEach(tickets.prefix(5), id: \.objectID) { ticket in
+                        NavigationLink {
+                            TicketDetailView(ticket: ticket)
+                        } label: {
+                            LastTicketRow(ticket: ticket)
+                        }
+                        .buttonStyle(.plain) // 🔥 garde le style clean iOS
+                    }
+                }
+            }
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         .background(Color(.secondarySystemGroupedBackground))
         .cornerRadius(16)
-        .shadow(color: .black.opacity(0.06), radius: 4, y: 2)
+        .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
     }
-}
 
-// MARK: - Preview
-#Preview {
-    HomeV2View()
+    var emptyState: some View {
+        Text("Aucun ticket enregistré")
+            .font(.subheadline)
+            .foregroundColor(.secondary)
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding(.vertical, 12)
+    }
 }

@@ -45,6 +45,7 @@
 		63A23B992EFB01EA00F53E50 /* NavigationNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A23B982EFB01D600F53E50 /* NavigationNotifications.swift */; };
 		63A23CF72EFD8EDC00F53E50 /* HomeV2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A23CF62EFD8EC900F53E50 /* HomeV2View.swift */; };
 		63A23CF92EFD904D00F53E50 /* HomeQuickActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A23CF82EFD903B00F53E50 /* HomeQuickActionsView.swift */; };
+		63A23CFB2EFD96DB00F53E50 /* LastTicketRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A23CFA2EFD926C00F53E50 /* LastTicketRow.swift */; };
 		63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */; };
 		63DBD7D92EE8650500D1A8EF /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */; };
 		63DBD7DB2EE8656F00D1A8EF /* TicketExportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7DA2EE8655900D1A8EF /* TicketExportButton.swift */; };
@@ -150,7 +151,7 @@
 		63A23B982EFB01D600F53E50 /* NavigationNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationNotifications.swift; sourceTree = "<group>"; };
 		63A23CF62EFD8EC900F53E50 /* HomeV2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeV2View.swift; sourceTree = "<group>"; };
 		63A23CF82EFD903B00F53E50 /* HomeQuickActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeQuickActionsView.swift; sourceTree = "<group>"; };
-		63A23CFA2EFD926C00F53E50 /* Untitled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Untitled.swift; sourceTree = "<group>"; };
+		63A23CFA2EFD926C00F53E50 /* LastTicketRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastTicketRow.swift; sourceTree = "<group>"; };
 		63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExportService.swift; sourceTree = "<group>"; };
 		63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		63DBD7DA2EE8655900D1A8EF /* TicketExportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketExportButton.swift; sourceTree = "<group>"; };
@@ -375,7 +376,7 @@
 		63A23CF42EFD8E9200F53E50 /* HomeV2 */ = {
 			isa = PBXGroup;
 			children = (
-				63A23CFA2EFD926C00F53E50 /* Untitled.swift */,
+				63A23CFA2EFD926C00F53E50 /* LastTicketRow.swift */,
 				63A23CF82EFD903B00F53E50 /* HomeQuickActionsView.swift */,
 				63A23CF62EFD8EC900F53E50 /* HomeV2View.swift */,
 			);
@@ -677,6 +678,7 @@
 				63DBD7DE2EEAD75100D1A8EF /* TicketDetailView.swift in Sources */,
 				634EA04E2E9E8AB8001F7BBB /* MainView.swift in Sources */,
 				634EA08A2E9FD7CD001F7BBB /* Haptic.swift in Sources */,
+				63A23CFB2EFD96DB00F53E50 /* LastTicketRow.swift in Sources */,
 				634EA0552E9E8FCB001F7BBB /* TicketHistoryView.swift in Sources */,
 				634EA0AC2EA019D2001F7BBB /* StatsViewModel.swift in Sources */,
 				63DBD7E02EEAD76700D1A8EF /* TicketEditView.swift in Sources */,
