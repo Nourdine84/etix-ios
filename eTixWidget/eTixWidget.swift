@@ -1,7 +1,6 @@
 import WidgetKit
 import SwiftUI
 
-// App Group — même ID que dans l’app
 private let suiteID = "group.etix.shared"
 
 // MARK: - Entry
@@ -25,19 +24,19 @@ struct Provider: TimelineProvider {
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<ETixEntry>) -> Void) {
         let entry = loadSnapshot()
-        let nextRefresh = Calendar.current.date(byAdding: .minute, value: 30, to: .now) ?? .now.addingTimeInterval(1800)
+        let nextRefresh = Calendar.current.date(byAdding: .minute, value: 30, to: .now)!
         completion(Timeline(entries: [entry], policy: .after(nextRefresh)))
     }
 
-    // Lecture AppGroup
     private func loadSnapshot() -> ETixEntry {
         let ud = UserDefaults(suiteName: suiteID)
 
-        let total = ud?.double(forKey: "monthTotal") ?? 0
-        let count = ud?.integer(forKey: "monthCount") ?? 0
-        let label = ud?.string(forKey: "monthLabel") ?? formattedMonth(Date())
-
-        return ETixEntry(date: .now, monthLabel: label, total: total, count: count)
+        return ETixEntry(
+            date: .now,
+            monthLabel: ud?.string(forKey: "monthLabel") ?? formattedMonth(Date()),
+            total: ud?.double(forKey: "monthTotal") ?? 0,
+            count: ud?.integer(forKey: "monthCount") ?? 0
+        )
     }
 
     private func formattedMonth(_ date: Date) -> String {
@@ -53,7 +52,26 @@ struct ETixWidgetView: View {
     let entry: ETixEntry
 
     var body: some View {
-        ZStack {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Image(systemName: "chart.bar.fill")
+                Spacer()
+                Text(entry.monthLabel)
+                    .font(.caption)
+            }
+
+            Spacer()
+
+            Text(String(format: "%.2f €", entry.total))
+                .font(.system(size: 24, weight: .bold))
+
+            Text("\(entry.count) ticket\(entry.count > 1 ? "s" : "")")
+                .font(.footnote)
+        }
+        .foregroundColor(.white)
+        .padding()
+        // ✅ FIX CRITIQUE ICI
+        .containerBackground(
             LinearGradient(
                 colors: [
                     Color(Theme.primaryBlue),
@@ -61,47 +79,23 @@ struct ETixWidgetView: View {
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
-            )
-
-            VStack(alignment: .leading, spacing: 6) {
-                // Header
-                HStack {
-                    Image(systemName: "chart.bar.fill")
-                        .foregroundStyle(.white.opacity(0.95))
-                    Spacer()
-                    Text(entry.monthLabel)
-                        .font(.caption)
-                        .foregroundStyle(.white.opacity(0.85))
-                }
-
-                Spacer(minLength: 4)
-
-                // Total €
-                Text(String(format: "%.2f €", entry.total))
-                    .font(.system(size: 24, weight: .bold, design: .rounded))
-                    .foregroundColor(.white)
-
-                // Tickets
-                Text("\(entry.count) ticket\(entry.count > 1 ? "s" : "")")
-                    .font(.footnote)
-                    .foregroundStyle(.white.opacity(0.85))
-            }
-            .padding(14)
-        }
+            ),
+            for: .widget
+        )
     }
 }
 
-// MARK: - Declaration
+// MARK: - Widget declaration
 @main
 struct eTixWidget: Widget {
-    let kind: String = "eTixWidget"
+    let kind = "eTixWidget"
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             ETixWidgetView(entry: entry)
         }
         .configurationDisplayName("Dépenses du mois")
-        .description("Affiche le total du mois en cours et le nombre de tickets.")
+        .description("Affiche le total du mois et le nombre de tickets.")
         .supportedFamilies([.systemSmall, .systemMedium])
     }
 }

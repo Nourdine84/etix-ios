@@ -1,17 +1,28 @@
 import SwiftUI
-import AVFoundation
+import UIKit
 
 struct OCRScannerView: UIViewControllerRepresentable {
 
-    let onCapture: (UIImage) -> Void
+    // ⚠️ SIGNATURE ALIGNÉE AVEC AddTicketView
+    let onImageCaptured: (UIImage) -> Void
     let onCancel: () -> Void
 
     func makeUIViewController(context: Context) -> CameraViewController {
-        let vc = CameraViewController()
-        vc.onCapture = onCapture
-        vc.onCancel = onCancel
-        return vc
+        let controller = CameraViewController()
+
+        controller.onCapture = { image in
+            onImageCaptured(image)
+        }
+
+        controller.onCancel = {
+            onCancel()
+        }
+
+        return controller
     }
 
-    func updateUIViewController(_ uiViewController: CameraViewController, context: Context) {}
+    func updateUIViewController(
+        _ uiViewController: CameraViewController,
+        context: Context
+    ) {}
 }
