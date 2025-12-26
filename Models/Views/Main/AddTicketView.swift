@@ -6,20 +6,32 @@ struct AddTicketView: View {
 
     // MARK: - Dependencies
     @EnvironmentObject var viewModel: AddTicketViewModel
-    @StateObject private var ocrVM = OCRViewModel()
+    @FocusState private var focusedField: Field?
 
     // MARK: - UI State
     @State private var showSuccessPopup = false
     @State private var showErrorPopup = false
 
+    // MARK: - Form validation
+    private var isFormValid: Bool {
+        !viewModel.storeName
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .isEmpty
+        &&
+        Double(
+            viewModel.amount
+                .replacingOccurrences(of: ",", with: ".")
+        ) != nil
+    }
+
     // MARK: - Body
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(spacing: 20) {
+                VStack(spacing: 22) {
 
-                    // 📷 OCR
-                    scanButton
+                    // 📷 OCR (désactivé en V2)
+                    scanButtonDisabled
 
                     // 🧾 Formulaire
                     ticketForm
@@ -31,17 +43,13 @@ struct AddTicketView: View {
             }
             .navigationTitle("Ajouter un ticket")
         }
-
-        // 📸 Scanner caméra
-        .sheet(isPresented: $ocrVM.showScanner) {
-            OCRScannerView(
-                onImageCaptured: { image in
-                    ocrVM.handleCapturedImage(image)
-                },
-                onCancel: {
-                    ocrVM.closeScanner()
-                }
-            )
+        // 🔽 Ferme le clavier si tap en dehors
+        .onTapGesture {
+            hideKeyboard()
+        }
+        // 🎯 Focus auto sur le premier champ
+        .onAppear {
+            focusedField = .store
         }
     }
 }
@@ -49,27 +57,19 @@ struct AddTicketView: View {
 // MARK: - Subviews
 private extension AddTicketView {
 
-    var scanButton: some View {
-        Button {
-            Haptic.light()
-            if ocrVM.permissionState == .authorized {
-                ocrVM.openScanner()
-            } else {
-                ocrVM.requestPermission()
-            }
-        } label: {
-            HStack(spacing: 12) {
-                Image(systemName: "camera.viewfinder")
-                    .font(.system(size: 22, weight: .bold))
-                Text("Scanner un ticket")
-                    .font(.headline)
-            }
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(Color(Theme.primaryBlue).opacity(0.12))
-            .foregroundColor(Color(Theme.primaryBlue))
-            .cornerRadius(14)
+    var scanButtonDisabled: some View {
+        HStack(spacing: 12) {
+            Image(systemName: "camera.viewfinder")
+                .font(.system(size: 22, weight: .bold))
+
+            Text("Scanner un ticket (bientôt)")
+                .font(.headline)
         }
+        .frame(maxWidth: .infinity)
+        .padding()
+        .background(Color.gray.opacity(0.12))
+        .foregroundColor(.gray)
+        .cornerRadius(14)
         .padding(.horizontal)
     }
 
@@ -79,41 +79,68 @@ private extension AddTicketView {
             Text("Informations du ticket")
                 .font(.headline)
 
+            // 🏪 Magasin
             TextField("Nom du magasin", text: $viewModel.storeName)
                 .textInputAutocapitalization(.words)
                 .textFieldStyle(.roundedBorder)
+                .focused($focusedField, equals: .store)
+                .submitLabel(.next)
+                .onSubmit {
+                    focusedField = .amount
+                }
 
+            // 💰 Montant
             TextField("Montant (€)", text: $viewModel.amount)
                 .keyboardType(.decimalPad)
                 .textFieldStyle(.roundedBorder)
+                .focused($focusedField, equals: .amount)
+                .submitLabel(.done)
+                .onSubmit {
+                    hideKeyboard()
+                }
+                .onChange(of: viewModel.amount) { newValue in
+                    // Normalisation virgule → point
+                    viewModel.amount = newValue
+                        .replacingOccurrences(of: ",", with: ".")
+                }
 
+            // 📅 Date
             DatePicker(
                 "Date",
                 selection: $viewModel.date,
                 displayedComponents: .date
             )
 
+            // 🏷️ Catégorie
             TextField("Catégorie", text: $viewModel.category)
                 .textFieldStyle(.roundedBorder)
 
+            // 📝 Description
             TextField("Description (optionnel)", text: $viewModel.description)
                 .textFieldStyle(.roundedBorder)
         }
         .padding()
         .background(Color(.secondarySystemGroupedBackground))
         .cornerRadius(16)
-        .shadow(color: .black.opacity(0.08), radius: 5, y: 2)
+        .shadow(
+            color: .black.opacity(0.08),
+            radius: 5,
+            y: 2
+        )
         .padding(.horizontal)
     }
 
     var saveButton: some View {
         eTixButton(
             title: "Enregistrer",
-            icon: "tray.and.arrow.down.fill"
+            icon: "tray.and.arrow.down.fill",
+            disabled: !isFormValid
         ) {
             handleSave()
         }
         .padding(.horizontal)
+        .opacity(isFormValid ? 1 : 0.5)
+        .animation(.easeInOut(duration: 0.2), value: isFormValid)
     }
 }
 
@@ -121,34 +148,31 @@ private extension AddTicketView {
 private extension AddTicketView {
 
     func handleSave() {
+        hideKeyboard()
+
         if viewModel.saveTicket() {
             Haptic.success()
             showSuccessPopup = true
-            // WidgetSync.updateSnapshot(context: viewModel.context) // volontairement désactivé
         } else {
             Haptic.error()
             showErrorPopup = true
         }
     }
 
-    // ✅ Injection OCR → formulaire
-    func injectOCR(_ result: OCRExtractedData) {
-        if let store = result.storeName {
-            viewModel.storeName = store
-        }
-        if let amount = result.amount {
-            viewModel.amount = String(format: "%.2f", amount)
-        }
-        if let date = result.date {
-            viewModel.date = date
-        }
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(
+            #selector(UIResponder.resignFirstResponder),
+            to: nil,
+            from: nil,
+            for: nil
+        )
     }
+}
 
-    // 🧠 Décision auto-validation OCR (FIX FINAL)
-    func shouldAutoAcceptOCR(_ data: OCRExtractedData) -> Bool {
-        return
-            data.confidence >= 0.8 &&
-            data.storeName != nil &&
-            data.amount != nil
+// MARK: - Focus enum
+private extension AddTicketView {
+    enum Field {
+        case store
+        case amount
     }
 }
