@@ -19,6 +19,7 @@ struct TicketHistoryView: View {
             ZStack {
                 if filteredTickets.isEmpty {
                     emptyState
+                        .transition(.opacity)
                 } else {
                     ticketList
                 }
@@ -38,6 +39,9 @@ struct TicketHistoryView: View {
                 )
             }
         }
+        .onTapGesture {
+            hideKeyboard()
+        }
     }
 }
 
@@ -53,55 +57,67 @@ private extension TicketHistoryView {
                     ticketRow(ticket)
                 }
                 .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
             }
             .onDelete(perform: deleteTickets)
         }
         .listStyle(.plain)
+        .scrollDismissesKeyboard(.immediately)
     }
 
     var emptyState: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 14) {
             Image(systemName: "doc.text.magnifyingglass")
                 .font(.system(size: 42))
-                .foregroundColor(.secondary)
+                .foregroundColor(Color(Theme.primaryBlue))
 
             Text(emptyStateText)
+                .font(.headline)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 24)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(.top, 80)
     }
 
     func ticketRow(_ ticket: Ticket) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack {
+        VStack(alignment: .leading, spacing: 8) {
+
+            // Ligne principale
+            HStack(alignment: .top) {
                 Text(ticket.storeName)
                     .font(.headline)
 
                 Spacer()
 
                 Text(String(format: "%.2f €", ticket.amount))
-                    .bold()
+                    .font(.headline)
                     .foregroundColor(Color(Theme.primaryBlue))
             }
 
+            // Catégorie
             Text(ticket.category)
                 .font(.subheadline)
                 .foregroundColor(.secondary)
 
+            // Description optionnelle
             if let desc = ticket.ticketDescription, !desc.isEmpty {
                 Text(desc)
-                    .font(.body)
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
             }
 
+            // Date
             Text(dateFromMillis(ticket.dateMillis), style: .date)
                 .font(.footnote)
                 .foregroundColor(.secondary)
         }
         .padding()
         .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(12)
-        .shadow(color: .black.opacity(0.08), radius: 3, y: 2)
+        .cornerRadius(14)
+        .shadow(color: .black.opacity(0.06), radius: 4, y: 2)
+        .contentShape(Rectangle()) // 👈 zone cliquable confortable
     }
 }
 
@@ -201,5 +217,14 @@ private extension TicketHistoryView {
 
     func dateFromMillis(_ ms: Int64) -> Date {
         Date(timeIntervalSince1970: TimeInterval(ms) / 1000)
+    }
+
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(
+            #selector(UIResponder.resignFirstResponder),
+            to: nil,
+            from: nil,
+            for: nil
+        )
     }
 }
