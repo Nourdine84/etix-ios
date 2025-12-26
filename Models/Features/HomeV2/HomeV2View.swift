@@ -17,7 +17,11 @@ struct HomeV2View: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(spacing: 20) {
+                VStack(spacing: 20) {HomeKPIView(
+                    monthTotal: tickets.reduce(0) { $0 + $1.amount },
+                    ticketCount: tickets.count
+                )
+                .transition(.opacity)
                     lastTicketsSection
                 }
                 .padding()
