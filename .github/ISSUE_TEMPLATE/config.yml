@@ -1,6 +1,11 @@
 blank_issues_enabled: false
 
 contact_links:
+  - name: 📘 Documentation eTix iOS
+    url: https://github.com/Nourdine84/etix-ios/wiki
+    about: Consulte la documentation avant de créer un ticketœblank_issues_enabled: false
+
+contact_links:
   - name: eTix iOS – Créer un ticket
     url: https://github.com/Nourdine84/etix-ios/issues/new/choose
     about: Utilisez un template pour créer une issue iOS
