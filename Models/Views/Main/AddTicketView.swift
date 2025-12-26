@@ -99,7 +99,6 @@ private extension AddTicketView {
                     hideKeyboard()
                 }
                 .onChange(of: viewModel.amount) { newValue in
-                    // Normalisation virgule → point
                     viewModel.amount = newValue
                         .replacingOccurrences(of: ",", with: ".")
                 }
@@ -133,13 +132,13 @@ private extension AddTicketView {
     var saveButton: some View {
         eTixButton(
             title: "Enregistrer",
-            icon: "tray.and.arrow.down.fill",
-            disabled: !isFormValid
+            icon: "tray.and.arrow.down.fill"
         ) {
             handleSave()
         }
-        .padding(.horizontal)
+        .disabled(!isFormValid)
         .opacity(isFormValid ? 1 : 0.5)
+        .padding(.horizontal)
         .animation(.easeInOut(duration: 0.2), value: isFormValid)
     }
 }
