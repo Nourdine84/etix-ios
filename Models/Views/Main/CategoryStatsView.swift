@@ -2,35 +2,39 @@ import SwiftUI
 import CoreData
 
 struct CategoryStatsView: View {
+
     @Environment(\.managedObjectContext) private var context
+
     @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
     private var tickets: FetchedResults<Ticket>
 
-    // MARK: - Agrégats
+    // MARK: - Aggregates
 
     private var grandTotal: Double {
         tickets.reduce(0) { $0 + $1.amount }
     }
 
     private var summaries: [CategorySummary] {
-        // Regroupement par catégorie (vide = "Autre")
         let grouped = Dictionary(grouping: tickets) { (ticket: Ticket) -> String in
             let raw = ticket.category.trimmingCharacters(in: .whitespacesAndNewlines)
             return raw.isEmpty ? "Autre" : raw
         }
 
         let totalAll = grandTotal
-        var result: [CategorySummary] = []
 
-        for (name, items) in grouped {
+        return grouped.map { name, items in
             let total = items.reduce(0) { $0 + $1.amount }
             let count = items.count
             let percent = totalAll > 0 ? (total / totalAll) * 100.0 : 0
-            result.append(CategorySummary(name: name, total: total, count: count, percent: percent))
-        }
 
-        // Tri par montant décroissant
-        return result.sorted { $0.total > $1.total }
+            return CategorySummary(
+                name: name,
+                total: total,
+                count: count,
+                percent: percent
+            )
+        }
+        .sorted { $0.total > $1.total }
     }
 
     // MARK: - Body
@@ -40,18 +44,27 @@ struct CategoryStatsView: View {
             ScrollView {
                 VStack(spacing: 20) {
 
-                    // Total général
                     headerTotal
 
                     if tickets.isEmpty {
                         emptyState
+                            .transition(.opacity)
                     } else {
-                        // Liste des catégories
                         VStack(spacing: 12) {
-                            ForEach(summaries) { summary in
-                                CategoryRow(summary: summary,
-                                            grandTotal: grandTotal)
-                                    .padding(.horizontal)
+                            ForEach(
+                                Array(summaries.enumerated()),
+                                id: \.element.id
+                            ) { index, summary in
+                                CategoryRow(
+                                    summary: summary,
+                                    grandTotal: grandTotal,
+                                    highlighted: index == 0
+                                )
+                                .padding(.horizontal)
+                                .transition(
+                                    .move(edge: .bottom)
+                                        .combined(with: .opacity)
+                                )
                             }
                         }
                         .padding(.bottom, 16)
@@ -60,6 +73,7 @@ struct CategoryStatsView: View {
                 .padding(.top, 16)
             }
             .navigationTitle("Catégories")
+            .animation(.easeOut(duration: 0.35), value: tickets.count)
         }
     }
 
@@ -67,6 +81,7 @@ struct CategoryStatsView: View {
 
     private var headerTotal: some View {
         VStack(alignment: .leading, spacing: 8) {
+
             Text("Total général")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
@@ -90,14 +105,14 @@ struct CategoryStatsView: View {
     // MARK: - Empty State
 
     private var emptyState: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 12) {
+
             Image(systemName: "square.grid.2x2")
                 .font(.system(size: 40))
-                .foregroundColor(.gray)
+                .foregroundColor(Color(Theme.primaryBlue))
 
             Text("Aucune catégorie disponible")
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
+                .font(.headline)
 
             Text("Ajoute quelques tickets pour voir la répartition par catégorie.")
                 .font(.footnote)
@@ -110,7 +125,7 @@ struct CategoryStatsView: View {
     }
 }
 
-// MARK: - Modèle local
+// MARK: - Local Model
 
 private struct CategorySummary: Identifiable {
     let id = UUID()
@@ -123,8 +138,10 @@ private struct CategorySummary: Identifiable {
 // MARK: - Row UI
 
 private struct CategoryRow: View {
+
     let summary: CategorySummary
     let grandTotal: Double
+    let highlighted: Bool
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -140,7 +157,7 @@ private struct CategoryRow: View {
                     .foregroundColor(Color(Theme.primaryBlue))
             }
 
-            HStack(spacing: 8) {
+            HStack {
                 Text("\(summary.count) ticket\(summary.count > 1 ? "s" : "")")
                     .font(.footnote)
                     .foregroundColor(.secondary)
@@ -152,14 +169,18 @@ private struct CategoryRow: View {
                     .foregroundColor(.secondary)
             }
 
-            // Barre de progression simple
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
+
                     Capsule()
                         .fill(Color(.systemGray5))
 
                     Capsule()
-                        .fill(Color(Theme.primaryBlue).opacity(0.85))
+                        .fill(
+                            highlighted
+                            ? Color(Theme.primaryBlue)
+                            : Color(Theme.primaryBlue).opacity(0.7)
+                        )
                         .frame(width: barWidth(in: geo.size.width))
                 }
             }
@@ -168,12 +189,14 @@ private struct CategoryRow: View {
         .padding()
         .background(Color(.systemBackground))
         .cornerRadius(14)
-        .shadow(color: .black.opacity(0.05), radius: 3, y: 2)
+        .shadow(color: .black.opacity(highlighted ? 0.12 : 0.05),
+                radius: highlighted ? 6 : 3,
+                y: 2)
     }
 
     private func barWidth(in fullWidth: CGFloat) -> CGFloat {
         guard grandTotal > 0 else { return 0 }
         let ratio = summary.total / grandTotal
-        return max(4, fullWidth * CGFloat(min(max(ratio, 0), 1)))
+        return max(6, fullWidth * CGFloat(min(max(ratio, 0), 1)))
     }
 }
