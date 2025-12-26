@@ -5,7 +5,6 @@ struct HomeV2View: View {
 
     @Environment(\.managedObjectContext) private var context
 
-    // 🔹 Derniers tickets
     @FetchRequest(
         entity: Ticket.entity(),
         sortDescriptors: [
@@ -19,10 +18,7 @@ struct HomeV2View: View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 20) {
-
-                    // MARK: - Derniers tickets
                     lastTicketsSection
-
                 }
                 .padding()
             }
@@ -41,15 +37,18 @@ private extension HomeV2View {
 
             if tickets.isEmpty {
                 emptyState
+                    .transition(.opacity)
             } else {
                 VStack(spacing: 10) {
-                    ForEach(tickets.prefix(5), id: \.objectID) { ticket in
+                    ForEach(Array(tickets.prefix(5).enumerated()), id: \.element.objectID) { index, ticket in
                         NavigationLink {
                             TicketDetailView(ticket: ticket)
                         } label: {
                             LastTicketRow(ticket: ticket)
+                                .modifier(HighlightModifier(isHighlighted: index == 0))
                         }
                         .buttonStyle(.plain)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
                     }
                 }
             }
@@ -58,6 +57,7 @@ private extension HomeV2View {
         .background(Color(.secondarySystemGroupedBackground))
         .cornerRadius(16)
         .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
+        .animation(.easeOut(duration: 0.35), value: tickets.count)
     }
 
     var header: some View {
@@ -80,14 +80,12 @@ private extension HomeV2View {
         }
     }
 
-    // ✅ EMPTY STATE AMÉLIORÉ
     var emptyState: some View {
         VStack(spacing: 14) {
 
             Image(systemName: "doc.text.magnifyingglass")
                 .font(.system(size: 36))
                 .foregroundColor(Color(Theme.primaryBlue))
-                .opacity(0.9)
 
             Text("Aucun ticket enregistré")
                 .font(.headline)
@@ -96,7 +94,7 @@ private extension HomeV2View {
                 .font(.subheadline)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
-                .padding(.horizontal, 12)
+                .padding(.horizontal)
 
             Button {
                 Haptic.light()
