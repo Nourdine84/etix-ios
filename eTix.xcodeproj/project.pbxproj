@@ -42,8 +42,10 @@
 		634EA0CE2EA0350C001F7BBB /* SwiftUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B92EA02D50001F7BBB /* SwiftUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		634EA0D02EA0350E001F7BBB /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B72EA02D50001F7BBB /* WidgetKit.framework */; };
 		634EA0D12EA0350E001F7BBB /* WidgetKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B72EA02D50001F7BBB /* WidgetKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		637F4FF82EFEDA4F003417EE /* HighlightModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637F4FF72EFEDA37003417EE /* HighlightModifier.swift */; };
 		637F4FFA2EFEDDD7003417EE /* HighlightModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637F4FF92EFEDDC6003417EE /* HighlightModifier.swift */; };
+		637F4FFC2EFEE139003417EE /* HomeKPIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637F4FFB2EFEE11C003417EE /* HomeKPIView.swift */; };
+		637F4FFE2EFEE2EB003417EE /* HomeSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637F4FFD2EFEE2E5003417EE /* HomeSkeletonView.swift */; };
+		637F50002EFEE383003417EE /* ShimmerModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637F4FFF2EFEE37F003417EE /* ShimmerModifier.swift */; };
 		63A23B992EFB01EA00F53E50 /* NavigationNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A23B982EFB01D600F53E50 /* NavigationNotifications.swift */; };
 		63A23CF72EFD8EDC00F53E50 /* HomeV2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A23CF62EFD8EC900F53E50 /* HomeV2View.swift */; };
 		63A23CF92EFD904D00F53E50 /* HomeQuickActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A23CF82EFD903B00F53E50 /* HomeQuickActionsView.swift */; };
@@ -157,8 +159,10 @@
 		634EA0B52EA02D4F001F7BBB /* eTixWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = eTixWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		634EA0B72EA02D50001F7BBB /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		634EA0B92EA02D50001F7BBB /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		637F4FF72EFEDA37003417EE /* HighlightModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightModifier.swift; sourceTree = "<group>"; };
 		637F4FF92EFEDDC6003417EE /* HighlightModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightModifier.swift; sourceTree = "<group>"; };
+		637F4FFB2EFEE11C003417EE /* HomeKPIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeKPIView.swift; sourceTree = "<group>"; };
+		637F4FFD2EFEE2E5003417EE /* HomeSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSkeletonView.swift; sourceTree = "<group>"; };
+		637F4FFF2EFEE37F003417EE /* ShimmerModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShimmerModifier.swift; sourceTree = "<group>"; };
 		63A23B982EFB01D600F53E50 /* NavigationNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationNotifications.swift; sourceTree = "<group>"; };
 		63A23CF62EFD8EC900F53E50 /* HomeV2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeV2View.swift; sourceTree = "<group>"; };
 		63A23CF82EFD903B00F53E50 /* HomeQuickActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeQuickActionsView.swift; sourceTree = "<group>"; };
@@ -344,6 +348,7 @@
 		634EA0342E9E8045001F7BBB /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				637F4FFF2EFEE37F003417EE /* ShimmerModifier.swift */,
 				637F4FF92EFEDDC6003417EE /* HighlightModifier.swift */,
 				63A23B982EFB01D600F53E50 /* NavigationNotifications.swift */,
 				63DBD7E62EEADCCC00D1A8EF /* OCRNotifications.swift */,
@@ -394,7 +399,8 @@
 		63A23CF42EFD8E9200F53E50 /* HomeV2 */ = {
 			isa = PBXGroup;
 			children = (
-				637F4FF72EFEDA37003417EE /* HighlightModifier.swift */,
+				637F4FFD2EFEE2E5003417EE /* HomeSkeletonView.swift */,
+				637F4FFB2EFEE11C003417EE /* HomeKPIView.swift */,
 				63A23CFA2EFD926C00F53E50 /* LastTicketRow.swift */,
 				63A23CF82EFD903B00F53E50 /* HomeQuickActionsView.swift */,
 				63A23CF62EFD8EC900F53E50 /* HomeV2View.swift */,
@@ -692,17 +698,18 @@
 				63A23B992EFB01EA00F53E50 /* NavigationNotifications.swift in Sources */,
 				63A23CF72EFD8EDC00F53E50 /* HomeV2View.swift in Sources */,
 				63DBD7F62EEB015100D1A8EF /* AnimatedPageSymbol.swift in Sources */,
+				637F50002EFEE383003417EE /* ShimmerModifier.swift in Sources */,
 				63A23D072EFDA41C00F53E50 /* OCRPreviewView.swift in Sources */,
 				634EA0AA2EA0199D001F7BBB /* MonthlyStat.swift in Sources */,
 				634EA0562E9E8FD3001F7BBB /* CategoryStatsView.swift in Sources */,
 				634EA0532E9E8FBC001F7BBB /* HomeView.swift in Sources */,
 				63DBD80A2EEC429B00D1A8EF /* SuccessPopup.swift in Sources */,
 				63DBD80C2EEC42E500D1A8EF /* ErrorPopup.swift in Sources */,
-				637F4FF82EFEDA4F003417EE /* HighlightModifier.swift in Sources */,
 				634EA0812E9EDF04001F7BBB /* CategoryTotal.swift in Sources */,
 				63DBD7DB2EE8656F00D1A8EF /* TicketExportButton.swift in Sources */,
 				63A23D0B2EFDA9E500F53E50 /* OCRParser.swift in Sources */,
 				63A23D052EFDA2CB00F53E50 /* OCRTextRecognizer.swift in Sources */,
+				637F4FFE2EFEE2EB003417EE /* HomeSkeletonView.swift in Sources */,
 				634EA0572E9E8FDB001F7BBB /* SettingsView.swift in Sources */,
 				63DBD80E2EEC434400D1A8EF /* ConfirmDeletePopup.swift in Sources */,
 				63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */,
@@ -723,6 +730,7 @@
 				63DBD7E72EEADCED00D1A8EF /* OCRNotifications.swift in Sources */,
 				63A23D012EFDA19500F53E50 /* OCRScannerView.swift in Sources */,
 				63A23CFD2EFD9FFC00F53E50 /* OCRViewModel.swift in Sources */,
+				637F4FFC2EFEE139003417EE /* HomeKPIView.swift in Sources */,
 				63A23D032EFDA1EE00F53E50 /* CameraViewController.swift in Sources */,
 				63A23D092EFDA5E200F53E50 /* OCRService.swift in Sources */,
 				634EA0362E9E8136001F7BBB /* eTixApp.swift in Sources */,

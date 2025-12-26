@@ -14,14 +14,30 @@ struct HomeV2View: View {
     )
     private var tickets: FetchedResults<Ticket>
 
+    // MARK: - Computed KPI (SAFE)
+    private var monthTotal: Double {
+        tickets.reduce(0) { $0 + $1.amount }
+    }
+
+    private var ticketCount: Int {
+        tickets.count
+    }
+
+    // MARK: - Body
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(spacing: 20) {HomeKPIView(
-                    monthTotal: tickets.reduce(0) { $0 + $1.amount },
-                    ticketCount: tickets.count
-                )
-                .transition(.opacity)
+                VStack(spacing: 20) {
+
+                    // MARK: - KPI
+                    HomeKPIView(
+                        monthTotal: monthTotal,
+                        ticketCount: ticketCount
+                    )
+                    .transition(.opacity)
+                    .animation(.easeInOut(duration: 0.25), value: ticketCount)
+
+                    // MARK: - Derniers tickets
                     lastTicketsSection
                 }
                 .padding()
@@ -44,7 +60,10 @@ private extension HomeV2View {
                     .transition(.opacity)
             } else {
                 VStack(spacing: 10) {
-                    ForEach(Array(tickets.prefix(5).enumerated()), id: \.element.objectID) { index, ticket in
+                    ForEach(
+                        Array(tickets.prefix(5).enumerated()),
+                        id: \.element.objectID
+                    ) { index, ticket in
                         NavigationLink {
                             TicketDetailView(ticket: ticket)
                         } label: {
@@ -58,7 +77,7 @@ private extension HomeV2View {
                         .buttonStyle(.plain)
                         .transition(
                             .move(edge: .bottom)
-                            .combined(with: .opacity)
+                                .combined(with: .opacity)
                         )
                     }
                 }
@@ -67,7 +86,11 @@ private extension HomeV2View {
         .padding()
         .background(Color(.secondarySystemGroupedBackground))
         .cornerRadius(16)
-        .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
+        .shadow(
+            color: .black.opacity(0.05),
+            radius: 4,
+            y: 2
+        )
         .animation(.easeOut(duration: 0.35), value: tickets.count)
     }
 
@@ -80,6 +103,7 @@ private extension HomeV2View {
 
             if !tickets.isEmpty {
                 Button("Voir tout") {
+                    Haptic.light()
                     NotificationCenter.default.post(
                         name: .goToHistory,
                         object: nil
