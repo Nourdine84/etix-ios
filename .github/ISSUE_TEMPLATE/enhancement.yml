@@ -1,0 +1,30 @@
+name: ✨ Évolution / Amélioration
+description: Amélioration UX, UI ou fonctionnelle
+title: "UX – "
+labels: ["ux"]
+body:
+  - type: textarea
+    attributes:
+      label: Problème actuel
+      placeholder: "Aujourd’hui, l’écran / le comportement…"
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Proposition d’amélioration
+      placeholder: "Idée d’amélioration…"
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Impact utilisateur
+      placeholder: "Ce que ça apporte à l’utilisateur"
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Maquettes / Références
+      required: false

@@ -1,0 +1,40 @@
+name: 👤 User Story
+description: Fonctionnalité orientée utilisateur
+title: "US – "
+labels: ["us"]
+body:
+  - type: textarea
+    attributes:
+      label: En tant que…
+      placeholder: "En tant qu’utilisateur…"
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Je veux…
+      placeholder: "Je veux pouvoir…"
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Afin de…
+      placeholder: "Afin de…"
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Critères d’acceptation
+      placeholder: |
+        - [ ] Cas nominal
+        - [ ] Cas erreur
+        - [ ] UX validée
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Notes techniques
+      required: false
