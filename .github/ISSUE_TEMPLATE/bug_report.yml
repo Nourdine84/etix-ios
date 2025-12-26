@@ -1,0 +1,44 @@
+name: 🐛 Bug
+description: Signaler un bug sur l’app iOS eTix
+title: "BUG – "
+labels: ["bug"]
+body:
+  - type: textarea
+    attributes:
+      label: Description du bug
+      description: Décris clairement le problème rencontré.
+      placeholder: "Quand je fais X, il se passe Y…"
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Étapes pour reproduire
+      placeholder: |
+        1. Aller sur …
+        2. Cliquer sur …
+        3. Résultat observé …
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Résultat attendu
+      placeholder: "Ce qui aurait dû se passer"
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Environnement
+      placeholder: |
+        - App version:
+        - iOS version:
+        - Device / Simulator:
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Notes complémentaires
+      required: false

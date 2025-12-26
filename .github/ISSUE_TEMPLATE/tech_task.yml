@@ -1,0 +1,31 @@
+name: 🧪 QA / Test
+description: Tâche de test ou validation
+title: "QA – "
+labels: ["qa"]
+body:
+  - type: textarea
+    attributes:
+      label: Périmètre de test
+      placeholder: "Écrans / features concernés"
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Scénarios de test
+      placeholder: |
+        - Cas nominal
+        - Cas limite
+        - Cas erreur
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Résultat attendu
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Notes
+      required: false
