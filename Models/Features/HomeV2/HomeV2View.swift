@@ -45,10 +45,17 @@ private extension HomeV2View {
                             TicketDetailView(ticket: ticket)
                         } label: {
                             LastTicketRow(ticket: ticket)
-                                .modifier(HighlightModifier(isHighlighted: index == 0))
+                                .modifier(
+                                    HighlightModifier(
+                                        isHighlighted: index == 0
+                                    )
+                                )
                         }
                         .buttonStyle(.plain)
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                        .transition(
+                            .move(edge: .bottom)
+                            .combined(with: .opacity)
+                        )
                     }
                 }
             }
