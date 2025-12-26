@@ -1,32 +1,47 @@
 import SwiftUI
 import CoreData
+import UIKit
 
 struct AddTicketView: View {
 
+    // MARK: - Dependencies
     @EnvironmentObject var viewModel: AddTicketViewModel
+    @StateObject private var ocrVM = OCRViewModel()
 
     // MARK: - UI State
     @State private var showSuccessPopup = false
     @State private var showErrorPopup = false
 
-    // OCR (préservé pour V2, non utilisé pour l’instant)
-    @State private var showPermission = false
-    @State private var showOCRScanner = false
-
+    // MARK: - Body
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 20) {
 
+                    // 📷 OCR
                     scanButton
 
+                    // 🧾 Formulaire
                     ticketForm
 
+                    // 💾 Save
                     saveButton
                 }
                 .padding(.top)
             }
             .navigationTitle("Ajouter un ticket")
+        }
+
+        // 📸 Scanner caméra
+        .sheet(isPresented: $ocrVM.showScanner) {
+            OCRScannerView(
+                onImageCaptured: { image in
+                    ocrVM.handleCapturedImage(image)
+                },
+                onCancel: {
+                    ocrVM.closeScanner()
+                }
+            )
         }
     }
 }
@@ -37,7 +52,11 @@ private extension AddTicketView {
     var scanButton: some View {
         Button {
             Haptic.light()
-            NotificationCenter.default.post(name: .openCameraPermission, object: nil)
+            if ocrVM.permissionState == .authorized {
+                ocrVM.openScanner()
+            } else {
+                ocrVM.requestPermission()
+            }
         } label: {
             HStack(spacing: 12) {
                 Image(systemName: "camera.viewfinder")
@@ -60,24 +79,25 @@ private extension AddTicketView {
             Text("Informations du ticket")
                 .font(.headline)
 
-            Group {
-                TextField("Nom du magasin", text: $viewModel.storeName)
-                    .textInputAutocapitalization(.words)
+            TextField("Nom du magasin", text: $viewModel.storeName)
+                .textInputAutocapitalization(.words)
+                .textFieldStyle(.roundedBorder)
 
-                TextField("Montant (€)", text: $viewModel.amount)
-                    .keyboardType(.decimalPad)
+            TextField("Montant (€)", text: $viewModel.amount)
+                .keyboardType(.decimalPad)
+                .textFieldStyle(.roundedBorder)
 
-                DatePicker(
-                    "Date",
-                    selection: $viewModel.date,
-                    displayedComponents: .date
-                )
+            DatePicker(
+                "Date",
+                selection: $viewModel.date,
+                displayedComponents: .date
+            )
 
-                TextField("Catégorie", text: $viewModel.category)
+            TextField("Catégorie", text: $viewModel.category)
+                .textFieldStyle(.roundedBorder)
 
-                TextField("Description (optionnel)", text: $viewModel.description)
-            }
-            .textFieldStyle(.roundedBorder)
+            TextField("Description (optionnel)", text: $viewModel.description)
+                .textFieldStyle(.roundedBorder)
         }
         .padding()
         .background(Color(.secondarySystemGroupedBackground))
@@ -87,7 +107,10 @@ private extension AddTicketView {
     }
 
     var saveButton: some View {
-        eTixButton(title: "Enregistrer", icon: "tray.and.arrow.down.fill") {
+        eTixButton(
+            title: "Enregistrer",
+            icon: "tray.and.arrow.down.fill"
+        ) {
             handleSave()
         }
         .padding(.horizontal)
@@ -101,16 +124,31 @@ private extension AddTicketView {
         if viewModel.saveTicket() {
             Haptic.success()
             showSuccessPopup = true
-            WidgetSync.updateSnapshot(context: viewModel.context)
+            // WidgetSync.updateSnapshot(context: viewModel.context) // volontairement désactivé
         } else {
             Haptic.error()
             showErrorPopup = true
         }
     }
 
-    func handleOCRResult(_ result: OCRExtractedData) {
-        if let store = result.storeName { viewModel.storeName = store }
-        if let amount = result.amount { viewModel.amount = String(amount) }
-        if let date = result.date { viewModel.date = date }
+    // ✅ Injection OCR → formulaire
+    func injectOCR(_ result: OCRExtractedData) {
+        if let store = result.storeName {
+            viewModel.storeName = store
+        }
+        if let amount = result.amount {
+            viewModel.amount = String(format: "%.2f", amount)
+        }
+        if let date = result.date {
+            viewModel.date = date
+        }
+    }
+
+    // 🧠 Décision auto-validation OCR (FIX FINAL)
+    func shouldAutoAcceptOCR(_ data: OCRExtractedData) -> Bool {
+        return
+            data.confidence >= 0.8 &&
+            data.storeName != nil &&
+            data.amount != nil
     }
 }

@@ -2,6 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSCameraUsageDescription
+NSCameraUsageDescription
+NSCameraUsageDescription
+NSCameraUsageDescription</key>
+	<string>eTix a besoin de la caméra pour scanner vos tickets
+eTix a besoin de la caméra pour scanner vos tickets
+eTix a besoin de la caméra pour scanner vos tickets</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

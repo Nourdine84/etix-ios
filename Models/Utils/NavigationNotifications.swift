@@ -12,4 +12,9 @@ extension Notification.Name {
     // MARK: - History Filters
     static let goToHistoryToday = Notification.Name("goToHistoryToday")
     static let goToHistoryMonth = Notification.Name("goToHistoryMonth")
+    
+    // MARK: - OCR
+    static let goToOCRScanner = Notification.Name("goToOCRScanner")
 }
+
+

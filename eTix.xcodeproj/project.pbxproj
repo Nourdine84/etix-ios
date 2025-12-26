@@ -46,6 +46,14 @@
 		63A23CF72EFD8EDC00F53E50 /* HomeV2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A23CF62EFD8EC900F53E50 /* HomeV2View.swift */; };
 		63A23CF92EFD904D00F53E50 /* HomeQuickActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A23CF82EFD903B00F53E50 /* HomeQuickActionsView.swift */; };
 		63A23CFB2EFD96DB00F53E50 /* LastTicketRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A23CFA2EFD926C00F53E50 /* LastTicketRow.swift */; };
+		63A23CFD2EFD9FFC00F53E50 /* OCRViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A23CFC2EFD9FE700F53E50 /* OCRViewModel.swift */; };
+		63A23CFF2EFDA03200F53E50 /* OCRPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A23CFE2EFDA01A00F53E50 /* OCRPermissionView.swift */; };
+		63A23D012EFDA19500F53E50 /* OCRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A23D002EFDA18600F53E50 /* OCRScannerView.swift */; };
+		63A23D032EFDA1EE00F53E50 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A23D022EFDA1DF00F53E50 /* CameraViewController.swift */; };
+		63A23D052EFDA2CB00F53E50 /* OCRTextRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A23D042EFDA2C600F53E50 /* OCRTextRecognizer.swift */; };
+		63A23D072EFDA41C00F53E50 /* OCRPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A23D062EFDA41000F53E50 /* OCRPreviewView.swift */; };
+		63A23D092EFDA5E200F53E50 /* OCRService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A23D082EFDA5D100F53E50 /* OCRService.swift */; };
+		63A23D0B2EFDA9E500F53E50 /* OCRParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A23D0A2EFDA9D900F53E50 /* OCRParser.swift */; };
 		63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */; };
 		63DBD7D92EE8650500D1A8EF /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */; };
 		63DBD7DB2EE8656F00D1A8EF /* TicketExportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7DA2EE8655900D1A8EF /* TicketExportButton.swift */; };
@@ -55,7 +63,6 @@
 		63DBD7E52EEADA6D00D1A8EF /* CameraPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7E42EEADA5D00D1A8EF /* CameraPermission.swift */; };
 		63DBD7E72EEADCED00D1A8EF /* OCRNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7E62EEADCCC00D1A8EF /* OCRNotifications.swift */; };
 		63DBD7EA2EEADDED00D1A8EF /* OCRExtractedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7E92EEADDB100D1A8EF /* OCRExtractedData.swift */; };
-		63DBD7EC2EEADE1A00D1A8EF /* OCRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7EB2EEADE0900D1A8EF /* OCRScannerView.swift */; };
 		63DBD7F22EEAFEA400D1A8EF /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7F12EEAFE9300D1A8EF /* OnboardingView.swift */; };
 		63DBD7F62EEB015100D1A8EF /* AnimatedPageSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7F52EEB015100D1A8EF /* AnimatedPageSymbol.swift */; };
 		63DBD8002EEB1CBF00D1A8EF /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03B2E9E818C001F7BBB /* Ticket.swift */; };
@@ -152,6 +159,14 @@
 		63A23CF62EFD8EC900F53E50 /* HomeV2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeV2View.swift; sourceTree = "<group>"; };
 		63A23CF82EFD903B00F53E50 /* HomeQuickActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeQuickActionsView.swift; sourceTree = "<group>"; };
 		63A23CFA2EFD926C00F53E50 /* LastTicketRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastTicketRow.swift; sourceTree = "<group>"; };
+		63A23CFC2EFD9FE700F53E50 /* OCRViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRViewModel.swift; sourceTree = "<group>"; };
+		63A23CFE2EFDA01A00F53E50 /* OCRPermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRPermissionView.swift; sourceTree = "<group>"; };
+		63A23D002EFDA18600F53E50 /* OCRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRScannerView.swift; sourceTree = "<group>"; };
+		63A23D022EFDA1DF00F53E50 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		63A23D042EFDA2C600F53E50 /* OCRTextRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRTextRecognizer.swift; sourceTree = "<group>"; };
+		63A23D062EFDA41000F53E50 /* OCRPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRPreviewView.swift; sourceTree = "<group>"; };
+		63A23D082EFDA5D100F53E50 /* OCRService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRService.swift; sourceTree = "<group>"; };
+		63A23D0A2EFDA9D900F53E50 /* OCRParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRParser.swift; sourceTree = "<group>"; };
 		63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExportService.swift; sourceTree = "<group>"; };
 		63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		63DBD7DA2EE8655900D1A8EF /* TicketExportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketExportButton.swift; sourceTree = "<group>"; };
@@ -161,7 +176,6 @@
 		63DBD7E42EEADA5D00D1A8EF /* CameraPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermission.swift; sourceTree = "<group>"; };
 		63DBD7E62EEADCCC00D1A8EF /* OCRNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRNotifications.swift; sourceTree = "<group>"; };
 		63DBD7E92EEADDB100D1A8EF /* OCRExtractedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRExtractedData.swift; sourceTree = "<group>"; };
-		63DBD7EB2EEADE0900D1A8EF /* OCRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRScannerView.swift; sourceTree = "<group>"; };
 		63DBD7F12EEAFE9300D1A8EF /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		63DBD7F42EEAFF9000D1A8EF /* Untitled 2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Untitled 2.swift"; sourceTree = "<group>"; };
 		63DBD7F52EEB015100D1A8EF /* AnimatedPageSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedPageSymbol.swift; sourceTree = "<group>"; };
@@ -258,7 +272,6 @@
 			isa = PBXGroup;
 			children = (
 				63A23CF52EFD8E9200F53E50 /* Features */,
-				63DBD7E82EEADDA300D1A8EF /* OCR */,
 				634EA0A92EA0198B001F7BBB /* MonthlyStat.swift */,
 				634EA0A12E9FF536001F7BBB /* OnboardingPage.swift */,
 				634EA0842E9EE3FF001F7BBB /* AppAppearance.swift */,
@@ -387,6 +400,7 @@
 			isa = PBXGroup;
 			children = (
 				63A23CF42EFD8E9200F53E50 /* HomeV2 */,
+				63DBD7E82EEADDA300D1A8EF /* OCR */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -412,7 +426,6 @@
 		63DBD7E32EEADA4F00D1A8EF /* OCR */ = {
 			isa = PBXGroup;
 			children = (
-				63DBD7EB2EEADE0900D1A8EF /* OCRScannerView.swift */,
 				63DBD7E42EEADA5D00D1A8EF /* CameraPermission.swift */,
 			);
 			path = OCR;
@@ -421,6 +434,14 @@
 		63DBD7E82EEADDA300D1A8EF /* OCR */ = {
 			isa = PBXGroup;
 			children = (
+				63A23D0A2EFDA9D900F53E50 /* OCRParser.swift */,
+				63A23D082EFDA5D100F53E50 /* OCRService.swift */,
+				63A23D062EFDA41000F53E50 /* OCRPreviewView.swift */,
+				63A23D042EFDA2C600F53E50 /* OCRTextRecognizer.swift */,
+				63A23D022EFDA1DF00F53E50 /* CameraViewController.swift */,
+				63A23D002EFDA18600F53E50 /* OCRScannerView.swift */,
+				63A23CFE2EFDA01A00F53E50 /* OCRPermissionView.swift */,
+				63A23CFC2EFD9FE700F53E50 /* OCRViewModel.swift */,
 				63DBD7E92EEADDB100D1A8EF /* OCRExtractedData.swift */,
 			);
 			path = OCR;
@@ -661,9 +682,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63A23CFF2EFDA03200F53E50 /* OCRPermissionView.swift in Sources */,
 				63A23B992EFB01EA00F53E50 /* NavigationNotifications.swift in Sources */,
 				63A23CF72EFD8EDC00F53E50 /* HomeV2View.swift in Sources */,
 				63DBD7F62EEB015100D1A8EF /* AnimatedPageSymbol.swift in Sources */,
+				63A23D072EFDA41C00F53E50 /* OCRPreviewView.swift in Sources */,
 				634EA0AA2EA0199D001F7BBB /* MonthlyStat.swift in Sources */,
 				634EA0562E9E8FD3001F7BBB /* CategoryStatsView.swift in Sources */,
 				634EA0532E9E8FBC001F7BBB /* HomeView.swift in Sources */,
@@ -671,6 +694,8 @@
 				63DBD80C2EEC42E500D1A8EF /* ErrorPopup.swift in Sources */,
 				634EA0812E9EDF04001F7BBB /* CategoryTotal.swift in Sources */,
 				63DBD7DB2EE8656F00D1A8EF /* TicketExportButton.swift in Sources */,
+				63A23D0B2EFDA9E500F53E50 /* OCRParser.swift in Sources */,
+				63A23D052EFDA2CB00F53E50 /* OCRTextRecognizer.swift in Sources */,
 				634EA0572E9E8FDB001F7BBB /* SettingsView.swift in Sources */,
 				63DBD80E2EEC434400D1A8EF /* ConfirmDeletePopup.swift in Sources */,
 				63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */,
@@ -689,7 +714,10 @@
 				634EA0382E9E8149001F7BBB /* Theme.swift in Sources */,
 				634EA0512E9E8F95001F7BBB /* TicketHistoryViewModel.swift in Sources */,
 				63DBD7E72EEADCED00D1A8EF /* OCRNotifications.swift in Sources */,
-				63DBD7EC2EEADE1A00D1A8EF /* OCRScannerView.swift in Sources */,
+				63A23D012EFDA19500F53E50 /* OCRScannerView.swift in Sources */,
+				63A23CFD2EFD9FFC00F53E50 /* OCRViewModel.swift in Sources */,
+				63A23D032EFDA1EE00F53E50 /* CameraViewController.swift in Sources */,
+				63A23D092EFDA5E200F53E50 /* OCRService.swift in Sources */,
 				634EA0362E9E8136001F7BBB /* eTixApp.swift in Sources */,
 				63DBD7D92EE8650500D1A8EF /* ShareSheet.swift in Sources */,
 				634EA0852E9EE423001F7BBB /* AppAppearance.swift in Sources */,
@@ -826,6 +854,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = eTix/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -863,6 +892,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = eTix/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
