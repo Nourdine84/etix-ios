@@ -5,6 +5,7 @@ struct HomeV2View: View {
 
     @Environment(\.managedObjectContext) private var context
 
+    // MARK: - Fetch tickets
     @FetchRequest(
         entity: Ticket.entity(),
         sortDescriptors: [
@@ -27,15 +28,16 @@ struct HomeV2View: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                VStack(spacing: 20) {
+                VStack(spacing: 24) {
 
-                    // MARK: - KPI
+                    // MARK: - KPI (micro animation + feedback)
                     HomeKPIView(
                         monthTotal: monthTotal,
                         ticketCount: ticketCount
                     )
-                    .transition(.opacity)
-                    .animation(.easeInOut(duration: 0.25), value: ticketCount)
+                    .opacity(ticketCount == 0 ? 0.4 : 1)
+                    .scaleEffect(ticketCount == 0 ? 0.98 : 1)
+                    .animation(.easeOut(duration: 0.35), value: ticketCount)
 
                     // MARK: - Derniers tickets
                     lastTicketsSection
@@ -60,6 +62,15 @@ private extension HomeV2View {
                     .transition(.opacity)
             } else {
                 VStack(spacing: 10) {
+
+                    // 🎉 Feedback premier ticket
+                    if tickets.count == 1 {
+                        Text("Premier ticket ajouté 🎉")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                            .transition(.opacity)
+                    }
+
                     ForEach(
                         Array(tickets.prefix(5).enumerated()),
                         id: \.element.objectID
