@@ -5,6 +5,7 @@ struct TicketHistoryView: View {
 
     // MARK: - Core Data
     @Environment(\.managedObjectContext) private var viewContext
+
     @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
     private var tickets: FetchedResults<Ticket>
 
@@ -14,9 +15,11 @@ struct TicketHistoryView: View {
     @State private var endDate: Date?
     @State private var showFilterSheet: Bool = false
 
+    // MARK: - Body
     var body: some View {
         NavigationView {
             ZStack {
+
                 if filteredTickets.isEmpty {
                     emptyState
                         .transition(.opacity)
@@ -38,9 +41,10 @@ struct TicketHistoryView: View {
                     onClear: clearFilters
                 )
             }
-        }
-        .onTapGesture {
-            hideKeyboard()
+            .onTapGesture {
+                hideKeyboard()
+            }
+            .animation(.easeOut(duration: 0.3), value: filteredTickets.count)
         }
     }
 }
@@ -57,17 +61,22 @@ private extension TicketHistoryView {
                     ticketRow(ticket)
                 }
                 .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
+                .transition(
+                    .move(edge: .bottom)
+                        .combined(with: .opacity)
+                )
             }
             .onDelete(perform: deleteTickets)
         }
         .listStyle(.plain)
-        .scrollDismissesKeyboard(.immediately)
     }
 
     var emptyState: some View {
         VStack(spacing: 14) {
-            Image(systemName: "doc.text.magnifyingglass")
+
+            Image(systemName: hasActiveFilters
+                  ? "line.3.horizontal.decrease.circle"
+                  : "doc.text.magnifyingglass")
                 .font(.system(size: 42))
                 .foregroundColor(Color(Theme.primaryBlue))
 
@@ -77,47 +86,41 @@ private extension TicketHistoryView {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 24)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(.top, 80)
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 40)
     }
 
     func ticketRow(_ ticket: Ticket) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 6) {
 
-            // Ligne principale
-            HStack(alignment: .top) {
+            HStack {
                 Text(ticket.storeName)
                     .font(.headline)
 
                 Spacer()
 
                 Text(String(format: "%.2f €", ticket.amount))
-                    .font(.headline)
+                    .bold()
                     .foregroundColor(Color(Theme.primaryBlue))
             }
 
-            // Catégorie
             Text(ticket.category)
                 .font(.subheadline)
                 .foregroundColor(.secondary)
 
-            // Description optionnelle
             if let desc = ticket.ticketDescription, !desc.isEmpty {
                 Text(desc)
-                    .font(.footnote)
-                    .foregroundColor(.secondary)
+                    .font(.body)
             }
 
-            // Date
             Text(dateFromMillis(ticket.dateMillis), style: .date)
                 .font(.footnote)
                 .foregroundColor(.secondary)
         }
         .padding()
         .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(14)
-        .shadow(color: .black.opacity(0.06), radius: 4, y: 2)
-        .contentShape(Rectangle()) // 👈 zone cliquable confortable
+        .cornerRadius(12)
+        .shadow(color: .black.opacity(0.08), radius: 3, y: 2)
     }
 }
 
@@ -151,8 +154,10 @@ private extension TicketHistoryView {
     var filteredTickets: [Ticket] {
         var result = Array(tickets)
 
-        // 🔍 Recherche texte
-        let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let query = searchText
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .lowercased()
+
         if !query.isEmpty {
             result = result.filter {
                 $0.storeName.lowercased().contains(query)
@@ -161,13 +166,11 @@ private extension TicketHistoryView {
             }
         }
 
-        // 📅 Date min
         if let start = startDate {
             let startMs = Int64(start.timeIntervalSince1970 * 1000)
             result = result.filter { $0.dateMillis >= startMs }
         }
 
-        // 📅 Date max
         if let end = endDate {
             let endDay = Calendar.current.date(
                 bySettingHour: 23, minute: 59, second: 59, of: end
