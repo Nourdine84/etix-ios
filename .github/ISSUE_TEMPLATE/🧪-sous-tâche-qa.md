@@ -1,5 +1,5 @@
 ---
-name: Sous-tâche QA
+name: "\U0001F9EA Sous-tâche QA"
 about: Describe this issue template's purpose here.
 title: ''
 labels: ''

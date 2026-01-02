@@ -1,5 +1,5 @@
 ---
-name: Bug / Error (Crash)
+name: "\U0001F6A8Bug / Error (Crash)"
 about: Create a report to help us improve
 title: ''
 labels: ''

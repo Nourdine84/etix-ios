@@ -1,5 +1,5 @@
 ---
-name: Tech / Refactor
+name: "\U0001F6E0️Tech / Refactor"
 about: Describe this issue template's purpose here.
 title: ''
 labels: ''

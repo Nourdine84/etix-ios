@@ -1,5 +1,5 @@
 ---
-name: User Story
+name: "\U0001F9E9User Story"
 about: Suggest an idea for this project
 title: ''
 labels: ''

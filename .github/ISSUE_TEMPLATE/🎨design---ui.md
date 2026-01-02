@@ -1,5 +1,5 @@
 ---
-name: Design / UI
+name: "\U0001F3A8Design / UI"
 about: Describe this issue template's purpose here.
 title: ''
 labels: ''

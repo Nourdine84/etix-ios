@@ -1,5 +1,5 @@
 ---
-name: Bug Report
+name: "\U0001F41EBug Report"
 about: Describe this issue template's purpose here.
 title: ''
 labels: ''
