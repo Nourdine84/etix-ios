@@ -1,5 +1,5 @@
 ---
-name: Évolution / Feature
+name: "\U0001F680Évolution / Feature"
 about: Describe this issue template's purpose here.
 title: ''
 labels: ''
