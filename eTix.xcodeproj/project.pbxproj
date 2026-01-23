@@ -49,6 +49,8 @@
 		637D585C2F23D99200A8000C /* KPIDonutChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D585B2F23D98E00A8000C /* KPIDonutChartView.swift */; };
 		637D585E2F23DABD00A8000C /* KPIInsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D585D2F23DAB700A8000C /* KPIInsightsView.swift */; };
 		637D58602F23DCC400A8000C /* KPIExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D585F2F23DCB200A8000C /* KPIExportService.swift */; };
+		637D58622F23E15F00A8000C /* KPIComparison.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58612F23E15000A8000C /* KPIComparison.swift */; };
+		637D58642F23E23D00A8000C /* KPIComparisonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58632F23E20F00A8000C /* KPIComparisonView.swift */; };
 		63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */; };
 		63DBD7D92EE8650500D1A8EF /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */; };
 		63DBD7DB2EE8656F00D1A8EF /* TicketExportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7DA2EE8655900D1A8EF /* TicketExportButton.swift */; };
@@ -158,6 +160,8 @@
 		637D585B2F23D98E00A8000C /* KPIDonutChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPIDonutChartView.swift; sourceTree = "<group>"; };
 		637D585D2F23DAB700A8000C /* KPIInsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPIInsightsView.swift; sourceTree = "<group>"; };
 		637D585F2F23DCB200A8000C /* KPIExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPIExportService.swift; sourceTree = "<group>"; };
+		637D58612F23E15000A8000C /* KPIComparison.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPIComparison.swift; sourceTree = "<group>"; };
+		637D58632F23E20F00A8000C /* KPIComparisonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPIComparisonView.swift; sourceTree = "<group>"; };
 		63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExportService.swift; sourceTree = "<group>"; };
 		63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		63DBD7DA2EE8655900D1A8EF /* TicketExportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketExportButton.swift; sourceTree = "<group>"; };
@@ -381,6 +385,8 @@
 		637D582D2F23CA1B00A8000C /* KPI */ = {
 			isa = PBXGroup;
 			children = (
+				637D58632F23E20F00A8000C /* KPIComparisonView.swift */,
+				637D58612F23E15000A8000C /* KPIComparison.swift */,
 				637D585F2F23DCB200A8000C /* KPIExportService.swift */,
 				637D585D2F23DAB700A8000C /* KPIInsightsView.swift */,
 				637D585B2F23D98E00A8000C /* KPIDonutChartView.swift */,
@@ -672,6 +678,7 @@
 				634EA0812E9EDF04001F7BBB /* CategoryTotal.swift in Sources */,
 				637D58312F23CFB000A8000C /* KPIType.swift in Sources */,
 				63DBD7DB2EE8656F00D1A8EF /* TicketExportButton.swift in Sources */,
+				637D58642F23E23D00A8000C /* KPIComparisonView.swift in Sources */,
 				634EA0572E9E8FDB001F7BBB /* SettingsView.swift in Sources */,
 				63DBD80E2EEC434400D1A8EF /* ConfirmDeletePopup.swift in Sources */,
 				63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */,
@@ -685,6 +692,7 @@
 				634EA0B02EA01E52001F7BBB /* WidgetSync.swift in Sources */,
 				634EA0502E9E8F8C001F7BBB /* AddTicketViewModel.swift in Sources */,
 				634EA04B2E9E899E001F7BBB /* SessionViewModel.swift in Sources */,
+				637D58622F23E15F00A8000C /* KPIComparison.swift in Sources */,
 				634EA0582E9E8FE4001F7BBB /* RegisterView.swift in Sources */,
 				634EA0382E9E8149001F7BBB /* Theme.swift in Sources */,
 				634EA0512E9E8F95001F7BBB /* TicketHistoryViewModel.swift in Sources */,

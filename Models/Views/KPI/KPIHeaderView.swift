@@ -5,6 +5,16 @@ struct KPIHeaderView: View {
     let title: String
     let total: Double
     let ticketCount: Int
+    let variation: Double
+
+    private var variationColor: Color {
+        variation >= 0 ? .green : .red
+    }
+
+    private var variationText: String {
+        let sign = variation >= 0 ? "+" : ""
+        return "\(sign)\(String(format: "%.1f", variation)) %"
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -14,18 +24,23 @@ struct KPIHeaderView: View {
                 .foregroundColor(.secondary)
 
             Text(String(format: "%.2f €", total))
-                .font(.system(size: 34, weight: .bold, design: .rounded))
+                .font(.system(size: 32, weight: .bold, design: .rounded))
                 .foregroundColor(Color(Theme.primaryBlue))
 
-            Text("\(ticketCount) ticket\(ticketCount > 1 ? "s" : "")")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
+            HStack(spacing: 12) {
+                Text("\(ticketCount) ticket\(ticketCount > 1 ? "s" : "")")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+
+                Text(variationText)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundColor(variationColor)
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(18)
-        .shadow(color: .black.opacity(0.08), radius: 4, y: 2)
+        .cornerRadius(16)
         .padding(.horizontal)
     }
 }
