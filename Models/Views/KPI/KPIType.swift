@@ -1,6 +1,6 @@
 import Foundation
 
-enum KPIType: Hashable {
+enum KPIType {
     case today
     case month
     case all
@@ -9,7 +9,15 @@ enum KPIType: Hashable {
         switch self {
         case .today: return "Aujourd’hui"
         case .month: return "Ce mois"
-        case .all: return "Tous les tickets"
+        case .all: return "Total"
+        }
+    }
+
+    var identifier: String {
+        switch self {
+        case .today: return "today"
+        case .month: return "month"
+        case .all: return "all"
         }
     }
 }

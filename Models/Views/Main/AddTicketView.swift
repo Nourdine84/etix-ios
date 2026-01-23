@@ -1,194 +1,141 @@
 import SwiftUI
 import CoreData
 
-struct KPIDetailView: View {
+struct AddTicketView: View {
+    @EnvironmentObject var viewModel: AddTicketViewModel
 
-    let type: KPIType
+    // ✅ Popups custom
+    @State private var showSuccessPopup = false
+    @State private var showErrorPopup = false
 
-    @Environment(\.managedObjectContext) private var context
-    @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
-    private var tickets: FetchedResults<Ticket>
-
-    // MARK: - Export state
-    @State private var showShare = false
-    @State private var pdfURL: URL?
-
-    // MARK: - Filtered tickets
-
-    private var filteredTickets: [Ticket] {
-        let now = Date()
-        let calendar = Calendar.current
-
-        switch type {
-        case .today:
-            let start = calendar.startOfDay(for: now)
-            let startMs = Int64(start.timeIntervalSince1970 * 1000)
-            return tickets.filter { $0.dateMillis >= startMs }
-
-        case .month:
-            let comps = calendar.dateComponents([.year, .month], from: now)
-            let start = calendar.date(from: comps) ?? now
-            let startMs = Int64(start.timeIntervalSince1970 * 1000)
-            return tickets.filter { $0.dateMillis >= startMs }
-
-        case .all:
-            return Array(tickets)
-        }
-    }
-
-    private var totalAmount: Double {
-        filteredTickets.reduce(0) { $0 + $1.amount }
-    }
-
-    // MARK: - Group tickets by day
-
-    private var groupedTickets: [(date: Date, items: [Ticket])] {
-        let calendar = Calendar.current
-
-        let grouped = Dictionary(grouping: filteredTickets) { ticket -> Date in
-            let date = Date(timeIntervalSince1970: TimeInterval(ticket.dateMillis) / 1000)
-            return calendar.startOfDay(for: date)
-        }
-
-        return grouped
-            .map { ($0.key, $0.value) }
-            .sorted { $0.date > $1.date }
-    }
-
-    private func sectionTitle(for date: Date) -> String {
-        let calendar = Calendar.current
-        if calendar.isDateInToday(date) { return "Aujourd’hui" }
-        if calendar.isDateInYesterday(date) { return "Hier" }
-
-        return DateFormatter.localizedString(
-            from: date,
-            dateStyle: .medium,
-            timeStyle: .none
-        )
-    }
-
-    // MARK: - Body
+    // OCR
+    @State private var showPermission = false
+    @State private var showOCRScanner = false
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 24) {
+        NavigationView {
+            ScrollView {
+                VStack(spacing: 20) {
 
-                // 🔵 HEADER
-                KPIHeaderView(
-                    title: type.title,
-                    total: totalAmount,
-                    ticketCount: filteredTickets.count
-                )
-
-                // 🧠 INSIGHTS
-                KPIInsightsView(tickets: filteredTickets)
-
-                // 📊 GRAPH
-                if !groupedTickets.isEmpty {
-                    KPIBarChartView(
-                        data: groupedTickets.map {
-                            ($0.date, $0.items.reduce(0) { $0 + $1.amount })
+                    // 🔵 Bouton SCAN OCR
+                    Button {
+                        Haptic.light()
+                        NotificationCenter.default.post(name: .openCameraPermission, object: nil)
+                    } label: {
+                        HStack(spacing: 12) {
+                            Image(systemName: "camera.viewfinder")
+                                .font(.system(size: 22, weight: .bold))
+                            Text("Scanner un ticket")
+                                .font(.headline)
                         }
-                    )
-                }
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color(Theme.primaryBlue).opacity(0.12))
+                        .foregroundColor(Color(Theme.primaryBlue))
+                        .cornerRadius(14)
+                    }
+                    .padding(.horizontal)
 
-                // 📄 LISTE
-                if groupedTickets.isEmpty {
-                    emptyState
-                } else {
-                    VStack(spacing: 20) {
-                        ForEach(groupedTickets, id: \.date) { section in
-                            VStack(alignment: .leading, spacing: 10) {
+                    // 🔶 Carte principale
+                    VStack(alignment: .leading, spacing: 16) {
 
-                                Text(sectionTitle(for: section.date))
-                                    .font(.subheadline.weight(.semibold))
-                                    .foregroundColor(.secondary)
-                                    .padding(.horizontal)
+                        Text("Informations du ticket")
+                            .font(.headline)
+                            .padding(.bottom, 4)
 
-                                VStack(spacing: 10) {
-                                    ForEach(section.items, id: \.objectID) { ticket in
-                                        NavigationLink {
-                                            TicketDetailView(ticket: ticket)
-                                        } label: {
-                                            ticketRow(ticket)
-                                        }
-                                        .buttonStyle(.plain)
-                                    }
-                                }
-                                .padding(.horizontal)
-                            }
+                        Group {
+                            TextField("Nom du magasin", text: $viewModel.storeName)
+                                .textInputAutocapitalization(.words)
+
+                            TextField("Montant (€)", text: $viewModel.amount)
+                                .keyboardType(.decimalPad)
+
+                            DatePicker("Date",
+                                       selection: $viewModel.date,
+                                       displayedComponents: .date)
+
+                            TextField("Catégorie", text: $viewModel.category)
+
+                            TextField("Description (optionnel)", text: $viewModel.description)
+                        }
+                        .textFieldStyle(.roundedBorder)
+                    }
+                    .padding()
+                    .background(Color(.secondarySystemGroupedBackground))
+                    .cornerRadius(16)
+                    .shadow(color: .black.opacity(0.08), radius: 5, y: 2)
+                    .padding(.horizontal)
+
+                    // 🔵 Enregistrer
+                    eTixButton(title: "Enregistrer", icon: "tray.and.arrow.down.fill") {
+                        if viewModel.saveTicket() {
+                            Haptic.success()
+
+                            // ✅ popup custom
+                            showSuccessPopup = true
+
+                            // 🔥 Mise à jour du widget
+                            WidgetSync.updateSnapshot(context: viewModel.context)
+
+                            print("🧪 Widget monthTotal:",
+                                  UserDefaults(suiteName: "group.etix.shared")?.double(forKey: "monthTotal") ?? -1
+                            )
+                        } else {
+                            Haptic.error()
+                            showErrorPopup = true
                         }
                     }
+                    .padding(.horizontal)
                 }
+                .padding(.top)
             }
-            .padding(.bottom, 24)
-        }
-        .navigationTitle(type.title)
-        .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("Ajouter un ticket")
 
-        // 📤 EXPORT PDF
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    pdfURL = KPIExportService.export(
-                        title: type.title,
-                        tickets: filteredTickets,
-                        total: totalAmount
-                    )
-                    showShare = pdfURL != nil
-                } label: {
-                    Image(systemName: "square.and.arrow.up")
+            // 🔥 OCR listeners
+            .onReceive(NotificationCenter.default.publisher(for: .openOCRScanner)) { _ in
+                showOCRScanner = true
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .openCameraPermission)) { _ in
+                showPermission = true
+            }
+
+            // 🔵 Sheets OCR
+            .sheet(isPresented: $showPermission) {
+                CameraPermissionView()
+            }
+            .sheet(isPresented: $showOCRScanner) {
+                OCRScannerView { result in
+                    handleOCRResult(result)
                 }
             }
         }
-        .sheet(isPresented: $showShare) {
-            if let url = pdfURL {
-                ShareSheet(items: [url])
+        // ✅ Popups overlay (remplace les .alert système)
+        .overlay {
+            if showSuccessPopup {
+                SuccessPopup(
+                    title: "Ticket enregistré ✅",
+                    message: "Ton ticket a bien été ajouté."
+                ) {
+                    showSuccessPopup = false
+                }
+                .zIndex(10)
+            }
+
+            if showErrorPopup {
+                ErrorPopup(
+                    message: "Impossible d'enregistrer. Vérifie le magasin et le montant."
+                ) {
+                    showErrorPopup = false
+                }
+                .zIndex(10)
             }
         }
     }
 
-    // MARK: - Ticket Row
-
-    private func ticketRow(_ t: Ticket) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack {
-                Text(t.storeName)
-                    .font(.headline)
-
-                Spacer()
-
-                Text(String(format: "%.2f €", t.amount))
-                    .foregroundColor(Color(Theme.primaryBlue))
-                    .fontWeight(.semibold)
-            }
-
-            Text(t.category)
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-
-            Text(DateUtils.shortString(fromMillis: t.dateMillis))
-                .font(.caption)
-                .foregroundColor(.secondary)
-        }
-        .padding()
-        .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(12)
-        .shadow(color: .black.opacity(0.05), radius: 2, y: 1)
-    }
-
-    // MARK: - Empty State
-
-    private var emptyState: some View {
-        VStack(spacing: 12) {
-            Image(systemName: "tray")
-                .font(.system(size: 42))
-                .foregroundColor(.gray)
-
-            Text("Aucun ticket disponible")
-                .foregroundColor(.secondary)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 40)
+    // MARK: - 🎯 OCR → Pré-remplissage
+    private func handleOCRResult(_ result: OCRExtractedData) {
+        if let store = result.storeName { viewModel.storeName = store }
+        if let amount = result.amount { viewModel.amount = String(amount) }
+        if let date = result.date { viewModel.date = date }
     }
 }

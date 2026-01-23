@@ -1,46 +1,37 @@
 import SwiftUI
 
 struct MainView: View {
-    enum Tab: Hashable {
-        case home, add, history, settings
-    }
-
-    @State private var selected: Tab = .home
 
     var body: some View {
-        TabView(selection: $selected) {
+        TabView {
 
-            // MARK: - Accueil
+            // 🏠 Accueil / KPI
             HomeView()
                 .tabItem {
-                    Label("Accueil", systemImage: "house")
+                    Image(systemName: "house.fill")
+                    Text("Accueil")
                 }
-                .tag(Tab.home)
 
-            // MARK: - Ajouter
+            // ➕ Ajouter un ticket
             AddTicketView()
                 .tabItem {
-                    Label("Ajouter", systemImage: "plus.circle")
+                    Image(systemName: "plus.circle.fill")
+                    Text("Ajouter")
                 }
-                .tag(Tab.add)
 
-            // MARK: - Historique
+            // 📜 Historique
             TicketHistoryView()
                 .tabItem {
-                    Label("Historique", systemImage: "list.bullet")
+                    Image(systemName: "list.bullet")
+                    Text("Historique")
                 }
-                .tag(Tab.history)
 
-            // MARK: - Paramètres
+            // ⚙️ Paramètres
             SettingsView()
                 .tabItem {
-                    Label("Paramètres", systemImage: "gearshape")
+                    Image(systemName: "gearshape.fill")
+                    Text("Réglages")
                 }
-                .tag(Tab.settings)
-        }
-        .tint(Color(Theme.primaryBlue))
-        .onChange(of: selected) { _ in
-            Haptic.light()
         }
     }
 }

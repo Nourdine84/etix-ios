@@ -33,12 +33,11 @@ struct KPIDetailView: View {
         }
     }
 
-    // MARK: - Total période courante
+    // MARK: - Totaux
     private var totalAmount: Double {
         filteredTickets.reduce(0) { $0 + $1.amount }
     }
 
-    // MARK: - Total période précédente (comparaison)
     private var previousTotal: Double {
         let now = Date()
         let calendar = Calendar.current
@@ -74,7 +73,6 @@ struct KPIDetailView: View {
         }
     }
 
-    // MARK: - Variation %
     private var variationPercent: Double {
         guard previousTotal > 0 else { return 0 }
         return ((totalAmount - previousTotal) / previousTotal) * 100
@@ -112,7 +110,6 @@ struct KPIDetailView: View {
         ScrollView {
             VStack(spacing: 24) {
 
-                // 🔵 HEADER KPI
                 KPIHeaderView(
                     title: type.title,
                     total: totalAmount,
@@ -120,10 +117,8 @@ struct KPIDetailView: View {
                     variation: variationPercent
                 )
 
-                // 🧠 INSIGHTS
                 KPIInsightsView(tickets: filteredTickets)
 
-                // 📊 GRAPHIQUE
                 if !groupedTickets.isEmpty {
                     KPIBarChartView(
                         data: groupedTickets.map {
@@ -132,7 +127,6 @@ struct KPIDetailView: View {
                     )
                 }
 
-                // 📄 LISTE DES TICKETS
                 if groupedTickets.isEmpty {
                     emptyState
                 } else {
@@ -165,6 +159,16 @@ struct KPIDetailView: View {
         }
         .navigationTitle(type.title)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                KPIExportButton(
+                    type: type,
+                    tickets: filteredTickets,
+                    total: totalAmount,
+                    variation: variationPercent
+                )
+            }
+        }
     }
 
     // MARK: - Ticket Row
