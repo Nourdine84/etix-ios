@@ -25,6 +25,11 @@ struct MainView: View {
                     Image(systemName: "list.bullet")
                     Text("Historique")
                 }
+            
+            CategoryView()
+                .tabItem {
+                    Label("Catégories", systemImage: "chart.pie.fill")
+                }
 
             // ⚙️ Paramètres
             SettingsView()

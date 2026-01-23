@@ -1,6 +1,6 @@
 import Foundation
 
-struct CategoryTotal: Identifiable, Hashable {
+struct CategoryTotal: Identifiable {
     let id = UUID()
     let name: String
     let total: Double
