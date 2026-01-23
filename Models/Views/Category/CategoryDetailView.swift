@@ -26,7 +26,9 @@ struct CategoryDetailView: View {
         let calendar = Calendar.current
 
         let grouped = Dictionary(grouping: categoryTickets) { ticket -> Date in
-            let date = Date(timeIntervalSince1970: TimeInterval(ticket.dateMillis) / 1000)
+            let date = Date(
+                timeIntervalSince1970: TimeInterval(ticket.dateMillis) / 1000
+            )
             return calendar.startOfDay(for: date)
         }
 
@@ -37,10 +39,9 @@ struct CategoryDetailView: View {
 
     // MARK: - Données graphique
     private var chartData: [(date: Date, total: Double)] {
-        groupedByDay.map {
-            ($0.date, $0.items.reduce(0) { $0 + $1.amount })
-        }
-        .sorted { $0.date < $1.date }
+        groupedByDay
+            .map { ($0.date, $0.items.reduce(0) { $0 + $1.amount }) }
+            .sorted { $0.date < $1.date }
     }
 
     // MARK: - Body
@@ -105,6 +106,15 @@ struct CategoryDetailView: View {
         }
         .navigationTitle("Détails")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                CategoryExportButton(
+                    categoryName: categoryName,
+                    tickets: categoryTickets,
+                    total: totalAmount
+                )
+            }
+        }
     }
 
     // MARK: - Helpers

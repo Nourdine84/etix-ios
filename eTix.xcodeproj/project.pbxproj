@@ -56,6 +56,10 @@
 		637D589D2F24368300A8000C /* HomeKPIViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D589C2F24367300A8000C /* HomeKPIViewModel.swift */; };
 		637D58A02F2438F200A8000C /* CategoryDonutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D589F2F2438EE00A8000C /* CategoryDonutView.swift */; };
 		637D58A22F24391A00A8000C /* CategoryRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58A12F24391400A8000C /* CategoryRowView.swift */; };
+		637D58A42F243A6A00A8000C /* CategoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58A32F243A5A00A8000C /* CategoryDetailView.swift */; };
+		637D58A72F243E5B00A8000C /* CategoryBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58A62F243E4C00A8000C /* CategoryBarChartView.swift */; };
+		637D58A92F243F0000A8000C /* CategoryExportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58A82F243EF000A8000C /* CategoryExportViewModel.swift */; };
+		637D58AB2F243F2400A8000C /* CategoryExportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58AA2F243F1F00A8000C /* CategoryExportButton.swift */; };
 		63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */; };
 		63DBD7D92EE8650500D1A8EF /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */; };
 		63DBD7DE2EEAD75100D1A8EF /* TicketDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7DD2EEAD73700D1A8EF /* TicketDetailView.swift */; };
@@ -171,6 +175,10 @@
 		637D589C2F24367300A8000C /* HomeKPIViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeKPIViewModel.swift; sourceTree = "<group>"; };
 		637D589F2F2438EE00A8000C /* CategoryDonutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDonutView.swift; sourceTree = "<group>"; };
 		637D58A12F24391400A8000C /* CategoryRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRowView.swift; sourceTree = "<group>"; };
+		637D58A32F243A5A00A8000C /* CategoryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailView.swift; sourceTree = "<group>"; };
+		637D58A62F243E4C00A8000C /* CategoryBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryBarChartView.swift; sourceTree = "<group>"; };
+		637D58A82F243EF000A8000C /* CategoryExportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryExportViewModel.swift; sourceTree = "<group>"; };
+		637D58AA2F243F1F00A8000C /* CategoryExportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryExportButton.swift; sourceTree = "<group>"; };
 		63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExportService.swift; sourceTree = "<group>"; };
 		63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		63DBD7DD2EEAD73700D1A8EF /* TicketDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketDetailView.swift; sourceTree = "<group>"; };
@@ -275,12 +283,12 @@
 		634EA02B2E9E7EE9001F7BBB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				637D58A52F243C7200A8000C /* DTO */,
 				637D58652F23E98B00A8000C /* Services */,
 				63DBD7E82EEADDA300D1A8EF /* OCR */,
 				634EA0A92EA0198B001F7BBB /* MonthlyStat.swift */,
 				634EA0A12E9FF536001F7BBB /* OnboardingPage.swift */,
 				634EA0842E9EE3FF001F7BBB /* AppAppearance.swift */,
-				634EA0802E9EDEF4001F7BBB /* CategoryTotal.swift */,
 				634EA03B2E9E818C001F7BBB /* Ticket.swift */,
 				634EA02D2E9E7F1E001F7BBB /* Views */,
 				634EA02C2E9E7F09001F7BBB /* ViewModels */,
@@ -341,7 +349,6 @@
 				634EA0482E9E8393001F7BBB /* HomeView.swift */,
 				634EA0472E9E8378001F7BBB /* AddTicketView.swift */,
 				634EA0462E9E82F2001F7BBB /* TicketHistoryView.swift */,
-				634EA0452E9E82DA001F7BBB /* CategoryView.swift */,
 				634EA0442E9E82C0001F7BBB /* SettingsView.swift */,
 			);
 			path = Main;
@@ -420,6 +427,7 @@
 		637D586B2F24107A00A8000C /* Export */ = {
 			isa = PBXGroup;
 			children = (
+				637D58A82F243EF000A8000C /* CategoryExportViewModel.swift */,
 				637D586C2F24108900A8000C /* TicketExportViewModel.swift */,
 			);
 			path = Export;
@@ -428,10 +436,22 @@
 		637D589E2F2438CE00A8000C /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				637D58AA2F243F1F00A8000C /* CategoryExportButton.swift */,
+				637D58A62F243E4C00A8000C /* CategoryBarChartView.swift */,
+				637D58A32F243A5A00A8000C /* CategoryDetailView.swift */,
 				637D58A12F24391400A8000C /* CategoryRowView.swift */,
 				637D589F2F2438EE00A8000C /* CategoryDonutView.swift */,
+				634EA0452E9E82DA001F7BBB /* CategoryView.swift */,
 			);
 			path = Category;
+			sourceTree = "<group>";
+		};
+		637D58A52F243C7200A8000C /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				634EA0802E9EDEF4001F7BBB /* CategoryTotal.swift */,
+			);
+			path = DTO;
 			sourceTree = "<group>";
 		};
 		63DBD7D72EE864DC00D1A8EF /* Shared */ = {
@@ -705,6 +725,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				637D582F2F23CA5000A8000C /* KPIDetailView.swift in Sources */,
+				637D58A92F243F0000A8000C /* CategoryExportViewModel.swift in Sources */,
 				63DBD7F62EEB015100D1A8EF /* AnimatedPageSymbol.swift in Sources */,
 				637D586D2F24109B00A8000C /* TicketExportViewModel.swift in Sources */,
 				634EA0AA2EA0199D001F7BBB /* MonthlyStat.swift in Sources */,
@@ -718,6 +739,7 @@
 				637D58642F23E23D00A8000C /* KPIComparisonView.swift in Sources */,
 				634EA0572E9E8FDB001F7BBB /* SettingsView.swift in Sources */,
 				63DBD80E2EEC434400D1A8EF /* ConfirmDeletePopup.swift in Sources */,
+				637D58A42F243A6A00A8000C /* CategoryDetailView.swift in Sources */,
 				63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */,
 				634EA0AE2EA01A0F001F7BBB /* StatisticsView.swift in Sources */,
 				63DBD7DE2EEAD75100D1A8EF /* TicketDetailView.swift in Sources */,
@@ -748,6 +770,8 @@
 				634EA0882E9FD77E001F7BBB /* eTixButton.swift in Sources */,
 				637D585A2F23D83C00A8000C /* KPIBarChartView.swift in Sources */,
 				637D58742F242ED900A8000C /* KPIExportViewModel.swift in Sources */,
+				637D58A72F243E5B00A8000C /* CategoryBarChartView.swift in Sources */,
+				637D58AB2F243F2400A8000C /* CategoryExportButton.swift in Sources */,
 				634EA0A42E9FF5DF001F7BBB /* OnboardingViewModel.swift in Sources */,
 				637D585C2F23D99200A8000C /* KPIDonutChartView.swift in Sources */,
 				634EA0542E9E8FC3001F7BBB /* AddTicketView.swift in Sources */,
