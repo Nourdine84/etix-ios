@@ -2,10 +2,13 @@ import SwiftUI
 import CoreData
 
 struct HomeView: View {
+
     @Environment(\.managedObjectContext) private var context
-    @FetchRequest(fetchRequest: Ticket.fetchAllRequest()) private var tickets: FetchedResults<Ticket>
+    @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
+    private var tickets: FetchedResults<Ticket>
 
     // MARK: - KPI calculés
+
     private var todayTotal: Double {
         let startOfDay = Calendar.current.startOfDay(for: Date())
         let startMs = Int64(startOfDay.timeIntervalSince1970 * 1000)
@@ -32,15 +35,16 @@ struct HomeView: View {
     }
 
     // MARK: - Body
+
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 32) {
 
-                    // MARK: KPI Section
+                    // MARK: - KPI Section
                     kpiSection
 
-                    // MARK: Derniers tickets
+                    // MARK: - Derniers tickets
                     VStack(alignment: .leading, spacing: 14) {
                         Text("Derniers tickets")
                             .font(.title3.weight(.semibold))
@@ -62,7 +66,6 @@ struct HomeView: View {
                             .padding(.horizontal)
                         }
                     }
-
                 }
                 .padding(.top, 8)
             }
@@ -70,30 +73,57 @@ struct HomeView: View {
         }
     }
 
-    // MARK: - KPI Section (V1+ Optimisé)
+    // MARK: - KPI Section (Drill-down activé)
+
     private var kpiSection: some View {
         HStack(spacing: 14) {
 
-            kpiCard(
-                icon: "sun.max.fill",
-                title: "Aujourd’hui",
-                value: String(format: "%.2f €", todayTotal)
-            )
+            NavigationLink {
+                KPIDetailView(type: .today)
+            } label: {
+                kpiCard(
+                    icon: "sun.max.fill",
+                    title: "Aujourd’hui",
+                    value: String(format: "%.2f €", todayTotal)
+                )
+            }
+            .buttonStyle(.plain)
+            .simultaneousGesture(TapGesture().onEnded {
+                Haptic.light()
+            })
 
-            kpiCard(
-                icon: "calendar",
-                title: "Ce mois",
-                value: String(format: "%.2f €", monthTotal)
-            )
+            NavigationLink {
+                KPIDetailView(type: .month)
+            } label: {
+                kpiCard(
+                    icon: "calendar",
+                    title: "Ce mois",
+                    value: String(format: "%.2f €", monthTotal)
+                )
+            }
+            .buttonStyle(.plain)
+            .simultaneousGesture(TapGesture().onEnded {
+                Haptic.light()
+            })
 
-            kpiCard(
-                icon: "doc.plaintext",
-                title: "Tickets",
-                value: "\(totalTickets)"
-            )
+            NavigationLink {
+                KPIDetailView(type: .all)
+            } label: {
+                kpiCard(
+                    icon: "doc.plaintext",
+                    title: "Tickets",
+                    value: "\(totalTickets)"
+                )
+            }
+            .buttonStyle(.plain)
+            .simultaneousGesture(TapGesture().onEnded {
+                Haptic.light()
+            })
         }
         .padding(.horizontal)
     }
+
+    // MARK: - KPI Card
 
     private func kpiCard(icon: String, title: String, value: String) -> some View {
         VStack(spacing: 8) {
@@ -117,11 +147,11 @@ struct HomeView: View {
         .shadow(color: .black.opacity(0.07), radius: 3, y: 2)
     }
 
-    // MARK: - Ticket Row (V1+ amélioré)
+    // MARK: - Ticket Row
+
     private func ticketRow(_ t: Ticket) -> some View {
         HStack(alignment: .center, spacing: 12) {
 
-            // petite icône cat
             Image(systemName: "receipt")
                 .font(.system(size: 22))
                 .foregroundColor(Color(Theme.primaryBlue))
@@ -155,6 +185,7 @@ struct HomeView: View {
     }
 
     // MARK: - Empty State
+
     private var emptyState: some View {
         VStack(spacing: 10) {
             Image(systemName: "tray")
