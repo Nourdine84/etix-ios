@@ -44,6 +44,9 @@
 		634EA0D12EA0350E001F7BBB /* WidgetKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B72EA02D50001F7BBB /* WidgetKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		637D582F2F23CA5000A8000C /* KPIDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D582E2F23CA3E00A8000C /* KPIDetailView.swift */; };
 		637D58312F23CFB000A8000C /* KPIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58302F23CF8F00A8000C /* KPIType.swift */; };
+		637D58582F23D5F400A8000C /* KPIHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58572F23D5EE00A8000C /* KPIHeaderView.swift */; };
+		637D585A2F23D83C00A8000C /* KPIBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58592F23D83800A8000C /* KPIBarChartView.swift */; };
+		637D585C2F23D99200A8000C /* KPIDonutChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D585B2F23D98E00A8000C /* KPIDonutChartView.swift */; };
 		63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */; };
 		63DBD7D92EE8650500D1A8EF /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */; };
 		63DBD7DB2EE8656F00D1A8EF /* TicketExportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7DA2EE8655900D1A8EF /* TicketExportButton.swift */; };
@@ -148,6 +151,9 @@
 		634EA0B92EA02D50001F7BBB /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		637D582E2F23CA3E00A8000C /* KPIDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPIDetailView.swift; sourceTree = "<group>"; };
 		637D58302F23CF8F00A8000C /* KPIType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPIType.swift; sourceTree = "<group>"; };
+		637D58572F23D5EE00A8000C /* KPIHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPIHeaderView.swift; sourceTree = "<group>"; };
+		637D58592F23D83800A8000C /* KPIBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPIBarChartView.swift; sourceTree = "<group>"; };
+		637D585B2F23D98E00A8000C /* KPIDonutChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPIDonutChartView.swift; sourceTree = "<group>"; };
 		63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExportService.swift; sourceTree = "<group>"; };
 		63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		63DBD7DA2EE8655900D1A8EF /* TicketExportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketExportButton.swift; sourceTree = "<group>"; };
@@ -371,6 +377,9 @@
 		637D582D2F23CA1B00A8000C /* KPI */ = {
 			isa = PBXGroup;
 			children = (
+				637D585B2F23D98E00A8000C /* KPIDonutChartView.swift */,
+				637D58592F23D83800A8000C /* KPIBarChartView.swift */,
+				637D58572F23D5EE00A8000C /* KPIHeaderView.swift */,
 				637D58302F23CF8F00A8000C /* KPIType.swift */,
 				637D582E2F23CA3E00A8000C /* KPIDetailView.swift */,
 			);
@@ -681,9 +690,12 @@
 				63DBD7F22EEAFEA400D1A8EF /* OnboardingView.swift in Sources */,
 				634EA03A2E9E8164001F7BBB /* PersistenceController.swift in Sources */,
 				63DBD8082EEC425400D1A8EF /* PopupContainer.swift in Sources */,
+				637D58582F23D5F400A8000C /* KPIHeaderView.swift in Sources */,
 				634EA0522E9E8F9F001F7BBB /* CategoryViewModel.swift in Sources */,
 				634EA0882E9FD77E001F7BBB /* eTixButton.swift in Sources */,
+				637D585A2F23D83C00A8000C /* KPIBarChartView.swift in Sources */,
 				634EA0A42E9FF5DF001F7BBB /* OnboardingViewModel.swift in Sources */,
+				637D585C2F23D99200A8000C /* KPIDonutChartView.swift in Sources */,
 				634EA0542E9E8FC3001F7BBB /* AddTicketView.swift in Sources */,
 				634EA0A22E9FF550001F7BBB /* OnboardingPage.swift in Sources */,
 				634EA04F2E9E8F80001F7BBB /* Ticket.swift in Sources */,

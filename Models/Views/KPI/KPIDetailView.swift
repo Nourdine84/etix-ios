@@ -53,7 +53,7 @@ struct KPIDetailView: View {
             .sorted { $0.date > $1.date }
     }
 
-    // MARK: - Chart data
+    // MARK: - Chart data (bar chart)
 
     private var chartData: [(date: Date, total: Double)] {
         groupedTickets.map { section in
@@ -62,6 +62,29 @@ struct KPIDetailView: View {
                 total: section.items.reduce(0) { $0 + $1.amount }
             )
         }
+    }
+
+    // MARK: - Donut data (categories)
+
+    private var donutSlices: [KPIDonutChartView.Slice] {
+        let grouped = Dictionary(grouping: filteredTickets) { ticket in
+            let cat = ticket.category.trimmingCharacters(in: .whitespacesAndNewlines)
+            return cat.isEmpty ? "Autre" : cat
+        }
+
+        let palette: [Color] = [
+            .blue, .green, .orange, .purple, .red, .teal, .pink, .indigo
+        ]
+
+        return grouped
+            .map { key, items in
+                KPIDonutChartView.Slice(
+                    name: key,
+                    value: items.reduce(0) { $0 + $1.amount },
+                    color: palette.randomElement() ?? .blue
+                )
+            }
+            .sorted { $0.value > $1.value }
     }
 
     // MARK: - Helpers
@@ -83,7 +106,7 @@ struct KPIDetailView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 24) {
+            VStack(spacing: 28) {
 
                 // 🔵 KPI HEADER
                 KPIHeaderView(
@@ -93,16 +116,24 @@ struct KPIDetailView: View {
                 )
                 .padding(.top, 8)
 
-                // 📊 KPI GRAPH
+                // 📊 BAR CHART
                 if !chartData.isEmpty {
                     KPIBarChartView(data: chartData)
                 }
 
-                // 📄 CONTENT
+                // 🍩 DONUT PAR CATÉGORIE
+                if donutSlices.count > 1 {
+                    KPIDonutChartView(
+                        slices: donutSlices,
+                        total: totalAmount
+                    )
+                }
+
+                // 📄 LISTE DES TICKETS
                 if groupedTickets.isEmpty {
                     emptyState
                 } else {
-                    VStack(spacing: 20) {
+                    VStack(spacing: 22) {
                         ForEach(groupedTickets, id: \.date) { section in
                             VStack(alignment: .leading, spacing: 10) {
 
@@ -143,7 +174,7 @@ struct KPIDetailView: View {
                     }
                 }
             }
-            .padding(.bottom, 24)
+            .padding(.bottom, 32)
         }
         .navigationTitle(type.title)
         .navigationBarTitleDisplayMode(.inline)
