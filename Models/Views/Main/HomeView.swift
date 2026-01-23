@@ -73,8 +73,7 @@ struct HomeView: View {
         }
     }
 
-    // MARK: - KPI Section (Drill-down activé)
-
+    // MARK: - KPI Section
     private var kpiSection: some View {
         HStack(spacing: 14) {
 
@@ -87,10 +86,6 @@ struct HomeView: View {
                     value: String(format: "%.2f €", todayTotal)
                 )
             }
-            .buttonStyle(.plain)
-            .simultaneousGesture(TapGesture().onEnded {
-                Haptic.light()
-            })
 
             NavigationLink {
                 KPIDetailView(type: .month)
@@ -101,10 +96,6 @@ struct HomeView: View {
                     value: String(format: "%.2f €", monthTotal)
                 )
             }
-            .buttonStyle(.plain)
-            .simultaneousGesture(TapGesture().onEnded {
-                Haptic.light()
-            })
 
             NavigationLink {
                 KPIDetailView(type: .all)
@@ -115,14 +106,10 @@ struct HomeView: View {
                     value: "\(totalTickets)"
                 )
             }
-            .buttonStyle(.plain)
-            .simultaneousGesture(TapGesture().onEnded {
-                Haptic.light()
-            })
         }
         .padding(.horizontal)
     }
-
+    
     // MARK: - KPI Card
 
     private func kpiCard(icon: String, title: String, value: String) -> some View {

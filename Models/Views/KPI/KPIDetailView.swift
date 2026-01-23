@@ -9,7 +9,8 @@ struct KPIDetailView: View {
     @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
     private var tickets: FetchedResults<Ticket>
 
-    // MARK: - Filtrage selon le KPI
+    // MARK: - Filtrage
+
     private var filteredTickets: [Ticket] {
         let now = Date()
         let calendar = Calendar.current
@@ -35,15 +36,8 @@ struct KPIDetailView: View {
         filteredTickets.reduce(0) { $0 + $1.amount }
     }
 
-    private var title: String {
-        switch type {
-        case .today: return "Aujourd’hui"
-        case .month: return "Ce mois"
-        case .all: return "Tous les tickets"
-        }
-    }
+    // MARK: - Body
 
-    // MARK: - UI
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
@@ -54,8 +48,7 @@ struct KPIDetailView: View {
                     emptyState
                 } else {
                     VStack(spacing: 12) {
-                        ForEach(filteredTickets.sorted(by: { $0.dateMillis > $1.dateMillis }),
-                                id: \.objectID) { ticket in
+                        ForEach(filteredTickets, id: \.objectID) { ticket in
                             NavigationLink {
                                 TicketDetailView(ticket: ticket)
                             } label: {
@@ -69,53 +62,46 @@ struct KPIDetailView: View {
             }
             .padding(.top, 16)
         }
-        .navigationTitle(title)
+        .navigationTitle(type.title)
     }
 
-    // MARK: - Components
+    // MARK: - Header
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(title)
-                .font(.subheadline)
+
+            Text(type.title)
+                .font(.headline)
                 .foregroundColor(.secondary)
 
             Text(String(format: "%.2f €", total))
-                .font(.system(size: 28, weight: .bold, design: .rounded))
+                .font(.system(size: 32, weight: .bold, design: .rounded))
                 .foregroundColor(Color(Theme.primaryBlue))
 
             Text("\(filteredTickets.count) ticket\(filteredTickets.count > 1 ? "s" : "")")
-                .font(.footnote)
+                .font(.subheadline)
                 .foregroundColor(.secondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         .background(Color(.secondarySystemGroupedBackground))
         .cornerRadius(16)
-        .shadow(color: .black.opacity(0.06), radius: 4, y: 2)
         .padding(.horizontal)
     }
 
-    private var emptyState: some View {
-        VStack(spacing: 12) {
-            Image(systemName: "tray")
-                .font(.system(size: 40))
-                .foregroundColor(.gray)
-            Text("Aucun ticket")
-                .foregroundColor(.secondary)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 40)
-    }
+    // MARK: - Ticket Row
 
     private func ticketRow(_ t: Ticket) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
                 Text(t.storeName)
                     .font(.headline)
+
                 Spacer()
+
                 Text(String(format: "%.2f €", t.amount))
                     .foregroundColor(Color(Theme.primaryBlue))
+                    .fontWeight(.semibold)
             }
 
             Text(t.category)
@@ -129,6 +115,20 @@ struct KPIDetailView: View {
         .padding()
         .background(Color(.secondarySystemGroupedBackground))
         .cornerRadius(12)
-        .shadow(color: .black.opacity(0.05), radius: 2, y: 1)
+    }
+
+    // MARK: - Empty State
+
+    private var emptyState: some View {
+        VStack(spacing: 12) {
+            Image(systemName: "tray")
+                .font(.system(size: 42))
+                .foregroundColor(.gray)
+
+            Text("Aucun ticket disponible")
+                .foregroundColor(.secondary)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 40)
     }
 }
