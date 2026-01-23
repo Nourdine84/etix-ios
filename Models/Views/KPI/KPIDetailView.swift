@@ -3,13 +3,15 @@ import CoreData
 
 struct KPIDetailView: View {
 
+    // MARK: - Input
     let type: KPIType
 
+    // MARK: - CoreData
     @Environment(\.managedObjectContext) private var context
     @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
     private var tickets: FetchedResults<Ticket>
 
-    // MARK: - Filtered tickets
+    // MARK: - Filtered tickets (current period)
 
     private var filteredTickets: [Ticket] {
         let now = Date()
@@ -23,7 +25,7 @@ struct KPIDetailView: View {
 
         case .month:
             let comps = calendar.dateComponents([.year, .month], from: now)
-            let start = calendar.date(from: comps) ?? now
+            guard let start = calendar.date(from: comps) else { return [] }
             let startMs = Int64(start.timeIntervalSince1970 * 1000)
             return tickets.filter { $0.dateMillis >= startMs }
 
@@ -32,9 +34,54 @@ struct KPIDetailView: View {
         }
     }
 
+    // MARK: - Totals
+
     private var totalAmount: Double {
         filteredTickets.reduce(0) { $0 + $1.amount }
     }
+
+    private var previousTotal: Double {
+        let now = Date()
+        let calendar = Calendar.current
+
+        switch type {
+
+        case .today:
+            let startToday = calendar.startOfDay(for: now)
+            guard let startYesterday = calendar.date(byAdding: .day, value: -1, to: startToday)
+            else { return 0 }
+
+            let startMs = Int64(startYesterday.timeIntervalSince1970 * 1000)
+            let endMs   = Int64(startToday.timeIntervalSince1970 * 1000)
+
+            return tickets
+                .filter { $0.dateMillis >= startMs && $0.dateMillis < endMs }
+                .reduce(0) { $0 + $1.amount }
+
+        case .month:
+            let comps = calendar.dateComponents([.year, .month], from: now)
+            guard let startThisMonth = calendar.date(from: comps),
+                  let startLastMonth = calendar.date(byAdding: .month, value: -1, to: startThisMonth)
+            else { return 0 }
+
+            let startMs = Int64(startLastMonth.timeIntervalSince1970 * 1000)
+            let endMs   = Int64(startThisMonth.timeIntervalSince1970 * 1000)
+
+            return tickets
+                .filter { $0.dateMillis >= startMs && $0.dateMillis < endMs }
+                .reduce(0) { $0 + $1.amount }
+
+        case .all:
+            return 0
+        }
+    }
+
+    private var variationPercent: Double {
+        guard previousTotal > 0 else { return 0 }
+        return ((totalAmount - previousTotal) / previousTotal) * 100
+    }
+
+    // MARK: - Grouped tickets
 
     private var groupedTickets: [(date: Date, items: [Ticket])] {
         let calendar = Calendar.current
@@ -71,11 +118,16 @@ struct KPIDetailView: View {
                 KPIHeaderView(
                     title: type.title,
                     total: totalAmount,
-                    ticketCount: filteredTickets.count
+                    ticketCount: filteredTickets.count,
+                    variation: variationPercent
                 )
 
                 // 🧠 INSIGHTS
-                KPIInsightsView(tickets: filteredTickets)
+                KPIInsightsView(
+                    tickets: filteredTickets,
+                    total: totalAmount,
+                    previousTotal: previousTotal
+                )
 
                 // 📊 GRAPH
                 if !groupedTickets.isEmpty {
@@ -86,7 +138,7 @@ struct KPIDetailView: View {
                     )
                 }
 
-                // 📄 LISTE
+                // 📄 LIST
                 if groupedTickets.isEmpty {
                     emptyState
                 } else {
@@ -149,6 +201,8 @@ struct KPIDetailView: View {
         .cornerRadius(12)
         .shadow(color: .black.opacity(0.05), radius: 2, y: 1)
     }
+
+    // MARK: - Empty State
 
     private var emptyState: some View {
         VStack(spacing: 12) {
