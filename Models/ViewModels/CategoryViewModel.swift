@@ -7,15 +7,14 @@ final class CategoryViewModel: ObservableObject {
     @Published var grandTotal: Double = 0
 
     func load(context: NSManagedObjectContext) {
-
         let request = Ticket.fetchAllRequest()
 
         do {
             let tickets = try context.fetch(request)
 
-            let grouped = Dictionary(grouping: tickets, by: { $0.category })
+            let grouped = Dictionary(grouping: tickets) { $0.category }
 
-            let results = grouped.map { key, values in
+            let mapped = grouped.map { key, values in
                 CategoryTotal(
                     name: key,
                     total: values.reduce(0) { $0 + $1.amount }
@@ -24,12 +23,12 @@ final class CategoryViewModel: ObservableObject {
             .sorted { $0.total > $1.total }
 
             DispatchQueue.main.async {
-                self.categories = results
-                self.grandTotal = results.reduce(0) { $0 + $1.total }
+                self.categories = mapped
+                self.grandTotal = mapped.reduce(0) { $0 + $1.total }
             }
 
         } catch {
-            print("❌ Category load error:", error)
+            print("CategoryViewModel error:", error)
         }
     }
 }

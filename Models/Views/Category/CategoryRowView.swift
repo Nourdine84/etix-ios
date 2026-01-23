@@ -6,22 +6,29 @@ struct CategoryRowView: View {
     let percent: Double
 
     var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                Text(category.name)
-                    .font(.headline)
+        NavigationLink {
+            CategoryDetailView(categoryName: category.name)
+        } label: {
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(category.name)
+                        .font(.headline)
 
-                Text("\(percent, specifier: "%.1f") %")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                    Text(String(format: "%.2f €", category.total))
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+
+                Spacer()
+
+                Text(String(format: "%.0f %%", percent))
+                    .font(.subheadline.bold())
+                    .foregroundColor(Color(Theme.primaryBlue))
             }
-
-            Spacer()
-
-            Text("\(category.total, specifier: "%.2f") €")
-                .bold()
-                .foregroundColor(Color(Theme.primaryBlue))
+            .padding()
+            .background(Color(.secondarySystemGroupedBackground))
+            .cornerRadius(12)
         }
-        .padding(.vertical, 6)
+        .buttonStyle(.plain)
     }
 }
