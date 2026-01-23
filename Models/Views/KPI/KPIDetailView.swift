@@ -9,7 +9,7 @@ struct KPIDetailView: View {
     @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
     private var tickets: FetchedResults<Ticket>
 
-    // MARK: - Filtered tickets
+    // MARK: - Filtered tickets (selon KPI)
 
     private var filteredTickets: [Ticket] {
         let now = Date()
@@ -38,7 +38,7 @@ struct KPIDetailView: View {
         filteredTickets.reduce(0) { $0 + $1.amount }
     }
 
-    // MARK: - Grouping by day
+    // MARK: - Group tickets by day
 
     private var groupedTickets: [(date: Date, items: [Ticket])] {
         let calendar = Calendar.current
@@ -52,6 +52,19 @@ struct KPIDetailView: View {
             .map { ($0.key, $0.value) }
             .sorted { $0.date > $1.date }
     }
+
+    // MARK: - Chart data
+
+    private var chartData: [(date: Date, total: Double)] {
+        groupedTickets.map { section in
+            (
+                date: section.date,
+                total: section.items.reduce(0) { $0 + $1.amount }
+            )
+        }
+    }
+
+    // MARK: - Helpers
 
     private func sectionTitle(for date: Date) -> String {
         let calendar = Calendar.current
@@ -72,7 +85,7 @@ struct KPIDetailView: View {
         ScrollView {
             VStack(spacing: 24) {
 
-                // 🔹 KPI HEADER
+                // 🔵 KPI HEADER
                 KPIHeaderView(
                     title: type.title,
                     total: totalAmount,
@@ -80,7 +93,12 @@ struct KPIDetailView: View {
                 )
                 .padding(.top, 8)
 
-                // 🔹 CONTENT
+                // 📊 KPI GRAPH
+                if !chartData.isEmpty {
+                    KPIBarChartView(data: chartData)
+                }
+
+                // 📄 CONTENT
                 if groupedTickets.isEmpty {
                     emptyState
                 } else {
@@ -88,7 +106,7 @@ struct KPIDetailView: View {
                         ForEach(groupedTickets, id: \.date) { section in
                             VStack(alignment: .leading, spacing: 10) {
 
-                                // Day header
+                                // Header jour
                                 HStack {
                                     Text(sectionTitle(for: section.date))
                                         .font(.subheadline.weight(.semibold))
@@ -108,7 +126,7 @@ struct KPIDetailView: View {
                                 }
                                 .padding(.horizontal)
 
-                                // Tickets
+                                // Tickets du jour
                                 VStack(spacing: 10) {
                                     ForEach(section.items, id: \.objectID) { ticket in
                                         NavigationLink {
