@@ -42,6 +42,8 @@
 		634EA0CE2EA0350C001F7BBB /* SwiftUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B92EA02D50001F7BBB /* SwiftUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		634EA0D02EA0350E001F7BBB /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B72EA02D50001F7BBB /* WidgetKit.framework */; };
 		634EA0D12EA0350E001F7BBB /* WidgetKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B72EA02D50001F7BBB /* WidgetKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		637D582F2F23CA5000A8000C /* KPIDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D582E2F23CA3E00A8000C /* KPIDetailView.swift */; };
+		637D58312F23CFB000A8000C /* KPIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58302F23CF8F00A8000C /* KPIType.swift */; };
 		63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */; };
 		63DBD7D92EE8650500D1A8EF /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */; };
 		63DBD7DB2EE8656F00D1A8EF /* TicketExportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7DA2EE8655900D1A8EF /* TicketExportButton.swift */; };
@@ -144,6 +146,8 @@
 		634EA0B52EA02D4F001F7BBB /* eTixWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = eTixWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		634EA0B72EA02D50001F7BBB /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		634EA0B92EA02D50001F7BBB /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		637D582E2F23CA3E00A8000C /* KPIDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPIDetailView.swift; sourceTree = "<group>"; };
+		637D58302F23CF8F00A8000C /* KPIType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPIType.swift; sourceTree = "<group>"; };
 		63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExportService.swift; sourceTree = "<group>"; };
 		63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		63DBD7DA2EE8655900D1A8EF /* TicketExportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketExportButton.swift; sourceTree = "<group>"; };
@@ -278,6 +282,7 @@
 		634EA02D2E9E7F1E001F7BBB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				637D582D2F23CA1B00A8000C /* KPI */,
 				63DBD8062EEC420F00D1A8EF /* Components */,
 				63DBD7E32EEADA4F00D1A8EF /* OCR */,
 				63DBD7DC2EEAD71A00D1A8EF /* Tickets */,
@@ -361,6 +366,15 @@
 				634EA0B92EA02D50001F7BBB /* SwiftUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		637D582D2F23CA1B00A8000C /* KPI */ = {
+			isa = PBXGroup;
+			children = (
+				637D58302F23CF8F00A8000C /* KPIType.swift */,
+				637D582E2F23CA3E00A8000C /* KPIDetailView.swift */,
+			);
+			path = KPI;
 			sourceTree = "<group>";
 		};
 		63DBD7D72EE864DC00D1A8EF /* Shared */ = {
@@ -633,6 +647,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				637D582F2F23CA5000A8000C /* KPIDetailView.swift in Sources */,
 				63DBD7F62EEB015100D1A8EF /* AnimatedPageSymbol.swift in Sources */,
 				634EA0AA2EA0199D001F7BBB /* MonthlyStat.swift in Sources */,
 				634EA0562E9E8FD3001F7BBB /* CategoryView.swift in Sources */,
@@ -640,6 +655,7 @@
 				63DBD80A2EEC429B00D1A8EF /* SuccessPopup.swift in Sources */,
 				63DBD80C2EEC42E500D1A8EF /* ErrorPopup.swift in Sources */,
 				634EA0812E9EDF04001F7BBB /* CategoryTotal.swift in Sources */,
+				637D58312F23CFB000A8000C /* KPIType.swift in Sources */,
 				63DBD7DB2EE8656F00D1A8EF /* TicketExportButton.swift in Sources */,
 				634EA0572E9E8FDB001F7BBB /* SettingsView.swift in Sources */,
 				63DBD80E2EEC434400D1A8EF /* ConfirmDeletePopup.swift in Sources */,
@@ -724,6 +740,7 @@
 				CODE_SIGN_ENTITLEMENTS = eTixWidget/eTixWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9CX6779BPS;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = eTixWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = eTixWidget;
@@ -785,12 +802,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = eTix/eTix.entitlements;
+				CODE_SIGN_ENTITLEMENTS = eTix/eTixDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9CX6779BPS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = eTix/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "La caméra est utilisée pour scanner vos tickets";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Accès aux photos pour analyser les tickets\nAccès aux photos pour analyser les tickets\nAccès aux photos pour analyser les tickets\nAccès aux photos pour analyser les tickets\n";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -829,6 +849,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = eTix/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "La caméra est utilisée pour scanner vos tickets";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Accès aux photos pour analyser les tickets\nAccès aux photos pour analyser les tickets\nAccès aux photos pour analyser les tickets\nAccès aux photos pour analyser les tickets\n";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -976,6 +998,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9CX6779BPS;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				MACOSX_DEPLOYMENT_TARGET = 15.5;
@@ -1019,6 +1042,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9CX6779BPS;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
 				MACOSX_DEPLOYMENT_TARGET = 15.5;
