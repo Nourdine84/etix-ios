@@ -9,7 +9,7 @@ struct KPIDetailView: View {
     @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
     private var tickets: FetchedResults<Ticket>
 
-    // MARK: - Filtered tickets (selon KPI)
+    // MARK: - Filtered tickets
 
     private var filteredTickets: [Ticket] {
         let now = Date()
@@ -32,13 +32,9 @@ struct KPIDetailView: View {
         }
     }
 
-    // MARK: - KPI values
-
     private var totalAmount: Double {
         filteredTickets.reduce(0) { $0 + $1.amount }
     }
-
-    // MARK: - Group tickets by day
 
     private var groupedTickets: [(date: Date, items: [Ticket])] {
         let calendar = Calendar.current
@@ -53,45 +49,8 @@ struct KPIDetailView: View {
             .sorted { $0.date > $1.date }
     }
 
-    // MARK: - Chart data (bar chart)
-
-    private var chartData: [(date: Date, total: Double)] {
-        groupedTickets.map { section in
-            (
-                date: section.date,
-                total: section.items.reduce(0) { $0 + $1.amount }
-            )
-        }
-    }
-
-    // MARK: - Donut data (categories)
-
-    private var donutSlices: [KPIDonutChartView.Slice] {
-        let grouped = Dictionary(grouping: filteredTickets) { ticket in
-            let cat = ticket.category.trimmingCharacters(in: .whitespacesAndNewlines)
-            return cat.isEmpty ? "Autre" : cat
-        }
-
-        let palette: [Color] = [
-            .blue, .green, .orange, .purple, .red, .teal, .pink, .indigo
-        ]
-
-        return grouped
-            .map { key, items in
-                KPIDonutChartView.Slice(
-                    name: key,
-                    value: items.reduce(0) { $0 + $1.amount },
-                    color: palette.randomElement() ?? .blue
-                )
-            }
-            .sorted { $0.value > $1.value }
-    }
-
-    // MARK: - Helpers
-
     private func sectionTitle(for date: Date) -> String {
         let calendar = Calendar.current
-
         if calendar.isDateInToday(date) { return "Aujourd’hui" }
         if calendar.isDateInYesterday(date) { return "Hier" }
 
@@ -106,58 +65,40 @@ struct KPIDetailView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 28) {
+            VStack(spacing: 24) {
 
-                // 🔵 KPI HEADER
+                // 🔵 HEADER
                 KPIHeaderView(
                     title: type.title,
                     total: totalAmount,
                     ticketCount: filteredTickets.count
                 )
-                .padding(.top, 8)
 
-                // 📊 BAR CHART
-                if !chartData.isEmpty {
-                    KPIBarChartView(data: chartData)
-                }
+                // 🧠 INSIGHTS
+                KPIInsightsView(tickets: filteredTickets)
 
-                // 🍩 DONUT PAR CATÉGORIE
-                if donutSlices.count > 1 {
-                    KPIDonutChartView(
-                        slices: donutSlices,
-                        total: totalAmount
+                // 📊 GRAPH
+                if !groupedTickets.isEmpty {
+                    KPIBarChartView(
+                        data: groupedTickets.map {
+                            ($0.date, $0.items.reduce(0) { $0 + $1.amount })
+                        }
                     )
                 }
 
-                // 📄 LISTE DES TICKETS
+                // 📄 LISTE
                 if groupedTickets.isEmpty {
                     emptyState
                 } else {
-                    VStack(spacing: 22) {
+                    VStack(spacing: 20) {
                         ForEach(groupedTickets, id: \.date) { section in
                             VStack(alignment: .leading, spacing: 10) {
 
-                                // Header jour
-                                HStack {
-                                    Text(sectionTitle(for: section.date))
-                                        .font(.subheadline.weight(.semibold))
-                                        .foregroundColor(.secondary)
+                                Text(sectionTitle(for: section.date))
+                                    .font(.subheadline.weight(.semibold))
+                                    .foregroundColor(.secondary)
+                                    .padding(.horizontal)
 
-                                    if Calendar.current.isDateInToday(section.date) {
-                                        Text("Aujourd’hui")
-                                            .font(.caption.bold())
-                                            .padding(.horizontal, 8)
-                                            .padding(.vertical, 4)
-                                            .background(Color(Theme.primaryBlue).opacity(0.15))
-                                            .foregroundColor(Color(Theme.primaryBlue))
-                                            .cornerRadius(8)
-                                    }
-
-                                    Spacer()
-                                }
-                                .padding(.horizontal)
-
-                                // Tickets du jour
                                 VStack(spacing: 10) {
                                     ForEach(section.items, id: \.objectID) { ticket in
                                         NavigationLink {
@@ -174,7 +115,7 @@ struct KPIDetailView: View {
                     }
                 }
             }
-            .padding(.bottom, 32)
+            .padding(.bottom, 24)
         }
         .navigationTitle(type.title)
         .navigationBarTitleDisplayMode(.inline)
@@ -208,8 +149,6 @@ struct KPIDetailView: View {
         .cornerRadius(12)
         .shadow(color: .black.opacity(0.05), radius: 2, y: 1)
     }
-
-    // MARK: - Empty State
 
     private var emptyState: some View {
         VStack(spacing: 12) {
