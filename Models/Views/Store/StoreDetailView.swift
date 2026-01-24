@@ -144,10 +144,6 @@ struct StoreDetailView: View {
                     .foregroundColor(Color(Theme.primaryBlue))
             }
 
-            Text(t.category)
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-
             Text(DateUtils.shortString(fromMillis: t.dateMillis))
                 .font(.caption)
                 .foregroundColor(.secondary)

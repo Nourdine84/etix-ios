@@ -30,6 +30,17 @@ struct StoreListView: View {
             }
             .listStyle(.plain)
             .navigationTitle("Magasins")
+            .toolbar {
+
+                // 📊 Comparaison magasins
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink {
+                        StoreComparisonView()
+                    } label: {
+                        Image(systemName: "chart.bar.fill")
+                    }
+                }
+            }
             .onAppear {
                 vm.load(
                     categoryName: categoryName ?? "",

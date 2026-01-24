@@ -67,6 +67,8 @@
 		637D58B72F24433000A8000C /* StoreBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58B62F24432C00A8000C /* StoreBarChartView.swift */; };
 		637D58B92F24434E00A8000C /* StoreExportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58B82F24434A00A8000C /* StoreExportButton.swift */; };
 		637D58BB2F24437600A8000C /* StoreExportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58BA2F24436700A8000C /* StoreExportViewModel.swift */; };
+		637D58BD2F244AC600A8000C /* StoreComparisonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58BC2F244AC200A8000C /* StoreComparisonViewModel.swift */; };
+		637D58BF2F244B1700A8000C /* StoreComparisonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58BE2F244B0700A8000C /* StoreComparisonView.swift */; };
 		63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */; };
 		63DBD7D92EE8650500D1A8EF /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */; };
 		63DBD7DE2EEAD75100D1A8EF /* TicketDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7DD2EEAD73700D1A8EF /* TicketDetailView.swift */; };
@@ -193,6 +195,8 @@
 		637D58B62F24432C00A8000C /* StoreBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreBarChartView.swift; sourceTree = "<group>"; };
 		637D58B82F24434A00A8000C /* StoreExportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreExportButton.swift; sourceTree = "<group>"; };
 		637D58BA2F24436700A8000C /* StoreExportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreExportViewModel.swift; sourceTree = "<group>"; };
+		637D58BC2F244AC200A8000C /* StoreComparisonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreComparisonViewModel.swift; sourceTree = "<group>"; };
+		637D58BE2F244B0700A8000C /* StoreComparisonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreComparisonView.swift; sourceTree = "<group>"; };
 		63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExportService.swift; sourceTree = "<group>"; };
 		63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		63DBD7DD2EEAD73700D1A8EF /* TicketDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketDetailView.swift; sourceTree = "<group>"; };
@@ -316,6 +320,7 @@
 		634EA02C2E9E7F09001F7BBB /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				637D58BC2F244AC200A8000C /* StoreComparisonViewModel.swift */,
 				637D58AF2F24418F00A8000C /* StoreListViewModel.swift */,
 				637D589C2F24367300A8000C /* HomeKPIViewModel.swift */,
 				637D58732F242EC800A8000C /* KPIExportViewModel.swift */,
@@ -483,6 +488,7 @@
 		637D58B12F2441C100A8000C /* Store */ = {
 			isa = PBXGroup;
 			children = (
+				637D58BE2F244B0700A8000C /* StoreComparisonView.swift */,
 				637D58B82F24434A00A8000C /* StoreExportButton.swift */,
 				637D58B62F24432C00A8000C /* StoreBarChartView.swift */,
 				637D58B42F2442A900A8000C /* StoreDetailView.swift */,
@@ -809,6 +815,7 @@
 				637D58762F2432D900A8000C /* KPIExportButton.swift in Sources */,
 				634EA0882E9FD77E001F7BBB /* eTixButton.swift in Sources */,
 				637D585A2F23D83C00A8000C /* KPIBarChartView.swift in Sources */,
+				637D58BF2F244B1700A8000C /* StoreComparisonView.swift in Sources */,
 				637D58742F242ED900A8000C /* KPIExportViewModel.swift in Sources */,
 				637D58A72F243E5B00A8000C /* CategoryBarChartView.swift in Sources */,
 				637D58AB2F243F2400A8000C /* CategoryExportButton.swift in Sources */,
@@ -819,6 +826,7 @@
 				634EA0A22E9FF550001F7BBB /* OnboardingPage.swift in Sources */,
 				634EA04F2E9E8F80001F7BBB /* Ticket.swift in Sources */,
 				637D58B32F2441DC00A8000C /* StoreListView.swift in Sources */,
+				637D58BD2F244AC600A8000C /* StoreComparisonViewModel.swift in Sources */,
 				634EA08D2E9FDA49001F7BBB /* SplashView.swift in Sources */,
 				634EA0592E9E8FF0001F7BBB /* DateUtils.swift in Sources */,
 				634EA0832E9EE15F001F7BBB /* RangePickerSheet.swift in Sources */,
