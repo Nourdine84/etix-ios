@@ -7,76 +7,46 @@ struct StoreComparisonView: View {
     @StateObject private var vm = StoreComparisonViewModel()
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 20) {
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 24) {
 
-                if vm.stores.isEmpty {
-                    emptyState
-                } else {
+                    if vm.stores.isEmpty {
+                        emptyState
+                    } else {
+                        StoreComparisonBarChartView(
+                            stores: vm.stores
+                        )
 
-                    // 🏆 TOP 3
-                    VStack(spacing: 12) {
-                        ForEach(vm.stores.prefix(3).indices, id: \.self) { index in
-                            topRow(store: vm.stores[index], rank: index + 1)
-                        }
-                    }
-                    .padding(.horizontal)
-
-                    Divider().padding(.vertical)
-
-                    // 📋 LISTE COMPLÈTE
-                    VStack(spacing: 12) {
-                        ForEach(vm.stores) { store in
-                            NavigationLink {
-                                StoreDetailView(storeName: store.storeName)
-                            } label: {
-                                storeRow(store)
+                        VStack(spacing: 12) {
+                            ForEach(vm.stores) { store in
+                                NavigationLink {
+                                    StoreDetailView(
+                                        storeName: store.storeName ?? "Inconnu"
+                                    )
+                                } label: {
+                                    storeRow(store)
+                                }
+                                .buttonStyle(.plain)
                             }
-                            .buttonStyle(.plain)
                         }
+                        .padding(.horizontal)
                     }
-                    .padding(.horizontal)
                 }
+                .padding(.vertical)
             }
-            .padding(.vertical)
-        }
-        .navigationTitle("Comparaison")
-        .onAppear {
-            vm.load(context: context)
-        }
-    }
-
-    // MARK: - Top Row
-    private func topRow(store: StoreTotal, rank: Int) -> some View {
-        HStack {
-            Text(rank == 1 ? "🥇" : rank == 2 ? "🥈" : "🥉")
-                .font(.largeTitle)
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text(store.storeName)
-                    .font(.headline)
-
-                Text("Panier moyen : \(String(format: "%.2f €", store.total / Double(max(store.ticketCount, 1))))")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+            .navigationTitle("Comparaison")
+            .onAppear {
+                vm.load(context: context)
             }
-
-            Spacer()
-
-            Text(String(format: "%.2f €", store.total))
-                .fontWeight(.bold)
-                .foregroundColor(Color(Theme.primaryBlue))
         }
-        .padding()
-        .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(14)
     }
 
     // MARK: - Row
     private func storeRow(_ store: StoreTotal) -> some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                Text(store.storeName)
+                Text(store.storeName ?? "Inconnu")
                     .font(.headline)
 
                 Text("\(store.ticketCount) ticket(s)")
@@ -86,14 +56,9 @@ struct StoreComparisonView: View {
 
             Spacer()
 
-            VStack(alignment: .trailing) {
-                Text(String(format: "%.2f €", store.total))
-                    .fontWeight(.semibold)
-
-                Text("Moy. \(String(format: "%.2f €", store.total / Double(max(store.ticketCount, 1))))")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-            }
+            Text(String(format: "%.2f €", store.total))
+                .fontWeight(.semibold)
+                .foregroundColor(Color(Theme.primaryBlue))
         }
         .padding()
         .background(Color(.secondarySystemGroupedBackground))

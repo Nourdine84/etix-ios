@@ -12,13 +12,12 @@ final class StoreListViewModel: ObservableObject {
 
         do {
             let tickets = try context.fetch(request)
-                .filter { $0.category == categoryName }
+                .filter { categoryName.isEmpty || $0.category == categoryName }
 
             let grouped = Dictionary(grouping: tickets, by: { $0.storeName })
 
             let results = grouped.map { key, values in
                 StoreTotal(
-                    id: key,                 // ✅ FIX ICI
                     storeName: key,
                     total: values.reduce(0) { $0 + $1.amount },
                     ticketCount: values.count

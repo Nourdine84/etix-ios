@@ -31,8 +31,6 @@ struct StoreListView: View {
             .listStyle(.plain)
             .navigationTitle("Magasins")
             .toolbar {
-
-                // 📊 Comparaison magasins
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink {
                         StoreComparisonView()

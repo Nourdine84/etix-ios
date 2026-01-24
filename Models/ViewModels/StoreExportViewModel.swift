@@ -4,7 +4,7 @@ final class StoreExportViewModel: ObservableObject {
 
     @Published var isExporting = false
     @Published var showShareSheet = false
-    @Published var exportURL: URL?
+    @Published var exportedURL: URL?
 
     func export(
         storeName: String,
@@ -14,7 +14,6 @@ final class StoreExportViewModel: ObservableObject {
         isExporting = true
 
         DispatchQueue.global(qos: .userInitiated).async {
-
             let csv = self.buildCSV(
                 storeName: storeName,
                 tickets: tickets,
@@ -22,19 +21,28 @@ final class StoreExportViewModel: ObservableObject {
             )
 
             let filename = "eTix_Store_\(storeName).csv"
+                .replacingOccurrences(of: " ", with: "_")
+
             let url = FileManager.default.temporaryDirectory
                 .appendingPathComponent(filename)
 
-            try? csv.write(to: url, atomically: true, encoding: .utf8)
+            do {
+                try csv.write(to: url, atomically: true, encoding: .utf8)
 
-            DispatchQueue.main.async {
-                self.exportURL = url
-                self.showShareSheet = true
-                self.isExporting = false
+                DispatchQueue.main.async {
+                    self.exportedURL = url
+                    self.showShareSheet = true
+                    self.isExporting = false
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    self.isExporting = false
+                }
             }
         }
     }
 
+    // MARK: - CSV Builder
     private func buildCSV(
         storeName: String,
         tickets: [Ticket],
@@ -42,12 +50,19 @@ final class StoreExportViewModel: ObservableObject {
     ) -> String {
 
         var csv = "Magasin;\(storeName)\n"
-        csv += "Total;\(String(format: "%.2f", total))\n\n"
+        csv += "Total;\(String(format: "%.2f", total))\n"
+        csv += "Nombre de tickets;\(tickets.count)\n\n"
         csv += "Date;Catégorie;Montant\n"
 
         for t in tickets {
-            let date = DateUtils.shortString(fromMillis: t.dateMillis)
-            csv += "\(date);\(t.category);\(t.amount)\n"
+            let date = Date(timeIntervalSince1970: TimeInterval(t.dateMillis) / 1000)
+            let dateStr = DateFormatter.localizedString(
+                from: date,
+                dateStyle: .short,
+                timeStyle: .none
+            )
+
+            csv += "\(dateStr);\(t.category);\(t.amount)\n"
         }
 
         return csv

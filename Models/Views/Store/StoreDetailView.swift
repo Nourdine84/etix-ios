@@ -1,5 +1,6 @@
 import SwiftUI
 import CoreData
+import Charts
 
 struct StoreDetailView: View {
 
@@ -49,7 +50,7 @@ struct StoreDetailView: View {
         ScrollView {
             VStack(spacing: 24) {
 
-                // 🔵 HEADER
+                // 🔵 HEADER MAGASIN
                 VStack(alignment: .leading, spacing: 6) {
                     Text(storeName)
                         .font(.title2.bold())
@@ -68,12 +69,28 @@ struct StoreDetailView: View {
                 .cornerRadius(16)
                 .padding(.horizontal)
 
-                // 📊 GRAPH
+                // 📊 GRAPHIQUE ÉVOLUTION
                 if !chartData.isEmpty {
-                    StoreBarChartView(data: chartData)
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Évolution des dépenses")
+                            .font(.headline)
+                            .padding(.horizontal)
+
+                        Chart {
+                            ForEach(chartData, id: \.date) { item in
+                                BarMark(
+                                    x: .value("Date", item.date),
+                                    y: .value("Montant", item.total)
+                                )
+                                .foregroundStyle(Color(Theme.primaryBlue))
+                            }
+                        }
+                        .frame(height: 200)
+                        .padding(.horizontal)
+                    }
                 }
 
-                // 📄 LISTE
+                // 📄 LISTE DES TICKETS
                 if groupedByDay.isEmpty {
                     emptyState
                 } else {

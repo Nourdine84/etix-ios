@@ -11,11 +11,10 @@ final class StoreComparisonViewModel: ObservableObject {
         do {
             let tickets = try context.fetch(request)
 
-            let grouped = Dictionary(grouping: tickets, by: { $0.storeName ?? "Inconnu" })
+            let grouped = Dictionary(grouping: tickets) { $0.storeName ?? "Inconnu" }
 
             let results = grouped.map { key, values in
                 StoreTotal(
-                    id: key, // ✅ STRING, PAS UUID
                     storeName: key,
                     total: values.reduce(0) { $0 + $1.amount },
                     ticketCount: values.count
@@ -24,7 +23,6 @@ final class StoreComparisonViewModel: ObservableObject {
             .sorted { $0.total > $1.total }
 
             self.stores = results
-
         } catch {
             self.stores = []
         }

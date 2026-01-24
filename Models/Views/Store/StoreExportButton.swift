@@ -22,9 +22,8 @@ struct StoreExportButton: View {
                 Image(systemName: "square.and.arrow.up")
             }
         }
-        .disabled(vm.isExporting)
         .sheet(isPresented: $vm.showShareSheet) {
-            if let url = vm.exportURL {
+            if let url = vm.exportedURL {
                 ShareSheet(activityItems: [url])
             }
         }
