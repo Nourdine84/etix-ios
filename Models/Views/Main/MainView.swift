@@ -25,10 +25,17 @@ struct MainView: View {
                     Image(systemName: "list.bullet")
                     Text("Historique")
                 }
-            
+
+            // 🧩 Catégories
             CategoryView()
                 .tabItem {
                     Label("Catégories", systemImage: "chart.pie.fill")
+                }
+
+            // 🏬 Magasins
+            StoreListView(categoryName: nil)
+                .tabItem {
+                    Label("Magasins", systemImage: "building.2")
                 }
 
             // ⚙️ Paramètres

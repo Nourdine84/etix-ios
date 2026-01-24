@@ -60,6 +60,13 @@
 		637D58A72F243E5B00A8000C /* CategoryBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58A62F243E4C00A8000C /* CategoryBarChartView.swift */; };
 		637D58A92F243F0000A8000C /* CategoryExportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58A82F243EF000A8000C /* CategoryExportViewModel.swift */; };
 		637D58AB2F243F2400A8000C /* CategoryExportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58AA2F243F1F00A8000C /* CategoryExportButton.swift */; };
+		637D58AE2F24415700A8000C /* StoreTotal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58AD2F24415300A8000C /* StoreTotal.swift */; };
+		637D58B02F24419200A8000C /* StoreListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58AF2F24418F00A8000C /* StoreListViewModel.swift */; };
+		637D58B32F2441DC00A8000C /* StoreListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58B22F2441D800A8000C /* StoreListView.swift */; };
+		637D58B52F2442AC00A8000C /* StoreDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58B42F2442A900A8000C /* StoreDetailView.swift */; };
+		637D58B72F24433000A8000C /* StoreBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58B62F24432C00A8000C /* StoreBarChartView.swift */; };
+		637D58B92F24434E00A8000C /* StoreExportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58B82F24434A00A8000C /* StoreExportButton.swift */; };
+		637D58BB2F24437600A8000C /* StoreExportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58BA2F24436700A8000C /* StoreExportViewModel.swift */; };
 		63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */; };
 		63DBD7D92EE8650500D1A8EF /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */; };
 		63DBD7DE2EEAD75100D1A8EF /* TicketDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7DD2EEAD73700D1A8EF /* TicketDetailView.swift */; };
@@ -179,6 +186,13 @@
 		637D58A62F243E4C00A8000C /* CategoryBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryBarChartView.swift; sourceTree = "<group>"; };
 		637D58A82F243EF000A8000C /* CategoryExportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryExportViewModel.swift; sourceTree = "<group>"; };
 		637D58AA2F243F1F00A8000C /* CategoryExportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryExportButton.swift; sourceTree = "<group>"; };
+		637D58AD2F24415300A8000C /* StoreTotal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreTotal.swift; sourceTree = "<group>"; };
+		637D58AF2F24418F00A8000C /* StoreListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreListViewModel.swift; sourceTree = "<group>"; };
+		637D58B22F2441D800A8000C /* StoreListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreListView.swift; sourceTree = "<group>"; };
+		637D58B42F2442A900A8000C /* StoreDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreDetailView.swift; sourceTree = "<group>"; };
+		637D58B62F24432C00A8000C /* StoreBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreBarChartView.swift; sourceTree = "<group>"; };
+		637D58B82F24434A00A8000C /* StoreExportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreExportButton.swift; sourceTree = "<group>"; };
+		637D58BA2F24436700A8000C /* StoreExportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreExportViewModel.swift; sourceTree = "<group>"; };
 		63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExportService.swift; sourceTree = "<group>"; };
 		63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		63DBD7DD2EEAD73700D1A8EF /* TicketDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketDetailView.swift; sourceTree = "<group>"; };
@@ -283,6 +297,7 @@
 		634EA02B2E9E7EE9001F7BBB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				637D58AC2F24413E00A8000C /* Domain */,
 				637D58A52F243C7200A8000C /* DTO */,
 				637D58652F23E98B00A8000C /* Services */,
 				63DBD7E82EEADDA300D1A8EF /* OCR */,
@@ -301,6 +316,7 @@
 		634EA02C2E9E7F09001F7BBB /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				637D58AF2F24418F00A8000C /* StoreListViewModel.swift */,
 				637D589C2F24367300A8000C /* HomeKPIViewModel.swift */,
 				637D58732F242EC800A8000C /* KPIExportViewModel.swift */,
 				634EA0AB2EA019BF001F7BBB /* StatsViewModel.swift */,
@@ -315,6 +331,7 @@
 		634EA02D2E9E7F1E001F7BBB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				637D58B12F2441C100A8000C /* Store */,
 				637D589E2F2438CE00A8000C /* Category */,
 				637D586B2F24107A00A8000C /* Export */,
 				637D582D2F23CA1B00A8000C /* KPI */,
@@ -427,6 +444,7 @@
 		637D586B2F24107A00A8000C /* Export */ = {
 			isa = PBXGroup;
 			children = (
+				637D58BA2F24436700A8000C /* StoreExportViewModel.swift */,
 				637D58A82F243EF000A8000C /* CategoryExportViewModel.swift */,
 				637D586C2F24108900A8000C /* TicketExportViewModel.swift */,
 			);
@@ -452,6 +470,25 @@
 				634EA0802E9EDEF4001F7BBB /* CategoryTotal.swift */,
 			);
 			path = DTO;
+			sourceTree = "<group>";
+		};
+		637D58AC2F24413E00A8000C /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				637D58AD2F24415300A8000C /* StoreTotal.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		637D58B12F2441C100A8000C /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				637D58B82F24434A00A8000C /* StoreExportButton.swift */,
+				637D58B62F24432C00A8000C /* StoreBarChartView.swift */,
+				637D58B42F2442A900A8000C /* StoreDetailView.swift */,
+				637D58B22F2441D800A8000C /* StoreListView.swift */,
+			);
+			path = Store;
 			sourceTree = "<group>";
 		};
 		63DBD7D72EE864DC00D1A8EF /* Shared */ = {
@@ -724,6 +761,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				637D58B02F24419200A8000C /* StoreListViewModel.swift in Sources */,
 				637D582F2F23CA5000A8000C /* KPIDetailView.swift in Sources */,
 				637D58A92F243F0000A8000C /* CategoryExportViewModel.swift in Sources */,
 				63DBD7F62EEB015100D1A8EF /* AnimatedPageSymbol.swift in Sources */,
@@ -732,8 +770,10 @@
 				634EA0562E9E8FD3001F7BBB /* CategoryView.swift in Sources */,
 				634EA0532E9E8FBC001F7BBB /* HomeView.swift in Sources */,
 				63DBD80A2EEC429B00D1A8EF /* SuccessPopup.swift in Sources */,
+				637D58B92F24434E00A8000C /* StoreExportButton.swift in Sources */,
 				63DBD80C2EEC42E500D1A8EF /* ErrorPopup.swift in Sources */,
 				634EA0812E9EDF04001F7BBB /* CategoryTotal.swift in Sources */,
+				637D58BB2F24437600A8000C /* StoreExportViewModel.swift in Sources */,
 				637D58312F23CFB000A8000C /* KPIType.swift in Sources */,
 				637D589D2F24368300A8000C /* HomeKPIViewModel.swift in Sources */,
 				637D58642F23E23D00A8000C /* KPIComparisonView.swift in Sources */,
@@ -778,14 +818,18 @@
 				637D58602F23DCC400A8000C /* KPIExportService.swift in Sources */,
 				634EA0A22E9FF550001F7BBB /* OnboardingPage.swift in Sources */,
 				634EA04F2E9E8F80001F7BBB /* Ticket.swift in Sources */,
+				637D58B32F2441DC00A8000C /* StoreListView.swift in Sources */,
 				634EA08D2E9FDA49001F7BBB /* SplashView.swift in Sources */,
 				634EA0592E9E8FF0001F7BBB /* DateUtils.swift in Sources */,
 				634EA0832E9EE15F001F7BBB /* RangePickerSheet.swift in Sources */,
 				634EA04D2E9E8A95001F7BBB /* LoginView.swift in Sources */,
 				637D58A02F2438F200A8000C /* CategoryDonutView.swift in Sources */,
+				637D58B72F24433000A8000C /* StoreBarChartView.swift in Sources */,
 				63DBD7E52EEADA6D00D1A8EF /* CameraPermission.swift in Sources */,
 				63DBD7E22EEAD88E00D1A8EF /* TicketFilterSheet.swift in Sources */,
 				63DBD7EA2EEADDED00D1A8EF /* OCRExtractedData.swift in Sources */,
+				637D58AE2F24415700A8000C /* StoreTotal.swift in Sources */,
+				637D58B52F2442AC00A8000C /* StoreDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

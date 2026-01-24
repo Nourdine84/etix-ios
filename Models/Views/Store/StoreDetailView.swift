@@ -1,31 +1,31 @@
 import SwiftUI
 import CoreData
 
-struct CategoryDetailView: View {
+struct StoreDetailView: View {
 
     // MARK: - Input
-    let categoryName: String
+    let storeName: String
 
     // MARK: - CoreData
     @Environment(\.managedObjectContext) private var context
     @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
     private var tickets: FetchedResults<Ticket>
 
-    // MARK: - Tickets catégorie
-    private var categoryTickets: [Ticket] {
-        tickets.filter { $0.category == categoryName }
+    // MARK: - Tickets magasin
+    private var storeTickets: [Ticket] {
+        tickets.filter { $0.storeName == storeName }
     }
 
     // MARK: - Totaux
     private var totalAmount: Double {
-        categoryTickets.reduce(0) { $0 + $1.amount }
+        storeTickets.reduce(0) { $0 + $1.amount }
     }
 
     // MARK: - Groupement par jour
     private var groupedByDay: [(date: Date, items: [Ticket])] {
         let calendar = Calendar.current
 
-        let grouped = Dictionary(grouping: categoryTickets) { ticket -> Date in
+        let grouped = Dictionary(grouping: storeTickets) { ticket -> Date in
             let date = Date(
                 timeIntervalSince1970: TimeInterval(ticket.dateMillis) / 1000
             )
@@ -51,14 +51,14 @@ struct CategoryDetailView: View {
 
                 // 🔵 HEADER
                 VStack(alignment: .leading, spacing: 6) {
-                    Text(categoryName)
+                    Text(storeName)
                         .font(.title2.bold())
 
                     Text(String(format: "%.2f €", totalAmount))
                         .font(.title.bold())
                         .foregroundColor(Color(Theme.primaryBlue))
 
-                    Text("\(categoryTickets.count) ticket(s)")
+                    Text("\(storeTickets.count) ticket(s)")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
@@ -68,34 +68,12 @@ struct CategoryDetailView: View {
                 .cornerRadius(16)
                 .padding(.horizontal)
 
-                // 🏪 DRILL MAGASIN
-                NavigationLink {
-                    StoreListView(categoryName: categoryName)
-                } label: {
-                    HStack {
-                        Image(systemName: "building.2")
-                            .foregroundColor(Color(Theme.primaryBlue))
-
-                        Text("Voir par magasin")
-                            .fontWeight(.semibold)
-
-                        Spacer()
-
-                        Image(systemName: "chevron.right")
-                            .foregroundColor(.secondary)
-                    }
-                    .padding()
-                    .background(Color(.secondarySystemGroupedBackground))
-                    .cornerRadius(12)
-                }
-                .padding(.horizontal)
-
                 // 📊 GRAPH
                 if !chartData.isEmpty {
-                    CategoryBarChartView(data: chartData)
+                    StoreBarChartView(data: chartData)
                 }
 
-                // 📄 LISTE TICKETS
+                // 📄 LISTE
                 if groupedByDay.isEmpty {
                     emptyState
                 } else {
@@ -126,13 +104,13 @@ struct CategoryDetailView: View {
             }
             .padding(.bottom, 24)
         }
-        .navigationTitle("Détails")
+        .navigationTitle("Magasin")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                CategoryExportButton(
-                    categoryName: categoryName,
-                    tickets: categoryTickets,
+                StoreExportButton(
+                    storeName: storeName,
+                    tickets: storeTickets,
                     total: totalAmount
                 )
             }
@@ -165,6 +143,10 @@ struct CategoryDetailView: View {
                     .fontWeight(.semibold)
                     .foregroundColor(Color(Theme.primaryBlue))
             }
+
+            Text(t.category)
+                .font(.subheadline)
+                .foregroundColor(.secondary)
 
             Text(DateUtils.shortString(fromMillis: t.dateMillis))
                 .font(.caption)
