@@ -1,5 +1,4 @@
 import SwiftUI
-import CoreData
 
 struct StoreComparisonView: View {
 
@@ -11,27 +10,24 @@ struct StoreComparisonView: View {
             ScrollView {
                 VStack(spacing: 24) {
 
-                    if vm.stores.isEmpty {
-                        emptyState
-                    } else {
-                        StoreComparisonBarChartView(
-                            stores: vm.stores
-                        )
+                    // 🔝 HEADER
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Comparaison des magasins")
+                            .font(.title2.bold())
 
-                        VStack(spacing: 12) {
-                            ForEach(vm.stores) { store in
-                                NavigationLink {
-                                    StoreDetailView(
-                                        storeName: store.storeName ?? "Inconnu"
-                                    )
-                                } label: {
-                                    storeRow(store)
-                                }
-                                .buttonStyle(.plain)
-                            }
-                        }
-                        .padding(.horizontal)
+                        Text(String(format: "%.2f € au total", vm.grandTotal))
+                            .foregroundColor(.secondary)
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal)
+
+                    // 📊 LISTE COMPARATIVE
+                    VStack(spacing: 12) {
+                        ForEach(vm.comparisons) { item in
+                            comparisonRow(item)
+                        }
+                    }
+                    .padding(.horizontal)
                 }
                 .padding(.vertical)
             }
@@ -43,39 +39,34 @@ struct StoreComparisonView: View {
     }
 
     // MARK: - Row
-    private func storeRow(_ store: StoreTotal) -> some View {
+    private func comparisonRow(_ item: StoreComparison) -> some View {
         HStack {
+
+            // 🏅 RANG
+            Text("\(item.rank)")
+                .font(.headline)
+                .frame(width: 28)
+                .foregroundColor(item.rank <= 3 ? .white : .secondary)
+                .background(item.rank <= 3 ? Color(Theme.primaryBlue) : .clear)
+                .clipShape(Circle())
+
             VStack(alignment: .leading, spacing: 4) {
-                Text(store.storeName ?? "Inconnu")
+                Text(item.storeName)
                     .font(.headline)
 
-                Text("\(store.ticketCount) ticket(s)")
+                Text("\(item.ticketCount) ticket(s) • \(String(format: "%.1f", item.percent)) %")
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
 
             Spacer()
 
-            Text(String(format: "%.2f €", store.total))
+            Text(String(format: "%.2f €", item.total))
                 .fontWeight(.semibold)
                 .foregroundColor(Color(Theme.primaryBlue))
         }
         .padding()
         .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(12)
-    }
-
-    // MARK: - Empty
-    private var emptyState: some View {
-        VStack(spacing: 12) {
-            Image(systemName: "chart.bar")
-                .font(.system(size: 40))
-                .foregroundColor(.gray)
-
-            Text("Aucune donnée")
-                .foregroundColor(.secondary)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 40)
+        .cornerRadius(14)
     }
 }
