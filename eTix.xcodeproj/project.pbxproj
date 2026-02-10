@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6309A1B52F3B9C8A002B98B6 /* StoreComparisonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6309A1B42F3B9C85002B98B6 /* StoreComparisonViewModel.swift */; };
+		6309A1B72F3B9CFA002B98B6 /* StoreComparison.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6309A1B62F3B9CCF002B98B6 /* StoreComparison.swift */; };
 		634EA0362E9E8136001F7BBB /* eTixApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0352E9E80EF001F7BBB /* eTixApp.swift */; };
 		634EA0382E9E8149001F7BBB /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0372E9E813E001F7BBB /* Theme.swift */; };
 		634EA03A2E9E8164001F7BBB /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0392E9E814E001F7BBB /* PersistenceController.swift */; };
@@ -67,9 +69,8 @@
 		637D58B72F24433000A8000C /* StoreBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58B62F24432C00A8000C /* StoreBarChartView.swift */; };
 		637D58B92F24434E00A8000C /* StoreExportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58B82F24434A00A8000C /* StoreExportButton.swift */; };
 		637D58BB2F24437600A8000C /* StoreExportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58BA2F24436700A8000C /* StoreExportViewModel.swift */; };
-		637D58BD2F244AC600A8000C /* StoreComparisonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58BC2F244AC200A8000C /* StoreComparisonViewModel.swift */; };
 		637D58BF2F244B1700A8000C /* StoreComparisonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58BE2F244B0700A8000C /* StoreComparisonView.swift */; };
-		637D58C12F244DEA00A8000C /* StoreComparison.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58C02F244DDC00A8000C /* StoreComparison.swift */; };
+		637D58C12F244DEA00A8000C /* StoreComparisonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58C02F244DDC00A8000C /* StoreComparisonItem.swift */; };
 		637D58C32F24518C00A8000C /* StoreComparisonBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58C22F24517E00A8000C /* StoreComparisonBarChartView.swift */; };
 		63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */; };
 		63DBD7D92EE8650500D1A8EF /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */; };
@@ -140,6 +141,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6309A1B42F3B9C85002B98B6 /* StoreComparisonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreComparisonViewModel.swift; sourceTree = "<group>"; };
+		6309A1B62F3B9CCF002B98B6 /* StoreComparison.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreComparison.swift; sourceTree = "<group>"; };
 		634EA0352E9E80EF001F7BBB /* eTixApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eTixApp.swift; sourceTree = "<group>"; tabWidth = 4; };
 		634EA0372E9E813E001F7BBB /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		634EA0392E9E814E001F7BBB /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
@@ -197,9 +200,8 @@
 		637D58B62F24432C00A8000C /* StoreBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreBarChartView.swift; sourceTree = "<group>"; };
 		637D58B82F24434A00A8000C /* StoreExportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreExportButton.swift; sourceTree = "<group>"; };
 		637D58BA2F24436700A8000C /* StoreExportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreExportViewModel.swift; sourceTree = "<group>"; };
-		637D58BC2F244AC200A8000C /* StoreComparisonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreComparisonViewModel.swift; sourceTree = "<group>"; };
 		637D58BE2F244B0700A8000C /* StoreComparisonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreComparisonView.swift; sourceTree = "<group>"; };
-		637D58C02F244DDC00A8000C /* StoreComparison.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreComparison.swift; sourceTree = "<group>"; };
+		637D58C02F244DDC00A8000C /* StoreComparisonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreComparisonItem.swift; sourceTree = "<group>"; };
 		637D58C22F24517E00A8000C /* StoreComparisonBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreComparisonBarChartView.swift; sourceTree = "<group>"; };
 		63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExportService.swift; sourceTree = "<group>"; };
 		63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
@@ -324,7 +326,6 @@
 		634EA02C2E9E7F09001F7BBB /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				637D58BC2F244AC200A8000C /* StoreComparisonViewModel.swift */,
 				637D58AF2F24418F00A8000C /* StoreListViewModel.swift */,
 				637D589C2F24367300A8000C /* HomeKPIViewModel.swift */,
 				637D58732F242EC800A8000C /* KPIExportViewModel.swift */,
@@ -484,7 +485,7 @@
 		637D58AC2F24413E00A8000C /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				637D58C02F244DDC00A8000C /* StoreComparison.swift */,
+				637D58C02F244DDC00A8000C /* StoreComparisonItem.swift */,
 				637D58AD2F24415300A8000C /* StoreTotal.swift */,
 			);
 			path = Domain;
@@ -493,6 +494,8 @@
 		637D58B12F2441C100A8000C /* Store */ = {
 			isa = PBXGroup;
 			children = (
+				6309A1B62F3B9CCF002B98B6 /* StoreComparison.swift */,
+				6309A1B42F3B9C85002B98B6 /* StoreComparisonViewModel.swift */,
 				637D58C22F24517E00A8000C /* StoreComparisonBarChartView.swift */,
 				637D58BE2F244B0700A8000C /* StoreComparisonView.swift */,
 				637D58B82F24434A00A8000C /* StoreExportButton.swift */,
@@ -791,7 +794,7 @@
 				637D58642F23E23D00A8000C /* KPIComparisonView.swift in Sources */,
 				634EA0572E9E8FDB001F7BBB /* SettingsView.swift in Sources */,
 				63DBD80E2EEC434400D1A8EF /* ConfirmDeletePopup.swift in Sources */,
-				637D58C12F244DEA00A8000C /* StoreComparison.swift in Sources */,
+				637D58C12F244DEA00A8000C /* StoreComparisonItem.swift in Sources */,
 				637D58A42F243A6A00A8000C /* CategoryDetailView.swift in Sources */,
 				63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */,
 				634EA0AE2EA01A0F001F7BBB /* StatisticsView.swift in Sources */,
@@ -808,6 +811,7 @@
 				637D58622F23E15F00A8000C /* KPIComparison.swift in Sources */,
 				634EA0582E9E8FE4001F7BBB /* RegisterView.swift in Sources */,
 				634EA0382E9E8149001F7BBB /* Theme.swift in Sources */,
+				6309A1B52F3B9C8A002B98B6 /* StoreComparisonViewModel.swift in Sources */,
 				63DBD7E72EEADCED00D1A8EF /* OCRNotifications.swift in Sources */,
 				637D585E2F23DABD00A8000C /* KPIInsightsView.swift in Sources */,
 				63DBD7EC2EEADE1A00D1A8EF /* OCRScannerView.swift in Sources */,
@@ -819,6 +823,7 @@
 				63DBD8082EEC425400D1A8EF /* PopupContainer.swift in Sources */,
 				637D58582F23D5F400A8000C /* KPIHeaderView.swift in Sources */,
 				634EA0522E9E8F9F001F7BBB /* CategoryViewModel.swift in Sources */,
+				6309A1B72F3B9CFA002B98B6 /* StoreComparison.swift in Sources */,
 				637D58A22F24391A00A8000C /* CategoryRowView.swift in Sources */,
 				637D58762F2432D900A8000C /* KPIExportButton.swift in Sources */,
 				634EA0882E9FD77E001F7BBB /* eTixButton.swift in Sources */,
@@ -834,7 +839,6 @@
 				634EA0A22E9FF550001F7BBB /* OnboardingPage.swift in Sources */,
 				634EA04F2E9E8F80001F7BBB /* Ticket.swift in Sources */,
 				637D58B32F2441DC00A8000C /* StoreListView.swift in Sources */,
-				637D58BD2F244AC600A8000C /* StoreComparisonViewModel.swift in Sources */,
 				634EA08D2E9FDA49001F7BBB /* SplashView.swift in Sources */,
 				634EA0592E9E8FF0001F7BBB /* DateUtils.swift in Sources */,
 				634EA0832E9EE15F001F7BBB /* RangePickerSheet.swift in Sources */,

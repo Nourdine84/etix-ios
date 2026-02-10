@@ -10,18 +10,13 @@ struct StoreComparisonView: View {
             ScrollView {
                 VStack(spacing: 24) {
 
-                    // 🔝 HEADER
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("Comparaison des magasins")
-                            .font(.title2.bold())
+                    header
 
-                        Text(String(format: "%.2f € au total", vm.grandTotal))
-                            .foregroundColor(.secondary)
+                    if !vm.comparisons.isEmpty {
+                        StoreComparisonBarChartView(items: vm.comparisons)
+                            .padding(.horizontal)
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal)
 
-                    // 📊 LISTE COMPARATIVE
                     VStack(spacing: 12) {
                         ForEach(vm.comparisons) { item in
                             comparisonRow(item)
@@ -38,35 +33,44 @@ struct StoreComparisonView: View {
         }
     }
 
-    // MARK: - Row
-    private func comparisonRow(_ item: StoreComparison) -> some View {
+    private var header: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("Comparaison des magasins")
+                .font(.title2.bold())
+
+            Text(String(format: "%.2f € au total", vm.grandTotal))
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal)
+    }
+
+    private func comparisonRow(_ item: StoreComparisonItem) -> some View {
         HStack {
-
-            // 🏅 RANG
-            Text("\(item.rank)")
-                .font(.headline)
-                .frame(width: 28)
-                .foregroundColor(item.rank <= 3 ? .white : .secondary)
-                .background(item.rank <= 3 ? Color(Theme.primaryBlue) : .clear)
-                .clipShape(Circle())
-
             VStack(alignment: .leading, spacing: 4) {
                 Text(item.storeName)
                     .font(.headline)
 
-                Text("\(item.ticketCount) ticket(s) • \(String(format: "%.1f", item.percent)) %")
+                Text("\(item.ticketCount) ticket(s)")
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
 
             Spacer()
 
-            Text(String(format: "%.2f €", item.total))
-                .fontWeight(.semibold)
-                .foregroundColor(Color(Theme.primaryBlue))
+            VStack(alignment: .trailing) {
+                Text(String(format: "%.2f €", item.total))
+                    .fontWeight(.semibold)
+                    .foregroundColor(Color(Theme.primaryBlue))
+
+                Text(String(format: "%.1f %%", item.sharePercent))
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
         }
         .padding()
         .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(14)
+        .cornerRadius(12)
     }
 }
