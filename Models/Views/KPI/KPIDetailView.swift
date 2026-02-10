@@ -5,72 +5,42 @@ struct KPIDetailView: View {
 
     // MARK: - Input
     let type: KPIType
+    let range: TimeRange
 
     // MARK: - CoreData
     @Environment(\.managedObjectContext) private var context
     @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
     private var tickets: FetchedResults<Ticket>
 
-    // MARK: - Tickets filtrés (période courante)
-    private var filteredTickets: [Ticket] {
-        let now = Date()
-        let calendar = Calendar.current
+    // MARK: - Current range tickets
+    private var currentTickets: [Ticket] {
+        let range = DateRangeHelper.currentRange(for: range)
+        let startMs = DateRangeHelper.millis(range.start)
+        let endMs = DateRangeHelper.millis(range.end)
 
-        switch type {
-        case .today:
-            let start = calendar.startOfDay(for: now)
-            let startMs = Int64(start.timeIntervalSince1970 * 1000)
-            return tickets.filter { $0.dateMillis >= startMs }
-
-        case .month:
-            let comps = calendar.dateComponents([.year, .month], from: now)
-            guard let start = calendar.date(from: comps) else { return [] }
-            let startMs = Int64(start.timeIntervalSince1970 * 1000)
-            return tickets.filter { $0.dateMillis >= startMs }
-
-        case .all:
-            return Array(tickets)
+        return tickets.filter {
+            $0.dateMillis >= startMs && $0.dateMillis < endMs
         }
     }
 
-    // MARK: - Totaux
+    // MARK: - Previous range tickets
+    private var previousTickets: [Ticket] {
+        let range = DateRangeHelper.previousRange(for: range)
+        let startMs = DateRangeHelper.millis(range.start)
+        let endMs = DateRangeHelper.millis(range.end)
+
+        return tickets.filter {
+            $0.dateMillis >= startMs && $0.dateMillis < endMs
+        }
+    }
+
+    // MARK: - Totals
     private var totalAmount: Double {
-        filteredTickets.reduce(0) { $0 + $1.amount }
+        currentTickets.reduce(0) { $0 + $1.amount }
     }
 
     private var previousTotal: Double {
-        let now = Date()
-        let calendar = Calendar.current
-
-        switch type {
-
-        case .today:
-            let startToday = calendar.startOfDay(for: now)
-            let startYesterday = calendar.date(byAdding: .day, value: -1, to: startToday)!
-            let endYesterday = startToday
-
-            let startMs = Int64(startYesterday.timeIntervalSince1970 * 1000)
-            let endMs = Int64(endYesterday.timeIntervalSince1970 * 1000)
-
-            return tickets
-                .filter { $0.dateMillis >= startMs && $0.dateMillis < endMs }
-                .reduce(0) { $0 + $1.amount }
-
-        case .month:
-            let comps = calendar.dateComponents([.year, .month], from: now)
-            let startThisMonth = calendar.date(from: comps)!
-            let startLastMonth = calendar.date(byAdding: .month, value: -1, to: startThisMonth)!
-
-            let startMs = Int64(startLastMonth.timeIntervalSince1970 * 1000)
-            let endMs = Int64(startThisMonth.timeIntervalSince1970 * 1000)
-
-            return tickets
-                .filter { $0.dateMillis >= startMs && $0.dateMillis < endMs }
-                .reduce(0) { $0 + $1.amount }
-
-        case .all:
-            return 0
-        }
+        previousTickets.reduce(0) { $0 + $1.amount }
     }
 
     private var variationPercent: Double {
@@ -78,12 +48,14 @@ struct KPIDetailView: View {
         return ((totalAmount - previousTotal) / previousTotal) * 100
     }
 
-    // MARK: - Groupement par jour
+    // MARK: - Grouped by day
     private var groupedTickets: [(date: Date, items: [Ticket])] {
         let calendar = Calendar.current
 
-        let grouped = Dictionary(grouping: filteredTickets) { ticket -> Date in
-            let date = Date(timeIntervalSince1970: TimeInterval(ticket.dateMillis) / 1000)
+        let grouped = Dictionary(grouping: currentTickets) { ticket -> Date in
+            let date = Date(
+                timeIntervalSince1970: TimeInterval(ticket.dateMillis) / 1000
+            )
             return calendar.startOfDay(for: date)
         }
 
@@ -94,9 +66,9 @@ struct KPIDetailView: View {
 
     // MARK: - Helpers
     private func sectionTitle(for date: Date) -> String {
-        let calendar = Calendar.current
-        if calendar.isDateInToday(date) { return "Aujourd’hui" }
-        if calendar.isDateInYesterday(date) { return "Hier" }
+        let cal = Calendar.current
+        if cal.isDateInToday(date) { return "Aujourd’hui" }
+        if cal.isDateInYesterday(date) { return "Hier" }
 
         return DateFormatter.localizedString(
             from: date,
@@ -110,15 +82,18 @@ struct KPIDetailView: View {
         ScrollView {
             VStack(spacing: 24) {
 
+                // 🔵 KPI HEADER
                 KPIHeaderView(
                     title: type.title,
                     total: totalAmount,
-                    ticketCount: filteredTickets.count,
+                    ticketCount: currentTickets.count,
                     variation: variationPercent
                 )
 
-                KPIInsightsView(tickets: filteredTickets)
+                // 🧠 INSIGHTS
+                KPIInsightsView(tickets: currentTickets)
 
+                // 📊 GRAPH
                 if !groupedTickets.isEmpty {
                     KPIBarChartView(
                         data: groupedTickets.map {
@@ -127,6 +102,7 @@ struct KPIDetailView: View {
                     )
                 }
 
+                // 📄 LISTE
                 if groupedTickets.isEmpty {
                     emptyState
                 } else {
@@ -163,7 +139,7 @@ struct KPIDetailView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 KPIExportButton(
                     type: type,
-                    tickets: filteredTickets,
+                    tickets: currentTickets,
                     total: totalAmount,
                     variation: variationPercent
                 )
@@ -199,7 +175,7 @@ struct KPIDetailView: View {
         .shadow(color: .black.opacity(0.05), radius: 2, y: 1)
     }
 
-    // MARK: - Empty State
+    // MARK: - Empty
     private var emptyState: some View {
         VStack(spacing: 12) {
             Image(systemName: "tray")
