@@ -24,8 +24,7 @@ struct StoreExportButton: View {
         }
         .sheet(isPresented: $vm.showShareSheet) {
             if let url = vm.exportedURL {
-                ShareSheet(activityItems: [url])
-            }
+                ShareSheet(items: [url])            }
         }
     }
 }

@@ -3,32 +3,49 @@ import CoreData
 
 final class StoreComparisonViewModel: ObservableObject {
 
+    // MARK: - Published
     @Published var comparisons: [StoreComparisonItem] = []
-    @Published var grandTotal: Double = 0
+    @Published private(set) var grandTotal: Double = 0
 
+    // MARK: - Alias sûr pour les vues
+    var total: Double {
+        grandTotal
+    }
+
+    // MARK: - Load
     func load(context: NSManagedObjectContext) {
         let request = Ticket.fetchAllRequest()
 
         do {
             let tickets = try context.fetch(request)
 
-            let grouped = Dictionary(grouping: tickets, by: { $0.storeName ?? "Inconnu" })
+            let grouped = Dictionary(
+                grouping: tickets,
+                by: { $0.storeName ?? "Inconnu" }
+            )
 
-            let totals = grouped.map { name, items -> (String, Double, Int) in
+            let totals = grouped.map { name, items -> StoreComparisonItem in
                 let total = items.reduce(0) { $0 + $1.amount }
-                return (name, total, items.count)
+                return StoreComparisonItem(
+                    storeName: name,
+                    total: total,
+                    ticketCount: items.count,
+                    percentOfTotal: 0 // recalculé après
+                )
             }
 
-            let global = totals.reduce(0) { $0 + $1.1 }
+            let global = totals.reduce(0) { $0 + $1.total }
             self.grandTotal = global
 
             self.comparisons = totals
-                .map { name, total, count in
+                .map {
                     StoreComparisonItem(
-                        storeName: name,
-                        total: total,
-                        ticketCount: count,
-                        percentOfTotal: global > 0 ? (total / global) * 100 : 0
+                        storeName: $0.storeName,
+                        total: $0.total,
+                        ticketCount: $0.ticketCount,
+                        percentOfTotal: global > 0
+                            ? ($0.total / global) * 100
+                            : 0
                     )
                 }
                 .sorted { $0.total > $1.total }

@@ -1,72 +1,122 @@
 import SwiftUI
 
+// MARK: - Slice Model (Catégorie ONLY)
+struct CategoryDonutSlice: Identifiable {
+    let id = UUID()
+    let label: String
+    let value: Double
+    let color: Color
+}
+
+// MARK: - Donut View
 struct CategoryDonutView: View {
 
     let categories: [CategoryTotal]
     let total: Double
 
-    private func percent(for cat: CategoryTotal) -> Double {
-        guard total > 0 else { return 0 }
-        return cat.total / total
+    private var slices: [CategoryDonutSlice] {
+        categories.enumerated().map { index, cat in
+            CategoryDonutSlice(
+                label: cat.name,
+                value: cat.total,
+                color: palette[index % palette.count]
+            )
+        }
     }
 
     var body: some View {
         VStack(spacing: 16) {
 
-            Text("Répartition des dépenses")
-                .font(.headline)
-
             ZStack {
-                ForEach(Array(categories.enumerated()), id: \.element.id) { index, cat in
-                    DonutSlice(
-                        startAngle: startAngle(index),
-                        endAngle: endAngle(index),
-                        color: color(for: index)
+                ForEach(slices.indices, id: \.self) { index in
+                    CategoryDonutSliceView(
+                        slice: slices[index],
+                        startAngle: startAngle(for: index),
+                        endAngle: endAngle(for: index)
                     )
                 }
 
                 VStack {
-                    Text(String(format: "%.2f €", total))
-                        .font(.title2.bold())
                     Text("Total")
                         .font(.caption)
                         .foregroundColor(.secondary)
+
+                    Text(String(format: "%.2f €", total))
+                        .font(.headline.bold())
                 }
             }
             .frame(width: 220, height: 220)
+
+            // Légende
+            VStack(alignment: .leading, spacing: 8) {
+                ForEach(slices) { slice in
+                    HStack {
+                        Circle()
+                            .fill(slice.color)
+                            .frame(width: 10, height: 10)
+
+                        Text(slice.label)
+                            .font(.caption)
+
+                        Spacer()
+
+                        Text(String(format: "%.1f %%", percentage(of: slice)))
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                }
+            }
         }
+        .padding()
+        .background(Color(.secondarySystemGroupedBackground))
+        .cornerRadius(16)
+        .padding(.horizontal)
     }
 
     // MARK: - Angles
-    private func startAngle(_ index: Int) -> Angle {
-        let sum = categories.prefix(index).reduce(0) { $0 + percent(for: $1) }
-        return .degrees(sum * 360)
+    private func startAngle(for index: Int) -> Double {
+        let sum = slices.prefix(index).reduce(0) { $0 + $1.value }
+        return angle(for: sum)
     }
 
-    private func endAngle(_ index: Int) -> Angle {
-        let sum = categories.prefix(index + 1).reduce(0) { $0 + percent(for: $1) }
-        return .degrees(sum * 360)
+    private func endAngle(for index: Int) -> Double {
+        let sum = slices.prefix(index + 1).reduce(0) { $0 + $1.value }
+        return angle(for: sum)
     }
 
-    private func color(for index: Int) -> Color {
-        let palette: [Color] = [
-            .blue, .green, .orange, .purple, .pink, .teal, .red
-        ]
-        return palette[index % palette.count]
+    private func angle(for value: Double) -> Double {
+        guard total > 0 else { return 0 }
+        return (value / total) * 360
     }
+
+    private func percentage(of slice: CategoryDonutSlice) -> Double {
+        guard total > 0 else { return 0 }
+        return (slice.value / total) * 100
+    }
+
+    // MARK: - Palette
+    private let palette: [Color] = [
+        .blue, .green, .orange, .purple, .pink, .red, .teal
+    ]
 }
 
-// MARK: - Slice
-private struct DonutSlice: View {
+// MARK: - Slice Shape View
+struct CategoryDonutSliceView: View {
 
-    let startAngle: Angle
-    let endAngle: Angle
-    let color: Color
+    let slice: CategoryDonutSlice
+    let startAngle: Double
+    let endAngle: Double
 
     var body: some View {
         Circle()
-            .trim(from: startAngle.degrees / 360, to: endAngle.degrees / 360)
-            .stroke(color, style: StrokeStyle(lineWidth: 36))
+            .trim(
+                from: startAngle / 360,
+                to: endAngle / 360
+            )
+            .stroke(
+                slice.color,
+                style: StrokeStyle(lineWidth: 40, lineCap: .butt)
+            )
             .rotationEffect(.degrees(-90))
     }
 }

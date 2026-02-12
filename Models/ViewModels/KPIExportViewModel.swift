@@ -21,7 +21,9 @@ final class KPIExportViewModel: ObservableObject {
             variation: variation
         )
 
-        let filename = "eTix_KPI_\(type.identifier).csv"
+        // ✅ FIX : rawValue au lieu de identifier
+        let filename = "eTix_KPI_\(type.rawValue).csv"
+
         let url = FileManager.default.temporaryDirectory
             .appendingPathComponent(filename)
 
@@ -53,7 +55,7 @@ final class KPIExportViewModel: ObservableObject {
         csv += "Magasin;Catégorie;Montant\n"
 
         for t in tickets {
-            csv += "\(t.storeName);\(t.category);\(t.amount)\n"
+            csv += "\(t.storeName ?? "Inconnu");\(t.category);\(t.amount)\n"
         }
 
         return csv

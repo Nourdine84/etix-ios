@@ -3,186 +3,163 @@ import CoreData
 
 struct HomeView: View {
 
+    // MARK: - CoreData
     @Environment(\.managedObjectContext) private var context
     @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
     private var tickets: FetchedResults<Ticket>
 
-    // MARK: - KPI calculés
+    // MARK: - State
+    @State private var range: TimeRange = .month
 
-    private var todayTotal: Double {
-        let startOfDay = Calendar.current.startOfDay(for: Date())
-        let startMs = Int64(startOfDay.timeIntervalSince1970 * 1000)
+    // MARK: - Tickets filtrés
+    private var filteredTickets: [Ticket] {
+        let r = DateRangeHelper.currentRange(for: range)
+        let startMs = DateRangeHelper.millis(r.start)
+        let endMs = DateRangeHelper.millis(r.end)
 
-        return tickets
-            .filter { $0.dateMillis >= startMs }
-            .map { $0.amount }
-            .reduce(0, +)
+        return tickets.filter {
+            $0.dateMillis >= startMs && $0.dateMillis < endMs
+        }
     }
 
-    private var monthTotal: Double {
-        let comps = Calendar.current.dateComponents([.year, .month], from: Date())
-        let startOfMonth = Calendar.current.date(from: comps) ?? Date()
-        let startMs = Int64(startOfMonth.timeIntervalSince1970 * 1000)
-
-        return tickets
-            .filter { $0.dateMillis >= startMs }
-            .map { $0.amount }
-            .reduce(0, +)
+    // MARK: - KPIs
+    private var totalAmount: Double {
+        filteredTickets.reduce(0) { $0 + $1.amount }
     }
 
-    private var totalTickets: Int {
-        tickets.count
+    private var ticketCount: Int {
+        filteredTickets.count
+    }
+
+    private var averageAmount: Double {
+        guard ticketCount > 0 else { return 0 }
+        return totalAmount / Double(ticketCount)
     }
 
     // MARK: - Body
-
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 32) {
+                VStack(spacing: 24) {
 
-                    // MARK: - KPI Section
+                    // 🔁 RANGE SELECTOR
+                    rangeSelector
+
+                    // 🔵 KPI CARDS
                     kpiSection
 
-                    // MARK: - Derniers tickets
-                    VStack(alignment: .leading, spacing: 14) {
-                        Text("Derniers tickets")
-                            .font(.title3.weight(.semibold))
-                            .padding(.horizontal)
-
-                        if tickets.isEmpty {
-                            emptyState
-                        } else {
-                            VStack(spacing: 12) {
-                                ForEach(tickets.prefix(5), id: \.objectID) { t in
-                                    NavigationLink {
-                                        TicketDetailView(ticket: t)
-                                    } label: {
-                                        ticketRow(t)
-                                    }
-                                    .buttonStyle(.plain)
-                                }
-                            }
-                            .padding(.horizontal)
-                        }
-                    }
+                    // ⚡ Accès rapides
+                    quickActions
                 }
-                .padding(.top, 8)
+                .padding(.vertical)
             }
             .navigationTitle("Accueil")
         }
     }
 
+    // MARK: - Range Selector
+    private var rangeSelector: some View {
+        Picker("Période", selection: $range) {
+            ForEach(TimeRange.allCases) { r in
+                Text(r.title).tag(r)
+            }
+        }
+        .pickerStyle(.segmented)
+        .padding(.horizontal)
+    }
+
     // MARK: - KPI Section
     private var kpiSection: some View {
-        HStack(spacing: 14) {
+        VStack(spacing: 16) {
+
+            // 💰 TOTAL DÉPENSES
+            NavigationLink {
+                KPIDetailView(
+                    type: .month,
+                    range: range
+                )
+            } label: {
+                KPIPrimaryCard(
+                    title: "Dépenses",
+                    value: totalAmount,
+                    subtitle: "\(ticketCount) ticket(s)",
+                    color: Theme.primaryBlue
+                )
+            }
+            .buttonStyle(.plain)
+
+            HStack(spacing: 12) {
+
+                // 🎫 TICKETS
+                NavigationLink {
+                    KPIDetailView(
+                        type: .tickets,
+                        range: range
+                    )
+                } label: {
+                    KPISmallCard(
+                        title: "Tickets",
+                        value: Double(ticketCount),
+                        unit: ""
+                    )
+                }
+
+                // 📈 MOYENNE
+                NavigationLink {
+                    KPIDetailView(
+                        type: .month,
+                        range: range
+                    )
+                } label: {
+                    KPISmallCard(
+                        title: "Moyenne",
+                        value: averageAmount,
+                        unit: "€"
+                    )
+                }
+            }
+        }
+        .padding(.horizontal)
+    }
+
+    // MARK: - Quick Actions
+    private var quickActions: some View {
+        HStack(spacing: 12) {
 
             NavigationLink {
-                KPIDetailView(type: .today)
+                AddTicketView()
             } label: {
-                kpiCard(
-                    icon: "sun.max.fill",
-                    title: "Aujourd’hui",
-                    value: String(format: "%.2f €", todayTotal)
+                quickAction(
+                    icon: "plus.circle.fill",
+                    title: "Ajouter"
                 )
             }
 
             NavigationLink {
-                KPIDetailView(type: .month)
+                TicketHistoryView()
             } label: {
-                kpiCard(
-                    icon: "calendar",
-                    title: "Ce mois",
-                    value: String(format: "%.2f €", monthTotal)
-                )
-            }
-
-            NavigationLink {
-                KPIDetailView(type: .all)
-            } label: {
-                kpiCard(
-                    icon: "doc.plaintext",
-                    title: "Tickets",
-                    value: "\(totalTickets)"
+                quickAction(
+                    icon: "list.bullet",
+                    title: "Historique"
                 )
             }
         }
         .padding(.horizontal)
     }
-    
-    // MARK: - KPI Card
 
-    private func kpiCard(icon: String, title: String, value: String) -> some View {
-        VStack(spacing: 8) {
-
+    private func quickAction(icon: String, title: String) -> some View {
+        VStack(spacing: 6) {
             Image(systemName: icon)
-                .font(.system(size: 18, weight: .semibold))
-                .foregroundColor(Color(Theme.primaryBlue))
+                .font(.system(size: 22))
+                .foregroundColor(Theme.primaryBlue)
 
             Text(title)
                 .font(.caption)
-                .foregroundColor(.secondary)
-
-            Text(value)
-                .font(.system(size: 20, weight: .bold, design: .rounded))
-                .foregroundColor(Color(Theme.primaryBlue))
+                .foregroundColor(.primary)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 14)
-        .background(Color(.secondarySystemBackground))
-        .cornerRadius(14)
-        .shadow(color: .black.opacity(0.07), radius: 3, y: 2)
-    }
-
-    // MARK: - Ticket Row
-
-    private func ticketRow(_ t: Ticket) -> some View {
-        HStack(alignment: .center, spacing: 12) {
-
-            Image(systemName: "receipt")
-                .font(.system(size: 22))
-                .foregroundColor(Color(Theme.primaryBlue))
-
-            VStack(alignment: .leading, spacing: 6) {
-
-                HStack {
-                    Text(t.storeName)
-                        .font(.headline)
-
-                    Spacer()
-
-                    Text(String(format: "%.2f €", t.amount))
-                        .foregroundColor(Color(Theme.primaryBlue))
-                        .fontWeight(.semibold)
-                }
-
-                Text(t.category)
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-
-                Text(DateUtils.shortString(fromMillis: t.dateMillis))
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-            }
-        }
         .padding()
         .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(12)
-        .shadow(color: .black.opacity(0.05), radius: 2, y: 1)
-    }
-
-    // MARK: - Empty State
-
-    private var emptyState: some View {
-        VStack(spacing: 10) {
-            Image(systemName: "tray")
-                .font(.system(size: 40))
-                .foregroundColor(.gray)
-
-            Text("Aucun ticket pour le moment.")
-                .foregroundColor(.secondary)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 32)
+        .cornerRadius(14)
     }
 }

@@ -22,8 +22,7 @@ struct KPIExportButton: View {
         }
         .sheet(isPresented: $vm.showShareSheet) {
             if let url = vm.fileURL {
-                ShareSheet(activityItems: [url])
-            }
+                ShareSheet(items: [url])            }
         }
     }
 }

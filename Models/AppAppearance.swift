@@ -1,15 +1,16 @@
 import SwiftUI
 
 enum AppAppearance: String, CaseIterable, Identifiable {
+
     case system
     case light
     case dark
 
     var id: String { rawValue }
 
-    var label: String {
+    var title: String {
         switch self {
-        case .system: return "Comme le système"
+        case .system: return "Système"
         case .light:  return "Clair"
         case .dark:   return "Sombre"
         }
@@ -17,11 +18,15 @@ enum AppAppearance: String, CaseIterable, Identifiable {
 
     var colorScheme: ColorScheme? {
         switch self {
-        case .system: return nil
-        case .light:  return .light
-        case .dark:   return .dark
+        case .system:
+            return nil
+        case .light:
+            return .light
+        case .dark:
+            return .dark
         }
     }
 
-    static let `default`: AppAppearance = .system
+    // 🔥 Valeur par défaut centralisée ici
+    static let `default` = AppAppearance.system
 }

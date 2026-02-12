@@ -6,17 +6,27 @@ struct StoreComparisonBarChartView: View {
     let items: [StoreComparisonItem]
 
     var body: some View {
-        Chart {
-            ForEach(items) { item in
-                BarMark(
-                    x: .value("Magasin", item.storeName),
-                    y: .value("Total", item.total)
-                )
-                .foregroundStyle(Color(Theme.primaryBlue))
+        VStack(alignment: .leading, spacing: 12) {
+
+            Text("Répartition par magasin")
+                .font(.headline)
+                .padding(.horizontal)
+
+            Chart {
+                ForEach(items) { item in
+                    BarMark(
+                        x: .value("Magasin", item.storeName),
+                        y: .value("Total", item.total)
+                    )
+                    .foregroundStyle(.blue)
+                }
             }
+            .frame(height: 220)
+            .padding(.horizontal)
         }
-        .frame(height: 220)
+        .padding(.vertical)
         .background(Color(.secondarySystemGroupedBackground))
         .cornerRadius(16)
+        .padding(.horizontal)
     }
 }

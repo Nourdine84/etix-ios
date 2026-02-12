@@ -1,62 +1,98 @@
 import SwiftUI
+import CoreData
 
 struct SettingsView: View {
-    @EnvironmentObject var session: SessionViewModel
-    @State private var showWipeAlert = false
-    @AppStorage("app.appearance") private var appearanceRaw: String = AppAppearance.default.rawValue
+
+    @Environment(\.managedObjectContext) private var context
+    @StateObject private var vm = SettingsViewModel()
 
     var body: some View {
         NavigationStack {
-            Form {
+            List {
 
-                // MARK: - Section Compte
-                Section(header: Text("Compte")) {
-                    Button("Se déconnecter") {
-                        Haptic.medium()
-                        session.logout()
-                    }
-                    .foregroundColor(.blue)
-                }
-
-                // MARK: - Section Apparence
-                Section(header: Text("Apparence")) {
-                    Picker("Thème", selection: $appearanceRaw) {
-                        Text("Système").tag(AppAppearance.system.rawValue)
-                        Text("Clair").tag(AppAppearance.light.rawValue)
-                        Text("Sombre").tag(AppAppearance.dark.rawValue)
-                    }
-                }
-
-                // MARK: - Section Données
-                Section(header: Text("Données")) {
-                    Button("Réinitialiser les tickets") {
-                        Haptic.warning()
-                        showWipeAlert = true
-                    }
-                    .foregroundColor(.red)
-                }
-
-                // MARK: - À propos
-                Section(header: Text("À propos")) {
-                    HStack {
-                        Text("Version")
-                        Spacer()
-                        Text(appVersion)
-                            .foregroundColor(.secondary)
-                    }
-                }
+                appearanceSection
+                rangeSection
+                dataSection
+                infoSection
             }
-            .navigationTitle("Paramètres")
-            .alert("Supprimer tous les tickets ?", isPresented: $showWipeAlert) {
+            .navigationTitle("Réglages")
+            .alert("Confirmer la suppression ?", isPresented: $vm.showResetAlert) {
                 Button("Supprimer", role: .destructive) {
-                    PersistenceController.shared.wipeDatabase()
+                    vm.resetDatabase(context: context)
                 }
                 Button("Annuler", role: .cancel) {}
+            } message: {
+                Text("Tous les tickets seront définitivement supprimés.")
+            }
+            .sheet(isPresented: $vm.showExportSheet) {
+                if let url = vm.exportedFileURL {
+                    ShareSheet(items: [url])
+                }
             }
         }
     }
 
-    private var appVersion: String {
-        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+    // MARK: Sections
+
+    private var appearanceSection: some View {
+        Section(header: Text("Apparence")) {
+            Picker("Thème", selection: $vm.settings.appearance) {
+                ForEach(AppAppearance.allCases, id: \.self) { appearance in
+                    Text(appearance.title).tag(appearance)
+                }
+            }
+            .onChange(of: vm.settings.appearance) { _ in
+                vm.persistChanges()
+            }
+        }
+    }
+
+    private var rangeSection: some View {
+        Section(header: Text("Période par défaut")) {
+            Picker("Période", selection: $vm.settings.defaultRange) {
+                ForEach(TimeRange.allCases, id: \.self) { range in
+                    Text(range.title).tag(range)
+                }
+            }
+            .onChange(of: vm.settings.defaultRange) { _ in
+                vm.persistChanges()
+            }
+        }
+    }
+
+    private var dataSection: some View {
+        Section(header: Text("Données")) {
+
+            Button {
+                vm.exportAllTickets(context: context)
+            } label: {
+                Label("Exporter tous les tickets", systemImage: "square.and.arrow.up")
+            }
+
+            Button(role: .destructive) {
+                vm.showResetAlert = true
+            } label: {
+                Label("Supprimer tous les tickets", systemImage: "trash")
+            }
+        }
+    }
+
+    private var infoSection: some View {
+        Section(header: Text("Informations")) {
+
+            HStack {
+                Text("Version")
+                Spacer()
+                Text(vm.settings.appVersion)
+                    .foregroundColor(.secondary)
+            }
+
+            HStack {
+                Text("Build")
+                Spacer()
+                Text(vm.settings.buildNumber)
+                    .foregroundColor(.secondary)
+            }
+        }
     }
 }

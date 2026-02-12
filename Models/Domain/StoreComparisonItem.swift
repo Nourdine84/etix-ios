@@ -5,5 +5,5 @@ struct StoreComparisonItem: Identifiable {
     let storeName: String
     let total: Double
     let ticketCount: Int
-    let sharePercent: Double
+    let percentOfTotal: Double
 }
