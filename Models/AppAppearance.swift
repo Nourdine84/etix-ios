@@ -1,7 +1,6 @@
 import SwiftUI
 
-enum AppAppearance: String, CaseIterable, Identifiable {
-
+enum AppAppearance: String, CaseIterable, Identifiable, Codable {
     case system
     case light
     case dark
@@ -11,22 +10,16 @@ enum AppAppearance: String, CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .system: return "Système"
-        case .light:  return "Clair"
-        case .dark:   return "Sombre"
+        case .light: return "Clair"
+        case .dark: return "Sombre"
         }
     }
 
     var colorScheme: ColorScheme? {
         switch self {
-        case .system:
-            return nil
-        case .light:
-            return .light
-        case .dark:
-            return .dark
+        case .system: return nil
+        case .light: return .light
+        case .dark: return .dark
         }
     }
-
-    // 🔥 Valeur par défaut centralisée ici
-    static let `default` = AppAppearance.system
 }

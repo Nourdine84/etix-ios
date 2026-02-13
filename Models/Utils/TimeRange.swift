@@ -1,7 +1,6 @@
 import Foundation
 
-enum TimeRange: String, CaseIterable, Identifiable {
-
+enum TimeRange: String, CaseIterable, Identifiable, Codable {
     case today
     case month
     case year

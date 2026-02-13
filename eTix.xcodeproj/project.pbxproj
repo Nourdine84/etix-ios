@@ -86,6 +86,9 @@
 		63CDBC0F2F3BC887001503FF /* KPISmallCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBC0E2F3BC87E001503FF /* KPISmallCard.swift */; };
 		63CDBC122F3BDAFB001503FF /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBC112F3BDAEB001503FF /* AppSettings.swift */; };
 		63CDBC142F3BDB13001503FF /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBC132F3BDB02001503FF /* SettingsViewModel.swift */; };
+		63CDBC1A2F3E428F001503FF /* SettingsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBC192F3E427D001503FF /* SettingsCard.swift */; };
+		63CDBC1C2F3E42E0001503FF /* SettingsButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBC1B2F3E42CB001503FF /* SettingsButtonLabel.swift */; };
+		63CDBC1E2F3F2C08001503FF /* SecuritySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBC1D2F3F2B7F001503FF /* SecuritySection.swift */; };
 		63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */; };
 		63DBD7D92EE8650500D1A8EF /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */; };
 		63DBD7DE2EEAD75100D1A8EF /* TicketDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7DD2EEAD73700D1A8EF /* TicketDetailView.swift */; };
@@ -231,6 +234,9 @@
 		63CDBC0E2F3BC87E001503FF /* KPISmallCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPISmallCard.swift; sourceTree = "<group>"; };
 		63CDBC112F3BDAEB001503FF /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		63CDBC132F3BDB02001503FF /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		63CDBC192F3E427D001503FF /* SettingsCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCard.swift; sourceTree = "<group>"; };
+		63CDBC1B2F3E42CB001503FF /* SettingsButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsButtonLabel.swift; sourceTree = "<group>"; };
+		63CDBC1D2F3F2B7F001503FF /* SecuritySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySection.swift; sourceTree = "<group>"; };
 		63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExportService.swift; sourceTree = "<group>"; };
 		63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		63DBD7DD2EEAD73700D1A8EF /* TicketDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketDetailView.swift; sourceTree = "<group>"; };
@@ -335,7 +341,6 @@
 		634EA02B2E9E7EE9001F7BBB /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				63CDBC102F3BDABC001503FF /* Settings */,
 				637D58AC2F24413E00A8000C /* Domain */,
 				637D58A52F243C7200A8000C /* DTO */,
 				637D58652F23E98B00A8000C /* Services */,
@@ -389,6 +394,7 @@
 				634EA0332E9E802B001F7BBB /* Main */,
 				634EA0322E9E801F001F7BBB /* Auth */,
 				637D58632F23E20F00A8000C /* KPIComparisonView.swift */,
+				63CDBC102F3BDABC001503FF /* Settings */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -411,7 +417,6 @@
 				634EA0482E9E8393001F7BBB /* HomeView.swift */,
 				634EA0472E9E8378001F7BBB /* AddTicketView.swift */,
 				634EA0462E9E82F2001F7BBB /* TicketHistoryView.swift */,
-				634EA0442E9E82C0001F7BBB /* SettingsView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -557,8 +562,7 @@
 		63CDBC0B2F3BC83D001503FF /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				63CDBC0E2F3BC87E001503FF /* KPISmallCard.swift */,
-				63CDBC0C2F3BC848001503FF /* KPIPrimaryCard.swift */,
+				63CDBC172F3E3FA1001503FF /* Components */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -566,10 +570,31 @@
 		63CDBC102F3BDABC001503FF /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				63CDBC1D2F3F2B7F001503FF /* SecuritySection.swift */,
+				634EA0442E9E82C0001F7BBB /* SettingsView.swift */,
 				63CDBC132F3BDB02001503FF /* SettingsViewModel.swift */,
 				63CDBC112F3BDAEB001503FF /* AppSettings.swift */,
+				63CDBC182F3E4236001503FF /* Components */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		63CDBC172F3E3FA1001503FF /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				63CDBC0E2F3BC87E001503FF /* KPISmallCard.swift */,
+				63CDBC0C2F3BC848001503FF /* KPIPrimaryCard.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		63CDBC182F3E4236001503FF /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				63CDBC1B2F3E42CB001503FF /* SettingsButtonLabel.swift */,
+				63CDBC192F3E427D001503FF /* SettingsCard.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		63DBD7D72EE864DC00D1A8EF /* Shared */ = {
@@ -877,6 +902,8 @@
 				634EA0B02EA01E52001F7BBB /* WidgetSync.swift in Sources */,
 				634EA0502E9E8F8C001F7BBB /* AddTicketViewModel.swift in Sources */,
 				63CDBC022F3BC292001503FF /* StoreABComparisonItem.swift in Sources */,
+				63CDBC1A2F3E428F001503FF /* SettingsCard.swift in Sources */,
+				63CDBC1C2F3E42E0001503FF /* SettingsButtonLabel.swift in Sources */,
 				634EA04B2E9E899E001F7BBB /* SessionViewModel.swift in Sources */,
 				637D58622F23E15F00A8000C /* KPIComparison.swift in Sources */,
 				634EA0582E9E8FE4001F7BBB /* RegisterView.swift in Sources */,
@@ -920,6 +947,7 @@
 				634EA08D2E9FDA49001F7BBB /* SplashView.swift in Sources */,
 				63CDBC0F2F3BC887001503FF /* KPISmallCard.swift in Sources */,
 				634EA0592E9E8FF0001F7BBB /* DateUtils.swift in Sources */,
+				63CDBC1E2F3F2C08001503FF /* SecuritySection.swift in Sources */,
 				634EA0832E9EE15F001F7BBB /* RangePickerSheet.swift in Sources */,
 				634EA04D2E9E8A95001F7BBB /* LoginView.swift in Sources */,
 				637D58A02F2438F200A8000C /* CategoryDonutView.swift in Sources */,
