@@ -5,21 +5,19 @@ import UIKit
 
 final class SettingsViewModel: ObservableObject {
 
-    // MARK: - Published UI State
+    @Published var settings: AppSettings
 
-    @Published var settings = AppSettings()
-
-    @Published var showResetAlert: Bool = false
-    @Published var showExportSheet: Bool = false
-
+    @Published var showResetAlert = false
+    @Published var showExportSheet = false
     @Published var exportedFileURL: URL?
-    @Published var isExporting: Bool = false
 
-    // MARK: - Export CSV Global
+    init() {
+        self.settings = AppSettings()
+    }
+
+    // MARK: - CSV
 
     func exportAllTickets(context: NSManagedObjectContext) {
-
-        isExporting = true
 
         let request = Ticket.fetchAllRequest()
 
@@ -29,10 +27,7 @@ final class SettingsViewModel: ObservableObject {
             var csv = "Magasin;Catégorie;Montant;Date\n"
 
             for t in tickets {
-                let date = Date(
-                    timeIntervalSince1970: TimeInterval(t.dateMillis) / 1000
-                )
-
+                let date = Date(timeIntervalSince1970: TimeInterval(t.dateMillis) / 1000)
                 let dateString = DateFormatter.localizedString(
                     from: date,
                     dateStyle: .short,
@@ -42,31 +37,22 @@ final class SettingsViewModel: ObservableObject {
                 csv += "\(t.storeName);\(t.category);\(t.amount);\(dateString)\n"
             }
 
-            let filename = "eTix_All_Tickets.csv"
             let url = FileManager.default.temporaryDirectory
-                .appendingPathComponent(filename)
+                .appendingPathComponent("eTix_All_Tickets.csv")
 
             try csv.write(to: url, atomically: true, encoding: .utf8)
 
-            DispatchQueue.main.async {
-                self.exportedFileURL = url
-                self.showExportSheet = true
-                self.isExporting = false
-            }
+            exportedFileURL = url
+            showExportSheet = true
 
         } catch {
-            DispatchQueue.main.async {
-                self.isExporting = false
-            }
-            print("Erreur export CSV :", error)
+            print("CSV error:", error)
         }
     }
 
-    // MARK: - Export PDF Global
+    // MARK: - PDF
 
     func exportAllTicketsPDF(context: NSManagedObjectContext) {
-
-        isExporting = true
 
         let request = Ticket.fetchAllRequest()
 
@@ -82,19 +68,9 @@ final class SettingsViewModel: ObservableObject {
 
                 var y: CGFloat = 40
 
-                let title = "Export complet eTix"
-                title.draw(at: CGPoint(x: 40, y: y), withAttributes: [
-                    .font: UIFont.boldSystemFont(ofSize: 20)
-                ])
-
-                y += 40
-
                 for ticket in tickets {
 
-                    let date = Date(
-                        timeIntervalSince1970: TimeInterval(ticket.dateMillis) / 1000
-                    )
-
+                    let date = Date(timeIntervalSince1970: TimeInterval(ticket.dateMillis) / 1000)
                     let dateString = DateFormatter.localizedString(
                         from: date,
                         dateStyle: .short,
@@ -105,17 +81,10 @@ final class SettingsViewModel: ObservableObject {
 
                     line.draw(
                         at: CGPoint(x: 40, y: y),
-                        withAttributes: [
-                            .font: UIFont.systemFont(ofSize: 12)
-                        ]
+                        withAttributes: [.font: UIFont.systemFont(ofSize: 12)]
                     )
 
                     y += 18
-
-                    if y > 800 {
-                        ctx.beginPage()
-                        y = 40
-                    }
                 }
             }
 
@@ -124,21 +93,15 @@ final class SettingsViewModel: ObservableObject {
 
             try data.write(to: url)
 
-            DispatchQueue.main.async {
-                self.exportedFileURL = url
-                self.showExportSheet = true
-                self.isExporting = false
-            }
+            exportedFileURL = url
+            showExportSheet = true
 
         } catch {
-            DispatchQueue.main.async {
-                self.isExporting = false
-            }
-            print("Erreur export PDF :", error)
+            print("PDF error:", error)
         }
     }
 
-    // MARK: - Reset complet
+    // MARK: - RESET
 
     func resetDatabase(context: NSManagedObjectContext) {
 
@@ -154,38 +117,7 @@ final class SettingsViewModel: ObservableObject {
             try context.save()
 
         } catch {
-            print("Erreur reset complet :", error)
-        }
-    }
-
-    // MARK: - Reset sélectif par période
-
-    func resetTickets(
-        in range: TimeRange,
-        context: NSManagedObjectContext
-    ) {
-
-        let r = DateRangeHelper.currentRange(for: range)
-        let start = DateRangeHelper.millis(r.start)
-        let end = DateRangeHelper.millis(r.end)
-
-        let request = Ticket.fetchAllRequest()
-
-        do {
-            let tickets = try context.fetch(request)
-
-            let filtered = tickets.filter {
-                $0.dateMillis >= start && $0.dateMillis < end
-            }
-
-            for ticket in filtered {
-                context.delete(ticket)
-            }
-
-            try context.save()
-
-        } catch {
-            print("Erreur reset sélectif :", error)
+            print("Reset error:", error)
         }
     }
 }

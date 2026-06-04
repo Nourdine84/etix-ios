@@ -3,42 +3,48 @@ import CoreData
 
 struct StoreListView: View {
 
-    // MARK: - Input
     let categoryName: String?
 
-    // MARK: - CoreData
     @Environment(\.managedObjectContext) private var context
     @StateObject private var vm = StoreListViewModel()
 
-    // MARK: - Body
     var body: some View {
         NavigationStack {
-            List {
-                if vm.stores.isEmpty {
-                    emptyState
-                } else {
-                    ForEach(vm.stores) { store in
-                        NavigationLink {
-                            StoreDetailView(
-                                storeName: store.storeName ?? "Inconnu"
-                            )
-                        } label: {
-                            storeRow(store)
+            ZStack {
+
+                DesignSystem.premiumBackground
+                    .ignoresSafeArea()
+
+                ScrollView {
+                    VStack(spacing: DesignSystem.verticalSpacing) {
+
+                        header
+
+                        if vm.stores.isEmpty {
+                            emptyState
+                        } else {
+                            LazyVStack(spacing: DesignSystem.innerSpacing) {
+                                ForEach(vm.stores) { store in
+                                    NavigationLink {
+                                        StoreDetailView(
+                                            storeName: store.storeName ?? "Inconnu"
+                                        )
+                                    } label: {
+                                        storeCard(store)
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                            }
+                            .padding(.horizontal, DesignSystem.horizontalPadding)
                         }
                     }
+                    .padding(.vertical)
                 }
             }
-            .listStyle(.plain)
             .navigationTitle("Magasins")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink {
-                        StoreComparisonView()
-                    } label: {
-                        Image(systemName: "chart.bar.fill")
-                    }
-                }
-            }
+            .navigationBarTitleDisplayMode(.large)
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbarBackground(Color(.systemBackground), for: .navigationBar)
             .onAppear {
                 vm.load(
                     categoryName: categoryName ?? "",
@@ -48,38 +54,54 @@ struct StoreListView: View {
         }
     }
 
-    // MARK: - Row
-    private func storeRow(_ store: StoreTotal) -> some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 4) {
+    private var header: some View {
+        VStack(alignment: .leading, spacing: 8) {
+
+            Text("Total magasins")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+
+            Text("\(vm.stores.count)")
+                .font(.system(size: 32, weight: .bold))
+                .foregroundColor(Theme.primaryBlue)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .premiumCard()
+        .padding(.horizontal, DesignSystem.horizontalPadding)
+    }
+
+    private func storeCard(_ store: StoreTotal) -> some View {
+
+        VStack(alignment: .leading, spacing: 10) {
+
+            HStack {
                 Text(store.storeName ?? "Inconnu")
                     .font(.headline)
 
-                Text("\(store.ticketCount) ticket(s)")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+                Spacer()
+
+                Text(String(format: "%.2f €", store.total))
+                    .fontWeight(.semibold)
+                    .foregroundColor(Theme.primaryBlue)
             }
 
-            Spacer()
-
-            Text(String(format: "%.2f €", store.total))
-                .fontWeight(.semibold)
-                .foregroundColor(Color(Theme.primaryBlue))
+            Text("\(store.ticketCount) ticket(s)")
+                .font(.caption)
+                .foregroundColor(.secondary)
         }
-        .padding(.vertical, 6)
+        .premiumCard()
     }
 
-    // MARK: - Empty
     private var emptyState: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 14) {
             Image(systemName: "building.2")
-                .font(.system(size: 40))
+                .font(.system(size: 42))
                 .foregroundColor(.gray)
 
-            Text("Aucun magasin")
+            Text("Aucun magasin disponible")
                 .foregroundColor(.secondary)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 40)
+        .padding(.vertical, 60)
     }
 }

@@ -4,124 +4,136 @@ import CoreData
 struct StoreABComparisonView: View {
 
     @Environment(\.managedObjectContext) private var context
-    @StateObject private var vm = StoreABComparisonViewModel()
+    @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
+    private var tickets: FetchedResults<Ticket>
 
-    let stores: [String]
+    @State private var storeA: String?
+    @State private var storeB: String?
+
+    private var stores: [String] {
+        Array(Set(tickets.map { $0.storeName })).sorted()
+    }
+
+    private func total(for store: String) -> Double {
+        tickets
+            .filter { $0.storeName == store }
+            .reduce(0) { $0 + $1.amount }
+    }
+
+    private func count(for store: String) -> Int {
+        tickets.filter { $0.storeName == store }.count
+    }
+
+    private var delta: Double {
+        guard let a = storeA, let b = storeB else { return 0 }
+        return total(for: a) - total(for: b)
+    }
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: 24) {
+            ZStack {
 
-                    selector
+                DesignSystem.premiumBackground
+                    .ignoresSafeArea()
 
-                    if let a = vm.itemA, let b = vm.itemB {
-                        comparisonHeader(a: a, b: b)
-                        comparisonCards(a: a, b: b)
-                        insights
+                ScrollView {
+                    VStack(spacing: DesignSystem.verticalSpacing) {
+
+                        selectorSection
+
+                        if let a = storeA, let b = storeB {
+                            comparisonSection(a: a, b: b)
+                        } else {
+                            emptyState
+                        }
                     }
+                    .padding(.horizontal, DesignSystem.horizontalPadding)
+                    .padding(.vertical)
                 }
-                .padding()
             }
             .navigationTitle("Comparaison A/B")
-            .onChange(of: vm.storeA) { _ in load() }
-            .onChange(of: vm.storeB) { _ in load() }
+            .navigationBarTitleDisplayMode(.large)
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbarBackground(Color(.systemBackground), for: .navigationBar)
         }
     }
 
-    // MARK: - Selector
-    private var selector: some View {
-        VStack(spacing: 12) {
-            Picker("Magasin A", selection: $vm.storeA) {
-                Text("—").tag(String?.none)
+    private var selectorSection: some View {
+        VStack(spacing: DesignSystem.innerSpacing) {
+
+            Picker("Magasin A", selection: $storeA) {
+                Text("Choisir").tag(String?.none)
                 ForEach(stores, id: \.self) {
                     Text($0).tag(Optional($0))
                 }
             }
+            .pickerStyle(.menu)
+            .premiumCard()
 
-            Picker("Magasin B", selection: $vm.storeB) {
-                Text("—").tag(String?.none)
+            Picker("Magasin B", selection: $storeB) {
+                Text("Choisir").tag(String?.none)
                 ForEach(stores, id: \.self) {
                     Text($0).tag(Optional($0))
                 }
             }
+            .pickerStyle(.menu)
+            .premiumCard()
         }
     }
 
-    // MARK: - Header
-    private func comparisonHeader(
-        a: StoreABComparisonItem,
-        b: StoreABComparisonItem
-    ) -> some View {
+    private func comparisonSection(a: String, b: String) -> some View {
 
-        VStack(spacing: 6) {
-            Text("Comparaison directe")
+        VStack(spacing: DesignSystem.innerSpacing) {
+
+            VStack(spacing: 6) {
+
+                Text("Écart")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+
+                Text(String(format: "%.2f €", abs(delta)))
+                    .font(.system(size: 28, weight: .bold))
+                    .foregroundColor(delta >= 0 ? Theme.primaryBlue : .secondary)
+            }
+            .premiumCard()
+
+            HStack(spacing: DesignSystem.innerSpacing) {
+                storeCard(store: a)
+                storeCard(store: b)
+            }
+        }
+    }
+
+    private func storeCard(store: String) -> some View {
+
+        VStack(spacing: 10) {
+
+            Text(store)
                 .font(.headline)
 
-            Text("Δ \(format(vm.deltaTotal)) • \(String(format: "%.1f", vm.deltaPercent)) %")
-                .fontWeight(.semibold)
-                .foregroundColor(vm.deltaTotal >= 0 ? .green : .red)
-        }
-    }
-
-    // MARK: - Cards
-    private func comparisonCards(
-        a: StoreABComparisonItem,
-        b: StoreABComparisonItem
-    ) -> some View {
-
-        HStack(spacing: 16) {
-
-            storeCard(a, color: .blue)
-            storeCard(b, color: .orange)
-        }
-    }
-
-    private func storeCard(
-        _ item: StoreABComparisonItem,
-        color: Color
-    ) -> some View {
-
-        VStack(spacing: 6) {
-            Text(item.storeName)
-                .font(.headline)
-
-            Text(format(item.total))
+            Text(String(format: "%.2f €", total(for: store)))
                 .font(.title2.bold())
-                .foregroundColor(color)
+                .foregroundColor(Theme.primaryBlue)
 
-            Text("\(item.ticketCount) ticket(s)")
+            Text("\(count(for: store)) ticket(s)")
                 .font(.caption)
                 .foregroundColor(.secondary)
         }
         .frame(maxWidth: .infinity)
-        .padding()
-        .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(14)
+        .premiumCard()
     }
 
-    // MARK: - Insights
-    private var insights: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text("Insight")
-                .font(.headline)
+    private var emptyState: some View {
+        VStack(spacing: 16) {
 
-            if vm.deltaTotal > 0 {
-                Text("📈 \(vm.storeA ?? "") dépense plus que \(vm.storeB ?? "")")
-            } else {
-                Text("📉 \(vm.storeA ?? "") dépense moins que \(vm.storeB ?? "")")
-            }
+            Image(systemName: "arrow.left.arrow.right")
+                .font(.system(size: 44))
+                .foregroundColor(.gray)
+
+            Text("Sélectionnez deux magasins")
+                .foregroundColor(.secondary)
         }
-        .padding()
-        .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(14)
-    }
-
-    private func load() {
-        vm.load(context: context)
-    }
-
-    private func format(_ value: Double) -> String {
-        String(format: "%.2f €", value)
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 60)
     }
 }

@@ -3,7 +3,7 @@ import SwiftUI
 struct KPIPrimaryCard: View {
 
     let title: String
-    let value: String
+    let value: Double
     let subtitle: String
 
     var body: some View {
@@ -13,20 +13,33 @@ struct KPIPrimaryCard: View {
                 .font(.subheadline)
                 .foregroundColor(.secondary)
 
-            Text(value)
-                .font(.largeTitle)
-                .fontWeight(.bold)
+            Text(format(value))
+                .font(.system(size: 34, weight: .bold))
 
             Text(subtitle)
                 .font(.caption)
                 .foregroundColor(.secondary)
         }
-        .padding(20)
+        .padding(24)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(
-            RoundedRectangle(cornerRadius: 20)
-                .fill(Color(.systemBackground))
-                .shadow(color: .black.opacity(0.06), radius: 10, x: 0, y: 5)
+            RoundedRectangle(cornerRadius: 26)
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            Theme.primaryBlue.opacity(0.95),
+                            Theme.primaryBlue.opacity(0.75)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
         )
+        .foregroundColor(.white)
+        .shadow(color: Theme.primaryBlue.opacity(0.3), radius: 18, y: 10)
+    }
+
+    private func format(_ value: Double) -> String {
+        String(format: "%.2f €", value)
     }
 }

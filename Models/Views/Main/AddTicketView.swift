@@ -2,140 +2,208 @@ import SwiftUI
 import CoreData
 
 struct AddTicketView: View {
-    @EnvironmentObject var viewModel: AddTicketViewModel
 
-    // ✅ Popups custom
-    @State private var showSuccessPopup = false
-    @State private var showErrorPopup = false
+    @Environment(\.managedObjectContext) private var context
+    @Environment(\.dismiss) private var dismiss
 
-    // OCR
-    @State private var showPermission = false
-    @State private var showOCRScanner = false
+    @State private var storeName: String = ""
+    @State private var amount: String = ""
+    @State private var category: String = "Alimentation"
+    @State private var selectedDate: Date = Date()
+    @State private var description: String = ""
+
+    @State private var showDatePicker = false
+
+    private let categories = [
+        "Alimentation",
+        "Transport",
+        "Loisir",
+        "Santé",
+        "Shopping",
+        "Autre"
+    ]
 
     var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack(spacing: 20) {
+        NavigationStack {
+            ZStack {
 
-                    // 🔵 Bouton SCAN OCR
-                    Button {
-                        Haptic.light()
-                        NotificationCenter.default.post(name: .openCameraPermission, object: nil)
-                    } label: {
-                        HStack(spacing: 12) {
-                            Image(systemName: "camera.viewfinder")
-                                .font(.system(size: 22, weight: .bold))
-                            Text("Scanner un ticket")
-                                .font(.headline)
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color(Theme.primaryBlue).opacity(0.12))
-                        .foregroundColor(Color(Theme.primaryBlue))
-                        .cornerRadius(14)
+                DesignSystem.premiumBackground
+                    .ignoresSafeArea()
+
+                ScrollView {
+                    VStack(spacing: DesignSystem.verticalSpacing) {
+
+                        headerSection
+
+                        formSection
+
+                        saveButton
                     }
-                    .padding(.horizontal)
-
-                    // 🔶 Carte principale
-                    VStack(alignment: .leading, spacing: 16) {
-
-                        Text("Informations du ticket")
-                            .font(.headline)
-                            .padding(.bottom, 4)
-
-                        Group {
-                            TextField("Nom du magasin", text: $viewModel.storeName)
-                                .textInputAutocapitalization(.words)
-
-                            TextField("Montant (€)", text: $viewModel.amount)
-                                .keyboardType(.decimalPad)
-
-                            DatePicker("Date",
-                                       selection: $viewModel.date,
-                                       displayedComponents: .date)
-
-                            TextField("Catégorie", text: $viewModel.category)
-
-                            TextField("Description (optionnel)", text: $viewModel.description)
-                        }
-                        .textFieldStyle(.roundedBorder)
-                    }
-                    .padding()
-                    .background(Color(.secondarySystemGroupedBackground))
-                    .cornerRadius(16)
-                    .shadow(color: .black.opacity(0.08), radius: 5, y: 2)
-                    .padding(.horizontal)
-
-                    // 🔵 Enregistrer
-                    eTixButton(title: "Enregistrer", icon: "tray.and.arrow.down.fill") {
-                        if viewModel.saveTicket() {
-                            Haptic.success()
-
-                            // ✅ popup custom
-                            showSuccessPopup = true
-
-                            // 🔥 Mise à jour du widget
-                            WidgetSync.updateSnapshot(context: viewModel.context)
-
-                            print("🧪 Widget monthTotal:",
-                                  UserDefaults(suiteName: "group.etix.shared")?.double(forKey: "monthTotal") ?? -1
-                            )
-                        } else {
-                            Haptic.error()
-                            showErrorPopup = true
-                        }
-                    }
-                    .padding(.horizontal)
+                    .padding(.horizontal, DesignSystem.horizontalPadding)
+                    .padding(.vertical)
                 }
-                .padding(.top)
             }
             .navigationTitle("Ajouter un ticket")
-
-            // 🔥 OCR listeners
-            .onReceive(NotificationCenter.default.publisher(for: .openOCRScanner)) { _ in
-                showOCRScanner = true
-            }
-            .onReceive(NotificationCenter.default.publisher(for: .openCameraPermission)) { _ in
-                showPermission = true
-            }
-
-            // 🔵 Sheets OCR
-            .sheet(isPresented: $showPermission) {
-                CameraPermissionView()
-            }
-            .sheet(isPresented: $showOCRScanner) {
-                OCRScannerView { result in
-                    handleOCRResult(result)
-                }
-            }
-        }
-        // ✅ Popups overlay (remplace les .alert système)
-        .overlay {
-            if showSuccessPopup {
-                SuccessPopup(
-                    title: "Ticket enregistré ✅",
-                    message: "Ton ticket a bien été ajouté."
-                ) {
-                    showSuccessPopup = false
-                }
-                .zIndex(10)
-            }
-
-            if showErrorPopup {
-                ErrorPopup(
-                    message: "Impossible d'enregistrer. Vérifie le magasin et le montant."
-                ) {
-                    showErrorPopup = false
-                }
-                .zIndex(10)
-            }
+            .navigationBarTitleDisplayMode(.large)
+            // 🔵 Stabilisation iOS 17+
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbarBackground(Color(.systemBackground), for: .navigationBar)
         }
     }
 
-    // MARK: - 🎯 OCR → Pré-remplissage
-    private func handleOCRResult(_ result: OCRExtractedData) {
-        if let store = result.storeName { viewModel.storeName = store }
-        if let amount = result.amount { viewModel.amount = String(amount) }
-        if let date = result.date { viewModel.date = date }
+    // MARK: - Header
+
+    private var headerSection: some View {
+        VStack(alignment: .leading, spacing: 6) {
+
+            Text("Nouveau ticket")
+                .font(.headline)
+                .foregroundColor(.secondary)
+
+            Text("Ajoutez une nouvelle dépense")
+                .font(.title3.weight(.semibold))
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    // MARK: - Form
+
+    private var formSection: some View {
+
+        VStack(spacing: DesignSystem.innerSpacing) {
+
+            inputField(title: "Magasin",
+                       text: $storeName)
+
+            inputField(title: "Montant (€)",
+                       text: $amount,
+                       keyboard: .decimalPad)
+
+            VStack(alignment: .leading, spacing: 8) {
+
+                Text("Catégorie")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+
+                Picker("Catégorie", selection: $category) {
+                    ForEach(categories, id: \.self) {
+                        Text($0)
+                    }
+                }
+                .pickerStyle(.menu)
+            }
+            .premiumCard()
+
+            VStack(alignment: .leading, spacing: 8) {
+
+                Text("Date")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+
+                Button {
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                    showDatePicker.toggle()
+                } label: {
+                    HStack {
+                        Text(DateFormatter.localizedString(
+                            from: selectedDate,
+                            dateStyle: .medium,
+                            timeStyle: .none
+                        ))
+                        Spacer()
+                        Image(systemName: "calendar")
+                    }
+                }
+            }
+            .premiumCard()
+
+            if showDatePicker {
+                DatePicker("",
+                           selection: $selectedDate,
+                           displayedComponents: .date)
+                    .datePickerStyle(.graphical)
+                    .premiumCard()
+            }
+
+            inputField(title: "Description (optionnel)",
+                       text: $description)
+        }
+    }
+
+    // MARK: - Input Field
+
+    private func inputField(
+        title: String,
+        text: Binding<String>,
+        keyboard: UIKeyboardType = .default
+    ) -> some View {
+
+        VStack(alignment: .leading, spacing: 8) {
+
+            Text(title)
+                .font(.caption)
+                .foregroundColor(.secondary)
+
+            TextField("", text: text)
+                .keyboardType(keyboard)
+        }
+        .premiumCard()
+    }
+
+    // MARK: - Save Button
+
+    private var saveButton: some View {
+
+        Button {
+            // 🔵 Haptic immédiat
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+            saveTicket()
+        } label: {
+            Text("Enregistrer")
+                .font(.headline)
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 18)
+                .background(
+                    RoundedRectangle(cornerRadius: DesignSystem.largeRadius)
+                        .fill(
+                            storeName.isEmpty || amount.isEmpty
+                            ? Theme.primaryBlue.opacity(0.6)
+                            : Theme.primaryBlue
+                        )
+                )
+        }
+        .scaleEffect(storeName.isEmpty || amount.isEmpty ? 0.98 : 1)
+        .animation(.easeInOut(duration: 0.2), value: storeName)
+        .animation(.easeInOut(duration: 0.2), value: amount)
+        .padding(.top, 10)
+        .disabled(storeName.isEmpty || amount.isEmpty)
+    }
+
+    // MARK: - Save Logic
+
+    private func saveTicket() {
+
+        guard let amountValue = Double(amount) else { return }
+
+        let newTicket = Ticket(context: context)
+        newTicket.id = Int64(Date().timeIntervalSince1970 * 1000)
+        newTicket.storeName = storeName
+        newTicket.amount = amountValue
+        newTicket.category = category
+        newTicket.dateMillis = Int64(selectedDate.timeIntervalSince1970 * 1000)
+        newTicket.ticketDescription = description
+
+        do {
+            try context.save()
+
+            // 🔵 Haptic succès confirmé
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
+
+            dismiss()
+        } catch {
+            print("Erreur sauvegarde:", error)
+            UINotificationFeedbackGenerator().notificationOccurred(.error)
+        }
     }
 }

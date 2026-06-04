@@ -11,7 +11,7 @@ struct CategoryDetailView: View {
     @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
     private var tickets: FetchedResults<Ticket>
 
-    // MARK: - Tickets catégorie
+    // MARK: - Tickets filtrés
     private var categoryTickets: [Ticket] {
         tickets.filter { $0.category == categoryName }
     }
@@ -26,9 +26,7 @@ struct CategoryDetailView: View {
         let calendar = Calendar.current
 
         let grouped = Dictionary(grouping: categoryTickets) { ticket -> Date in
-            let date = Date(
-                timeIntervalSince1970: TimeInterval(ticket.dateMillis) / 1000
-            )
+            let date = Date(timeIntervalSince1970: TimeInterval(ticket.dateMillis) / 1000)
             return calendar.startOfDay(for: date)
         }
 
@@ -37,7 +35,7 @@ struct CategoryDetailView: View {
             .sorted { $0.date > $1.date }
     }
 
-    // MARK: - Données graphique
+    // MARK: - Chart Data
     private var chartData: [(date: Date, total: Double)] {
         groupedByDay
             .map { ($0.date, $0.items.reduce(0) { $0 + $1.amount }) }
@@ -46,97 +44,115 @@ struct CategoryDetailView: View {
 
     // MARK: - Body
     var body: some View {
-        ScrollView {
-            VStack(spacing: 24) {
+        NavigationStack {
+            ZStack {
+                Color(.systemGroupedBackground)
+                    .ignoresSafeArea()
 
-                // 🔵 HEADER
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(categoryName)
-                        .font(.title2.bold())
+                ScrollView {
+                    VStack(spacing: 28) {
 
-                    Text(String(format: "%.2f €", totalAmount))
-                        .font(.title.bold())
-                        .foregroundColor(Color(Theme.primaryBlue))
+                        headerCard
 
-                    Text("\(categoryTickets.count) ticket(s)")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding()
-                .background(Color(.secondarySystemGroupedBackground))
-                .cornerRadius(16)
-                .padding(.horizontal)
-
-                // 🏪 DRILL MAGASIN
-                NavigationLink {
-                    StoreListView(categoryName: categoryName)
-                } label: {
-                    HStack {
-                        Image(systemName: "building.2")
-                            .foregroundColor(Color(Theme.primaryBlue))
-
-                        Text("Voir par magasin")
-                            .fontWeight(.semibold)
-
-                        Spacer()
-
-                        Image(systemName: "chevron.right")
-                            .foregroundColor(.secondary)
-                    }
-                    .padding()
-                    .background(Color(.secondarySystemGroupedBackground))
-                    .cornerRadius(12)
-                }
-                .padding(.horizontal)
-
-                // 📊 GRAPH
-                if !chartData.isEmpty {
-                    CategoryBarChartView(data: chartData)
-                }
-
-                // 📄 LISTE TICKETS
-                if groupedByDay.isEmpty {
-                    emptyState
-                } else {
-                    VStack(spacing: 20) {
-                        ForEach(groupedByDay, id: \.date) { section in
-                            VStack(alignment: .leading, spacing: 10) {
-
-                                Text(sectionTitle(section.date))
-                                    .font(.subheadline.weight(.semibold))
-                                    .foregroundColor(.secondary)
-                                    .padding(.horizontal)
-
-                                VStack(spacing: 10) {
-                                    ForEach(section.items, id: \.objectID) { ticket in
-                                        NavigationLink {
-                                            TicketDetailView(ticket: ticket)
-                                        } label: {
-                                            ticketRow(ticket)
-                                        }
-                                        .buttonStyle(.plain)
-                                    }
-                                }
+                        if !chartData.isEmpty {
+                            CategoryBarChartView(data: chartData)
                                 .padding(.horizontal)
+                        }
+
+                        if groupedByDay.isEmpty {
+                            emptyState
+                        } else {
+                            LazyVStack(spacing: 22) {
+                                ForEach(groupedByDay, id: \.date) { section in
+                                    sectionView(section)
+                                }
                             }
                         }
                     }
+                    .padding(.bottom, 40)
                 }
             }
-            .padding(.bottom, 24)
+            .navigationTitle(categoryName)
+            .navigationBarTitleDisplayMode(.large)
+            
         }
-        .navigationTitle("Détails")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                CategoryExportButton(
-                    categoryName: categoryName,
-                    tickets: categoryTickets,
-                    total: totalAmount
-                )
+    }
+
+    // MARK: - Header Premium
+    private var headerCard: some View {
+        VStack(alignment: .leading, spacing: 8) {
+
+            Text("Total")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+
+            Text(String(format: "%.2f €", totalAmount))
+                .font(.system(size: 32, weight: .bold))
+                .foregroundColor(Theme.primaryBlue)
+
+            Text("\(categoryTickets.count) ticket(s)")
+                .font(.caption)
+                .foregroundColor(.secondary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(22)
+        .background(
+            RoundedRectangle(cornerRadius: 26)
+                .fill(Color(.secondarySystemGroupedBackground))
+        )
+        .shadow(color: .black.opacity(0.05), radius: 10, y: 5)
+        .padding(.horizontal)
+        .padding(.top, 10)
+    }
+
+    // MARK: - Section View
+    private func sectionView(_ section: (date: Date, items: [Ticket])) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+
+            Text(sectionTitle(section.date))
+                .font(.subheadline.weight(.semibold))
+                .foregroundColor(.secondary)
+                .padding(.horizontal)
+
+            VStack(spacing: 14) {
+                ForEach(section.items, id: \.objectID) { ticket in
+                    NavigationLink {
+                        TicketDetailView(ticket: ticket)
+                    } label: {
+                        ticketCard(ticket)
+                    }
+                    .buttonStyle(.plain)
+                }
             }
+            .padding(.horizontal)
         }
+    }
+
+    // MARK: - Ticket Card Premium
+    private func ticketCard(_ t: Ticket) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+
+            HStack {
+                Text(t.storeName)
+                    .font(.headline)
+
+                Spacer()
+
+                Text(String(format: "%.2f €", t.amount))
+                    .fontWeight(.semibold)
+                    .foregroundColor(Theme.primaryBlue)
+            }
+
+            Text(DateUtils.shortString(fromMillis: t.dateMillis))
+                .font(.caption)
+                .foregroundColor(.secondary)
+        }
+        .padding(18)
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color(.secondarySystemGroupedBackground))
+        )
+        .shadow(color: .black.opacity(0.04), radius: 6, y: 3)
     }
 
     // MARK: - Helpers
@@ -152,37 +168,14 @@ struct CategoryDetailView: View {
         )
     }
 
-    // MARK: - Row
-    private func ticketRow(_ t: Ticket) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack {
-                Text(t.storeName)
-                    .font(.headline)
-
-                Spacer()
-
-                Text(String(format: "%.2f €", t.amount))
-                    .fontWeight(.semibold)
-                    .foregroundColor(Color(Theme.primaryBlue))
-            }
-
-            Text(DateUtils.shortString(fromMillis: t.dateMillis))
-                .font(.caption)
-                .foregroundColor(.secondary)
-        }
-        .padding()
-        .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(12)
-    }
-
     // MARK: - Empty
     private var emptyState: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 14) {
             Image(systemName: "tray")
-                .font(.system(size: 40))
+                .font(.system(size: 42))
                 .foregroundColor(.gray)
 
-            Text("Aucun ticket")
+            Text("Aucun ticket dans cette catégorie")
                 .foregroundColor(.secondary)
         }
         .frame(maxWidth: .infinity)

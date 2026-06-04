@@ -3,27 +3,40 @@ import CoreData
 
 struct SettingsView: View {
 
-    // MARK: - CoreData
     @Environment(\.managedObjectContext) private var context
-
-    // MARK: - ViewModel
     @StateObject private var vm = SettingsViewModel()
 
-    // MARK: - Body
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: 24) {
+            ZStack {
 
-                    appearanceSection
-                    defaultRangeSection
-                    dataSection
-                    infoSection
+                // 🔵 Background Premium
+                LinearGradient(
+                    colors: [
+                        Theme.primaryBlue.opacity(0.05),
+                        Color(.systemGroupedBackground)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
+
+                ScrollView {
+                    VStack(spacing: 28) {
+
+                        appearanceSection
+                        defaultRangeSection
+                        dataSection
+                        infoSection
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 30)
                 }
-                .padding()
             }
             .navigationTitle("Réglages")
-            .background(Color(.systemGroupedBackground))
+            .navigationBarTitleDisplayMode(.large)
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbarBackground(Color(.systemBackground), for: .navigationBar)
             .alert("Confirmer la suppression ?", isPresented: $vm.showResetAlert) {
                 Button("Supprimer", role: .destructive) {
                     vm.resetDatabase(context: context)
@@ -39,16 +52,11 @@ struct SettingsView: View {
             }
         }
     }
-}
 
-//
-// MARK: - Sections
-//
+    // MARK: - Appearance
 
-private extension SettingsView {
-
-    var appearanceSection: some View {
-        SettingsCard(title: "Apparence", icon: "paintbrush.fill") {
+    private var appearanceSection: some View {
+        settingsCard(title: "Apparence") {
             Picker("Thème", selection: $vm.settings.appearance) {
                 ForEach(AppAppearance.allCases) { appearance in
                     Text(appearance.title).tag(appearance)
@@ -58,61 +66,109 @@ private extension SettingsView {
         }
     }
 
-    var defaultRangeSection: some View {
-        SettingsCard(title: "Période par défaut", icon: "calendar") {
+    // MARK: - Default Range
+
+    private var defaultRangeSection: some View {
+        settingsCard(title: "Période par défaut") {
             Picker("Période", selection: $vm.settings.defaultRange) {
                 ForEach(TimeRange.allCases) { range in
                     Text(range.title).tag(range)
                 }
             }
-            .pickerStyle(.segmented)
+            .pickerStyle(.menu)
         }
     }
 
-    var dataSection: some View {
-        SettingsCard(title: "Données", icon: "tray.full.fill") {
+    // MARK: - Data Section
+
+    private var dataSection: some View {
+        settingsCard(title: "Données") {
 
             Button {
                 vm.exportAllTickets(context: context)
             } label: {
-                SettingsButtonLabel(
-                    title: "Exporter tous les tickets",
-                    icon: "square.and.arrow.up"
+                settingsButton(
+                    icon: "square.and.arrow.up",
+                    title: "Exporter en CSV"
                 )
             }
 
-            Divider()
+            Button {
+                vm.exportAllTicketsPDF(context: context)
+            } label: {
+                settingsButton(
+                    icon: "doc.richtext",
+                    title: "Exporter en PDF"
+                )
+            }
 
             Button(role: .destructive) {
                 vm.showResetAlert = true
             } label: {
-                SettingsButtonLabel(
-                    title: "Supprimer tous les tickets",
+                settingsButton(
                     icon: "trash",
-                    color: .red
+                    title: "Supprimer tous les tickets",
+                    destructive: true
                 )
             }
         }
     }
 
-    var infoSection: some View {
-        SettingsCard(title: "Informations", icon: "info.circle.fill") {
+    // MARK: - Info Section
+
+    private var infoSection: some View {
+        settingsCard(title: "Informations") {
             infoRow(title: "Version", value: vm.settings.appVersion)
-            Divider()
             infoRow(title: "Build", value: vm.settings.buildNumber)
         }
     }
 
-    func infoRow(title: String, value: String) -> some View {
-        HStack {
+    // MARK: - Components
+
+    private func settingsCard<Content: View>(
+        title: String,
+        @ViewBuilder content: () -> Content
+    ) -> some View {
+
+        VStack(alignment: .leading, spacing: 14) {
+
             Text(title)
-                .foregroundColor(.primary)
+                .font(.headline)
+
+            content()
+        }
+        .padding(20)
+        .background(
+            RoundedRectangle(cornerRadius: 22)
+                .fill(Color(.systemBackground))
+                .shadow(color: .black.opacity(0.06), radius: 8, y: 4)
+        )
+    }
+
+    private func settingsButton(
+        icon: String,
+        title: String,
+        destructive: Bool = false
+    ) -> some View {
+
+        HStack {
+            Image(systemName: icon)
+                .foregroundColor(destructive ? .red : Theme.primaryBlue)
+
+            Text(title)
+                .foregroundColor(destructive ? .red : .primary)
 
             Spacer()
+        }
+        .padding(.vertical, 6)
+    }
 
+    private func infoRow(title: String, value: String) -> some View {
+        HStack {
+            Text(title)
+            Spacer()
             Text(value)
                 .foregroundColor(.secondary)
         }
-        .font(.subheadline)
     }
 }

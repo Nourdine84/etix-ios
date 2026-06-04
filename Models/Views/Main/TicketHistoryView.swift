@@ -3,16 +3,12 @@ import CoreData
 
 struct TicketHistoryView: View {
 
-    // MARK: - CoreData
     @Environment(\.managedObjectContext) private var context
     @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
     private var tickets: FetchedResults<Ticket>
 
-    // MARK: - State
     @State private var searchText = ""
-    @State private var showFilterSheet = false
 
-    // MARK: - Filtrage
     private var filteredTickets: [Ticket] {
         guard !searchText.isEmpty else {
             return Array(tickets)
@@ -24,38 +20,37 @@ struct TicketHistoryView: View {
         }
     }
 
-    // MARK: - Body
     var body: some View {
         NavigationStack {
-            List {
+            ZStack {
+
+                DesignSystem.premiumBackground
+                    .ignoresSafeArea()
+
                 if filteredTickets.isEmpty {
                     emptyState
                 } else {
-                    ForEach(filteredTickets, id: \.objectID) { ticket in
-                        NavigationLink {
-                            TicketDetailView(ticket: ticket)
-                        } label: {
-                            ticketRow(ticket)
+                    ScrollView {
+                        LazyVStack(spacing: DesignSystem.innerSpacing) {
+
+                            ForEach(filteredTickets, id: \.objectID) { ticket in
+                                NavigationLink {
+                                    TicketDetailView(ticket: ticket)
+                                } label: {
+                                    ticketRow(ticket)
+                                }
+                                .buttonStyle(.plain)
+                            }
                         }
+                        .padding(.horizontal, DesignSystem.horizontalPadding)
+                        .padding(.vertical)
                     }
                 }
             }
-            .listStyle(.plain)
             .navigationTitle("Historique")
-            .toolbar {
-
-                // 🔍 Filtres
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        showFilterSheet = true
-                    } label: {
-                        Image(systemName: "line.3.horizontal.decrease.circle")
-                    }
-                }
-
-                // ❌ Export supprimé volontairement
-                // 👉 L’export se fait uniquement depuis les écrans KPI
-            }
+            .navigationBarTitleDisplayMode(.large)
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbarBackground(Color(.systemBackground), for: .navigationBar)
             .searchable(
                 text: $searchText,
                 placement: .navigationBarDrawer(displayMode: .automatic),
@@ -65,8 +60,11 @@ struct TicketHistoryView: View {
     }
 
     // MARK: - Row
+
     private func ticketRow(_ ticket: Ticket) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
+
+        VStack(alignment: .leading, spacing: 10) {
+
             HStack {
                 Text(ticket.storeName)
                     .font(.headline)
@@ -74,8 +72,8 @@ struct TicketHistoryView: View {
                 Spacer()
 
                 Text(String(format: "%.2f €", ticket.amount))
-                    .bold()
-                    .foregroundColor(Color(Theme.primaryBlue))
+                    .fontWeight(.semibold)
+                    .foregroundColor(Theme.primaryBlue)
             }
 
             Text(ticket.category)
@@ -86,20 +84,23 @@ struct TicketHistoryView: View {
                 .font(.caption)
                 .foregroundColor(.secondary)
         }
-        .padding(.vertical, 6)
+        .premiumCard()
     }
 
     // MARK: - Empty
+
     private var emptyState: some View {
-        VStack(spacing: 12) {
+
+        VStack(spacing: 16) {
+
             Image(systemName: "tray")
-                .font(.system(size: 40))
+                .font(.system(size: 44))
                 .foregroundColor(.gray)
 
             Text("Aucun ticket")
                 .foregroundColor(.secondary)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 40)
+        .padding(.vertical, 80)
     }
 }

@@ -4,103 +4,197 @@ import CoreData
 struct StoreComparisonView: View {
 
     @Environment(\.managedObjectContext) private var context
-    @StateObject private var vm = StoreComparisonViewModel()
+    @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
+    private var tickets: FetchedResults<Ticket>
+
+    // MARK: - Grouped Data
+
+    private var groupedData: [(store: String, total: Double, count: Int)] {
+
+        let grouped = Dictionary(grouping: tickets) { $0.storeName }
+
+        return grouped
+            .map { (key, value) in
+                (
+                    key,
+                    value.reduce(0) { $0 + $1.amount },
+                    value.count
+                )
+            }
+            .sorted { $0.total > $1.total }
+    }
+
+    private var totalAmount: Double {
+        groupedData.reduce(0) { $0 + $1.total }
+    }
+
+    // MARK: - Body
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: 24) {
+            ZStack {
 
-                    insights
+                LinearGradient(
+                    colors: [
+                        Theme.primaryBlue.opacity(0.05),
+                        Color(.systemGroupedBackground)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
 
-                    // 🍩 DONUT
-                    if !vm.comparisons.isEmpty {
-                        StoreComparisonDonutView(
-                            items: vm.comparisons,
-                            total: vm.grandTotal
-                        )
-                    }
+                ScrollView {
+                    VStack(spacing: 32) {
 
-                    // 📊 BAR CHART
-                    if !vm.comparisons.isEmpty {
-                        StoreComparisonBarChartView(
-                            items: vm.comparisons
-                        )
-                    }
+                        headerSection
 
-                    // 📋 LISTE
-                    VStack(spacing: 12) {
-                        ForEach(vm.comparisons) { item in
-                            comparisonRow(item)
+                        if totalAmount > 0 {
+                            donutSection
+                            storeList
+                        } else {
+                            emptyState
                         }
                     }
-                    .padding(.horizontal)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 24)
                 }
-                .padding(.vertical)
             }
-            .navigationTitle("Comparaison")
-            .onAppear {
-                vm.load(context: context)
-            }
+            .navigationTitle("Magasins")
+            .navigationBarTitleDisplayMode(.large)
         }
     }
 
-    // MARK: - Insights
-    private var insights: some View {
+    // MARK: - Header
+
+    private var headerSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Analyse rapide")
-                .font(.headline)
 
-            if let max = vm.highestStore {
-                Text("🥇 Plus élevé : \(max.storeName) — \(format(max.total))")
-            }
+            Text("Total global")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
 
-            if let min = vm.lowestStore {
-                Text("🥉 Plus bas : \(min.storeName) — \(format(min.total))")
-            }
-
-            if vm.delta > 0 {
-                Text("📊 Écart : \(format(vm.delta))")
-                    .fontWeight(.semibold)
-            }
+            Text(String(format: "%.2f €", totalAmount))
+                .font(.system(size: 34, weight: .bold))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding()
-        .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(16)
-        .padding(.horizontal)
     }
 
-    // MARK: - Row
-    private func comparisonRow(_ item: StoreComparisonItem) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
+    // MARK: - Donut
+
+    private var donutSection: some View {
+
+        let slices = generateSlices()
+
+        return ZStack {
+
+            ForEach(slices) { slice in
+                DonutSliceView(slice: slice)
+            }
+
+            VStack {
+                Text("Total")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+
+                Text(String(format: "%.0f €", totalAmount))
+                    .font(.headline)
+            }
+        }
+        .frame(height: 220)
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 24)
+                .fill(Color(.systemBackground))
+                .shadow(color: .black.opacity(0.06), radius: 10, y: 5)
+        )
+    }
+
+    // MARK: - Store List
+
+    private var storeList: some View {
+        VStack(spacing: 16) {
+
+            ForEach(groupedData, id: \.store) { item in
+                storeRow(item)
+            }
+        }
+    }
+
+    private func storeRow(
+        _ item: (store: String, total: Double, count: Int)
+    ) -> some View {
+
+        let percentage = totalAmount > 0
+            ? (item.total / totalAmount) * 100
+            : 0
+
+        return VStack(alignment: .leading, spacing: 8) {
 
             HStack {
-                Text(item.storeName)
+                Text(item.store)
                     .font(.headline)
 
                 Spacer()
 
-                Text(format(item.total))
+                Text(String(format: "%.2f €", item.total))
+                    .foregroundColor(Theme.primaryBlue)
                     .fontWeight(.semibold)
-                    .foregroundColor(.blue)
             }
 
-            ProgressView(value: item.percentOfTotal / 100)
-                .tint(.blue)
+            ProgressView(value: percentage, total: 100)
+                .tint(Theme.primaryBlue)
 
-            Text(
-                "\(item.ticketCount) ticket(s) • \(String(format: "%.1f", item.percentOfTotal)) %"
-            )
-            .font(.caption)
-            .foregroundColor(.secondary)
+            Text("\(item.count) ticket(s) • \(String(format: "%.1f %%", percentage))")
+                .font(.caption)
+                .foregroundColor(.secondary)
         }
-        .padding()
-        .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(12)
+        .padding(20)
+        .background(
+            RoundedRectangle(cornerRadius: 22)
+                .fill(Color(.systemBackground))
+                .shadow(color: .black.opacity(0.05), radius: 6, y: 4)
+        )
     }
 
-    private func format(_ value: Double) -> String {
-        String(format: "%.2f €", value)
+    // MARK: - Donut Generator
+
+    private func generateSlices() -> [DonutSlice] {
+
+        var startAngle: Double = 0
+
+        return groupedData.map { item in
+
+            let ratio = item.total / totalAmount
+            let endAngle = startAngle + ratio
+
+            let slice = DonutSlice(
+                id: UUID(),
+                label: item.store,
+                value: item.total,
+                startAngle: startAngle,
+                endAngle: endAngle
+            )
+
+            startAngle = endAngle
+
+            return slice
+        }
+    }
+
+    // MARK: - Empty
+
+    private var emptyState: some View {
+        VStack(spacing: 16) {
+
+            Image(systemName: "building.2")
+                .font(.system(size: 44))
+                .foregroundColor(.gray)
+
+            Text("Aucune donnée disponible")
+                .foregroundColor(.secondary)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 60)
     }
 }

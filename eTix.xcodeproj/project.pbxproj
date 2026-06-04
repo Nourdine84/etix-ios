@@ -89,6 +89,11 @@
 		63CDBC1A2F3E428F001503FF /* SettingsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBC192F3E427D001503FF /* SettingsCard.swift */; };
 		63CDBC1C2F3E42E0001503FF /* SettingsButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBC1B2F3E42CB001503FF /* SettingsButtonLabel.swift */; };
 		63CDBC1E2F3F2C08001503FF /* SecuritySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBC1D2F3F2B7F001503FF /* SecuritySection.swift */; };
+		63CDBC212F41326E001503FF /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBC202F41324A001503FF /* DesignSystem.swift */; };
+		63CDBC252F413518001503FF /* CardModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBC242F413506001503FF /* CardModifier.swift */; };
+		63CDBC292F432F34001503FF /* CardModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBC282F432F19001503FF /* CardModifiers.swift */; };
+		63CDBC2B2F4330F8001503FF /* PremiumCardModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBC2A2F4330F2001503FF /* PremiumCardModifier.swift */; };
+		63CDBC2D2F4DF222001503FF /* AppearAnimationModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBC2C2F4DF1D2001503FF /* AppearAnimationModifier.swift */; };
 		63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */; };
 		63DBD7D92EE8650500D1A8EF /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */; };
 		63DBD7DE2EEAD75100D1A8EF /* TicketDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7DD2EEAD73700D1A8EF /* TicketDetailView.swift */; };
@@ -237,6 +242,11 @@
 		63CDBC192F3E427D001503FF /* SettingsCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCard.swift; sourceTree = "<group>"; };
 		63CDBC1B2F3E42CB001503FF /* SettingsButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsButtonLabel.swift; sourceTree = "<group>"; };
 		63CDBC1D2F3F2B7F001503FF /* SecuritySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySection.swift; sourceTree = "<group>"; };
+		63CDBC202F41324A001503FF /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
+		63CDBC242F413506001503FF /* CardModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardModifier.swift; sourceTree = "<group>"; };
+		63CDBC282F432F19001503FF /* CardModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardModifiers.swift; sourceTree = "<group>"; };
+		63CDBC2A2F4330F2001503FF /* PremiumCardModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumCardModifier.swift; sourceTree = "<group>"; };
+		63CDBC2C2F4DF1D2001503FF /* AppearAnimationModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearAnimationModifier.swift; sourceTree = "<group>"; };
 		63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExportService.swift; sourceTree = "<group>"; };
 		63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		63DBD7DD2EEAD73700D1A8EF /* TicketDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketDetailView.swift; sourceTree = "<group>"; };
@@ -355,6 +365,7 @@
 				634EA0342E9E8045001F7BBB /* Utils */,
 				637D58612F23E15000A8000C /* KPIComparison.swift */,
 				63CDBC032F3BC2D3001503FF /* StoreABComparisonItem.txt */,
+				63CDBC1F2F41323B001503FF /* UI */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -597,6 +608,17 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		63CDBC1F2F41323B001503FF /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				63CDBC2C2F4DF1D2001503FF /* AppearAnimationModifier.swift */,
+				63CDBC2A2F4330F2001503FF /* PremiumCardModifier.swift */,
+				63CDBC282F432F19001503FF /* CardModifiers.swift */,
+				63CDBC202F41324A001503FF /* DesignSystem.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		63DBD7D72EE864DC00D1A8EF /* Shared */ = {
 			isa = PBXGroup;
 			children = (
@@ -643,6 +665,7 @@
 		63DBD8062EEC420F00D1A8EF /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				63CDBC242F413506001503FF /* CardModifier.swift */,
 				63DBD80D2EEC430600D1A8EF /* ConfirmDeletePopup.swift */,
 				63DBD80B2EEC42BC00D1A8EF /* ErrorPopup.swift */,
 				63DBD8092EEC428500D1A8EF /* SuccessPopup.swift */,
@@ -868,6 +891,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63CDBC2D2F4DF222001503FF /* AppearAnimationModifier.swift in Sources */,
 				637D58B02F24419200A8000C /* StoreListViewModel.swift in Sources */,
 				637D582F2F23CA5000A8000C /* KPIDetailView.swift in Sources */,
 				637D58A92F243F0000A8000C /* CategoryExportViewModel.swift in Sources */,
@@ -878,6 +902,7 @@
 				634EA0562E9E8FD3001F7BBB /* CategoryView.swift in Sources */,
 				634EA0532E9E8FBC001F7BBB /* HomeView.swift in Sources */,
 				63DBD80A2EEC429B00D1A8EF /* SuccessPopup.swift in Sources */,
+				63CDBC292F432F34001503FF /* CardModifiers.swift in Sources */,
 				63CDBBF82F3BAFEC001503FF /* DonutSlice.swift in Sources */,
 				637D58B92F24434E00A8000C /* StoreExportButton.swift in Sources */,
 				63DBD80C2EEC42E500D1A8EF /* ErrorPopup.swift in Sources */,
@@ -893,6 +918,7 @@
 				63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */,
 				634EA0AE2EA01A0F001F7BBB /* StatisticsView.swift in Sources */,
 				63DBD7DE2EEAD75100D1A8EF /* TicketDetailView.swift in Sources */,
+				63CDBC212F41326E001503FF /* DesignSystem.swift in Sources */,
 				634EA04E2E9E8AB8001F7BBB /* MainView.swift in Sources */,
 				634EA08A2E9FD7CD001F7BBB /* Haptic.swift in Sources */,
 				634EA0552E9E8FCB001F7BBB /* TicketHistoryView.swift in Sources */,
@@ -927,6 +953,7 @@
 				637D58582F23D5F400A8000C /* KPIHeaderView.swift in Sources */,
 				634EA0522E9E8F9F001F7BBB /* CategoryViewModel.swift in Sources */,
 				6309A1B72F3B9CFA002B98B6 /* StoreComparison.swift in Sources */,
+				63CDBC252F413518001503FF /* CardModifier.swift in Sources */,
 				637D58A22F24391A00A8000C /* CategoryRowView.swift in Sources */,
 				637D58762F2432D900A8000C /* KPIExportButton.swift in Sources */,
 				634EA0882E9FD77E001F7BBB /* eTixButton.swift in Sources */,
@@ -941,6 +968,7 @@
 				63CDBBFA2F3BB049001503FF /* DonutSliceView.swift in Sources */,
 				634EA0542E9E8FC3001F7BBB /* AddTicketView.swift in Sources */,
 				637D58602F23DCC400A8000C /* KPIExportService.swift in Sources */,
+				63CDBC2B2F4330F8001503FF /* PremiumCardModifier.swift in Sources */,
 				634EA0A22E9FF550001F7BBB /* OnboardingPage.swift in Sources */,
 				634EA04F2E9E8F80001F7BBB /* Ticket.swift in Sources */,
 				637D58B32F2441DC00A8000C /* StoreListView.swift in Sources */,
