@@ -3,16 +3,14 @@ import CoreData
 
 struct AddTicketView: View {
 
-    @Environment(\.managedObjectContext) private var context
     @Environment(\.dismiss) private var dismiss
-
-    @State private var storeName: String = ""
-    @State private var amount: String = ""
-    @State private var category: String = "Alimentation"
-    @State private var selectedDate: Date = Date()
-    @State private var description: String = ""
+    @EnvironmentObject var viewModel: AddTicketViewModel
+    @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.selectedTabBinding) private var selectedTab
 
     @State private var showDatePicker = false
+    @State private var showOCR = false
+    @State private var isPressed = false
 
     private let categories = [
         "Alimentation",
@@ -27,16 +25,14 @@ struct AddTicketView: View {
         NavigationStack {
             ZStack {
 
-                DesignSystem.premiumBackground
+                DesignSystem.premiumBackground(for: colorScheme)
                     .ignoresSafeArea()
 
                 ScrollView {
                     VStack(spacing: DesignSystem.verticalSpacing) {
 
                         headerSection
-
                         formSection
-
                         saveButton
                     }
                     .padding(.horizontal, DesignSystem.horizontalPadding)
@@ -45,9 +41,29 @@ struct AddTicketView: View {
             }
             .navigationTitle("Ajouter un ticket")
             .navigationBarTitleDisplayMode(.large)
-            // 🔵 Stabilisation iOS 17+
-            .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarBackground(Color(.systemBackground), for: .navigationBar)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showOCR = true
+                    } label: {
+                        Image(systemName: "camera.viewfinder")
+                            .foregroundColor(Theme.primaryBlue)
+                    }
+                }
+            }
+            .sheet(isPresented: $showOCR) {
+                OCRScannerView { result in
+                    if let store = result.storeName {
+                        viewModel.storeName = store
+                    }
+                    if let amount = result.amount {
+                        viewModel.amount = String(format: "%.2f", amount)
+                    }
+                    if let date = result.date {
+                        viewModel.date = date
+                    }
+                }
+            }
         }
     }
 
@@ -72,20 +88,18 @@ struct AddTicketView: View {
 
         VStack(spacing: DesignSystem.innerSpacing) {
 
-            inputField(title: "Magasin",
-                       text: $storeName)
+            inputField(title: "Magasin", text: $viewModel.storeName)
 
             inputField(title: "Montant (€)",
-                       text: $amount,
+                       text: $viewModel.amount,
                        keyboard: .decimalPad)
 
             VStack(alignment: .leading, spacing: 8) {
-
                 Text("Catégorie")
                     .font(.caption)
                     .foregroundColor(.secondary)
 
-                Picker("Catégorie", selection: $category) {
+                Picker("Catégorie", selection: $viewModel.category) {
                     ForEach(categories, id: \.self) {
                         Text($0)
                     }
@@ -95,7 +109,6 @@ struct AddTicketView: View {
             .premiumCard()
 
             VStack(alignment: .leading, spacing: 8) {
-
                 Text("Date")
                     .font(.caption)
                     .foregroundColor(.secondary)
@@ -105,11 +118,7 @@ struct AddTicketView: View {
                     showDatePicker.toggle()
                 } label: {
                     HStack {
-                        Text(DateFormatter.localizedString(
-                            from: selectedDate,
-                            dateStyle: .medium,
-                            timeStyle: .none
-                        ))
+                        Text(viewModel.date.formatted(date: .long, time: .omitted))
                         Spacer()
                         Image(systemName: "calendar")
                     }
@@ -119,18 +128,16 @@ struct AddTicketView: View {
 
             if showDatePicker {
                 DatePicker("",
-                           selection: $selectedDate,
+                           selection: $viewModel.date,
                            displayedComponents: .date)
                     .datePickerStyle(.graphical)
                     .premiumCard()
             }
 
             inputField(title: "Description (optionnel)",
-                       text: $description)
+                       text: $viewModel.description)
         }
     }
-
-    // MARK: - Input Field
 
     private func inputField(
         title: String,
@@ -150,14 +157,27 @@ struct AddTicketView: View {
         .premiumCard()
     }
 
-    // MARK: - Save Button
+    // MARK: - Save Button Premium
 
     private var saveButton: some View {
 
         Button {
-            // 🔵 Haptic immédiat
-            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-            saveTicket()
+
+            let success = viewModel.saveTicket()
+
+            if success {
+                UINotificationFeedbackGenerator().notificationOccurred(.success)
+
+                dismiss()
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                    selectedTab?.wrappedValue = 2
+                }
+
+            } else {
+                UINotificationFeedbackGenerator().notificationOccurred(.error)
+            }
+
         } label: {
             Text("Enregistrer")
                 .font(.headline)
@@ -167,43 +187,18 @@ struct AddTicketView: View {
                 .background(
                     RoundedRectangle(cornerRadius: DesignSystem.largeRadius)
                         .fill(
-                            storeName.isEmpty || amount.isEmpty
+                            viewModel.storeName.isEmpty || viewModel.amount.isEmpty
                             ? Theme.primaryBlue.opacity(0.6)
                             : Theme.primaryBlue
                         )
                 )
         }
-        .scaleEffect(storeName.isEmpty || amount.isEmpty ? 0.98 : 1)
-        .animation(.easeInOut(duration: 0.2), value: storeName)
-        .animation(.easeInOut(duration: 0.2), value: amount)
+        .scaleEffect(isPressed ? 0.98 : 1)
+        .animation(.easeOut(duration: 0.15), value: isPressed)
+        .onLongPressGesture(minimumDuration: 0, pressing: { pressing in
+            isPressed = pressing
+        }, perform: {})
+        .disabled(viewModel.storeName.isEmpty || viewModel.amount.isEmpty)
         .padding(.top, 10)
-        .disabled(storeName.isEmpty || amount.isEmpty)
-    }
-
-    // MARK: - Save Logic
-
-    private func saveTicket() {
-
-        guard let amountValue = Double(amount) else { return }
-
-        let newTicket = Ticket(context: context)
-        newTicket.id = Int64(Date().timeIntervalSince1970 * 1000)
-        newTicket.storeName = storeName
-        newTicket.amount = amountValue
-        newTicket.category = category
-        newTicket.dateMillis = Int64(selectedDate.timeIntervalSince1970 * 1000)
-        newTicket.ticketDescription = description
-
-        do {
-            try context.save()
-
-            // 🔵 Haptic succès confirmé
-            UINotificationFeedbackGenerator().notificationOccurred(.success)
-
-            dismiss()
-        } catch {
-            print("Erreur sauvegarde:", error)
-            UINotificationFeedbackGenerator().notificationOccurred(.error)
-        }
     }
 }

@@ -3,20 +3,16 @@ import CoreData
 
 struct StoreDetailView: View {
 
-    // MARK: - Input
     let storeName: String
 
-    // MARK: - CoreData
     @Environment(\.managedObjectContext) private var context
     @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
     private var tickets: FetchedResults<Ticket>
 
-    // MARK: - Store Tickets
     private var storeTickets: [Ticket] {
         tickets.filter { $0.storeName == storeName }
     }
 
-    // MARK: - Totals
     private var totalAmount: Double {
         storeTickets.reduce(0) { $0 + $1.amount }
     }
@@ -26,7 +22,6 @@ struct StoreDetailView: View {
         return totalAmount / Double(storeTickets.count)
     }
 
-    // MARK: - Grouped by day
     private var groupedByDay: [(date: Date, items: [Ticket])] {
         let calendar = Calendar.current
 
@@ -42,30 +37,30 @@ struct StoreDetailView: View {
             .sorted { $0.date > $1.date }
     }
 
-    // MARK: - Body
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(.systemGroupedBackground)
+
+                DesignSystem.pageBackground
                     .ignoresSafeArea()
 
                 ScrollView {
-                    VStack(spacing: 28) {
+                    VStack(spacing: 32) {
 
                         header
 
                         if groupedByDay.isEmpty {
                             emptyState
                         } else {
-                            LazyVStack(spacing: 20) {
+                            LazyVStack(spacing: 22) {
                                 ForEach(groupedByDay, id: \.date) { section in
                                     sectionView(section)
                                 }
                             }
-                            .padding(.horizontal)
                         }
                     }
-                    .padding(.vertical, 20)
+                    .padding(.horizontal, DesignSystem.horizontalPadding)
+                    .padding(.vertical, 30)
                 }
             }
             .navigationTitle(storeName)
@@ -74,17 +69,18 @@ struct StoreDetailView: View {
     }
 
     // MARK: - Header
+
     private var header: some View {
-        VStack(alignment: .leading, spacing: 14) {
+        VStack(alignment: .leading, spacing: 12) {
 
             Text(storeName)
-                .font(.title2.bold())
+                .font(.title2.weight(.bold))
 
             Text(String(format: "%.2f €", totalAmount))
-                .font(.system(size: 30, weight: .bold))
+                .font(.system(size: 34, weight: .bold))
                 .foregroundColor(Theme.primaryBlue)
 
-            HStack(spacing: 16) {
+            HStack(spacing: 24) {
 
                 VStack(alignment: .leading) {
                     Text("Tickets")
@@ -105,25 +101,19 @@ struct StoreDetailView: View {
                 }
             }
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(22)
-        .background(
-            RoundedRectangle(cornerRadius: 26)
-                .fill(Color(.secondarySystemGroupedBackground))
-        )
-        .shadow(color: .black.opacity(0.05), radius: 10, y: 5)
-        .padding(.horizontal)
+        .premiumCard()
     }
 
     // MARK: - Section View
+
     private func sectionView(_ section: (date: Date, items: [Ticket])) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 14) {
 
             Text(sectionTitle(section.date))
                 .font(.subheadline.weight(.semibold))
                 .foregroundColor(.secondary)
 
-            VStack(spacing: 12) {
+            VStack(spacing: 14) {
                 ForEach(section.items, id: \.objectID) { ticket in
                     ticketRow(ticket)
                 }
@@ -132,8 +122,9 @@ struct StoreDetailView: View {
     }
 
     // MARK: - Ticket Row
+
     private func ticketRow(_ ticket: Ticket) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text(ticket.category)
                     .font(.headline)
@@ -149,15 +140,11 @@ struct StoreDetailView: View {
                 .font(.caption)
                 .foregroundColor(.secondary)
         }
-        .padding(18)
-        .background(
-            RoundedRectangle(cornerRadius: 20)
-                .fill(Color(.secondarySystemGroupedBackground))
-        )
-        .shadow(color: .black.opacity(0.04), radius: 5, y: 3)
+        .premiumCard()
     }
 
     // MARK: - Date Title
+
     private func sectionTitle(_ date: Date) -> String {
         let cal = Calendar.current
 
@@ -172,16 +159,16 @@ struct StoreDetailView: View {
     }
 
     // MARK: - Empty
+
     private var emptyState: some View {
-        VStack(spacing: 14) {
+        VStack(spacing: 18) {
             Image(systemName: "building.2")
-                .font(.system(size: 42))
+                .font(.system(size: 44))
                 .foregroundColor(.gray)
 
             Text("Aucun ticket pour ce magasin")
                 .foregroundColor(.secondary)
         }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 40)
+        .padding(.vertical, 80)
     }
 }

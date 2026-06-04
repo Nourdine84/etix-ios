@@ -12,18 +12,18 @@ struct StoreListView: View {
         NavigationStack {
             ZStack {
 
-                DesignSystem.premiumBackground
+                DesignSystem.pageBackground
                     .ignoresSafeArea()
 
                 ScrollView {
-                    VStack(spacing: DesignSystem.verticalSpacing) {
+                    VStack(spacing: 32) {
 
                         header
 
                         if vm.stores.isEmpty {
                             emptyState
                         } else {
-                            LazyVStack(spacing: DesignSystem.innerSpacing) {
+                            LazyVStack(spacing: 20) {
                                 ForEach(vm.stores) { store in
                                     NavigationLink {
                                         StoreDetailView(
@@ -35,16 +35,14 @@ struct StoreListView: View {
                                     .buttonStyle(.plain)
                                 }
                             }
-                            .padding(.horizontal, DesignSystem.horizontalPadding)
                         }
                     }
-                    .padding(.vertical)
+                    .padding(.horizontal, DesignSystem.horizontalPadding)
+                    .padding(.vertical, 30)
                 }
             }
             .navigationTitle("Magasins")
             .navigationBarTitleDisplayMode(.large)
-            .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarBackground(Color(.systemBackground), for: .navigationBar)
             .onAppear {
                 vm.load(
                     categoryName: categoryName ?? "",
@@ -54,21 +52,23 @@ struct StoreListView: View {
         }
     }
 
+    // MARK: - Header
+
     private var header: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 6) {
 
             Text("Total magasins")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
 
             Text("\(vm.stores.count)")
-                .font(.system(size: 32, weight: .bold))
+                .font(.system(size: 36, weight: .bold))
                 .foregroundColor(Theme.primaryBlue)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
         .premiumCard()
-        .padding(.horizontal, DesignSystem.horizontalPadding)
     }
+
+    // MARK: - Store Card
 
     private func storeCard(_ store: StoreTotal) -> some View {
 
@@ -92,16 +92,17 @@ struct StoreListView: View {
         .premiumCard()
     }
 
+    // MARK: - Empty
+
     private var emptyState: some View {
-        VStack(spacing: 14) {
+        VStack(spacing: 18) {
             Image(systemName: "building.2")
-                .font(.system(size: 42))
+                .font(.system(size: 44))
                 .foregroundColor(.gray)
 
             Text("Aucun magasin disponible")
                 .foregroundColor(.secondary)
         }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 60)
+        .padding(.vertical, 80)
     }
 }

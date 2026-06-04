@@ -2,39 +2,73 @@ import SwiftUI
 
 enum DesignSystem {
 
-    // MARK: - Colors
     static let accent = Theme.primaryBlue
 
-    static let pageBackground = Color(.systemGroupedBackground)
-    static let cardBackground = Color(.systemBackground)
+    // MARK: - Surfaces
 
-    static let shadowColor = Color.black.opacity(
-        UITraitCollection.current.userInterfaceStyle == .dark ? 0.3 : 0.05
-    )
+    static var pageBackground: Color {
+        Color(.systemGroupedBackground)
+    }
 
-    // MARK: - Spacing
-    static let horizontalPadding: CGFloat = 20
-    static let verticalSpacing: CGFloat = 28
-    static let innerSpacing: CGFloat = 18
+    static var surfacePrimary: Color {
+        Color(.systemBackground)
+    }
 
-    // MARK: - Radius
-    static let smallRadius: CGFloat = 18
-    static let mediumRadius: CGFloat = 22
-    static let largeRadius: CGFloat = 26
+    static var surfaceSecondary: Color {
+        Color(.secondarySystemBackground)
+    }
+
+    static var surfaceTertiary: Color {
+        Color(.tertiarySystemBackground)
+    }
 
     // MARK: - Shadow
-    static let shadowRadius: CGFloat = 12
+
+    static func shadowColor(for scheme: ColorScheme) -> Color {
+        scheme == .dark
+        ? Color.black.opacity(0.45)
+        : Color.black.opacity(0.08)
+    }
+
+    static let shadowRadius: CGFloat = 14
     static let shadowYOffset: CGFloat = 6
 
-    // MARK: - Gradient
-    static var premiumBackground: LinearGradient {
-        LinearGradient(
-            colors: [
-                Theme.primaryBlue.opacity(0.05),
-                Color(.systemGroupedBackground)
-            ],
-            startPoint: .top,
-            endPoint: .bottom
-        )
+    // MARK: - Spacing
+
+    static let horizontalPadding: CGFloat = 20
+    static let verticalSpacing: CGFloat = 36
+    static let innerSpacing: CGFloat = 20
+
+    // MARK: - Radius
+
+    static let smallRadius: CGFloat = 18
+    static let mediumRadius: CGFloat = 22
+    static let largeRadius: CGFloat = 28
+
+    // MARK: - Premium Background (Depth Upgrade)
+
+    static func premiumBackground(for scheme: ColorScheme) -> LinearGradient {
+
+        if scheme == .dark {
+            return LinearGradient(
+                colors: [
+                    Theme.primaryBlue.opacity(0.25),
+                    Color(.systemGroupedBackground),
+                    Color(.systemGroupedBackground)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        } else {
+            return LinearGradient(
+                colors: [
+                    Theme.primaryBlue.opacity(0.10),
+                    Color(.systemGroupedBackground),
+                    Color(.systemGroupedBackground)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        }
     }
 }

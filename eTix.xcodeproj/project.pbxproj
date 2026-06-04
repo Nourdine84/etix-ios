@@ -71,6 +71,8 @@
 		637D58BF2F244B1700A8000C /* StoreComparisonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58BE2F244B0700A8000C /* StoreComparisonView.swift */; };
 		637D58C12F244DEA00A8000C /* StoreComparisonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58C02F244DDC00A8000C /* StoreComparisonItem.swift */; };
 		637D58C32F24518C00A8000C /* StoreComparisonBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58C22F24517E00A8000C /* StoreComparisonBarChartView.swift */; };
+		63B965BB2FD1E44A00433979 /* TabEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B965BA2FD1E43600433979 /* TabEnvironment.swift */; };
+		63B965BD2FD1E47100433979 /* AnimatedAmountText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B965BC2FD1E46D00433979 /* AnimatedAmountText.swift */; };
 		63CDBBF62F3BAF2A001503FF /* StoreComparisonDonutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBBF52F3BAEDD001503FF /* StoreComparisonDonutView.swift */; };
 		63CDBBF82F3BAFEC001503FF /* DonutSlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBBF72F3BAF63001503FF /* DonutSlice.swift */; };
 		63CDBBFA2F3BB049001503FF /* DonutSliceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBBF92F3BB01C001503FF /* DonutSliceView.swift */; };
@@ -224,6 +226,8 @@
 		637D58BE2F244B0700A8000C /* StoreComparisonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreComparisonView.swift; sourceTree = "<group>"; };
 		637D58C02F244DDC00A8000C /* StoreComparisonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreComparisonItem.swift; sourceTree = "<group>"; };
 		637D58C22F24517E00A8000C /* StoreComparisonBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreComparisonBarChartView.swift; sourceTree = "<group>"; };
+		63B965BA2FD1E43600433979 /* TabEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabEnvironment.swift; sourceTree = "<group>"; };
+		63B965BC2FD1E46D00433979 /* AnimatedAmountText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedAmountText.swift; sourceTree = "<group>"; };
 		63CDBBF52F3BAEDD001503FF /* StoreComparisonDonutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreComparisonDonutView.swift; sourceTree = "<group>"; };
 		63CDBBF72F3BAF63001503FF /* DonutSlice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonutSlice.swift; sourceTree = "<group>"; };
 		63CDBBF92F3BB01C001503FF /* DonutSliceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonutSliceView.swift; sourceTree = "<group>"; };
@@ -611,6 +615,8 @@
 		63CDBC1F2F41323B001503FF /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				63B965BC2FD1E46D00433979 /* AnimatedAmountText.swift */,
+				63B965BA2FD1E43600433979 /* TabEnvironment.swift */,
 				63CDBC2C2F4DF1D2001503FF /* AppearAnimationModifier.swift */,
 				63CDBC2A2F4330F2001503FF /* PremiumCardModifier.swift */,
 				63CDBC282F432F19001503FF /* CardModifiers.swift */,
@@ -913,6 +919,7 @@
 				637D58642F23E23D00A8000C /* KPIComparisonView.swift in Sources */,
 				634EA0572E9E8FDB001F7BBB /* SettingsView.swift in Sources */,
 				63DBD80E2EEC434400D1A8EF /* ConfirmDeletePopup.swift in Sources */,
+				63B965BD2FD1E47100433979 /* AnimatedAmountText.swift in Sources */,
 				637D58C12F244DEA00A8000C /* StoreComparisonItem.swift in Sources */,
 				637D58A42F243A6A00A8000C /* CategoryDetailView.swift in Sources */,
 				63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */,
@@ -968,6 +975,7 @@
 				63CDBBFA2F3BB049001503FF /* DonutSliceView.swift in Sources */,
 				634EA0542E9E8FC3001F7BBB /* AddTicketView.swift in Sources */,
 				637D58602F23DCC400A8000C /* KPIExportService.swift in Sources */,
+				63B965BB2FD1E44A00433979 /* TabEnvironment.swift in Sources */,
 				63CDBC2B2F4330F8001503FF /* PremiumCardModifier.swift in Sources */,
 				634EA0A22E9FF550001F7BBB /* OnboardingPage.swift in Sources */,
 				634EA04F2E9E8F80001F7BBB /* Ticket.swift in Sources */,

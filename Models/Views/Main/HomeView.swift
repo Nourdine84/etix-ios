@@ -4,10 +4,13 @@ import CoreData
 struct HomeView: View {
 
     @Environment(\.managedObjectContext) private var context
+    @Environment(\.colorScheme) private var colorScheme
     @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
     private var tickets: FetchedResults<Ticket>
 
     @State private var range: TimeRange = .month
+
+    // MARK: - Filtering
 
     private var filteredTickets: [Ticket] {
         let r = DateRangeHelper.currentRange(for: range)
@@ -18,6 +21,8 @@ struct HomeView: View {
             $0.dateMillis >= startMs && $0.dateMillis < endMs
         }
     }
+
+    // MARK: - KPIs
 
     private var totalAmount: Double {
         filteredTickets.reduce(0) { $0 + $1.amount }
@@ -32,49 +37,47 @@ struct HomeView: View {
         return totalAmount / Double(ticketCount)
     }
 
+    // MARK: - Body
+
     var body: some View {
         NavigationStack {
             ZStack {
-                DesignSystem.premiumBackground
+
+                DesignSystem.premiumBackground(for: colorScheme)
                     .ignoresSafeArea()
 
                 ScrollView {
                     VStack(spacing: DesignSystem.verticalSpacing) {
 
-                        headerSection
-                            .premiumAppear()
-
+                        heroSection
                         rangeSelector
-                            .premiumAppear()
-
                         kpiSection
-                            .premiumAppear()
-
                         quickActions
-                            .premiumAppear()
                     }
-                    .padding(.vertical)
+                    .padding(.horizontal, DesignSystem.horizontalPadding)
+                    .padding(.vertical, 40)
                 }
             }
             .navigationTitle("Dashboard")
             .navigationBarTitleDisplayMode(.large)
-            .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarBackground(Color(.systemBackground), for: .navigationBar)
         }
     }
 
-    private var headerSection: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text("Bienvenue 👋")
-                .font(.headline)
+    // MARK: - Hero Section
+
+    private var heroSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Bienvenue")
+                .font(.subheadline)
                 .foregroundColor(.secondary)
 
             Text("Vos finances en un coup d'œil")
-                .font(.title3.weight(.semibold))
+                .font(.system(size: 24, weight: .bold))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal, DesignSystem.horizontalPadding)
     }
+
+    // MARK: - Range Selector
 
     private var rangeSelector: some View {
         Picker("Période", selection: $range) {
@@ -83,67 +86,104 @@ struct HomeView: View {
             }
         }
         .pickerStyle(.segmented)
-        .padding(.horizontal, DesignSystem.horizontalPadding)
     }
 
+    // MARK: - HERO KPI PREMIUM
+
     private var kpiSection: some View {
-        VStack(spacing: DesignSystem.innerSpacing) {
 
-            VStack(alignment: .leading, spacing: 12) {
+        VStack(spacing: 28) {
 
-                Text("Dépenses")
-                    .font(.subheadline)
+            VStack(alignment: .leading, spacing: 14) {
+
+                Text("DÉPENSES")
+                    .font(.caption)
+                    .textCase(.uppercase)
+                    .tracking(1.2)
                     .foregroundColor(.secondary)
 
-                Text(String(format: "%.2f €", totalAmount))
-                    .font(.system(size: 36, weight: .bold))
+                AnimatedAmountText(value: totalAmount)
+                    .font(.system(size: 44, weight: .bold, design: .rounded))
+                    .kerning(-0.8)
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [
+                                Theme.primaryBlue,
+                                Theme.primaryBlue.opacity(0.75)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
 
                 Text("\(ticketCount) ticket(s)")
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
-            .premiumCard()
+            .padding(32)
+            .background(
+                ZStack {
+                    RoundedRectangle(cornerRadius: 32)
+                        .fill(DesignSystem.surfacePrimary)
 
-            HStack(spacing: DesignSystem.innerSpacing) {
+                    RoundedRectangle(cornerRadius: 32)
+                        .stroke(
+                            Theme.primaryBlue.opacity(0.12),
+                            lineWidth: 1
+                        )
+                }
+            )
+            .shadow(
+                color: DesignSystem.shadowColor(for: colorScheme),
+                radius: 20,
+                x: 0,
+                y: 14
+            )
 
-                smallCard(title: "Tickets",
-                          value: "\(ticketCount)")
-
-                smallCard(title: "Moyenne",
-                          value: String(format: "%.2f €", averageAmount))
+            HStack(spacing: 20) {
+                smallKPI(title: "Tickets", value: "\(ticketCount)")
+                smallKPI(title: "Moyenne", value: String(format: "%.2f €", averageAmount))
             }
         }
-        .padding(.horizontal, DesignSystem.horizontalPadding)
     }
 
-    private func smallCard(title: String, value: String) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(title)
-                .font(.caption)
+    private func smallKPI(title: String, value: String) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+
+            Text(title.uppercased())
+                .font(.caption2)
+                .tracking(1)
                 .foregroundColor(.secondary)
 
             Text(value)
-                .font(.title2.bold())
+                .font(.title2.weight(.semibold))
+                .foregroundColor(.primary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .premiumCard()
+        .padding(22)
+        .background(
+            RoundedRectangle(cornerRadius: DesignSystem.mediumRadius)
+                .fill(DesignSystem.surfaceSecondary)
+                .shadow(
+                    color: DesignSystem.shadowColor(for: colorScheme),
+                    radius: DesignSystem.shadowRadius * 0.5,
+                    x: 0,
+                    y: DesignSystem.shadowYOffset * 0.5
+                )
+        )
     }
 
+    // MARK: - Quick Actions
+
     private var quickActions: some View {
-        HStack(spacing: DesignSystem.innerSpacing) {
-
-            quickAction(icon: "plus.circle.fill",
-                        title: "Ajouter")
-
-            quickAction(icon: "clock.fill",
-                        title: "Historique")
+        HStack(spacing: 20) {
+            quickAction(icon: "plus.circle.fill", title: "Ajouter")
+            quickAction(icon: "clock.fill", title: "Historique")
         }
-        .padding(.horizontal, DesignSystem.horizontalPadding)
     }
 
     private func quickAction(icon: String, title: String) -> some View {
         VStack(spacing: 12) {
-
             Image(systemName: icon)
                 .font(.system(size: 24, weight: .semibold))
                 .foregroundColor(Theme.primaryBlue)
@@ -152,14 +192,16 @@ struct HomeView: View {
                 .font(.footnote.weight(.medium))
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 24)
+        .padding(.vertical, 26)
         .background(
             RoundedRectangle(cornerRadius: DesignSystem.largeRadius)
-                .fill(DesignSystem.cardBackground)
-                .shadow(color: DesignSystem.shadowColor,
-                        radius: DesignSystem.shadowRadius,
-                        x: 0,
-                        y: DesignSystem.shadowYOffset)
+                .fill(DesignSystem.surfaceSecondary)
+                .shadow(
+                    color: DesignSystem.shadowColor(for: colorScheme),
+                    radius: DesignSystem.shadowRadius * 0.5,
+                    x: 0,
+                    y: DesignSystem.shadowYOffset * 0.5
+                )
         )
     }
 }

@@ -2,104 +2,122 @@ import SwiftUI
 import CoreData
 
 struct TicketDetailView: View {
+
     @Environment(\.managedObjectContext) private var context
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.colorScheme) private var colorScheme
 
-    // ✅ Popup custom suppression
     @State private var showConfirmDeletePopup = false
-
     @State private var showEdit = false
 
     let ticket: Ticket
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 20) {
+            VStack(spacing: 28) {
 
-                // Montant
-                Text(String(format: "%.2f €", ticket.amount))
-                    .font(.system(size: 34, weight: .bold))
-                    .foregroundColor(Color(Theme.primaryBlue))
-                    .padding(.top, 18)
+                amountSection
+                    .premiumAppear()
 
-                detailRow(title: "Magasin", value: ticket.storeName)
-                detailRow(title: "Catégorie", value: ticket.category)
-                detailRow(title: "Date", value: formattedDate(ticket.dateMillis))
+                detailSection
+                    .premiumAppear()
 
-                if let desc = ticket.ticketDescription, !desc.isEmpty {
-                    detailRow(title: "Description", value: desc)
-                }
-
-                // Modifier
-                Button {
-                    Haptic.light()
-                    showEdit = true
-                } label: {
-                    Text("Modifier le ticket")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color(Theme.primaryBlue))
-                        .foregroundColor(.white)
-                        .cornerRadius(12)
-                }
-
-                // Supprimer
-                Button(role: .destructive) {
-                    Haptic.medium()
-                    showConfirmDeletePopup = true
-                } label: {
-                    Text("Supprimer")
-                        .frame(maxWidth: .infinity)
-                }
+                actionButtons
+                    .premiumAppear()
             }
-            .padding()
+            .padding(.horizontal, DesignSystem.horizontalPadding)
+            .padding(.vertical, 40)
         }
         .navigationTitle("Détail")
+        .navigationBarTitleDisplayMode(.large)
         .sheet(isPresented: $showEdit) {
             TicketEditView(ticket: ticket)
         }
-        // ✅ Remplace l’alert système
         .overlay {
             if showConfirmDeletePopup {
                 ConfirmDeletePopup {
-                    // onConfirm
                     deleteTicket()
                     showConfirmDeletePopup = false
                 } onCancel: {
-                    // onCancel
                     showConfirmDeletePopup = false
                 }
-                .zIndex(10)
             }
         }
     }
 
-    private func detailRow(title: String, value: String) -> some View {
+    private var amountSection: some View {
+        Text(String(format: "%.2f €", ticket.amount))
+            .font(.system(size: 42, weight: .bold))
+            .foregroundStyle(
+                LinearGradient(
+                    colors: [
+                        Theme.primaryBlue,
+                        Theme.primaryBlue.opacity(0.85)
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
+            .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private var detailSection: some View {
+        VStack(spacing: 16) {
+            detailRow("Magasin", ticket.storeName)
+            detailRow("Catégorie", ticket.category)
+            detailRow("Date", formattedDate(ticket.dateMillis))
+
+            if let desc = ticket.ticketDescription, !desc.isEmpty {
+                detailRow("Description", desc)
+            }
+        }
+    }
+
+    private var actionButtons: some View {
+        VStack(spacing: 14) {
+
+            Button {
+                showEdit = true
+            } label: {
+                Text("Modifier le ticket")
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Theme.primaryBlue)
+                    .foregroundColor(.white)
+                    .cornerRadius(16)
+            }
+
+            Button(role: .destructive) {
+                showConfirmDeletePopup = true
+            } label: {
+                Text("Supprimer")
+                    .frame(maxWidth: .infinity)
+            }
+        }
+    }
+
+    private func detailRow(_ title: String, _ value: String) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title)
-                .font(.subheadline)
+                .font(.caption)
                 .foregroundColor(.secondary)
 
             Text(value)
                 .font(.body)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding()
-        .background(Color(.systemGray6))
-        .cornerRadius(12)
+        .padding(20)
+        .background(
+            RoundedRectangle(cornerRadius: DesignSystem.mediumRadius)
+                .fill(DesignSystem.surfaceSecondary)
+        )
     }
 
     private func deleteTicket() {
         context.delete(ticket)
-        do {
-            try context.save()
-            Haptic.medium()
-            dismiss()
-        } catch {
-            // Si tu veux : tu peux afficher un ErrorPopup ici aussi
-            print("❌ Delete failed:", error)
-        }
+        try? context.save()
+        dismiss()
     }
 
     private func formattedDate(_ ms: Int64) -> String {

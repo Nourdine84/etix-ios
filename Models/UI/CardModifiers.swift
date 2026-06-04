@@ -3,17 +3,20 @@ import SwiftUI
 // MARK: - Primary Card
 
 struct CardStyleModifier: ViewModifier {
+
+    @Environment(\.colorScheme) private var colorScheme
+
     func body(content: Content) -> some View {
         content
             .padding(22)
             .background(
                 RoundedRectangle(cornerRadius: DesignSystem.largeRadius)
-                    .fill(DesignSystem.cardBackground)
+                    .fill(DesignSystem.surfacePrimary)
                     .shadow(
-                        color: DesignSystem.shadowColor,
-                        radius: 8,
+                        color: DesignSystem.shadowColor(for: colorScheme),
+                        radius: DesignSystem.shadowRadius,
                         x: 0,
-                        y: 4
+                        y: DesignSystem.shadowYOffset
                     )
             )
     }
@@ -22,17 +25,20 @@ struct CardStyleModifier: ViewModifier {
 // MARK: - Small Card
 
 struct SmallCardStyleModifier: ViewModifier {
+
+    @Environment(\.colorScheme) private var colorScheme
+
     func body(content: Content) -> some View {
         content
             .padding(18)
             .background(
                 RoundedRectangle(cornerRadius: DesignSystem.smallRadius)
-                    .fill(DesignSystem.cardBackground)
+                    .fill(DesignSystem.surfaceSecondary)
                     .shadow(
-                        color: DesignSystem.shadowColor,
-                        radius: 6,
+                        color: DesignSystem.shadowColor(for: colorScheme),
+                        radius: DesignSystem.shadowRadius * 0.6,
                         x: 0,
-                        y: 3
+                        y: DesignSystem.shadowYOffset * 0.6
                     )
             )
     }

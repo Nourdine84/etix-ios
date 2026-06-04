@@ -10,6 +10,8 @@ struct StoreABComparisonView: View {
     @State private var storeA: String?
     @State private var storeB: String?
 
+    // MARK: - Stores List
+
     private var stores: [String] {
         Array(Set(tickets.map { $0.storeName })).sorted()
     }
@@ -29,15 +31,17 @@ struct StoreABComparisonView: View {
         return total(for: a) - total(for: b)
     }
 
+    // MARK: - Body
+
     var body: some View {
         NavigationStack {
             ZStack {
 
-                DesignSystem.premiumBackground
+                DesignSystem.pageBackground
                     .ignoresSafeArea()
 
                 ScrollView {
-                    VStack(spacing: DesignSystem.verticalSpacing) {
+                    VStack(spacing: 32) {
 
                         selectorSection
 
@@ -48,61 +52,88 @@ struct StoreABComparisonView: View {
                         }
                     }
                     .padding(.horizontal, DesignSystem.horizontalPadding)
-                    .padding(.vertical)
+                    .padding(.vertical, 30)
                 }
             }
             .navigationTitle("Comparaison A/B")
             .navigationBarTitleDisplayMode(.large)
-            .toolbarBackground(.visible, for: .navigationBar)
-            .toolbarBackground(Color(.systemBackground), for: .navigationBar)
         }
     }
+
+    // MARK: - Selector
 
     private var selectorSection: some View {
-        VStack(spacing: DesignSystem.innerSpacing) {
+        VStack(spacing: 20) {
 
-            Picker("Magasin A", selection: $storeA) {
-                Text("Choisir").tag(String?.none)
-                ForEach(stores, id: \.self) {
-                    Text($0).tag(Optional($0))
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Magasin A")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+
+                Picker("", selection: $storeA) {
+                    Text("Choisir").tag(String?.none)
+                    ForEach(stores, id: \.self) {
+                        Text($0).tag(Optional($0))
+                    }
                 }
+                .pickerStyle(.menu)
             }
-            .pickerStyle(.menu)
             .premiumCard()
 
-            Picker("Magasin B", selection: $storeB) {
-                Text("Choisir").tag(String?.none)
-                ForEach(stores, id: \.self) {
-                    Text($0).tag(Optional($0))
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Magasin B")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+
+                Picker("", selection: $storeB) {
+                    Text("Choisir").tag(String?.none)
+                    ForEach(stores, id: \.self) {
+                        Text($0).tag(Optional($0))
+                    }
                 }
+                .pickerStyle(.menu)
             }
-            .pickerStyle(.menu)
             .premiumCard()
         }
     }
+
+    // MARK: - Comparison
 
     private func comparisonSection(a: String, b: String) -> some View {
 
-        VStack(spacing: DesignSystem.innerSpacing) {
+        VStack(spacing: 24) {
 
-            VStack(spacing: 6) {
+            deltaCard
 
-                Text("Écart")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-
-                Text(String(format: "%.2f €", abs(delta)))
-                    .font(.system(size: 28, weight: .bold))
-                    .foregroundColor(delta >= 0 ? Theme.primaryBlue : .secondary)
-            }
-            .premiumCard()
-
-            HStack(spacing: DesignSystem.innerSpacing) {
+            HStack(spacing: 20) {
                 storeCard(store: a)
                 storeCard(store: b)
             }
         }
     }
+
+    // MARK: - Delta Card
+
+    private var deltaCard: some View {
+
+        VStack(spacing: 6) {
+
+            Text("Écart")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+
+            Text(String(format: "%.2f €", abs(delta)))
+                .font(.system(size: 30, weight: .bold))
+                .foregroundColor(
+                    delta >= 0
+                    ? Theme.primaryBlue
+                    : .secondary
+                )
+        }
+        .premiumCard()
+    }
+
+    // MARK: - Store Card
 
     private func storeCard(store: String) -> some View {
 
@@ -112,7 +143,7 @@ struct StoreABComparisonView: View {
                 .font(.headline)
 
             Text(String(format: "%.2f €", total(for: store)))
-                .font(.title2.bold())
+                .font(.title2.weight(.semibold))
                 .foregroundColor(Theme.primaryBlue)
 
             Text("\(count(for: store)) ticket(s)")
@@ -123,8 +154,10 @@ struct StoreABComparisonView: View {
         .premiumCard()
     }
 
+    // MARK: - Empty
+
     private var emptyState: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 18) {
 
             Image(systemName: "arrow.left.arrow.right")
                 .font(.system(size: 44))
@@ -133,7 +166,6 @@ struct StoreABComparisonView: View {
             Text("Sélectionnez deux magasins")
                 .foregroundColor(.secondary)
         }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 60)
+        .padding(.vertical, 80)
     }
 }

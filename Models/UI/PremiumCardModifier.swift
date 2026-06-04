@@ -2,14 +2,16 @@ import SwiftUI
 
 struct PremiumCardModifier: ViewModifier {
 
+    @Environment(\.colorScheme) private var colorScheme
+
     func body(content: Content) -> some View {
         content
             .padding(20)
             .background(
                 RoundedRectangle(cornerRadius: DesignSystem.mediumRadius)
-                    .fill(DesignSystem.cardBackground)
+                    .fill(DesignSystem.surfacePrimary)
                     .shadow(
-                        color: DesignSystem.shadowColor,
+                        color: DesignSystem.shadowColor(for: colorScheme),
                         radius: DesignSystem.shadowRadius,
                         x: 0,
                         y: DesignSystem.shadowYOffset

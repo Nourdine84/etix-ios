@@ -4,10 +4,9 @@ import CoreData
 struct StoreComparisonView: View {
 
     @Environment(\.managedObjectContext) private var context
+    @Environment(\.colorScheme) private var colorScheme
     @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
     private var tickets: FetchedResults<Ticket>
-
-    // MARK: - Grouped Data
 
     private var groupedData: [(store: String, total: Double, count: Int)] {
 
@@ -28,44 +27,38 @@ struct StoreComparisonView: View {
         groupedData.reduce(0) { $0 + $1.total }
     }
 
-    // MARK: - Body
-
     var body: some View {
         NavigationStack {
             ZStack {
 
-                LinearGradient(
-                    colors: [
-                        Theme.primaryBlue.opacity(0.05),
-                        Color(.systemGroupedBackground)
-                    ],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .ignoresSafeArea()
+                DesignSystem.premiumBackground(for: colorScheme)
+                    .ignoresSafeArea()
 
                 ScrollView {
-                    VStack(spacing: 32) {
+                    VStack(spacing: 36) {
 
                         headerSection
+                            .premiumAppear()
 
                         if totalAmount > 0 {
                             donutSection
+                                .premiumAppear()
+
                             storeList
+                                .premiumAppear()
                         } else {
                             emptyState
                         }
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 24)
+                    .padding(.horizontal, DesignSystem.horizontalPadding)
+                    .padding(.vertical, 40)
                 }
             }
-            .navigationTitle("Magasins")
+            .navigationTitle("Comparaison")
             .navigationBarTitleDisplayMode(.large)
+            .animation(.easeInOut(duration: 0.25), value: colorScheme)
         }
     }
-
-    // MARK: - Header
 
     private var headerSection: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -74,13 +67,25 @@ struct StoreComparisonView: View {
                 .font(.subheadline)
                 .foregroundColor(.secondary)
 
-            Text(String(format: "%.2f €", totalAmount))
-                .font(.system(size: 34, weight: .bold))
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
+            AnimatedAmountText(value: totalAmount)
+                .font(.system(size: 36, weight: .bold))
+                .foregroundStyle(
+                    LinearGradient(
+                        colors: [
+                            Theme.primaryBlue,
+                            Theme.primaryBlue.opacity(0.85)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
 
-    // MARK: - Donut
+            Text("\(groupedData.count) magasin(s)")
+                .font(.caption)
+                .foregroundColor(.secondary)
+        }
+        .premiumCard()
+    }
 
     private var donutSection: some View {
 
@@ -92,8 +97,8 @@ struct StoreComparisonView: View {
                 DonutSliceView(slice: slice)
             }
 
-            VStack {
-                Text("Total")
+            VStack(spacing: 4) {
+                Text("Répartition")
                     .font(.caption)
                     .foregroundColor(.secondary)
 
@@ -102,15 +107,8 @@ struct StoreComparisonView: View {
             }
         }
         .frame(height: 220)
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 24)
-                .fill(Color(.systemBackground))
-                .shadow(color: .black.opacity(0.06), radius: 10, y: 5)
-        )
+        .premiumCard()
     }
-
-    // MARK: - Store List
 
     private var storeList: some View {
         VStack(spacing: 16) {
@@ -138,7 +136,16 @@ struct StoreComparisonView: View {
                 Spacer()
 
                 Text(String(format: "%.2f €", item.total))
-                    .foregroundColor(Theme.primaryBlue)
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [
+                                Theme.primaryBlue,
+                                Theme.primaryBlue.opacity(0.85)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
                     .fontWeight(.semibold)
             }
 
@@ -149,15 +156,8 @@ struct StoreComparisonView: View {
                 .font(.caption)
                 .foregroundColor(.secondary)
         }
-        .padding(20)
-        .background(
-            RoundedRectangle(cornerRadius: 22)
-                .fill(Color(.systemBackground))
-                .shadow(color: .black.opacity(0.05), radius: 6, y: 4)
-        )
+        .premiumCard()
     }
-
-    // MARK: - Donut Generator
 
     private func generateSlices() -> [DonutSlice] {
 
@@ -177,16 +177,12 @@ struct StoreComparisonView: View {
             )
 
             startAngle = endAngle
-
             return slice
         }
     }
 
-    // MARK: - Empty
-
     private var emptyState: some View {
         VStack(spacing: 16) {
-
             Image(systemName: "building.2")
                 .font(.system(size: 44))
                 .foregroundColor(.gray)
@@ -194,7 +190,6 @@ struct StoreComparisonView: View {
             Text("Aucune donnée disponible")
                 .foregroundColor(.secondary)
         }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 60)
+        .padding(.vertical, 100)
     }
 }
