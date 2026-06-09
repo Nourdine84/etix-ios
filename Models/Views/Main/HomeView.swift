@@ -7,7 +7,7 @@ struct HomeView: View {
     @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
     private var tickets: FetchedResults<Ticket>
 
-    @State private var range: TimeRange = .month
+    @State private var range: TimeRange = AppSettings.load().defaultRange
 
     // MARK: - Filtering
 

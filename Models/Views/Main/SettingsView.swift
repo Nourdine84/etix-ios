@@ -6,10 +6,12 @@ struct SettingsView: View {
     @Environment(\.managedObjectContext) private var context
     @StateObject private var vm = SettingsViewModel()
 
+    @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
+    private var tickets: FetchedResults<Ticket>
+
     var body: some View {
         NavigationStack {
             List {
-
                 appearanceSection
                 rangeSection
                 dataSection
@@ -22,7 +24,7 @@ struct SettingsView: View {
                 }
                 Button("Annuler", role: .cancel) {}
             } message: {
-                Text("Tous les tickets seront définitivement supprimés.")
+                Text("Les \(tickets.count) tickets seront définitivement supprimés.")
             }
             .sheet(isPresented: $vm.showExportSheet) {
                 if let url = vm.exportedFileURL {
@@ -32,67 +34,69 @@ struct SettingsView: View {
         }
     }
 
-    // MARK: Sections
+    // MARK: - Sections
 
     private var appearanceSection: some View {
-        Section(header: Text("Apparence")) {
-            Picker("Thème", selection: $vm.settings.appearance) {
-                ForEach(AppAppearance.allCases, id: \.self) { appearance in
-                    Text(appearance.title).tag(appearance)
+        Section {
+            Picker(selection: $vm.settings.appearance) {
+                ForEach(AppAppearance.allCases) { appearance in
+                    Label(appearance.title, systemImage: appearance.icon).tag(appearance)
                 }
+            } label: {
+                Label("Thème", systemImage: "paintbrush")
             }
-            .onChange(of: vm.settings.appearance) { _ in
+            .onChange(of: vm.settings.appearance) { _, _ in
                 vm.persistChanges()
             }
+        } header: {
+            Text("Apparence")
         }
     }
 
     private var rangeSection: some View {
-        Section(header: Text("Période par défaut")) {
-            Picker("Période", selection: $vm.settings.defaultRange) {
-                ForEach(TimeRange.allCases, id: \.self) { range in
+        Section {
+            Picker(selection: $vm.settings.defaultRange) {
+                ForEach(TimeRange.allCases) { range in
                     Text(range.title).tag(range)
                 }
+            } label: {
+                Label("Période par défaut", systemImage: "calendar")
             }
-            .onChange(of: vm.settings.defaultRange) { _ in
+            .onChange(of: vm.settings.defaultRange) { _, _ in
                 vm.persistChanges()
             }
+        } header: {
+            Text("Affichage")
         }
     }
 
     private var dataSection: some View {
-        Section(header: Text("Données")) {
-
+        Section {
             Button {
                 vm.exportAllTickets(context: context)
             } label: {
-                Label("Exporter tous les tickets", systemImage: "square.and.arrow.up")
+                Label("Exporter en CSV", systemImage: "square.and.arrow.up")
             }
+            .disabled(tickets.isEmpty)
 
             Button(role: .destructive) {
                 vm.showResetAlert = true
             } label: {
                 Label("Supprimer tous les tickets", systemImage: "trash")
             }
+            .disabled(tickets.isEmpty)
+
+        } header: {
+            Text("Données")
+        } footer: {
+            Text("\(tickets.count) ticket(s) enregistré(s)")
         }
     }
 
     private var infoSection: some View {
-        Section(header: Text("Informations")) {
-
-            HStack {
-                Text("Version")
-                Spacer()
-                Text(vm.settings.appVersion)
-                    .foregroundColor(.secondary)
-            }
-
-            HStack {
-                Text("Build")
-                Spacer()
-                Text(vm.settings.buildNumber)
-                    .foregroundColor(.secondary)
-            }
+        Section("Informations") {
+            LabeledContent("Version", value: vm.settings.appVersion)
+            LabeledContent("Build", value: vm.settings.buildNumber)
         }
     }
 }
