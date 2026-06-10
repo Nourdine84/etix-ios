@@ -23,7 +23,7 @@ struct LoginView: View {
                     .padding().background(.ultraThinMaterial).clipShape(RoundedRectangle(cornerRadius: 12))
 
                 Button {
-                    session.login()
+                    session.finishOnboarding()
                 } label: {
                     Text("Se connecter")
                         .frame(maxWidth: .infinity).padding()
