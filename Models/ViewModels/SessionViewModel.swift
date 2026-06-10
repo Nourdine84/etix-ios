@@ -14,6 +14,8 @@ final class SessionViewModel: ObservableObject {
 
     // Called by SplashView after its animation completes
     func decideNextAfterSplash() {
+        print("[Session] hasSeenOnboarding =", hasSeenOnboarding)
+        print("[Session] appState →", hasSeenOnboarding ? "ready" : "onboarding")
         appState = hasSeenOnboarding ? .ready : .onboarding
     }
 
