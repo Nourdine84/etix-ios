@@ -6,21 +6,43 @@ struct StoreDetailView: View {
     let storeName: String
 
     @Environment(\.managedObjectContext) private var context
-    @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
-    private var tickets: FetchedResults<Ticket>
+    @FetchRequest private var tickets: FetchedResults<Ticket>
+
+    @State private var showAllTickets = false
+
+    init(storeName: String) {
+        self.storeName = storeName
+        let request = NSFetchRequest<Ticket>(entityName: "Ticket")
+        request.predicate = NSPredicate(format: "storeName == %@", storeName)
+        request.sortDescriptors = [NSSortDescriptor(key: "dateMillis", ascending: false)]
+        _tickets = FetchRequest(fetchRequest: request)
+    }
+
+    // MARK: - Static Formatters
+
+    private static let mediumFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "fr_FR")
+        f.dateStyle = .medium
+        f.timeStyle = .none
+        return f
+    }()
+
+    private static let longFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "fr_FR")
+        f.dateStyle = .long
+        f.timeStyle = .none
+        return f
+    }()
 
     // MARK: - Computed
 
-    private var storeTickets: [Ticket] {
-        tickets.filter { $0.storeName == storeName }
-              .sorted { $0.dateMillis > $1.dateMillis }
-    }
-
     private var totalAmount: Double {
-        storeTickets.reduce(0) { $0 + $1.amount }
+        tickets.reduce(0) { $0 + $1.amount }
     }
 
-    private var ticketCount: Int { storeTickets.count }
+    private var ticketCount: Int { tickets.count }
 
     private var averageBasket: Double {
         guard ticketCount > 0 else { return 0 }
@@ -28,18 +50,21 @@ struct StoreDetailView: View {
     }
 
     private var thisMonthTotal: Double {
-        let start = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))!
-        let startMs = Int64(start.timeIntervalSince1970 * 1000)
-        return storeTickets.filter { $0.dateMillis >= startMs }.reduce(0) { $0 + $1.amount }
+        let r = DateRangeHelper.currentRange(for: .month)
+        let startMs = DateRangeHelper.millis(r.start)
+        let endMs = DateRangeHelper.millis(r.end)
+        return tickets
+            .filter { $0.dateMillis >= startMs && $0.dateMillis < endMs }
+            .reduce(0) { $0 + $1.amount }
     }
 
     private var lastMonthTotal: Double {
-        let cal = Calendar.current
-        let startThis = cal.date(from: cal.dateComponents([.year, .month], from: Date()))!
-        let startLast = cal.date(byAdding: .month, value: -1, to: startThis)!
-        let startMs = Int64(startLast.timeIntervalSince1970 * 1000)
-        let endMs = Int64(startThis.timeIntervalSince1970 * 1000)
-        return storeTickets.filter { $0.dateMillis >= startMs && $0.dateMillis < endMs }.reduce(0) { $0 + $1.amount }
+        let r = DateRangeHelper.previousRange(for: .month)
+        let startMs = DateRangeHelper.millis(r.start)
+        let endMs = DateRangeHelper.millis(r.end)
+        return tickets
+            .filter { $0.dateMillis >= startMs && $0.dateMillis < endMs }
+            .reduce(0) { $0 + $1.amount }
     }
 
     private var variationPercent: Double {
@@ -48,48 +73,46 @@ struct StoreDetailView: View {
     }
 
     private var lastVisitLabel: String {
-        guard let last = storeTickets.first else { return "—" }
-        let f = DateFormatter()
-        f.locale = Locale(identifier: "fr_FR")
-        f.dateStyle = .medium
-        return f.string(from: Date(timeIntervalSince1970: Double(last.dateMillis) / 1000))
+        guard let first = tickets.first else { return "—" }
+        return Self.mediumFormatter.string(
+            from: Date(timeIntervalSince1970: Double(first.dateMillis) / 1000)
+        )
     }
 
     private var avgDaysBetweenVisits: Int? {
-        guard storeTickets.count >= 2 else { return nil }
-        let sorted = storeTickets.map { $0.dateMillis }.sorted()
-        let spanDays = Int((Double(sorted.last! - sorted.first!) / 1000 / 86400).rounded())
-        return max(1, spanDays / (storeTickets.count - 1))
-    }
-
-    private var lastPurchaseInfo: (date: String, amount: Double, category: String)? {
-        guard let ticket = storeTickets.first else { return nil }
-        let f = DateFormatter()
-        f.locale = Locale(identifier: "fr_FR")
-        f.dateStyle = .long
-        f.timeStyle = .none
-        return (
-            date: f.string(from: Date(timeIntervalSince1970: Double(ticket.dateMillis) / 1000)),
-            amount: ticket.amount,
-            category: ticket.category
-        )
+        guard tickets.count >= 2,
+              let newest = tickets.first?.dateMillis,
+              let oldest = tickets.last?.dateMillis else { return nil }
+        let spanDays = Int((Double(newest - oldest) / 1000 / 86400).rounded())
+        return max(1, spanDays / (tickets.count - 1))
     }
 
     private var groupedByDay: [(date: Date, total: Double)] {
         let cal = Calendar.current
-        let grouped = Dictionary(grouping: storeTickets) { ticket in
+        let grouped = Dictionary(grouping: tickets) { ticket in
             cal.startOfDay(for: Date(timeIntervalSince1970: Double(ticket.dateMillis) / 1000))
         }
-        return grouped.map { ($0.key, $0.value.reduce(0) { $0 + $1.amount }) }
-                      .sorted { $0.date < $1.date }
+        return grouped
+            .map { ($0.key, $0.value.reduce(0) { $0 + $1.amount }) }
+            .sorted { $0.0 < $1.0 }
     }
 
-    private var categoryTotals: [(name: String, total: Double)] {
-        let grouped = Dictionary(grouping: storeTickets) { $0.category }
-        let mapped: [(name: String, total: Double)] = grouped.map { key, values in
-            (name: key, total: values.reduce(0) { $0 + $1.amount })
+    private var categoryBreakdown: [(name: String, total: Double, percent: Double)] {
+        let grouped = Dictionary(grouping: tickets) { $0.category }
+        let pairs: [(String, Double)] = grouped.map { key, values in
+            (key.isEmpty ? "Autre" : key, values.reduce(0) { $0 + $1.amount })
         }
-        return Array(mapped.sorted { $0.total > $1.total }.prefix(3))
+        let grandTotal = pairs.reduce(0) { $0 + $1.1 }
+        return Array(
+            pairs
+                .map { (name: $0.0, total: $0.1, percent: grandTotal > 0 ? $0.1 / grandTotal * 100 : 0) }
+                .sorted { $0.total > $1.total }
+                .prefix(3)
+        )
+    }
+
+    private var displayedTickets: [Ticket] {
+        showAllTickets ? Array(tickets) : Array(tickets.prefix(5))
     }
 
     // MARK: - Body
@@ -102,16 +125,13 @@ struct StoreDetailView: View {
                 VStack(spacing: 32) {
                     heroSection
                     statsGrid
-                    if let info = lastPurchaseInfo {
-                        lastPurchaseCard(info)
-                    }
                     if thisMonthTotal > 0 || lastMonthTotal > 0 {
                         monthComparisonCard
                     }
                     if !groupedByDay.isEmpty {
                         chartSection
                     }
-                    if !categoryTotals.isEmpty {
+                    if !categoryBreakdown.isEmpty {
                         topCategoriesSection
                     }
                     ticketListSection
@@ -144,7 +164,7 @@ struct StoreDetailView: View {
                         endPoint: .bottomTrailing
                     )
                 )
-            Text("\(ticketCount) ticket(s) enregistré(s)")
+            Text("\(ticketCount) ticket\(ticketCount > 1 ? "s" : "") enregistré\(ticketCount > 1 ? "s" : "")")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
         }
@@ -161,11 +181,10 @@ struct StoreDetailView: View {
             }
             HStack(spacing: 16) {
                 statCard(label: "DERNIÈRE VISITE", value: lastVisitLabel)
-                if let freq = avgDaysBetweenVisits {
-                    statCard(label: "FRÉQUENCE", value: "/ \(freq) jours")
-                } else {
-                    statCard(label: "FRÉQUENCE", value: "—")
-                }
+                statCard(
+                    label: "FRÉQUENCE",
+                    value: avgDaysBetweenVisits.map { "tous les \($0) j" } ?? "—"
+                )
             }
         }
     }
@@ -186,40 +205,6 @@ struct StoreDetailView: View {
         .padding(16)
         .background(Color(.secondarySystemGroupedBackground))
         .cornerRadius(16)
-    }
-
-    // MARK: - Last Purchase
-
-    private func lastPurchaseCard(_ info: (date: String, amount: Double, category: String)) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("DERNIER ACHAT")
-                .font(.caption2)
-                .tracking(1)
-                .foregroundColor(.secondary)
-            HStack(alignment: .bottom) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(info.date)
-                        .font(.subheadline.weight(.semibold))
-                        .foregroundColor(.primary)
-                    Text(info.category)
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
-                Spacer()
-                Text(String(format: "%.2f €", info.amount))
-                    .font(.title3.weight(.heavy))
-                    .foregroundStyle(
-                        LinearGradient(
-                            colors: [Theme.primaryBlue, Theme.primaryBlue.opacity(0.75)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-            }
-        }
-        .padding(20)
-        .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(20)
     }
 
     // MARK: - Month Comparison
@@ -292,17 +277,28 @@ struct StoreDetailView: View {
                 .tracking(1)
                 .foregroundColor(.secondary)
 
-            ForEach(categoryTotals, id: \.name) { cat in
-                HStack {
-                    Image(systemName: "tag.fill")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+            ForEach(categoryBreakdown, id: \.name) { cat in
+                HStack(spacing: 8) {
                     Text(cat.name)
-                        .font(.subheadline)
-                    Spacer()
-                    Text(String(format: "%.2f €", cat.total))
-                        .font(.subheadline.weight(.semibold))
-                        .foregroundColor(Theme.primaryBlue)
+                        .font(.caption)
+                        .lineLimit(1)
+                        .frame(width: 90, alignment: .leading)
+                    ZStack(alignment: .leading) {
+                        Capsule()
+                            .fill(Color(.systemFill))
+                            .frame(height: 4)
+                        Capsule()
+                            .fill(Theme.primaryBlue.opacity(0.7))
+                            .scaleEffect(x: min(cat.percent / 100, 1.0), anchor: .leading)
+                            .frame(height: 4)
+                    }
+                    Text(String(format: "%.0f%%", cat.percent))
+                        .font(.caption2.weight(.semibold))
+                        .foregroundColor(.secondary)
+                        .frame(width: 30, alignment: .trailing)
+                    Text(String(format: "%.0f €", cat.total))
+                        .font(.caption2.weight(.semibold))
+                        .frame(width: 52, alignment: .trailing)
                 }
             }
         }
@@ -315,18 +311,18 @@ struct StoreDetailView: View {
 
     private var ticketListSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("TICKETS")
+            Text("TICKETS (\(ticketCount))")
                 .font(.caption2)
                 .tracking(1)
                 .foregroundColor(.secondary)
 
-            ForEach(storeTickets, id: \.objectID) { ticket in
+            ForEach(Array(displayedTickets.enumerated()), id: \.element.objectID) { index, ticket in
                 NavigationLink {
                     TicketDetailView(ticket: ticket)
                 } label: {
                     HStack {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(ticket.category)
+                            Text(ticket.category.isEmpty ? "Sans catégorie" : ticket.category)
                                 .font(.subheadline.weight(.medium))
                                 .foregroundColor(.primary)
                             Text(DateUtils.shortString(fromMillis: ticket.dateMillis))
@@ -342,9 +338,23 @@ struct StoreDetailView: View {
                 }
                 .buttonStyle(.plain)
 
-                if ticket.objectID != storeTickets.last?.objectID {
+                if index < displayedTickets.count - 1 {
                     Divider()
                 }
+            }
+
+            if ticketCount > 5 && !showAllTickets {
+                Divider()
+                Button {
+                    withAnimation { showAllTickets = true }
+                } label: {
+                    Text("Voir les \(ticketCount - 5) autres tickets →")
+                        .font(.subheadline.weight(.medium))
+                        .foregroundColor(Theme.primaryBlue)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 8)
+                }
+                .buttonStyle(.plain)
             }
         }
         .padding(20)
