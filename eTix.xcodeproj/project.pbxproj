@@ -18,7 +18,6 @@
 		634EA0382E9E8149001F7BBB /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0372E9E813E001F7BBB /* Theme.swift */; };
 		634EA03A2E9E8164001F7BBB /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0392E9E814E001F7BBB /* PersistenceController.swift */; };
 		634EA04B2E9E899E001F7BBB /* SessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03D2E9E81D2001F7BBB /* SessionViewModel.swift */; };
-		634EA04D2E9E8A95001F7BBB /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0412E9E8271001F7BBB /* LoginView.swift */; };
 		634EA04E2E9E8AB8001F7BBB /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0432E9E82A4001F7BBB /* MainView.swift */; };
 		634EA04F2E9E8F80001F7BBB /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03B2E9E818C001F7BBB /* Ticket.swift */; };
 		634EA0502E9E8F8C001F7BBB /* AddTicketViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03E2E9E81E8001F7BBB /* AddTicketViewModel.swift */; };
@@ -28,18 +27,14 @@
 		634EA0552E9E8FCB001F7BBB /* TicketHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0462E9E82F2001F7BBB /* TicketHistoryView.swift */; };
 		634EA0562E9E8FD3001F7BBB /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0452E9E82DA001F7BBB /* CategoryView.swift */; };
 		634EA0572E9E8FDB001F7BBB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0442E9E82C0001F7BBB /* SettingsView.swift */; };
-		634EA0582E9E8FE4001F7BBB /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0422E9E8287001F7BBB /* RegisterView.swift */; };
 		634EA0592E9E8FF0001F7BBB /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03C2E9E81AD001F7BBB /* DateUtils.swift */; };
 		634EA0812E9EDF04001F7BBB /* CategoryTotal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0802E9EDEF4001F7BBB /* CategoryTotal.swift */; };
-		634EA0832E9EE15F001F7BBB /* RangePickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0822E9EE141001F7BBB /* RangePickerSheet.swift */; };
 		634EA0852E9EE423001F7BBB /* AppAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0842E9EE3FF001F7BBB /* AppAppearance.swift */; };
 		634EA0882E9FD77E001F7BBB /* eTixButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0872E9FD768001F7BBB /* eTixButton.swift */; };
 		634EA08A2E9FD7CD001F7BBB /* Haptic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0892E9FD7AD001F7BBB /* Haptic.swift */; };
 		634EA08D2E9FDA49001F7BBB /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA08C2E9FDA3D001F7BBB /* SplashView.swift */; };
 		634EA0A22E9FF550001F7BBB /* OnboardingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0A12E9FF536001F7BBB /* OnboardingPage.swift */; };
 		634EA0A42E9FF5DF001F7BBB /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0A32E9FF5C6001F7BBB /* OnboardingViewModel.swift */; };
-		634EA0AA2EA0199D001F7BBB /* MonthlyStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0A92EA0198B001F7BBB /* MonthlyStat.swift */; };
-		634EA0AC2EA019D2001F7BBB /* StatsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0AB2EA019BF001F7BBB /* StatsViewModel.swift */; };
 		634EA0B02EA01E52001F7BBB /* WidgetSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0AF2EA01E3E001F7BBB /* WidgetSync.swift */; };
 		634EA0C72EA02D53001F7BBB /* eTixWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 634EA0B52EA02D4F001F7BBB /* eTixWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		634EA0CC2EA031E3001F7BBB /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0372E9E813E001F7BBB /* Theme.swift */; };
@@ -47,18 +42,6 @@
 		634EA0CE2EA0350C001F7BBB /* SwiftUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B92EA02D50001F7BBB /* SwiftUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		634EA0D02EA0350E001F7BBB /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B72EA02D50001F7BBB /* WidgetKit.framework */; };
 		634EA0D12EA0350E001F7BBB /* WidgetKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 634EA0B72EA02D50001F7BBB /* WidgetKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		637D582F2F23CA5000A8000C /* KPIDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D582E2F23CA3E00A8000C /* KPIDetailView.swift */; };
-		637D58582F23D5F400A8000C /* KPIHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58572F23D5EE00A8000C /* KPIHeaderView.swift */; };
-		637D585A2F23D83C00A8000C /* KPIBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58592F23D83800A8000C /* KPIBarChartView.swift */; };
-		637D585C2F23D99200A8000C /* KPIDonutChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D585B2F23D98E00A8000C /* KPIDonutChartView.swift */; };
-		637D585E2F23DABD00A8000C /* KPIInsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D585D2F23DAB700A8000C /* KPIInsightsView.swift */; };
-		637D58602F23DCC400A8000C /* KPIExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D585F2F23DCB200A8000C /* KPIExportService.swift */; };
-		637D58622F23E15F00A8000C /* KPIComparison.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58612F23E15000A8000C /* KPIComparison.swift */; };
-		637D58642F23E23D00A8000C /* KPIComparisonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58632F23E20F00A8000C /* KPIComparisonView.swift */; };
-		637D586D2F24109B00A8000C /* TicketExportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D586C2F24108900A8000C /* TicketExportViewModel.swift */; };
-		637D58742F242ED900A8000C /* KPIExportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58732F242EC800A8000C /* KPIExportViewModel.swift */; };
-		637D58762F2432D900A8000C /* KPIExportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58752F2432C900A8000C /* KPIExportButton.swift */; };
-		637D589D2F24368300A8000C /* HomeKPIViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D589C2F24367300A8000C /* HomeKPIViewModel.swift */; };
 		637D58A02F2438F200A8000C /* CategoryDonutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D589F2F2438EE00A8000C /* CategoryDonutView.swift */; };
 		637D58A22F24391A00A8000C /* CategoryRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58A12F24391400A8000C /* CategoryRowView.swift */; };
 		637D58A42F243A6A00A8000C /* CategoryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58A32F243A5A00A8000C /* CategoryDetailView.swift */; };
@@ -70,8 +53,6 @@
 		637D58B32F2441DC00A8000C /* StoreListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58B22F2441D800A8000C /* StoreListView.swift */; };
 		637D58B52F2442AC00A8000C /* StoreDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58B42F2442A900A8000C /* StoreDetailView.swift */; };
 		637D58B72F24433000A8000C /* StoreBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58B62F24432C00A8000C /* StoreBarChartView.swift */; };
-		637D58B92F24434E00A8000C /* StoreExportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58B82F24434A00A8000C /* StoreExportButton.swift */; };
-		637D58BB2F24437600A8000C /* StoreExportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58BA2F24436700A8000C /* StoreExportViewModel.swift */; };
 		637D58BF2F244B1700A8000C /* StoreComparisonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58BE2F244B0700A8000C /* StoreComparisonView.swift */; };
 		637D58C12F244DEA00A8000C /* StoreComparisonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58C02F244DDC00A8000C /* StoreComparisonItem.swift */; };
 		637D58C32F24518C00A8000C /* StoreComparisonBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58C22F24517E00A8000C /* StoreComparisonBarChartView.swift */; };
@@ -85,15 +66,9 @@
 		63CDBBF82F3BAFEC001503FF /* DonutSlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBBF72F3BAF63001503FF /* DonutSlice.swift */; };
 		63CDBBFA2F3BB049001503FF /* DonutSliceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBBF92F3BB01C001503FF /* DonutSliceView.swift */; };
 		63CDBBFC2F3BB51F001503FF /* StoreDonutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBBFB2F3BB50A001503FF /* StoreDonutView.swift */; };
-		63CDBBFE2F3BC1FB001503FF /* StoreABComparisonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBBFD2F3BC1F4001503FF /* StoreABComparisonView.swift */; };
-		63CDBC002F3BC256001503FF /* StoreABComparisonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBBFF2F3BC240001503FF /* StoreABComparisonViewModel.swift */; };
-		63CDBC022F3BC292001503FF /* StoreABComparisonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBC012F3BC277001503FF /* StoreABComparisonItem.swift */; };
 		63CDBC042F3BC2D3001503FF /* StoreABComparisonItem.txt in Resources */ = {isa = PBXBuildFile; fileRef = 63CDBC032F3BC2D3001503FF /* StoreABComparisonItem.txt */; };
 		63CDBC062F3BC609001503FF /* TimeRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBC052F3BC5FD001503FF /* TimeRange.swift */; };
 		63CDBC082F3BC632001503FF /* DateRangeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBC072F3BC62E001503FF /* DateRangeHelper.swift */; };
-		63CDBC0A2F3BC7E0001503FF /* KPIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBC092F3BC7DA001503FF /* KPIType.swift */; };
-		63CDBC0D2F3BC857001503FF /* KPIPrimaryCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBC0C2F3BC848001503FF /* KPIPrimaryCard.swift */; };
-		63CDBC0F2F3BC887001503FF /* KPISmallCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBC0E2F3BC87E001503FF /* KPISmallCard.swift */; };
 		63CDBC122F3BDAFB001503FF /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBC112F3BDAEB001503FF /* AppSettings.swift */; };
 		63CDBC142F3BDB13001503FF /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBC132F3BDB02001503FF /* SettingsViewModel.swift */; };
 		63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */; };
@@ -180,8 +155,6 @@
 		634EA03D2E9E81D2001F7BBB /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
 		634EA03E2E9E81E8001F7BBB /* AddTicketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTicketViewModel.swift; sourceTree = "<group>"; };
 		634EA03F2E9E8211001F7BBB /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
-		634EA0412E9E8271001F7BBB /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		634EA0422E9E8287001F7BBB /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		634EA0432E9E82A4001F7BBB /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		634EA0442E9E82C0001F7BBB /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		634EA0452E9E82DA001F7BBB /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
@@ -189,31 +162,16 @@
 		634EA0472E9E8378001F7BBB /* AddTicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTicketView.swift; sourceTree = "<group>"; };
 		634EA0482E9E8393001F7BBB /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		634EA0802E9EDEF4001F7BBB /* CategoryTotal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTotal.swift; sourceTree = "<group>"; };
-		634EA0822E9EE141001F7BBB /* RangePickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangePickerSheet.swift; sourceTree = "<group>"; };
 		634EA0842E9EE3FF001F7BBB /* AppAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearance.swift; sourceTree = "<group>"; };
 		634EA0872E9FD768001F7BBB /* eTixButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eTixButton.swift; sourceTree = "<group>"; };
 		634EA0892E9FD7AD001F7BBB /* Haptic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptic.swift; sourceTree = "<group>"; };
 		634EA08C2E9FDA3D001F7BBB /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		634EA0A12E9FF536001F7BBB /* OnboardingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPage.swift; sourceTree = "<group>"; };
 		634EA0A32E9FF5C6001F7BBB /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
-		634EA0A92EA0198B001F7BBB /* MonthlyStat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyStat.swift; sourceTree = "<group>"; };
-		634EA0AB2EA019BF001F7BBB /* StatsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewModel.swift; sourceTree = "<group>"; };
 		634EA0AF2EA01E3E001F7BBB /* WidgetSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSync.swift; sourceTree = "<group>"; };
 		634EA0B52EA02D4F001F7BBB /* eTixWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = eTixWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		634EA0B72EA02D50001F7BBB /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		634EA0B92EA02D50001F7BBB /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		637D582E2F23CA3E00A8000C /* KPIDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPIDetailView.swift; sourceTree = "<group>"; };
-		637D58572F23D5EE00A8000C /* KPIHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPIHeaderView.swift; sourceTree = "<group>"; };
-		637D58592F23D83800A8000C /* KPIBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPIBarChartView.swift; sourceTree = "<group>"; };
-		637D585B2F23D98E00A8000C /* KPIDonutChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPIDonutChartView.swift; sourceTree = "<group>"; };
-		637D585D2F23DAB700A8000C /* KPIInsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPIInsightsView.swift; sourceTree = "<group>"; };
-		637D585F2F23DCB200A8000C /* KPIExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPIExportService.swift; sourceTree = "<group>"; };
-		637D58612F23E15000A8000C /* KPIComparison.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPIComparison.swift; sourceTree = "<group>"; };
-		637D58632F23E20F00A8000C /* KPIComparisonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPIComparisonView.swift; sourceTree = "<group>"; };
-		637D586C2F24108900A8000C /* TicketExportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketExportViewModel.swift; sourceTree = "<group>"; };
-		637D58732F242EC800A8000C /* KPIExportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPIExportViewModel.swift; sourceTree = "<group>"; };
-		637D58752F2432C900A8000C /* KPIExportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPIExportButton.swift; sourceTree = "<group>"; };
-		637D589C2F24367300A8000C /* HomeKPIViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeKPIViewModel.swift; sourceTree = "<group>"; };
 		637D589F2F2438EE00A8000C /* CategoryDonutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDonutView.swift; sourceTree = "<group>"; };
 		637D58A12F24391400A8000C /* CategoryRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRowView.swift; sourceTree = "<group>"; };
 		637D58A32F243A5A00A8000C /* CategoryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailView.swift; sourceTree = "<group>"; };
@@ -225,8 +183,6 @@
 		637D58B22F2441D800A8000C /* StoreListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreListView.swift; sourceTree = "<group>"; };
 		637D58B42F2442A900A8000C /* StoreDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreDetailView.swift; sourceTree = "<group>"; };
 		637D58B62F24432C00A8000C /* StoreBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreBarChartView.swift; sourceTree = "<group>"; };
-		637D58B82F24434A00A8000C /* StoreExportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreExportButton.swift; sourceTree = "<group>"; };
-		637D58BA2F24436700A8000C /* StoreExportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreExportViewModel.swift; sourceTree = "<group>"; };
 		637D58BE2F244B0700A8000C /* StoreComparisonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreComparisonView.swift; sourceTree = "<group>"; };
 		637D58C02F244DDC00A8000C /* StoreComparisonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreComparisonItem.swift; sourceTree = "<group>"; };
 		637D58C22F24517E00A8000C /* StoreComparisonBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreComparisonBarChartView.swift; sourceTree = "<group>"; };
@@ -241,15 +197,9 @@
 		63CDBBF72F3BAF63001503FF /* DonutSlice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonutSlice.swift; sourceTree = "<group>"; };
 		63CDBBF92F3BB01C001503FF /* DonutSliceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonutSliceView.swift; sourceTree = "<group>"; };
 		63CDBBFB2F3BB50A001503FF /* StoreDonutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreDonutView.swift; sourceTree = "<group>"; };
-		63CDBBFD2F3BC1F4001503FF /* StoreABComparisonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreABComparisonView.swift; sourceTree = "<group>"; };
-		63CDBBFF2F3BC240001503FF /* StoreABComparisonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreABComparisonViewModel.swift; sourceTree = "<group>"; };
-		63CDBC012F3BC277001503FF /* StoreABComparisonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreABComparisonItem.swift; sourceTree = "<group>"; };
 		63CDBC032F3BC2D3001503FF /* StoreABComparisonItem.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = StoreABComparisonItem.txt; sourceTree = "<group>"; };
 		63CDBC052F3BC5FD001503FF /* TimeRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeRange.swift; sourceTree = "<group>"; };
 		63CDBC072F3BC62E001503FF /* DateRangeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateRangeHelper.swift; sourceTree = "<group>"; };
-		63CDBC092F3BC7DA001503FF /* KPIType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPIType.swift; sourceTree = "<group>"; };
-		63CDBC0C2F3BC848001503FF /* KPIPrimaryCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPIPrimaryCard.swift; sourceTree = "<group>"; };
-		63CDBC0E2F3BC87E001503FF /* KPISmallCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPISmallCard.swift; sourceTree = "<group>"; };
 		63CDBC112F3BDAEB001503FF /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		63CDBC132F3BDB02001503FF /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExportService.swift; sourceTree = "<group>"; };
@@ -262,7 +212,6 @@
 		63DBD7E92EEADDB100D1A8EF /* OCRExtractedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRExtractedData.swift; sourceTree = "<group>"; };
 		63DBD7EB2EEADE0900D1A8EF /* OCRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRScannerView.swift; sourceTree = "<group>"; };
 		63DBD7F12EEAFE9300D1A8EF /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		63DBD7F42EEAFF9000D1A8EF /* Untitled 2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Untitled 2.swift"; sourceTree = "<group>"; };
 		63DBD7F52EEB015100D1A8EF /* AnimatedPageSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedPageSymbol.swift; sourceTree = "<group>"; };
 		63DBD8072EEC423B00D1A8EF /* PopupContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupContainer.swift; sourceTree = "<group>"; };
 		63DBD8092EEC428500D1A8EF /* SuccessPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessPopup.swift; sourceTree = "<group>"; };
@@ -362,15 +311,12 @@
 				637D58A52F243C7200A8000C /* DTO */,
 				637D58652F23E98B00A8000C /* Services */,
 				63DBD7E82EEADDA300D1A8EF /* OCR */,
-				634EA0A92EA0198B001F7BBB /* MonthlyStat.swift */,
 				634EA0A12E9FF536001F7BBB /* OnboardingPage.swift */,
-				63CDBC012F3BC277001503FF /* StoreABComparisonItem.swift */,
 				634EA0842E9EE3FF001F7BBB /* AppAppearance.swift */,
 				634EA03B2E9E818C001F7BBB /* Ticket.swift */,
 				634EA02D2E9E7F1E001F7BBB /* Views */,
 				634EA02C2E9E7F09001F7BBB /* ViewModels */,
 				634EA0342E9E8045001F7BBB /* Utils */,
-				637D58612F23E15000A8000C /* KPIComparison.swift */,
 				63CDBC032F3BC2D3001503FF /* StoreABComparisonItem.txt */,
 			);
 			path = Models;
@@ -379,16 +325,11 @@
 		634EA02C2E9E7F09001F7BBB /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				63CDBBFF2F3BC240001503FF /* StoreABComparisonViewModel.swift */,
 				637D58AF2F24418F00A8000C /* StoreListViewModel.swift */,
-				637D589C2F24367300A8000C /* HomeKPIViewModel.swift */,
-				637D58732F242EC800A8000C /* KPIExportViewModel.swift */,
-				634EA0AB2EA019BF001F7BBB /* StatsViewModel.swift */,
 				634EA0A32E9FF5C6001F7BBB /* OnboardingViewModel.swift */,
 				634EA03D2E9E81D2001F7BBB /* SessionViewModel.swift */,
 				634EA03E2E9E81E8001F7BBB /* AddTicketViewModel.swift */,
 				634EA03F2E9E8211001F7BBB /* CategoryViewModel.swift */,
-				637D58BA2F24436700A8000C /* StoreExportViewModel.swift */,
 				6309A1B42F3B9C85002B98B6 /* StoreComparisonViewModel.swift */,
 			);
 			path = ViewModels;
@@ -413,7 +354,6 @@
 				634EA08B2E9FDA2C001F7BBB /* Splash */,
 				634EA0332E9E802B001F7BBB /* Main */,
 				634EA0322E9E801F001F7BBB /* Auth */,
-				637D58632F23E20F00A8000C /* KPIComparisonView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -421,8 +361,6 @@
 		634EA0322E9E801F001F7BBB /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				634EA0412E9E8271001F7BBB /* LoginView.swift */,
-				634EA0422E9E8287001F7BBB /* RegisterView.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -431,7 +369,6 @@
 			isa = PBXGroup;
 			children = (
 				AA1001B02F4A0001001F7001 /* InsightCardView.swift */,
-				634EA0822E9EE141001F7BBB /* RangePickerSheet.swift */,
 				634EA0432E9E82A4001F7BBB /* MainView.swift */,
 				634EA0482E9E8393001F7BBB /* HomeView.swift */,
 				634EA0472E9E8378001F7BBB /* AddTicketView.swift */,
@@ -476,7 +413,6 @@
 		634EA0A62E9FF638001F7BBB /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				63DBD7F42EEAFF9000D1A8EF /* Untitled 2.swift */,
 				63DBD7F12EEAFE9300D1A8EF /* OnboardingView.swift */,
 				63DBD7F52EEB015100D1A8EF /* AnimatedPageSymbol.swift */,
 			);
@@ -495,12 +431,6 @@
 		637D582D2F23CA1B00A8000C /* KPI */ = {
 			isa = PBXGroup;
 			children = (
-				637D58752F2432C900A8000C /* KPIExportButton.swift */,
-				637D585D2F23DAB700A8000C /* KPIInsightsView.swift */,
-				637D585B2F23D98E00A8000C /* KPIDonutChartView.swift */,
-				637D58592F23D83800A8000C /* KPIBarChartView.swift */,
-				637D58572F23D5EE00A8000C /* KPIHeaderView.swift */,
-				637D582E2F23CA3E00A8000C /* KPIDetailView.swift */,
 			);
 			path = KPI;
 			sourceTree = "<group>";
@@ -508,7 +438,6 @@
 		637D58652F23E98B00A8000C /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				637D585F2F23DCB200A8000C /* KPIExportService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -517,7 +446,6 @@
 			isa = PBXGroup;
 			children = (
 				637D58A82F243EF000A8000C /* CategoryExportViewModel.swift */,
-				637D586C2F24108900A8000C /* TicketExportViewModel.swift */,
 			);
 			path = Export;
 			sourceTree = "<group>";
@@ -546,7 +474,6 @@
 		637D58AC2F24413E00A8000C /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				63CDBC092F3BC7DA001503FF /* KPIType.swift */,
 				637D58C02F244DDC00A8000C /* StoreComparisonItem.swift */,
 				637D58AD2F24415300A8000C /* StoreTotal.swift */,
 			);
@@ -556,12 +483,10 @@
 		637D58B12F2441C100A8000C /* Store */ = {
 			isa = PBXGroup;
 			children = (
-				63CDBBFD2F3BC1F4001503FF /* StoreABComparisonView.swift */,
 				63CDBBFB2F3BB50A001503FF /* StoreDonutView.swift */,
 				6309A1B62F3B9CCF002B98B6 /* StoreComparison.swift */,
 				637D58C22F24517E00A8000C /* StoreComparisonBarChartView.swift */,
 				637D58BE2F244B0700A8000C /* StoreComparisonView.swift */,
-				637D58B82F24434A00A8000C /* StoreExportButton.swift */,
 				637D58B62F24432C00A8000C /* StoreBarChartView.swift */,
 				637D58B42F2442A900A8000C /* StoreDetailView.swift */,
 				637D58B22F2441D800A8000C /* StoreListView.swift */,
@@ -591,8 +516,6 @@
 		63CDBC0B2F3BC83D001503FF /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				63CDBC0E2F3BC87E001503FF /* KPISmallCard.swift */,
-				63CDBC0C2F3BC848001503FF /* KPIPrimaryCard.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -896,23 +819,14 @@
 				AA1001AF2F4A0001001F7001 /* InsightMemory.swift in Sources */,
 				AA1001B12F4A0001001F7001 /* InsightCardView.swift in Sources */,
 				637D58B02F24419200A8000C /* StoreListViewModel.swift in Sources */,
-				637D582F2F23CA5000A8000C /* KPIDetailView.swift in Sources */,
 				637D58A92F243F0000A8000C /* CategoryExportViewModel.swift in Sources */,
 				63DBD7F62EEB015100D1A8EF /* AnimatedPageSymbol.swift in Sources */,
-				63CDBC002F3BC256001503FF /* StoreABComparisonViewModel.swift in Sources */,
-				637D586D2F24109B00A8000C /* TicketExportViewModel.swift in Sources */,
-				634EA0AA2EA0199D001F7BBB /* MonthlyStat.swift in Sources */,
 				634EA0562E9E8FD3001F7BBB /* CategoryView.swift in Sources */,
 				634EA0532E9E8FBC001F7BBB /* HomeView.swift in Sources */,
 				63DBD80A2EEC429B00D1A8EF /* SuccessPopup.swift in Sources */,
 				63CDBBF82F3BAFEC001503FF /* DonutSlice.swift in Sources */,
-				637D58B92F24434E00A8000C /* StoreExportButton.swift in Sources */,
 				63DBD80C2EEC42E500D1A8EF /* ErrorPopup.swift in Sources */,
 				634EA0812E9EDF04001F7BBB /* CategoryTotal.swift in Sources */,
-				637D58BB2F24437600A8000C /* StoreExportViewModel.swift in Sources */,
-				637D589D2F24368300A8000C /* HomeKPIViewModel.swift in Sources */,
-				63CDBC0A2F3BC7E0001503FF /* KPIType.swift in Sources */,
-				637D58642F23E23D00A8000C /* KPIComparisonView.swift in Sources */,
 				634EA0572E9E8FDB001F7BBB /* SettingsView.swift in Sources */,
 				63DBD80E2EEC434400D1A8EF /* ConfirmDeletePopup.swift in Sources */,
 				637D58C12F244DEA00A8000C /* StoreComparisonItem.swift in Sources */,
@@ -922,25 +836,19 @@
 				634EA04E2E9E8AB8001F7BBB /* MainView.swift in Sources */,
 				634EA08A2E9FD7CD001F7BBB /* Haptic.swift in Sources */,
 				634EA0552E9E8FCB001F7BBB /* TicketHistoryView.swift in Sources */,
-				634EA0AC2EA019D2001F7BBB /* StatsViewModel.swift in Sources */,
 				63B965E92FD9805900433979 /* CategoryPickerSheet.swift in Sources */,
 				637D58C32F24518C00A8000C /* StoreComparisonBarChartView.swift in Sources */,
 				63DBD7E02EEAD76700D1A8EF /* TicketEditView.swift in Sources */,
 				634EA0B02EA01E52001F7BBB /* WidgetSync.swift in Sources */,
 				634EA0502E9E8F8C001F7BBB /* AddTicketViewModel.swift in Sources */,
-				63CDBC022F3BC292001503FF /* StoreABComparisonItem.swift in Sources */,
 				634EA04B2E9E899E001F7BBB /* SessionViewModel.swift in Sources */,
 				63B966AB2FD9BA1000433979 /* MonthlyReportView.swift in Sources */,
-				637D58622F23E15F00A8000C /* KPIComparison.swift in Sources */,
-				634EA0582E9E8FE4001F7BBB /* RegisterView.swift in Sources */,
 				63B965ED2FD98DBC00433979 /* BudgetSettingsView.swift in Sources */,
 				634EA0382E9E8149001F7BBB /* Theme.swift in Sources */,
 				63CDBBF62F3BAF2A001503FF /* StoreComparisonDonutView.swift in Sources */,
 				6309A1B52F3B9C8A002B98B6 /* StoreComparisonViewModel.swift in Sources */,
 				63CDBC082F3BC632001503FF /* DateRangeHelper.swift in Sources */,
 				63DBD7E72EEADCED00D1A8EF /* OCRNotifications.swift in Sources */,
-				637D585E2F23DABD00A8000C /* KPIInsightsView.swift in Sources */,
-				63CDBC0D2F3BC857001503FF /* KPIPrimaryCard.swift in Sources */,
 				63DBD7EC2EEADE1A00D1A8EF /* OCRScannerView.swift in Sources */,
 				63B965E72FD97DF800433979 /* StoreCategoryMapper.swift in Sources */,
 				63CDBC142F3BDB13001503FF /* SettingsViewModel.swift in Sources */,
@@ -948,36 +856,26 @@
 				63DBD7D92EE8650500D1A8EF /* ShareSheet.swift in Sources */,
 				634EA0852E9EE423001F7BBB /* AppAppearance.swift in Sources */,
 				63DBD7F22EEAFEA400D1A8EF /* OnboardingView.swift in Sources */,
-				63CDBBFE2F3BC1FB001503FF /* StoreABComparisonView.swift in Sources */,
 				634EA03A2E9E8164001F7BBB /* PersistenceController.swift in Sources */,
 				63DBD8082EEC425400D1A8EF /* PopupContainer.swift in Sources */,
 				63CDBBFC2F3BB51F001503FF /* StoreDonutView.swift in Sources */,
-				637D58582F23D5F400A8000C /* KPIHeaderView.swift in Sources */,
 				634EA0522E9E8F9F001F7BBB /* CategoryViewModel.swift in Sources */,
 				6309A1B72F3B9CFA002B98B6 /* StoreComparison.swift in Sources */,
 				637D58A22F24391A00A8000C /* CategoryRowView.swift in Sources */,
-				637D58762F2432D900A8000C /* KPIExportButton.swift in Sources */,
 				634EA0882E9FD77E001F7BBB /* eTixButton.swift in Sources */,
-				637D585A2F23D83C00A8000C /* KPIBarChartView.swift in Sources */,
 				63CDBC122F3BDAFB001503FF /* AppSettings.swift in Sources */,
 				637D58BF2F244B1700A8000C /* StoreComparisonView.swift in Sources */,
-				637D58742F242ED900A8000C /* KPIExportViewModel.swift in Sources */,
 				637D58A72F243E5B00A8000C /* CategoryBarChartView.swift in Sources */,
 				637D58AB2F243F2400A8000C /* CategoryExportButton.swift in Sources */,
 				634EA0A42E9FF5DF001F7BBB /* OnboardingViewModel.swift in Sources */,
 				63B965E52FD97DB900433979 /* AnimatedAmountText.swift in Sources */,
-				637D585C2F23D99200A8000C /* KPIDonutChartView.swift in Sources */,
 				63CDBBFA2F3BB049001503FF /* DonutSliceView.swift in Sources */,
 				634EA0542E9E8FC3001F7BBB /* AddTicketView.swift in Sources */,
-				637D58602F23DCC400A8000C /* KPIExportService.swift in Sources */,
 				634EA0A22E9FF550001F7BBB /* OnboardingPage.swift in Sources */,
 				634EA04F2E9E8F80001F7BBB /* Ticket.swift in Sources */,
 				637D58B32F2441DC00A8000C /* StoreListView.swift in Sources */,
 				634EA08D2E9FDA49001F7BBB /* SplashView.swift in Sources */,
-				63CDBC0F2F3BC887001503FF /* KPISmallCard.swift in Sources */,
 				634EA0592E9E8FF0001F7BBB /* DateUtils.swift in Sources */,
-				634EA0832E9EE15F001F7BBB /* RangePickerSheet.swift in Sources */,
-				634EA04D2E9E8A95001F7BBB /* LoginView.swift in Sources */,
 				63B965EB2FD98D6200433979 /* BudgetStore.swift in Sources */,
 				637D58A02F2438F200A8000C /* CategoryDonutView.swift in Sources */,
 				637D58B72F24433000A8000C /* StoreBarChartView.swift in Sources */,
