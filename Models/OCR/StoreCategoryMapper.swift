@@ -37,14 +37,13 @@ struct StoreCategoryMapper {
         request.predicate = NSPredicate(format: "storeName ==[cd] %@", storeName)
         guard let tickets = try? context.fetch(request), !tickets.isEmpty else { return nil }
 
-        guard let (category, count) = Dictionary(grouping: tickets) { $0.category }
+        let counts: [String: Int] = Dictionary(grouping: tickets, by: { $0.category })
             .mapValues { $0.count }
             .filter { !$0.key.isEmpty }
-            .max(by: { $0.value < $1.value })
-        else { return nil }
+        guard let best = counts.max(by: { $0.value < $1.value }) else { return nil }
 
-        let confidence: CategoryConfidence = count >= 3 ? .strongHistory : .weakHistory
-        return CategorySuggestion(category: category, confidence: confidence)
+        let confidence: CategoryConfidence = best.value >= 3 ? .strongHistory : .weakHistory
+        return CategorySuggestion(category: best.key, confidence: confidence)
     }
 
     // MARK: - Dictionary
