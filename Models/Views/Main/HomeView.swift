@@ -8,6 +8,7 @@ struct HomeView: View {
     private var tickets: FetchedResults<Ticket>
 
     @State private var range: TimeRange = AppSettings.load().defaultRange
+    @State private var budgets: [String: Double] = BudgetStore.load()
 
     // MARK: - Filtering
 
@@ -81,6 +82,20 @@ struct HomeView: View {
         filteredTickets.max { $0.dateMillis < $1.dateMillis }
     }
 
+    // MARK: - Intelligence
+
+    private var homeSnapshot: HomeSnapshot {
+        HomeSnapshot(tickets: Array(tickets), range: range)
+    }
+
+    private var activeInsights: [HomeInsight] {
+        HomeInsightEngine.evaluate(
+            snapshot: homeSnapshot,
+            budgets: budgets,
+            range: range
+        )
+    }
+
     // MARK: - Body
 
     var body: some View {
@@ -94,6 +109,9 @@ struct HomeView: View {
                         header
                         dominantHero
                         periodSelector
+                        if !activeInsights.isEmpty {
+                            insightCardsSection
+                        }
                         secondaryKPIs
                         if !filteredTickets.isEmpty {
                             analyticsSection
@@ -111,6 +129,19 @@ struct HomeView: View {
             }
             .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                budgets = BudgetStore.load()
+            }
+        }
+    }
+
+    // MARK: - Insight Cards
+
+    private var insightCardsSection: some View {
+        VStack(spacing: 12) {
+            ForEach(Array(activeInsights.enumerated()), id: \.element.id) { index, insight in
+                InsightCardView(insight: insight, isPrimary: index == 0)
+            }
         }
     }
 
