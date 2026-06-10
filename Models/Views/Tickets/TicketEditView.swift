@@ -2,6 +2,7 @@ import SwiftUI
 import CoreData
 
 struct TicketEditView: View {
+
     @Environment(\.managedObjectContext) private var context
     @Environment(\.dismiss) private var dismiss
 
@@ -10,71 +11,88 @@ struct TicketEditView: View {
     @State private var category: String
     @State private var date: Date
     @State private var description: String
+    @State private var amountInvalid = false
 
     let ticket: Ticket
 
     init(ticket: Ticket) {
         self.ticket = ticket
         _store = State(initialValue: ticket.storeName)
-        _amount = State(initialValue: String(ticket.amount))
+        _amount = State(initialValue: String(format: "%.2f", ticket.amount))
         _category = State(initialValue: ticket.category)
         _description = State(initialValue: ticket.ticketDescription ?? "")
         _date = State(initialValue: Date(timeIntervalSince1970: TimeInterval(ticket.dateMillis) / 1000.0))
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
-                Section(header: Text("Informations")) {
-                    TextField("Magasin", text: $store)
+                Section("Informations") {
+                    HStack(spacing: 12) {
+                        Image(systemName: "storefront")
+                            .foregroundColor(.secondary)
+                            .frame(width: 20)
+                        TextField("Magasin", text: $store)
+                    }
 
-                    TextField("Montant", text: $amount)
-                        .keyboardType(.decimalPad)
+                    HStack(spacing: 12) {
+                        Image(systemName: "eurosign.circle")
+                            .foregroundColor(.secondary)
+                            .frame(width: 20)
+                        TextField("Montant", text: $amount)
+                            .keyboardType(.decimalPad)
+                            .foregroundColor(amountInvalid ? .red : .primary)
+                            .onChange(of: amount) { _, _ in amountInvalid = false }
+                    }
 
-                    TextField("Catégorie", text: $category)
+                    HStack(spacing: 12) {
+                        Image(systemName: "tag")
+                            .foregroundColor(.secondary)
+                            .frame(width: 20)
+                        TextField("Catégorie", text: $category)
+                    }
 
-                    DatePicker("Date",
-                               selection: $date,
-                               displayedComponents: .date)
+                    DatePicker("Date", selection: $date, displayedComponents: .date)
+                }
 
-                    TextField("Description",
-                              text: $description,
-                              axis: .vertical)
+                Section("Note") {
+                    TextField("Description (optionnel)", text: $description, axis: .vertical)
                         .lineLimit(3...6)
                 }
             }
             .navigationTitle("Modifier")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                // Bouton Annuler
-                ToolbarItem(placement: .navigationBarLeading) {
+                ToolbarItem(placement: .cancellationAction) {
                     Button("Annuler") {
                         Haptic.light()
                         dismiss()
                     }
                 }
-
-                // Bouton Enregistrer
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .confirmationAction) {
                     Button("Enregistrer") {
                         saveChanges()
                     }
+                    .fontWeight(.semibold)
                 }
             }
         }
     }
 
+    // MARK: - Save
+
     private func saveChanges() {
-        guard let amountValue = Double(
-            amount.replacingOccurrences(of: ",", with: ".")
-        ) else {
+        let normalized = amount.replacingOccurrences(of: ",", with: ".")
+        guard let amountValue = Double(normalized), amountValue > 0 else {
+            amountInvalid = true
             Haptic.error()
             return
         }
 
-        ticket.storeName = store
-        ticket.category = category
+        ticket.storeName = store.trimmingCharacters(in: .whitespaces)
+        ticket.category = category.trimmingCharacters(in: .whitespaces)
         ticket.amount = amountValue
-        ticket.ticketDescription = description
+        ticket.ticketDescription = description.isEmpty ? nil : description
         ticket.dateMillis = Int64(date.timeIntervalSince1970 * 1000)
 
         do {
