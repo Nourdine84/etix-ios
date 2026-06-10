@@ -8,14 +8,14 @@ class AddTicketViewModel: ObservableObject {
     @Published var date: Date = Date()
     @Published var category: String = ""
     @Published var description: String = ""
+    @Published var ocrCategorySuggestion: CategoryConfidence? = nil
 
-    let context: NSManagedObjectContext   // ⬅️ rendu public pour WidgetSync
+    let context: NSManagedObjectContext
 
     init(context: NSManagedObjectContext) {
         self.context = context
     }
 
-    /// Enregistre un ticket + sauvegarde Core Data
     @discardableResult
     func saveTicket() -> Bool {
         guard let amountValue = Double(amount),
@@ -35,7 +35,7 @@ class AddTicketViewModel: ObservableObject {
         )
 
         do {
-            try context.save()       // ⬅️ CRUCIAL POUR LE WIDGET
+            try context.save()
         } catch {
             print("❌ Save error:", error.localizedDescription)
             return false
@@ -49,7 +49,13 @@ class AddTicketViewModel: ObservableObject {
         if let store = result.storeName {
             storeName = store
             if category.isEmpty {
-                category = StoreCategoryMapper.suggestCategory(for: store, context: context) ?? ""
+                if let suggestion = StoreCategoryMapper.suggest(for: store, context: context) {
+                    category = suggestion.category
+                    // strongHistory = trusted enough to fill silently, no badge
+                    ocrCategorySuggestion = suggestion.confidence == .strongHistory
+                        ? nil
+                        : suggestion.confidence
+                }
             }
         }
         if let amt = result.amount {
@@ -66,5 +72,6 @@ class AddTicketViewModel: ObservableObject {
         date = Date()
         category = ""
         description = ""
+        ocrCategorySuggestion = nil
     }
 }

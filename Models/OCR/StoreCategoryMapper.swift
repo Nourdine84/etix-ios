@@ -1,32 +1,53 @@
 import Foundation
 import CoreData
 
+// MARK: - Confidence
+
+enum CategoryConfidence {
+    case strongHistory    // ≥3 tickets, category consistent
+    case weakHistory      // 1–2 tickets
+    case staticDictionary // matched from built-in keyword list
+}
+
+struct CategorySuggestion {
+    let category: String
+    let confidence: CategoryConfidence
+}
+
+// MARK: - Mapper
+
 struct StoreCategoryMapper {
 
     // MARK: - Public API
 
-    static func suggestCategory(for storeName: String, context: NSManagedObjectContext) -> String? {
+    static func suggest(for storeName: String, context: NSManagedObjectContext) -> CategorySuggestion? {
         let name = storeName.trimmingCharacters(in: .whitespaces)
         guard !name.isEmpty else { return nil }
-        return historySuggestion(for: name, context: context)
-            ?? dictionarySuggestion(for: name)
+        if let suggestion = historySuggestion(for: name, context: context) { return suggestion }
+        if let category = dictionarySuggestion(for: name) {
+            return CategorySuggestion(category: category, confidence: .staticDictionary)
+        }
+        return nil
     }
 
-    // MARK: - History (most frequent user category for this store)
+    // MARK: - History
 
-    private static func historySuggestion(for storeName: String, context: NSManagedObjectContext) -> String? {
+    private static func historySuggestion(for storeName: String, context: NSManagedObjectContext) -> CategorySuggestion? {
         let request: NSFetchRequest<Ticket> = Ticket.fetchRequest()
         request.predicate = NSPredicate(format: "storeName ==[cd] %@", storeName)
         guard let tickets = try? context.fetch(request), !tickets.isEmpty else { return nil }
 
-        return Dictionary(grouping: tickets) { $0.category }
+        guard let (category, count) = Dictionary(grouping: tickets) { $0.category }
             .mapValues { $0.count }
             .filter { !$0.key.isEmpty }
-            .max { $0.value < $1.value }?
-            .key
+            .max(by: { $0.value < $1.value })
+        else { return nil }
+
+        let confidence: CategoryConfidence = count >= 3 ? .strongHistory : .weakHistory
+        return CategorySuggestion(category: category, confidence: confidence)
     }
 
-    // MARK: - Dictionary (French stores → category)
+    // MARK: - Dictionary
 
     private static func dictionarySuggestion(for storeName: String) -> String? {
         let normalized = storeName

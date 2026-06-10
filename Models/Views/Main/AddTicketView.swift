@@ -4,10 +4,10 @@ import CoreData
 struct AddTicketView: View {
     @EnvironmentObject var viewModel: AddTicketViewModel
 
-    @State private var showSuccessPopup  = false
-    @State private var showErrorPopup    = false
-    @State private var showPermission    = false
-    @State private var showOCRScanner    = false
+    @State private var showSuccessPopup   = false
+    @State private var showErrorPopup     = false
+    @State private var showPermission     = false
+    @State private var showOCRScanner     = false
     @State private var showCategoryPicker = false
 
     var body: some View {
@@ -61,19 +61,33 @@ struct AddTicketView: View {
                             showCategoryPicker = true
                         } label: {
                             HStack {
-                                Text(viewModel.category.isEmpty ? "Catégorie" : viewModel.category)
-                                    .foregroundColor(
-                                        viewModel.category.isEmpty
-                                        ? Color(.placeholderText)
-                                        : .primary
-                                    )
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(viewModel.category.isEmpty ? "Catégorie" : viewModel.category)
+                                        .foregroundColor(
+                                            viewModel.category.isEmpty
+                                            ? Color(.placeholderText)
+                                            : .primary
+                                        )
+
+                                    if viewModel.ocrCategorySuggestion != nil {
+                                        HStack(spacing: 3) {
+                                            Image(systemName: "wand.and.stars")
+                                                .font(.caption2)
+                                            Text("Suggéré par l'OCR")
+                                                .font(.caption2)
+                                        }
+                                        .foregroundColor(Theme.primaryBlue.opacity(0.8))
+                                    }
+                                }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+
                                 Image(systemName: "chevron.right")
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                             }
                             .padding(.horizontal, 8)
-                            .frame(height: 34)
+                            .padding(.vertical, viewModel.ocrCategorySuggestion != nil ? 6 : 0)
+                            .frame(minHeight: 34)
                             .background(Color(.systemBackground))
                             .cornerRadius(6)
                             .overlay(
@@ -129,7 +143,9 @@ struct AddTicketView: View {
                     viewModel.handleOCRResult(result)
                 }
             }
-            .sheet(isPresented: $showCategoryPicker) {
+            .sheet(isPresented: $showCategoryPicker, onDismiss: {
+                viewModel.ocrCategorySuggestion = nil
+            }) {
                 CategoryPickerSheet(
                     selectedCategory: $viewModel.category,
                     context: viewModel.context
