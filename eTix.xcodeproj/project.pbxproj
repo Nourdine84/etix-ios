@@ -35,7 +35,6 @@
 		634EA0A42E9FF5DF001F7BBB /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0A32E9FF5C6001F7BBB /* OnboardingViewModel.swift */; };
 		634EA0AA2EA0199D001F7BBB /* MonthlyStat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0A92EA0198B001F7BBB /* MonthlyStat.swift */; };
 		634EA0AC2EA019D2001F7BBB /* StatsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0AB2EA019BF001F7BBB /* StatsViewModel.swift */; };
-		634EA0AE2EA01A0F001F7BBB /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0AD2EA019F5001F7BBB /* StatisticsView.swift */; };
 		634EA0B02EA01E52001F7BBB /* WidgetSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0AF2EA01E3E001F7BBB /* WidgetSync.swift */; };
 		634EA0C72EA02D53001F7BBB /* eTixWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 634EA0B52EA02D4F001F7BBB /* eTixWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		634EA0CC2EA031E3001F7BBB /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0372E9E813E001F7BBB /* Theme.swift */; };
@@ -76,6 +75,7 @@
 		63B965E92FD9805900433979 /* CategoryPickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B965E82FD9805900433979 /* CategoryPickerSheet.swift */; };
 		63B965EB2FD98D6200433979 /* BudgetStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B965EA2FD98D6200433979 /* BudgetStore.swift */; };
 		63B965ED2FD98DBC00433979 /* BudgetSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B965EC2FD98DBC00433979 /* BudgetSettingsView.swift */; };
+		63B966AB2FD9BA1000433979 /* MonthlyReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B966A92FD9BA1000433979 /* MonthlyReportView.swift */; };
 		63CDBBF62F3BAF2A001503FF /* StoreComparisonDonutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBBF52F3BAEDD001503FF /* StoreComparisonDonutView.swift */; };
 		63CDBBF82F3BAFEC001503FF /* DonutSlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBBF72F3BAF63001503FF /* DonutSlice.swift */; };
 		63CDBBFA2F3BB049001503FF /* DonutSliceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBBF92F3BB01C001503FF /* DonutSliceView.swift */; };
@@ -188,7 +188,6 @@
 		634EA0A32E9FF5C6001F7BBB /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		634EA0A92EA0198B001F7BBB /* MonthlyStat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyStat.swift; sourceTree = "<group>"; };
 		634EA0AB2EA019BF001F7BBB /* StatsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewModel.swift; sourceTree = "<group>"; };
-		634EA0AD2EA019F5001F7BBB /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		634EA0AF2EA01E3E001F7BBB /* WidgetSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSync.swift; sourceTree = "<group>"; };
 		634EA0B52EA02D4F001F7BBB /* eTixWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = eTixWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		634EA0B72EA02D50001F7BBB /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -226,6 +225,8 @@
 		63B965E82FD9805900433979 /* CategoryPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPickerSheet.swift; sourceTree = "<group>"; };
 		63B965EA2FD98D6200433979 /* BudgetStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetStore.swift; sourceTree = "<group>"; };
 		63B965EC2FD98DBC00433979 /* BudgetSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetSettingsView.swift; sourceTree = "<group>"; };
+		63B966A72FD9B9D500433979 /* MonthlyReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyReportView.swift; sourceTree = "<group>"; };
+		63B966A92FD9BA1000433979 /* MonthlyReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyReportView.swift; sourceTree = "<group>"; };
 		63CDBBF52F3BAEDD001503FF /* StoreComparisonDonutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreComparisonDonutView.swift; sourceTree = "<group>"; };
 		63CDBBF72F3BAF63001503FF /* DonutSlice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonutSlice.swift; sourceTree = "<group>"; };
 		63CDBBF92F3BB01C001503FF /* DonutSliceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonutSliceView.swift; sourceTree = "<group>"; };
@@ -385,6 +386,8 @@
 		634EA02D2E9E7F1E001F7BBB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				63B966AA2FD9BA1000433979 /* Report */,
+				63B966A72FD9B9D500433979 /* MonthlyReportView.swift */,
 				63B965EC2FD98DBC00433979 /* BudgetSettingsView.swift */,
 				63CDBC0B2F3BC83D001503FF /* Home */,
 				637D58B12F2441C100A8000C /* Store */,
@@ -416,7 +419,6 @@
 		634EA0332E9E802B001F7BBB /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				634EA0AD2EA019F5001F7BBB /* StatisticsView.swift */,
 				634EA0822E9EE141001F7BBB /* RangePickerSheet.swift */,
 				634EA0432E9E82A4001F7BBB /* MainView.swift */,
 				634EA0482E9E8393001F7BBB /* HomeView.swift */,
@@ -554,6 +556,14 @@
 				63CDBBF42F3BAEA3001503FF /* Charts */,
 			);
 			path = Store;
+			sourceTree = "<group>";
+		};
+		63B966AA2FD9BA1000433979 /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				63B966A92FD9BA1000433979 /* MonthlyReportView.swift */,
+			);
+			path = Report;
 			sourceTree = "<group>";
 		};
 		63CDBBF42F3BAEA3001503FF /* Charts */ = {
@@ -881,7 +891,6 @@
 				637D58C12F244DEA00A8000C /* StoreComparisonItem.swift in Sources */,
 				637D58A42F243A6A00A8000C /* CategoryDetailView.swift in Sources */,
 				63DBD7D62EE8647F00D1A8EF /* PDFExportService.swift in Sources */,
-				634EA0AE2EA01A0F001F7BBB /* StatisticsView.swift in Sources */,
 				63DBD7DE2EEAD75100D1A8EF /* TicketDetailView.swift in Sources */,
 				634EA04E2E9E8AB8001F7BBB /* MainView.swift in Sources */,
 				634EA08A2E9FD7CD001F7BBB /* Haptic.swift in Sources */,
@@ -894,6 +903,7 @@
 				634EA0502E9E8F8C001F7BBB /* AddTicketViewModel.swift in Sources */,
 				63CDBC022F3BC292001503FF /* StoreABComparisonItem.swift in Sources */,
 				634EA04B2E9E899E001F7BBB /* SessionViewModel.swift in Sources */,
+				63B966AB2FD9BA1000433979 /* MonthlyReportView.swift in Sources */,
 				637D58622F23E15F00A8000C /* KPIComparison.swift in Sources */,
 				634EA0582E9E8FE4001F7BBB /* RegisterView.swift in Sources */,
 				63B965ED2FD98DBC00433979 /* BudgetSettingsView.swift in Sources */,
