@@ -71,6 +71,11 @@
 		637D58BF2F244B1700A8000C /* StoreComparisonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58BE2F244B0700A8000C /* StoreComparisonView.swift */; };
 		637D58C12F244DEA00A8000C /* StoreComparisonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58C02F244DDC00A8000C /* StoreComparisonItem.swift */; };
 		637D58C32F24518C00A8000C /* StoreComparisonBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637D58C22F24517E00A8000C /* StoreComparisonBarChartView.swift */; };
+		63B965E52FD97DB900433979 /* AnimatedAmountText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B965E42FD97DB900433979 /* AnimatedAmountText.swift */; };
+		63B965E72FD97DF800433979 /* StoreCategoryMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B965E62FD97DF800433979 /* StoreCategoryMapper.swift */; };
+		63B965E92FD9805900433979 /* CategoryPickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B965E82FD9805900433979 /* CategoryPickerSheet.swift */; };
+		63B965EB2FD98D6200433979 /* BudgetStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B965EA2FD98D6200433979 /* BudgetStore.swift */; };
+		63B965ED2FD98DBC00433979 /* BudgetSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B965EC2FD98DBC00433979 /* BudgetSettingsView.swift */; };
 		63CDBBF62F3BAF2A001503FF /* StoreComparisonDonutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBBF52F3BAEDD001503FF /* StoreComparisonDonutView.swift */; };
 		63CDBBF82F3BAFEC001503FF /* DonutSlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBBF72F3BAF63001503FF /* DonutSlice.swift */; };
 		63CDBBFA2F3BB049001503FF /* DonutSliceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CDBBF92F3BB01C001503FF /* DonutSliceView.swift */; };
@@ -216,6 +221,11 @@
 		637D58BE2F244B0700A8000C /* StoreComparisonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreComparisonView.swift; sourceTree = "<group>"; };
 		637D58C02F244DDC00A8000C /* StoreComparisonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreComparisonItem.swift; sourceTree = "<group>"; };
 		637D58C22F24517E00A8000C /* StoreComparisonBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreComparisonBarChartView.swift; sourceTree = "<group>"; };
+		63B965E42FD97DB900433979 /* AnimatedAmountText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedAmountText.swift; sourceTree = "<group>"; };
+		63B965E62FD97DF800433979 /* StoreCategoryMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCategoryMapper.swift; sourceTree = "<group>"; };
+		63B965E82FD9805900433979 /* CategoryPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPickerSheet.swift; sourceTree = "<group>"; };
+		63B965EA2FD98D6200433979 /* BudgetStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetStore.swift; sourceTree = "<group>"; };
+		63B965EC2FD98DBC00433979 /* BudgetSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetSettingsView.swift; sourceTree = "<group>"; };
 		63CDBBF52F3BAEDD001503FF /* StoreComparisonDonutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreComparisonDonutView.swift; sourceTree = "<group>"; };
 		63CDBBF72F3BAF63001503FF /* DonutSlice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonutSlice.swift; sourceTree = "<group>"; };
 		63CDBBF92F3BB01C001503FF /* DonutSliceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonutSliceView.swift; sourceTree = "<group>"; };
@@ -375,6 +385,7 @@
 		634EA02D2E9E7F1E001F7BBB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				63B965EC2FD98DBC00433979 /* BudgetSettingsView.swift */,
 				63CDBC0B2F3BC83D001503FF /* Home */,
 				637D58B12F2441C100A8000C /* Store */,
 				637D589E2F2438CE00A8000C /* Category */,
@@ -419,6 +430,7 @@
 		634EA0342E9E8045001F7BBB /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				63B965EA2FD98D6200433979 /* BudgetStore.swift */,
 				63CDBC072F3BC62E001503FF /* DateRangeHelper.swift */,
 				63CDBC052F3BC5FD001503FF /* TimeRange.swift */,
 				63DBD7E62EEADCCC00D1A8EF /* OCRNotifications.swift */,
@@ -602,6 +614,7 @@
 		63DBD7E82EEADDA300D1A8EF /* OCR */ = {
 			isa = PBXGroup;
 			children = (
+				63B965E62FD97DF800433979 /* StoreCategoryMapper.swift */,
 				63DBD7E92EEADDB100D1A8EF /* OCRExtractedData.swift */,
 			);
 			path = OCR;
@@ -618,6 +631,8 @@
 		63DBD8062EEC420F00D1A8EF /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				63B965E82FD9805900433979 /* CategoryPickerSheet.swift */,
+				63B965E42FD97DB900433979 /* AnimatedAmountText.swift */,
 				63DBD80D2EEC430600D1A8EF /* ConfirmDeletePopup.swift */,
 				63DBD80B2EEC42BC00D1A8EF /* ErrorPopup.swift */,
 				63DBD8092EEC428500D1A8EF /* SuccessPopup.swift */,
@@ -872,6 +887,7 @@
 				634EA08A2E9FD7CD001F7BBB /* Haptic.swift in Sources */,
 				634EA0552E9E8FCB001F7BBB /* TicketHistoryView.swift in Sources */,
 				634EA0AC2EA019D2001F7BBB /* StatsViewModel.swift in Sources */,
+				63B965E92FD9805900433979 /* CategoryPickerSheet.swift in Sources */,
 				637D58C32F24518C00A8000C /* StoreComparisonBarChartView.swift in Sources */,
 				63DBD7E02EEAD76700D1A8EF /* TicketEditView.swift in Sources */,
 				634EA0B02EA01E52001F7BBB /* WidgetSync.swift in Sources */,
@@ -880,6 +896,7 @@
 				634EA04B2E9E899E001F7BBB /* SessionViewModel.swift in Sources */,
 				637D58622F23E15F00A8000C /* KPIComparison.swift in Sources */,
 				634EA0582E9E8FE4001F7BBB /* RegisterView.swift in Sources */,
+				63B965ED2FD98DBC00433979 /* BudgetSettingsView.swift in Sources */,
 				634EA0382E9E8149001F7BBB /* Theme.swift in Sources */,
 				63CDBBF62F3BAF2A001503FF /* StoreComparisonDonutView.swift in Sources */,
 				6309A1B52F3B9C8A002B98B6 /* StoreComparisonViewModel.swift in Sources */,
@@ -888,6 +905,7 @@
 				637D585E2F23DABD00A8000C /* KPIInsightsView.swift in Sources */,
 				63CDBC0D2F3BC857001503FF /* KPIPrimaryCard.swift in Sources */,
 				63DBD7EC2EEADE1A00D1A8EF /* OCRScannerView.swift in Sources */,
+				63B965E72FD97DF800433979 /* StoreCategoryMapper.swift in Sources */,
 				63CDBC142F3BDB13001503FF /* SettingsViewModel.swift in Sources */,
 				634EA0362E9E8136001F7BBB /* eTixApp.swift in Sources */,
 				63DBD7D92EE8650500D1A8EF /* ShareSheet.swift in Sources */,
@@ -910,6 +928,7 @@
 				637D58A72F243E5B00A8000C /* CategoryBarChartView.swift in Sources */,
 				637D58AB2F243F2400A8000C /* CategoryExportButton.swift in Sources */,
 				634EA0A42E9FF5DF001F7BBB /* OnboardingViewModel.swift in Sources */,
+				63B965E52FD97DB900433979 /* AnimatedAmountText.swift in Sources */,
 				637D585C2F23D99200A8000C /* KPIDonutChartView.swift in Sources */,
 				63CDBBFA2F3BB049001503FF /* DonutSliceView.swift in Sources */,
 				634EA0542E9E8FC3001F7BBB /* AddTicketView.swift in Sources */,
@@ -922,6 +941,7 @@
 				634EA0592E9E8FF0001F7BBB /* DateUtils.swift in Sources */,
 				634EA0832E9EE15F001F7BBB /* RangePickerSheet.swift in Sources */,
 				634EA04D2E9E8A95001F7BBB /* LoginView.swift in Sources */,
+				63B965EB2FD98D6200433979 /* BudgetStore.swift in Sources */,
 				637D58A02F2438F200A8000C /* CategoryDonutView.swift in Sources */,
 				637D58B72F24433000A8000C /* StoreBarChartView.swift in Sources */,
 				63CDBC062F3BC609001503FF /* TimeRange.swift in Sources */,
