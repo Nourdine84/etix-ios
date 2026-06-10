@@ -33,6 +33,28 @@ struct HomeView: View {
         return totalAmount / Double(ticketCount)
     }
 
+    private var previousPeriodTotal: Double {
+        let r = DateRangeHelper.previousRange(for: range)
+        let startMs = DateRangeHelper.millis(r.start)
+        let endMs = DateRangeHelper.millis(r.end)
+        return tickets.filter {
+            $0.dateMillis >= startMs && $0.dateMillis < endMs
+        }.reduce(0) { $0 + $1.amount }
+    }
+
+    private var deltaPercent: Double? {
+        guard previousPeriodTotal > 0 else { return nil }
+        return ((totalAmount - previousPeriodTotal) / previousPeriodTotal) * 100
+    }
+
+    private var deltaLabel: String {
+        switch range {
+        case .today:  return "vs hier"
+        case .month:  return "vs mois précédent"
+        case .year:   return "vs année précédente"
+        }
+    }
+
     // MARK: - Analytics
 
     private var topCategory: (name: String, total: Double)? {
@@ -117,6 +139,17 @@ struct HomeView: View {
             Text("\(ticketCount) transactions")
                 .font(.caption)
                 .foregroundColor(.secondary)
+            if let delta = deltaPercent {
+                HStack(spacing: 4) {
+                    Image(systemName: delta >= 0 ? "arrow.up.right" : "arrow.down.right")
+                        .font(.caption2.weight(.semibold))
+                    Text(String(format: "%+.1f%%", delta))
+                        .font(.caption.weight(.semibold))
+                    Text(deltaLabel)
+                        .font(.caption)
+                }
+                .foregroundColor(delta >= 0 ? .red : .green)
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
