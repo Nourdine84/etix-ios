@@ -193,24 +193,36 @@ struct TicketDetailView: View {
         Date(timeIntervalSince1970: Double(ticket.dateMillis) / 1000)
     }
 
-    private var formattedDay: String {
+    private static let dayFormatter: DateFormatter = {
         let f = DateFormatter()
         f.dateFormat = "dd"
-        return f.string(from: ticketDate)
-    }
+        return f
+    }()
 
-    private var formattedMonthYear: String {
+    private static let monthYearFormatter: DateFormatter = {
         let f = DateFormatter()
         f.locale = Locale(identifier: "fr_FR")
         f.dateFormat = "MMMM yyyy"
-        return f.string(from: ticketDate).capitalized
-    }
+        return f
+    }()
 
-    private var formattedWeekday: String {
+    private static let weekdayFormatter: DateFormatter = {
         let f = DateFormatter()
         f.locale = Locale(identifier: "fr_FR")
         f.dateFormat = "EEEE"
-        return f.string(from: ticketDate).capitalized
+        return f
+    }()
+
+    private var formattedDay: String {
+        Self.dayFormatter.string(from: ticketDate)
+    }
+
+    private var formattedMonthYear: String {
+        Self.monthYearFormatter.string(from: ticketDate).capitalized
+    }
+
+    private var formattedWeekday: String {
+        Self.weekdayFormatter.string(from: ticketDate).capitalized
     }
 
     private func deleteTicket() {
