@@ -20,7 +20,8 @@ final class StoreListViewModel: ObservableObject {
                 StoreTotal(
                     storeName: key,
                     total: values.reduce(0) { $0 + $1.amount },
-                    ticketCount: values.count
+                    ticketCount: values.count,
+                    lastPurchaseMillis: values.map { $0.dateMillis }.max() ?? 0
                 )
             }
             .sorted { $0.total > $1.total }
