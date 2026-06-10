@@ -61,7 +61,13 @@ struct TicketDetailView: View {
             Text(String(format: "%.2f €", ticket.amount))
                 .font(.system(size: 56, weight: .heavy, design: .rounded))
                 .kerning(-1.5)
-                .foregroundColor(.primary)
+                .foregroundStyle(
+                    LinearGradient(
+                        colors: [Theme.primaryBlue, Theme.primaryBlue.opacity(0.75)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
             Text(ticket.storeName)
                 .font(.subheadline)
                 .foregroundColor(.secondary)
