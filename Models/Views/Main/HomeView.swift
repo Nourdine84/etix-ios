@@ -99,6 +99,9 @@ struct HomeView: View {
                             analyticsSection
                         }
                         quickActions
+                        if range == .month && !filteredTickets.isEmpty {
+                            reportPreviewCard
+                        }
                     }
                     .padding(.horizontal, 24)
                     .padding(.top, 60)
@@ -227,6 +230,52 @@ struct HomeView: View {
                 actionButton(icon: "clock.fill", title: "Historique")
             }
         }
+    }
+
+    // MARK: - Report Preview Card
+
+    private var reportMonthName: String {
+        let df = DateFormatter()
+        df.locale = Locale(identifier: "fr_FR")
+        df.dateFormat = "MMMM"
+        return df.string(from: Date()).uppercased()
+    }
+
+    private var reportPreviewCard: some View {
+        NavigationLink {
+            MonthlyReportView()
+        } label: {
+            HStack(spacing: 16) {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("RAPPORT DE \(reportMonthName)")
+                        .font(.caption2)
+                        .tracking(1)
+                        .foregroundColor(.secondary)
+
+                    HStack(spacing: 0) {
+                        Text(String(format: "%.2f €", totalAmount))
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundColor(.primary)
+                        Text("  ·  \(ticketCount) ticket\(ticketCount > 1 ? "s" : "")")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                        if let delta = deltaPercent {
+                            Text("  ·  \(String(format: "%+.1f%%", delta))")
+                                .font(.subheadline.weight(.medium))
+                                .foregroundColor(delta >= 0 ? .red : .green)
+                        }
+                    }
+                }
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+            .padding(20)
+            .background(Color(.secondarySystemGroupedBackground))
+            .cornerRadius(20)
+        }
+        .buttonStyle(.plain)
     }
 
     // MARK: - Reusable Components
