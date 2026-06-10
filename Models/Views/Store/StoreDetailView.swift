@@ -86,10 +86,10 @@ struct StoreDetailView: View {
 
     private var categoryTotals: [(name: String, total: Double)] {
         let grouped = Dictionary(grouping: storeTickets) { $0.category }
-        return grouped.map { ($0.key, $0.value.reduce(0) { $0 + $1.amount }) }
-                      .sorted { $0.total > $1.total }
-                      .prefix(3)
-                      .map { $0 }
+        let mapped: [(name: String, total: Double)] = grouped.map { key, values in
+            (name: key, total: values.reduce(0) { $0 + $1.amount })
+        }
+        return Array(mapped.sorted { $0.total > $1.total }.prefix(3))
     }
 
     // MARK: - Body
