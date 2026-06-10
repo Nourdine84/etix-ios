@@ -1,6 +1,14 @@
 import Foundation
 
 enum DateUtils {
+
+    private static let shortFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.dateStyle = .medium
+        df.timeStyle = .none
+        return df
+    }()
+
     static func millis(from date: Date) -> Int64 {
         Int64(date.timeIntervalSince1970 * 1000.0)
     }
@@ -10,9 +18,6 @@ enum DateUtils {
     }
 
     static func shortString(fromMillis millis: Int64) -> String {
-        let df = DateFormatter()
-        df.dateStyle = .medium
-        df.timeStyle = .none
-        return df.string(from: date(fromMillis: millis))
+        shortFormatter.string(from: date(fromMillis: millis))
     }
 }
