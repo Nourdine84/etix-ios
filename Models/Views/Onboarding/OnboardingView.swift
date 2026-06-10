@@ -23,7 +23,7 @@ struct OnboardingView: View {
                         vm.skip()
                         session.finishOnboarding()
                     }
-                    .foregroundColor(Color(Theme.primaryBlue))
+                    .foregroundColor(Theme.primaryBlue)
                     .font(.headline)
                 }
                 .padding(.horizontal)
@@ -62,7 +62,7 @@ struct OnboardingView: View {
                 HStack(spacing: 8) {
                     ForEach(0..<vm.pages.count, id: \.self) { i in
                         Circle()
-                            .fill(i == vm.index ? Color(Theme.primaryBlue) : Color.secondary.opacity(0.35))
+                            .fill(i == vm.index ? Theme.primaryBlue : Color.secondary.opacity(0.35))
                             .frame(width: i == vm.index ? 10 : 8, height: i == vm.index ? 10 : 8)
                             .animation(.easeInOut(duration: 0.2), value: vm.index)
                     }

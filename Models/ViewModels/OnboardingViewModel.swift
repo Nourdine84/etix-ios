@@ -6,19 +6,19 @@ final class OnboardingViewModel: ObservableObject {
             title: "Bienvenue sur eTix",
             subtitle: "Centralisez vos tickets facilement, sans papier.",
             systemImage: "ticket.fill",
-            accent: Color(Theme.primaryBlue)
+            accent: Theme.primaryBlue
         ),
         OnboardingPage(
             title: "Ajoutez en 2 secondes",
             subtitle: "Saisissez magasin, montant, date et catégorie.",
             systemImage: "plus.circle.fill",
-            accent: Color(Theme.primaryBlue)
+            accent: Theme.primaryBlue
         ),
         OnboardingPage(
             title: "Analysez vos dépenses",
             subtitle: "Totaux par catégorie, filtres de période, et plus à venir.",
             systemImage: "chart.bar.fill",
-            accent: Color(Theme.primaryBlue)
+            accent: Theme.primaryBlue
         )
     ]
 

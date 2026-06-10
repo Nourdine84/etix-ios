@@ -19,7 +19,7 @@ struct SplashView: View {
 
             ZStack {
                 Circle()
-                    .fill(Color(Theme.primaryBlue).opacity(0.15))
+                    .fill(Theme.primaryBlue.opacity(0.15))
                     .frame(width: 260, height: 260)
                     .blur(radius: 30)
                     .opacity(glowOpacity)
@@ -32,7 +32,7 @@ struct SplashView: View {
                     } else {
                         Image(systemName: "ticket.fill")
                             .font(.system(size: 96, weight: .bold))
-                            .foregroundStyle(Color(Theme.primaryBlue))
+                            .foregroundStyle(Theme.primaryBlue)
                     }
                 }
                 .frame(width: 140, height: 140)

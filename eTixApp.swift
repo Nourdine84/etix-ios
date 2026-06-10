@@ -23,7 +23,7 @@ struct eTixApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainView()
+            contentView
                 .environment(\.managedObjectContext, persistence.container.viewContext)
                 .environmentObject(session)
                 .environmentObject(addTicketVM)
@@ -54,15 +54,27 @@ struct eTixApp: App {
         }
     }
 
-    // ✅ CETTE PROPRIÉTÉ DOIT ÊTRE EN DEHORS DE body
+    // MARK: - Routing
+
+    @ViewBuilder
+    private var contentView: some View {
+        switch session.appState {
+        case .splash:
+            SplashView()
+        case .onboarding:
+            OnboardingView()
+        case .ready:
+            MainView()
+        }
+    }
+
+    // MARK: - Appearance
+
     private var currentColorScheme: ColorScheme? {
         switch AppAppearance(rawValue: appearanceRaw) {
-        case .light:
-            return .light
-        case .dark:
-            return .dark
-        default:
-            return nil
+        case .light:  return .light
+        case .dark:   return .dark
+        default:      return nil
         }
     }
 }

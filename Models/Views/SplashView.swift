@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct SplashView: View {
+struct LegacySplashView: View {
     var body: some View {
         ZStack {
             LinearGradient(colors: [.black.opacity(0.9), Theme.primaryBlue.opacity(0.8)],
