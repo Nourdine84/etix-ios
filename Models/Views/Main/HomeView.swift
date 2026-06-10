@@ -101,6 +101,11 @@ struct HomeView: View {
         return BudgetSummaryEngine.compute(snapshot: homeSnapshot, budgets: budgets)
     }
 
+    private var storeIntelligence: StoreIntelligence? {
+        guard activeInsights.first?.id != .budgetExceeded else { return nil }
+        return StoreIntelligenceEngine.evaluate(snapshot: homeSnapshot, range: range)
+    }
+
     // MARK: - Body
 
     var body: some View {
@@ -119,6 +124,9 @@ struct HomeView: View {
                         }
                         if let summary = budgetSummary {
                             BudgetSummaryCardView(summary: summary)
+                        }
+                        if let intel = storeIntelligence {
+                            StoreIntelligenceCardView(intelligence: intel)
                         }
                         secondaryKPIs
                         if !filteredTickets.isEmpty {

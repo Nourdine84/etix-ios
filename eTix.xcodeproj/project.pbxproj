@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BB2001C22F5B0001002E8001 /* StoreIntelligenceEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2001C12F5B0001002E8001 /* StoreIntelligenceEngine.swift */; };
+		BB2001C42F5B0001002E8001 /* StoreIntelligenceCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2001C32F5B0001002E8001 /* StoreIntelligenceCardView.swift */; };
+
 		AA1001B42F4A0002001F7001 /* BudgetSummaryEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1001B32F4A0002001F7001 /* BudgetSummaryEngine.swift */; };
 		AA1001B62F4A0002001F7001 /* BudgetSummaryCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1001B52F4A0002001F7001 /* BudgetSummaryCardView.swift */; };
 
@@ -381,7 +384,8 @@
 				634EA0472E9E8378001F7BBB /* AddTicketView.swift */,
 				634EA0462E9E82F2001F7BBB /* TicketHistoryView.swift */,
 				634EA0442E9E82C0001F7BBB /* SettingsView.swift */,
-			);
+							BB2001C32F5B0001002E8001 /* StoreIntelligenceCardView.swift */,
+);
 			path = Main;
 			sourceTree = "<group>";
 		};
@@ -628,7 +632,8 @@
 				AA1001AA2F4A0001001F7001 /* HomeSnapshot.swift */,
 				AA1001AC2F4A0001001F7001 /* HomeInsightEngine.swift */,
 				AA1001AE2F4A0001001F7001 /* InsightMemory.swift */,
-			);
+							BB2001C12F5B0001002E8001 /* StoreIntelligenceEngine.swift */,
+);
 			path = Intelligence;
 			sourceTree = "<group>";
 		};
@@ -895,7 +900,9 @@
 				63DBD7EA2EEADDED00D1A8EF /* OCRExtractedData.swift in Sources */,
 				637D58AE2F24415700A8000C /* StoreTotal.swift in Sources */,
 				637D58B52F2442AC00A8000C /* StoreDetailView.swift in Sources */,
-			);
+							BB2001C22F5B0001002E8001 /* StoreIntelligenceEngine.swift in Sources */,
+				BB2001C42F5B0001002E8001 /* StoreIntelligenceCardView.swift in Sources */,
+);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		63E50DE62E6DBF91009D8B0B /* Sources */ = {

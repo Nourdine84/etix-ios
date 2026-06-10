@@ -21,6 +21,12 @@ struct HomeSnapshot {
     let storeTotals: [String: Double]
     let storeTicketCounts: [String: Int]
 
+    // MARK: - Agrégats par magasin (période précédente & all-time, pour StoreIntelligenceEngine)
+    let storePreviousTotals: [String: Double]
+    let storeAllTimeCounts: [String: Int]
+    let storeLastVisitMillis: [String: Int64]
+    let storeOldestMillis: [String: Int64]
+
     // MARK: - Global
     let allTimeTicketCount: Int
     let daysLeftInMonth: Int
@@ -42,9 +48,19 @@ struct HomeSnapshot {
         var catNames: [String: String] = [:]
         var stTotals: [String: Double] = [:]
         var stCounts: [String: Int] = [:]
+        var stPrevTotals: [String: Double] = [:]
+        var stAllTimeCounts: [String: Int] = [:]
+        var stLastVisit: [String: Int64] = [:]
+        var stOldest: [String: Int64] = [:]
 
         for ticket in tickets {
             let ms = ticket.dateMillis
+            let store = ticket.storeName
+
+            // All-time store aggregates
+            stAllTimeCounts[store, default: 0] += 1
+            if ms > (stLastVisit[store] ?? Int64.min) { stLastVisit[store] = ms }
+            if ms < (stOldest[store] ?? Int64.max)    { stOldest[store] = ms }
 
             if ms >= curStart && ms < curEnd {
                 periodTotal += ticket.amount
@@ -58,11 +74,12 @@ struct HomeSnapshot {
                     }
                 }
 
-                stTotals[ticket.storeName, default: 0] += ticket.amount
-                stCounts[ticket.storeName, default: 0] += 1
+                stTotals[store, default: 0] += ticket.amount
+                stCounts[store, default: 0] += 1
 
             } else if ms >= prevStart && ms < prevEnd {
                 previousTotal += ticket.amount
+                stPrevTotals[store, default: 0] += ticket.amount
             }
         }
 
@@ -73,6 +90,10 @@ struct HomeSnapshot {
         self.categoryDisplayNames = catNames
         self.storeTotals = stTotals
         self.storeTicketCounts = stCounts
+        self.storePreviousTotals = stPrevTotals
+        self.storeAllTimeCounts = stAllTimeCounts
+        self.storeLastVisitMillis = stLastVisit
+        self.storeOldestMillis = stOldest
         self.allTimeTicketCount = tickets.count
 
         let calendar = Calendar.current
