@@ -62,6 +62,19 @@ struct StoreDetailView: View {
         return max(1, spanDays / (storeTickets.count - 1))
     }
 
+    private var lastPurchaseInfo: (date: String, amount: Double, category: String)? {
+        guard let ticket = storeTickets.first else { return nil }
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "fr_FR")
+        f.dateStyle = .long
+        f.timeStyle = .none
+        return (
+            date: f.string(from: Date(timeIntervalSince1970: Double(ticket.dateMillis) / 1000)),
+            amount: ticket.amount,
+            category: ticket.category
+        )
+    }
+
     private var groupedByDay: [(date: Date, total: Double)] {
         let cal = Calendar.current
         let grouped = Dictionary(grouping: storeTickets) { ticket in
@@ -89,6 +102,9 @@ struct StoreDetailView: View {
                 VStack(spacing: 32) {
                     heroSection
                     statsGrid
+                    if let info = lastPurchaseInfo {
+                        lastPurchaseCard(info)
+                    }
                     if thisMonthTotal > 0 || lastMonthTotal > 0 {
                         monthComparisonCard
                     }
@@ -170,6 +186,40 @@ struct StoreDetailView: View {
         .padding(16)
         .background(Color(.secondarySystemGroupedBackground))
         .cornerRadius(16)
+    }
+
+    // MARK: - Last Purchase
+
+    private func lastPurchaseCard(_ info: (date: String, amount: Double, category: String)) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("DERNIER ACHAT")
+                .font(.caption2)
+                .tracking(1)
+                .foregroundColor(.secondary)
+            HStack(alignment: .bottom) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(info.date)
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundColor(.primary)
+                    Text(info.category)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+                Spacer()
+                Text(String(format: "%.2f €", info.amount))
+                    .font(.title3.weight(.heavy))
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [Theme.primaryBlue, Theme.primaryBlue.opacity(0.75)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+            }
+        }
+        .padding(20)
+        .background(Color(.secondarySystemGroupedBackground))
+        .cornerRadius(20)
     }
 
     // MARK: - Month Comparison

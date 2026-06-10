@@ -26,14 +26,40 @@ struct HomeView: View {
         filteredTickets.reduce(0) { $0 + $1.amount }
     }
 
-    private var ticketCount: Int {
-        filteredTickets.count
-    }
+    private var ticketCount: Int { filteredTickets.count }
 
     private var averageAmount: Double {
         guard ticketCount > 0 else { return 0 }
         return totalAmount / Double(ticketCount)
     }
+
+    // MARK: - Analytics
+
+    private var topCategory: (name: String, total: Double)? {
+        guard !filteredTickets.isEmpty else { return nil }
+        return Dictionary(grouping: filteredTickets) { $0.category }
+            .map { ($0.key, $0.value.reduce(0) { $0 + $1.amount }) }
+            .max { $0.1 < $1.1 }
+            .map { (name: $0.0, total: $0.1) }
+    }
+
+    private var topStore: (name: String, total: Double)? {
+        guard !filteredTickets.isEmpty else { return nil }
+        return Dictionary(grouping: filteredTickets) { $0.storeName }
+            .map { ($0.key, $0.value.reduce(0) { $0 + $1.amount }) }
+            .max { $0.1 < $1.1 }
+            .map { (name: $0.0, total: $0.1) }
+    }
+
+    private var biggestTicket: Ticket? {
+        filteredTickets.max { $0.amount < $1.amount }
+    }
+
+    private var lastTicket: Ticket? {
+        filteredTickets.max { $0.dateMillis < $1.dateMillis }
+    }
+
+    // MARK: - Body
 
     var body: some View {
         NavigationStack {
@@ -47,6 +73,9 @@ struct HomeView: View {
                         dominantHero
                         periodSelector
                         secondaryKPIs
+                        if !filteredTickets.isEmpty {
+                            analyticsSection
+                        }
                         quickActions
                     }
                     .padding(.horizontal, 24)
@@ -107,25 +136,46 @@ struct HomeView: View {
 
     private var secondaryKPIs: some View {
         HStack(spacing: 20) {
-            statCard(title: "Moyenne", value: String(format: "%.2f €", averageAmount))
-            statCard(title: "Tickets", value: "\(ticketCount)")
+            statCard(label: "MOYENNE", value: String(format: "%.2f €", averageAmount))
+            statCard(label: "TICKETS", value: "\(ticketCount)")
         }
     }
 
-    private func statCard(title: String, value: String) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(title.uppercased())
+    // MARK: - Analytics
+
+    private var analyticsSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("INSIGHTS")
                 .font(.caption2)
-                .tracking(1)
+                .tracking(1.5)
                 .foregroundColor(.secondary)
-            Text(value)
-                .font(.title2.weight(.semibold))
-                .foregroundColor(.primary)
+
+            HStack(spacing: 16) {
+                analyticsCard(
+                    label: "TOP CATÉGORIE",
+                    primary: topCategory?.name ?? "—",
+                    secondary: topCategory.map { String(format: "%.2f €", $0.total) } ?? ""
+                )
+                analyticsCard(
+                    label: "TOP MAGASIN",
+                    primary: topStore?.name ?? "—",
+                    secondary: topStore.map { String(format: "%.2f €", $0.total) } ?? ""
+                )
+            }
+
+            HStack(spacing: 16) {
+                analyticsCard(
+                    label: "PLUS GROS ACHAT",
+                    primary: biggestTicket.map { String(format: "%.2f €", $0.amount) } ?? "—",
+                    secondary: biggestTicket?.storeName ?? ""
+                )
+                analyticsCard(
+                    label: "DERNIER ACHAT",
+                    primary: lastTicket.map { shortDate($0.dateMillis) } ?? "—",
+                    secondary: lastTicket.map { String(format: "%.2f €", $0.amount) } ?? ""
+                )
+            }
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(20)
-        .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(20)
     }
 
     // MARK: - Quick Actions
@@ -146,6 +196,48 @@ struct HomeView: View {
         }
     }
 
+    // MARK: - Reusable Components
+
+    private func statCard(label: String, value: String) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(label)
+                .font(.caption2)
+                .tracking(1)
+                .foregroundColor(.secondary)
+            Text(value)
+                .font(.title2.weight(.semibold))
+                .foregroundColor(.primary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(20)
+        .background(Color(.secondarySystemGroupedBackground))
+        .cornerRadius(20)
+    }
+
+    private func analyticsCard(label: String, primary: String, secondary: String) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(label)
+                .font(.caption2)
+                .tracking(1)
+                .foregroundColor(.secondary)
+            Text(primary)
+                .font(.subheadline.weight(.semibold))
+                .foregroundColor(.primary)
+                .lineLimit(1)
+                .truncationMode(.tail)
+            if !secondary.isEmpty {
+                Text(secondary)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .lineLimit(1)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(16)
+        .background(Color(.secondarySystemGroupedBackground))
+        .cornerRadius(16)
+    }
+
     private func actionButton(icon: String, title: String) -> some View {
         VStack(spacing: 10) {
             Image(systemName: icon)
@@ -159,5 +251,15 @@ struct HomeView: View {
         .padding(.vertical, 26)
         .background(Color(.secondarySystemGroupedBackground))
         .cornerRadius(24)
+    }
+
+    // MARK: - Helpers
+
+    private func shortDate(_ ms: Int64) -> String {
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "fr_FR")
+        f.dateStyle = .medium
+        f.timeStyle = .none
+        return f.string(from: Date(timeIntervalSince1970: Double(ms) / 1000))
     }
 }
