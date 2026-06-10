@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA1001AB2F4A0001001F7001 /* HomeSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1001AA2F4A0001001F7001 /* HomeSnapshot.swift */; };
+		AA1001AD2F4A0001001F7001 /* HomeInsightEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1001AC2F4A0001001F7001 /* HomeInsightEngine.swift */; };
+		AA1001AF2F4A0001001F7001 /* InsightMemory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1001AE2F4A0001001F7001 /* InsightMemory.swift */; };
+		AA1001B12F4A0001001F7001 /* InsightCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1001B02F4A0001001F7001 /* InsightCardView.swift */; };
+
 		6309A1B52F3B9C8A002B98B6 /* StoreComparisonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6309A1B42F3B9C85002B98B6 /* StoreComparisonViewModel.swift */; };
 		6309A1B72F3B9CFA002B98B6 /* StoreComparison.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6309A1B62F3B9CCF002B98B6 /* StoreComparison.swift */; };
 		634EA0362E9E8136001F7BBB /* eTixApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0352E9E80EF001F7BBB /* eTixApp.swift */; };
@@ -160,6 +165,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AA1001AA2F4A0001001F7001 /* HomeSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSnapshot.swift; sourceTree = "<group>"; };
+		AA1001AC2F4A0001001F7001 /* HomeInsightEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInsightEngine.swift; sourceTree = "<group>"; };
+		AA1001AE2F4A0001001F7001 /* InsightMemory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightMemory.swift; sourceTree = "<group>"; };
+		AA1001B02F4A0001001F7001 /* InsightCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightCardView.swift; sourceTree = "<group>"; };
+
 		6309A1B42F3B9C85002B98B6 /* StoreComparisonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreComparisonViewModel.swift; sourceTree = "<group>"; };
 		6309A1B62F3B9CCF002B98B6 /* StoreComparison.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreComparison.swift; sourceTree = "<group>"; };
 		634EA0352E9E80EF001F7BBB /* eTixApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eTixApp.swift; sourceTree = "<group>"; tabWidth = 4; };
@@ -346,6 +356,7 @@
 		634EA02B2E9E7EE9001F7BBB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				AA1001B22F4A0001001F7001 /* Intelligence */,
 				63CDBC102F3BDABC001503FF /* Settings */,
 				637D58AC2F24413E00A8000C /* Domain */,
 				637D58A52F243C7200A8000C /* DTO */,
@@ -419,6 +430,7 @@
 		634EA0332E9E802B001F7BBB /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				AA1001B02F4A0001001F7001 /* InsightCardView.swift */,
 				634EA0822E9EE141001F7BBB /* RangePickerSheet.swift */,
 				634EA0432E9E82A4001F7BBB /* MainView.swift */,
 				634EA0482E9E8393001F7BBB /* HomeView.swift */,
@@ -678,7 +690,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-/* End PBXGroup section */
+
+		AA1001B22F4A0001001F7001 /* Intelligence */ = {
+			isa = PBXGroup;
+			children = (
+				AA1001AA2F4A0001001F7001 /* HomeSnapshot.swift */,
+				AA1001AC2F4A0001001F7001 /* HomeInsightEngine.swift */,
+				AA1001AE2F4A0001001F7001 /* InsightMemory.swift */,
+			);
+			path = Intelligence;
+			sourceTree = "<group>";
+		};
+		/* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
 		634EA0B42EA02D4F001F7BBB /* eTixWidgetExtension */ = {
@@ -868,6 +891,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA1001AB2F4A0001001F7001 /* HomeSnapshot.swift in Sources */,
+				AA1001AD2F4A0001001F7001 /* HomeInsightEngine.swift in Sources */,
+				AA1001AF2F4A0001001F7001 /* InsightMemory.swift in Sources */,
+				AA1001B12F4A0001001F7001 /* InsightCardView.swift in Sources */,
 				637D58B02F24419200A8000C /* StoreListViewModel.swift in Sources */,
 				637D582F2F23CA5000A8000C /* KPIDetailView.swift in Sources */,
 				637D58A92F243F0000A8000C /* CategoryExportViewModel.swift in Sources */,
