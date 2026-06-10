@@ -8,32 +8,48 @@ struct StoreListView: View {
     @Environment(\.managedObjectContext) private var context
     @StateObject private var vm = StoreListViewModel()
 
+    @State private var range: TimeRange = AppSettings.load().defaultRange
+
     var body: some View {
         NavigationStack {
-            ZStack {
-                Color(.systemGroupedBackground).ignoresSafeArea()
+            VStack(spacing: 0) {
 
-                if vm.stores.isEmpty {
-                    emptyState
-                } else {
-                    ScrollView {
-                        VStack(spacing: 12) {
-                            ForEach(Array(vm.stores.enumerated()), id: \.element.id) { index, store in
-                                NavigationLink {
-                                    StoreDetailView(storeName: store.storeName ?? "Inconnu")
-                                } label: {
-                                    storeCard(store, rank: index + 1)
-                                }
-                                .buttonStyle(.plain)
-                            }
-                        }
-                        .padding(.horizontal, 24)
-                        .padding(.top, 20)
-                        .padding(.bottom, 40)
+                Picker("Période", selection: $range) {
+                    ForEach(TimeRange.allCases) { r in
+                        Text(r.title).tag(r)
                     }
-                    .scrollIndicators(.hidden)
+                }
+                .pickerStyle(.segmented)
+                .padding(.horizontal, 24)
+                .padding(.vertical, 12)
+                .background(Color(.systemGroupedBackground))
+
+                ZStack {
+                    Color(.systemGroupedBackground).ignoresSafeArea()
+
+                    if vm.stores.isEmpty {
+                        emptyState
+                    } else {
+                        ScrollView {
+                            VStack(spacing: 12) {
+                                ForEach(Array(vm.stores.enumerated()), id: \.element.id) { index, store in
+                                    NavigationLink {
+                                        StoreDetailView(storeName: store.storeName ?? "Inconnu")
+                                    } label: {
+                                        storeCard(store, rank: index + 1)
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                            }
+                            .padding(.horizontal, 24)
+                            .padding(.top, 20)
+                            .padding(.bottom, 40)
+                        }
+                        .scrollIndicators(.hidden)
+                    }
                 }
             }
+            .background(Color(.systemGroupedBackground).ignoresSafeArea())
             .navigationTitle("Magasins")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -45,7 +61,10 @@ struct StoreListView: View {
                 }
             }
             .onAppear {
-                vm.load(categoryName: categoryName ?? "", context: context)
+                vm.load(categoryName: categoryName ?? "", context: context, range: range)
+            }
+            .onChange(of: range) { _, _ in
+                vm.load(categoryName: categoryName ?? "", context: context, range: range)
             }
         }
     }
@@ -104,13 +123,15 @@ struct StoreListView: View {
     // MARK: - Empty State
 
     private var emptyState: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 12) {
+            Spacer()
             Image(systemName: "building.2")
                 .font(.system(size: 40))
                 .foregroundColor(.secondary)
-            Text("Aucun magasin")
+            Text("Aucun magasin sur cette période")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
+            Spacer()
         }
     }
 
