@@ -132,10 +132,8 @@ struct AddTicketView: View {
         }
     }
 
-    // MARK: - 🎯 OCR → Pré-remplissage
+    // MARK: - OCR → Pré-remplissage
     private func handleOCRResult(_ result: OCRExtractedData) {
-        if let store = result.storeName { viewModel.storeName = store }
-        if let amount = result.amount { viewModel.amount = String(amount) }
-        if let date = result.date { viewModel.date = date }
+        viewModel.handleOCRResult(result)
     }
 }

@@ -45,6 +45,21 @@ class AddTicketViewModel: ObservableObject {
         return true
     }
 
+    func handleOCRResult(_ result: OCRExtractedData) {
+        if let store = result.storeName {
+            storeName = store
+            if category.isEmpty {
+                category = StoreCategoryMapper.suggestCategory(for: store, context: context) ?? ""
+            }
+        }
+        if let amt = result.amount {
+            amount = String(format: "%.2f", amt)
+        }
+        if let d = result.date {
+            date = d
+        }
+    }
+
     func resetForm() {
         storeName = ""
         amount = ""
