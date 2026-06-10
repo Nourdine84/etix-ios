@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA1001B42F4A0002001F7001 /* BudgetSummaryEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1001B32F4A0002001F7001 /* BudgetSummaryEngine.swift */; };
+		AA1001B62F4A0002001F7001 /* BudgetSummaryCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1001B52F4A0002001F7001 /* BudgetSummaryCardView.swift */; };
+
 		AA1001AB2F4A0001001F7001 /* HomeSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1001AA2F4A0001001F7001 /* HomeSnapshot.swift */; };
 		AA1001AD2F4A0001001F7001 /* HomeInsightEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1001AC2F4A0001001F7001 /* HomeInsightEngine.swift */; };
 		AA1001AF2F4A0001001F7001 /* InsightMemory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1001AE2F4A0001001F7001 /* InsightMemory.swift */; };
@@ -140,6 +143,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AA1001B32F4A0002001F7001 /* BudgetSummaryEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetSummaryEngine.swift; sourceTree = "<group>"; };
+		AA1001B52F4A0002001F7001 /* BudgetSummaryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetSummaryCardView.swift; sourceTree = "<group>"; };
+
 		AA1001AA2F4A0001001F7001 /* HomeSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSnapshot.swift; sourceTree = "<group>"; };
 		AA1001AC2F4A0001001F7001 /* HomeInsightEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInsightEngine.swift; sourceTree = "<group>"; };
 		AA1001AE2F4A0001001F7001 /* InsightMemory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightMemory.swift; sourceTree = "<group>"; };
@@ -368,6 +374,7 @@
 		634EA0332E9E802B001F7BBB /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				AA1001B52F4A0002001F7001 /* BudgetSummaryCardView.swift */,
 				AA1001B02F4A0001001F7001 /* InsightCardView.swift */,
 				634EA0432E9E82A4001F7BBB /* MainView.swift */,
 				634EA0482E9E8393001F7BBB /* HomeView.swift */,
@@ -617,6 +624,7 @@
 		AA1001B22F4A0001001F7001 /* Intelligence */ = {
 			isa = PBXGroup;
 			children = (
+				AA1001B32F4A0002001F7001 /* BudgetSummaryEngine.swift */,
 				AA1001AA2F4A0001001F7001 /* HomeSnapshot.swift */,
 				AA1001AC2F4A0001001F7001 /* HomeInsightEngine.swift */,
 				AA1001AE2F4A0001001F7001 /* InsightMemory.swift */,
@@ -814,6 +822,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA1001B42F4A0002001F7001 /* BudgetSummaryEngine.swift in Sources */,
+				AA1001B62F4A0002001F7001 /* BudgetSummaryCardView.swift in Sources */,
 				AA1001AB2F4A0001001F7001 /* HomeSnapshot.swift in Sources */,
 				AA1001AD2F4A0001001F7001 /* HomeInsightEngine.swift in Sources */,
 				AA1001AF2F4A0001001F7001 /* InsightMemory.swift in Sources */,

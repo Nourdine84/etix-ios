@@ -96,6 +96,11 @@ struct HomeView: View {
         )
     }
 
+    private var budgetSummary: BudgetSummary? {
+        guard range == .month else { return nil }
+        return BudgetSummaryEngine.compute(snapshot: homeSnapshot, budgets: budgets)
+    }
+
     // MARK: - Body
 
     var body: some View {
@@ -111,6 +116,9 @@ struct HomeView: View {
                         periodSelector
                         if !activeInsights.isEmpty {
                             insightCardsSection
+                        }
+                        if let summary = budgetSummary {
+                            BudgetSummaryCardView(summary: summary)
                         }
                         secondaryKPIs
                         if !filteredTickets.isEmpty {
