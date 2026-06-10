@@ -13,11 +13,15 @@ final class StoreComparisonViewModel: ObservableObject {
     }
 
     // MARK: - Load
-    func load(context: NSManagedObjectContext) {
+    func load(context: NSManagedObjectContext, range: TimeRange = .month) {
         let request = Ticket.fetchAllRequest()
 
         do {
-            let tickets = try context.fetch(request)
+            let all = try context.fetch(request)
+            let r = DateRangeHelper.currentRange(for: range)
+            let startMs = DateRangeHelper.millis(r.start)
+            let endMs = DateRangeHelper.millis(r.end)
+            let tickets = all.filter { $0.dateMillis >= startMs && $0.dateMillis < endMs }
 
             let grouped = Dictionary(
                 grouping: tickets,

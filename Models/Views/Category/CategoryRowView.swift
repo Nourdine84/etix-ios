@@ -31,6 +31,7 @@ struct CategoryRowView: View {
     let category: CategoryTotal
     let percent: Double
     var budget: Double? = nil
+    var range: TimeRange = .month
 
     private var deltaPercent: Double? {
         guard category.previousTotal > 0 else { return nil }
@@ -44,7 +45,7 @@ struct CategoryRowView: View {
 
     var body: some View {
         NavigationLink {
-            CategoryDetailView(categoryName: category.name)
+            CategoryDetailView(categoryName: category.name, initialRange: range)
         } label: {
             VStack(alignment: .leading, spacing: 10) {
 

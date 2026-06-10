@@ -40,7 +40,8 @@ struct CategoryView: View {
                                         percent: percent(for: cat),
                                         budget: range == .month
                                             ? budgets[cat.name.lowercased()]
-                                            : nil
+                                            : nil,
+                                        range: range
                                     )
                                 }
                                 if budgets.isEmpty {

@@ -54,7 +54,7 @@ struct StoreListView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink {
-                        StoreComparisonView()
+                        StoreComparisonView(initialRange: range)
                     } label: {
                         Image(systemName: "chart.bar.fill")
                     }

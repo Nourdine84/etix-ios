@@ -12,6 +12,7 @@ struct TicketEditView: View {
     @State private var date: Date
     @State private var description: String
     @State private var amountInvalid = false
+    @State private var showCategoryPicker = false
 
     let ticket: Ticket
 
@@ -45,12 +46,22 @@ struct TicketEditView: View {
                             .onChange(of: amount) { _, _ in amountInvalid = false }
                     }
 
-                    HStack(spacing: 12) {
-                        Image(systemName: "tag")
-                            .foregroundColor(.secondary)
-                            .frame(width: 20)
-                        TextField("Catégorie", text: $category)
+                    Button {
+                        showCategoryPicker = true
+                    } label: {
+                        HStack(spacing: 12) {
+                            Image(systemName: "tag")
+                                .foregroundColor(.secondary)
+                                .frame(width: 20)
+                            Text(category.isEmpty ? "Catégorie" : category)
+                                .foregroundColor(category.isEmpty ? Color(.placeholderText) : .primary)
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
+                        }
                     }
+                    .buttonStyle(.plain)
 
                     DatePicker("Date", selection: $date, displayedComponents: .date)
                 }
@@ -62,6 +73,9 @@ struct TicketEditView: View {
             }
             .navigationTitle("Modifier")
             .navigationBarTitleDisplayMode(.inline)
+            .sheet(isPresented: $showCategoryPicker) {
+                CategoryPickerSheet(selectedCategory: $category, context: context)
+            }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Annuler") {

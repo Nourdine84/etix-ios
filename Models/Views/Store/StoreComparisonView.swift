@@ -3,17 +3,36 @@ import CoreData
 
 struct StoreComparisonView: View {
 
+    let initialRange: TimeRange
+
     @Environment(\.managedObjectContext) private var context
     @StateObject private var vm = StoreComparisonViewModel()
 
+    @State private var range: TimeRange
+
+    init(initialRange: TimeRange) {
+        self.initialRange = initialRange
+        _range = State(initialValue: initialRange)
+    }
+
     var body: some View {
-        NavigationStack {
+        VStack(spacing: 0) {
+
+            Picker("Période", selection: $range) {
+                ForEach(TimeRange.allCases) { r in
+                    Text(r.title).tag(r)
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal, 24)
+            .padding(.vertical, 12)
+            .background(Color(.systemGroupedBackground))
+
             ScrollView {
                 VStack(spacing: 24) {
 
                     insights
 
-                    // 🍩 DONUT
                     if !vm.comparisons.isEmpty {
                         StoreComparisonDonutView(
                             items: vm.comparisons,
@@ -21,31 +40,40 @@ struct StoreComparisonView: View {
                         )
                     }
 
-                    // 📊 BAR CHART
                     if !vm.comparisons.isEmpty {
                         StoreComparisonBarChartView(
                             items: vm.comparisons
                         )
                     }
 
-                    // 📋 LISTE
-                    VStack(spacing: 12) {
-                        ForEach(vm.comparisons) { item in
-                            comparisonRow(item)
+                    if vm.comparisons.isEmpty {
+                        emptyState
+                    } else {
+                        VStack(spacing: 12) {
+                            ForEach(vm.comparisons) { item in
+                                comparisonRow(item)
+                            }
                         }
+                        .padding(.horizontal)
                     }
-                    .padding(.horizontal)
                 }
                 .padding(.vertical)
             }
-            .navigationTitle("Comparaison")
-            .onAppear {
-                vm.load(context: context)
-            }
+            .scrollIndicators(.hidden)
+        }
+        .background(Color(.systemGroupedBackground).ignoresSafeArea())
+        .navigationTitle("Comparaison")
+        .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            vm.load(context: context, range: range)
+        }
+        .onChange(of: range) { _, _ in
+            vm.load(context: context, range: range)
         }
     }
 
     // MARK: - Insights
+
     private var insights: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Analyse rapide")
@@ -55,7 +83,7 @@ struct StoreComparisonView: View {
                 Text("🥇 Plus élevé : \(max.storeName) — \(format(max.total))")
             }
 
-            if let min = vm.lowestStore {
+            if let min = vm.lowestStore, vm.comparisons.count > 1 {
                 Text("🥉 Plus bas : \(min.storeName) — \(format(min.total))")
             }
 
@@ -72,32 +100,43 @@ struct StoreComparisonView: View {
     }
 
     // MARK: - Row
+
     private func comparisonRow(_ item: StoreComparisonItem) -> some View {
         VStack(alignment: .leading, spacing: 6) {
-
             HStack {
                 Text(item.storeName)
                     .font(.headline)
-
                 Spacer()
-
                 Text(format(item.total))
                     .fontWeight(.semibold)
-                    .foregroundColor(.blue)
+                    .foregroundColor(Theme.primaryBlue)
             }
 
             ProgressView(value: item.percentOfTotal / 100)
-                .tint(.blue)
+                .tint(Theme.primaryBlue)
 
-            Text(
-                "\(item.ticketCount) ticket(s) • \(String(format: "%.1f", item.percentOfTotal)) %"
-            )
-            .font(.caption)
-            .foregroundColor(.secondary)
+            let count = item.ticketCount
+            Text("\(count) ticket\(count > 1 ? "s" : "") • \(String(format: "%.1f", item.percentOfTotal)) %")
+                .font(.caption)
+                .foregroundColor(.secondary)
         }
         .padding()
         .background(Color(.secondarySystemGroupedBackground))
         .cornerRadius(12)
+    }
+
+    // MARK: - Empty State
+
+    private var emptyState: some View {
+        VStack(spacing: 12) {
+            Image(systemName: "chart.bar")
+                .font(.system(size: 40))
+                .foregroundColor(.secondary)
+            Text("Aucun magasin sur cette période")
+                .foregroundColor(.secondary)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 40)
     }
 
     private func format(_ value: Double) -> String {
