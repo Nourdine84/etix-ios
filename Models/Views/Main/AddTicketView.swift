@@ -4,20 +4,18 @@ import CoreData
 struct AddTicketView: View {
     @EnvironmentObject var viewModel: AddTicketViewModel
 
-    // ✅ Popups custom
-    @State private var showSuccessPopup = false
-    @State private var showErrorPopup = false
-
-    // OCR
-    @State private var showPermission = false
-    @State private var showOCRScanner = false
+    @State private var showSuccessPopup  = false
+    @State private var showErrorPopup    = false
+    @State private var showPermission    = false
+    @State private var showOCRScanner    = false
+    @State private var showCategoryPicker = false
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 VStack(spacing: 20) {
 
-                    // 🔵 Bouton SCAN OCR
+                    // MARK: Scan OCR
                     Button {
                         Haptic.light()
                         NotificationCenter.default.post(name: .openCameraPermission, object: nil)
@@ -30,13 +28,13 @@ struct AddTicketView: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color(Theme.primaryBlue).opacity(0.12))
-                        .foregroundColor(Color(Theme.primaryBlue))
+                        .background(Theme.primaryBlue.opacity(0.12))
+                        .foregroundColor(Theme.primaryBlue)
                         .cornerRadius(14)
                     }
                     .padding(.horizontal)
 
-                    // 🔶 Carte principale
+                    // MARK: Form Card
                     VStack(alignment: .leading, spacing: 16) {
 
                         Text("Informations du ticket")
@@ -46,19 +44,47 @@ struct AddTicketView: View {
                         Group {
                             TextField("Nom du magasin", text: $viewModel.storeName)
                                 .textInputAutocapitalization(.words)
+                                .textFieldStyle(.roundedBorder)
 
                             TextField("Montant (€)", text: $viewModel.amount)
                                 .keyboardType(.decimalPad)
+                                .textFieldStyle(.roundedBorder)
 
                             DatePicker("Date",
                                        selection: $viewModel.date,
                                        displayedComponents: .date)
-
-                            TextField("Catégorie", text: $viewModel.category)
-
-                            TextField("Description (optionnel)", text: $viewModel.description)
                         }
-                        .textFieldStyle(.roundedBorder)
+
+                        // Category picker row
+                        Button {
+                            Haptic.light()
+                            showCategoryPicker = true
+                        } label: {
+                            HStack {
+                                Text(viewModel.category.isEmpty ? "Catégorie" : viewModel.category)
+                                    .foregroundColor(
+                                        viewModel.category.isEmpty
+                                        ? Color(.placeholderText)
+                                        : .primary
+                                    )
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                Image(systemName: "chevron.right")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                            .padding(.horizontal, 8)
+                            .frame(height: 34)
+                            .background(Color(.systemBackground))
+                            .cornerRadius(6)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 6)
+                                    .stroke(Color(.separator), lineWidth: 0.5)
+                            )
+                        }
+                        .buttonStyle(.plain)
+
+                        TextField("Description (optionnel)", text: $viewModel.description)
+                            .textFieldStyle(.roundedBorder)
                     }
                     .padding()
                     .background(Color(.secondarySystemGroupedBackground))
@@ -66,20 +92,14 @@ struct AddTicketView: View {
                     .shadow(color: .black.opacity(0.08), radius: 5, y: 2)
                     .padding(.horizontal)
 
-                    // 🔵 Enregistrer
+                    // MARK: Save
                     eTixButton(title: "Enregistrer", icon: "tray.and.arrow.down.fill") {
                         if viewModel.saveTicket() {
                             Haptic.success()
-
-                            // ✅ popup custom
                             showSuccessPopup = true
-
-                            // 🔥 Mise à jour du widget
                             WidgetSync.updateSnapshot(context: viewModel.context)
-
                             print("🧪 Widget monthTotal:",
-                                  UserDefaults(suiteName: "group.etix.shared")?.double(forKey: "monthTotal") ?? -1
-                            )
+                                  UserDefaults(suiteName: "group.etix.shared")?.double(forKey: "monthTotal") ?? -1)
                         } else {
                             Haptic.error()
                             showErrorPopup = true
@@ -89,9 +109,10 @@ struct AddTicketView: View {
                 }
                 .padding(.top)
             }
+            .background(Color(.systemGroupedBackground).ignoresSafeArea())
             .navigationTitle("Ajouter un ticket")
 
-            // 🔥 OCR listeners
+            // MARK: OCR listeners
             .onReceive(NotificationCenter.default.publisher(for: .openOCRScanner)) { _ in
                 showOCRScanner = true
             }
@@ -99,17 +120,23 @@ struct AddTicketView: View {
                 showPermission = true
             }
 
-            // 🔵 Sheets OCR
+            // MARK: Sheets
             .sheet(isPresented: $showPermission) {
                 CameraPermissionView()
             }
             .sheet(isPresented: $showOCRScanner) {
                 OCRScannerView { result in
-                    handleOCRResult(result)
+                    viewModel.handleOCRResult(result)
                 }
             }
+            .sheet(isPresented: $showCategoryPicker) {
+                CategoryPickerSheet(
+                    selectedCategory: $viewModel.category,
+                    context: viewModel.context
+                )
+            }
         }
-        // ✅ Popups overlay (remplace les .alert système)
+        // MARK: Popups
         .overlay {
             if showSuccessPopup {
                 SuccessPopup(
@@ -130,10 +157,5 @@ struct AddTicketView: View {
                 .zIndex(10)
             }
         }
-    }
-
-    // MARK: - OCR → Pré-remplissage
-    private func handleOCRResult(_ result: OCRExtractedData) {
-        viewModel.handleOCRResult(result)
     }
 }
