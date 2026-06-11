@@ -4,11 +4,15 @@ import CoreData
 struct AddTicketView: View {
     @EnvironmentObject var viewModel: AddTicketViewModel
 
+    /// CTA Scanner du HomeView — ouvre le scanner OCR dès l'apparition
+    var autoStartScanner: Bool = false
+
     @State private var showSuccessPopup   = false
     @State private var showErrorPopup     = false
     @State private var showPermission     = false
     @State private var showOCRScanner     = false
     @State private var showCategoryPicker = false
+    @State private var didAutoLaunchScanner = false
 
     var body: some View {
         NavigationStack {
@@ -123,6 +127,15 @@ struct AddTicketView: View {
             }
             .background(Color(.systemGroupedBackground).ignoresSafeArea())
             .navigationTitle("Ajouter un ticket")
+            .onAppear {
+                // Un seul lancement automatique garanti — un retour arrière ou un
+                // re-render ne doivent jamais rouvrir le scanner
+                guard autoStartScanner, !didAutoLaunchScanner else { return }
+                didAutoLaunchScanner = true
+                DispatchQueue.main.async {
+                    showOCRScanner = true
+                }
+            }
 
             // MARK: OCR listeners
             .onReceive(NotificationCenter.default.publisher(for: .openOCRScanner)) { _ in

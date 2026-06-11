@@ -271,18 +271,40 @@ struct HomeView: View {
     // MARK: - Quick Actions
 
     private var quickActions: some View {
-        HStack(spacing: 20) {
+        VStack(spacing: 12) {
+            NavigationLink {
+                AddTicketView(autoStartScanner: true)
+            } label: {
+                HStack(spacing: 12) {
+                    Image(systemName: "camera.viewfinder")
+                        .font(.system(size: 22, weight: .semibold))
+                    Text("Scanner un ticket")
+                        .font(.headline)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 18)
+                .background(Theme.primaryBlue)
+                .foregroundColor(.white)
+                .cornerRadius(16)
+            }
+            .buttonStyle(.plain)
+
             NavigationLink {
                 AddTicketView()
             } label: {
-                actionButton(icon: "plus.circle.fill", title: "Ajouter")
+                HStack(spacing: 12) {
+                    Image(systemName: "plus")
+                        .font(.system(size: 18, weight: .semibold))
+                    Text("Ajout manuel")
+                        .font(.headline)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 18)
+                .background(Color(.secondarySystemGroupedBackground))
+                .foregroundColor(.primary)
+                .cornerRadius(16)
             }
-
-            NavigationLink {
-                TicketHistoryView()
-            } label: {
-                actionButton(icon: "clock.fill", title: "Historique")
-            }
+            .buttonStyle(.plain)
         }
     }
 
@@ -372,21 +394,6 @@ struct HomeView: View {
         .padding(16)
         .background(Color(.secondarySystemGroupedBackground))
         .cornerRadius(16)
-    }
-
-    private func actionButton(icon: String, title: String) -> some View {
-        VStack(spacing: 10) {
-            Image(systemName: icon)
-                .font(.system(size: 26, weight: .semibold))
-                .foregroundColor(.primary)
-            Text(title)
-                .font(.footnote.weight(.medium))
-                .foregroundColor(.primary)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 26)
-        .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(24)
     }
 
     // MARK: - Helpers
