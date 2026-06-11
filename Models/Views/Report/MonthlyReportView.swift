@@ -233,12 +233,18 @@ struct MonthlyReportView: View {
         .reportCard()
     }
 
+    @ViewBuilder
     private var trendSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            label("TENDANCE 6 MOIS")
-            TrendView(points: trendPoints)
+        let points = trendPoints
+        // Une tendance exige au moins 2 mois avec activité — un point unique
+        // n'apprend rien et ferait apparaître une courbe presque vide
+        if points.filter({ $0.total > 0 }).count >= 2 {
+            VStack(alignment: .leading, spacing: 12) {
+                label("TENDANCE 6 MOIS")
+                TrendView(points: points)
+            }
+            .reportCard()
         }
-        .reportCard()
     }
 
     private var breakdownSection: some View {

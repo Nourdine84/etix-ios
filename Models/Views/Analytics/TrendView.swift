@@ -9,6 +9,18 @@ struct TrendView: View {
 
     var body: some View {
         Chart(points) { point in
+            AreaMark(
+                x: .value("Mois", point.month),
+                y: .value("Total", point.total)
+            )
+            .foregroundStyle(
+                LinearGradient(
+                    colors: [Theme.primaryBlue.opacity(0.18), Theme.primaryBlue.opacity(0.02)],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+            )
+
             LineMark(
                 x: .value("Mois", point.month),
                 y: .value("Total", point.total)
