@@ -112,8 +112,6 @@ struct AddTicketView: View {
                             Haptic.success()
                             showSuccessPopup = true
                             WidgetSync.updateSnapshot(context: viewModel.context)
-                            print("🧪 Widget monthTotal:",
-                                  UserDefaults(suiteName: "group.etix.shared")?.double(forKey: "monthTotal") ?? -1)
                         } else {
                             Haptic.error()
                             showErrorPopup = true

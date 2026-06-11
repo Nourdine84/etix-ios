@@ -146,6 +146,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		BB2001C12F5B0001002E8001 /* StoreIntelligenceEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreIntelligenceEngine.swift; sourceTree = "<group>"; };
+		BB2001C32F5B0001002E8001 /* StoreIntelligenceCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreIntelligenceCardView.swift; sourceTree = "<group>"; };
+
 		AA1001B32F4A0002001F7001 /* BudgetSummaryEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetSummaryEngine.swift; sourceTree = "<group>"; };
 		AA1001B52F4A0002001F7001 /* BudgetSummaryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetSummaryCardView.swift; sourceTree = "<group>"; };
 
@@ -200,7 +203,6 @@
 		63B965E82FD9805900433979 /* CategoryPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPickerSheet.swift; sourceTree = "<group>"; };
 		63B965EA2FD98D6200433979 /* BudgetStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetStore.swift; sourceTree = "<group>"; };
 		63B965EC2FD98DBC00433979 /* BudgetSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetSettingsView.swift; sourceTree = "<group>"; };
-		63B966A72FD9B9D500433979 /* MonthlyReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyReportView.swift; sourceTree = "<group>"; };
 		63B966A92FD9BA1000433979 /* MonthlyReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyReportView.swift; sourceTree = "<group>"; };
 		63CDBBF52F3BAEDD001503FF /* StoreComparisonDonutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreComparisonDonutView.swift; sourceTree = "<group>"; };
 		63CDBBF72F3BAF63001503FF /* DonutSlice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DonutSlice.swift; sourceTree = "<group>"; };
@@ -348,13 +350,10 @@
 			isa = PBXGroup;
 			children = (
 				63B966AA2FD9BA1000433979 /* Report */,
-				63B966A72FD9B9D500433979 /* MonthlyReportView.swift */,
 				63B965EC2FD98DBC00433979 /* BudgetSettingsView.swift */,
-				63CDBC0B2F3BC83D001503FF /* Home */,
 				637D58B12F2441C100A8000C /* Store */,
 				637D589E2F2438CE00A8000C /* Category */,
 				637D586B2F24107A00A8000C /* Export */,
-				637D582D2F23CA1B00A8000C /* KPI */,
 				63DBD8062EEC420F00D1A8EF /* Components */,
 				63DBD7E32EEADA4F00D1A8EF /* OCR */,
 				63DBD7DC2EEAD71A00D1A8EF /* Tickets */,
@@ -362,16 +361,8 @@
 				634EA0A62E9FF638001F7BBB /* Onboarding */,
 				634EA08B2E9FDA2C001F7BBB /* Splash */,
 				634EA0332E9E802B001F7BBB /* Main */,
-				634EA0322E9E801F001F7BBB /* Auth */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		634EA0322E9E801F001F7BBB /* Auth */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Auth;
 			sourceTree = "<group>";
 		};
 		634EA0332E9E802B001F7BBB /* Main */ = {
@@ -437,13 +428,6 @@
 				634EA0B92EA02D50001F7BBB /* SwiftUI.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		637D582D2F23CA1B00A8000C /* KPI */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = KPI;
 			sourceTree = "<group>";
 		};
 		637D58652F23E98B00A8000C /* Services */ = {
@@ -522,13 +506,6 @@
 				63CDBBF52F3BAEDD001503FF /* StoreComparisonDonutView.swift */,
 			);
 			path = Charts;
-			sourceTree = "<group>";
-		};
-		63CDBC0B2F3BC83D001503FF /* Home */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Home;
 			sourceTree = "<group>";
 		};
 		63CDBC102F3BDABC001503FF /* Settings */ = {

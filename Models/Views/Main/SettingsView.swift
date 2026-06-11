@@ -16,7 +16,6 @@ struct SettingsView: View {
                 rangeSection
                 dataSection
                 infoSection
-                devSection
             }
             .navigationTitle("Réglages")
             .alert("Confirmer la suppression ?", isPresented: $vm.showResetAlert) {
@@ -98,21 +97,6 @@ struct SettingsView: View {
         Section("Informations") {
             LabeledContent("Version", value: vm.settings.appVersion)
             LabeledContent("Build", value: vm.settings.buildNumber)
-        }
-    }
-
-    // TODO: remove after device validation
-    private var devSection: some View {
-        Section {
-            Button(role: .destructive) {
-                UserDefaults.standard.removeObject(forKey: "app.hasSeenOnboarding")
-            } label: {
-                Label("Réinitialiser l'onboarding", systemImage: "arrow.counterclockwise")
-            }
-        } header: {
-            Text("Développement")
-        } footer: {
-            Text("Relancer l'app après la réinitialisation.")
         }
     }
 }
