@@ -77,6 +77,10 @@ struct MonthlyReportView: View {
             .sorted { $0.total > $1.total }
     }
 
+    private var trendPoints: [MonthlyTrendPoint] {
+        TrendEngine.monthlyTrend(tickets: Array(tickets))
+    }
+
     private var exceededBudgets: [(name: String, spent: Double, limit: Double)] {
         let budgets = BudgetStore.load()
         guard !budgets.isEmpty else { return [] }
@@ -125,6 +129,7 @@ struct MonthlyReportView: View {
                         evolutionSection
                         if !exceededBudgets.isEmpty { budgetsSection }
                         highlightsSection
+                        trendSection
                         if !categoryBreakdown.isEmpty { breakdownSection }
                         exportButton
                     }
@@ -224,6 +229,14 @@ struct MonthlyReportView: View {
                              primary: String(format: "%.2f €", t.amount),
                              secondary: "\(t.storeName) · \(DateUtils.shortString(fromMillis: t.dateMillis))")
             }
+        }
+        .reportCard()
+    }
+
+    private var trendSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            label("TENDANCE 6 MOIS")
+            TrendView(points: trendPoints)
         }
         .reportCard()
     }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CC3001D22F6C0001003F9001 /* TrendEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3001D12F6C0001003F9001 /* TrendEngine.swift */; };
+		CC3001D42F6C0001003F9001 /* TrendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3001D32F6C0001003F9001 /* TrendView.swift */; };
 		BB2001C22F5B0001002E8001 /* StoreIntelligenceEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2001C12F5B0001002E8001 /* StoreIntelligenceEngine.swift */; };
 		BB2001C42F5B0001002E8001 /* StoreIntelligenceCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2001C32F5B0001002E8001 /* StoreIntelligenceCardView.swift */; };
 
@@ -146,6 +148,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CC3001D12F6C0001003F9001 /* TrendEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendEngine.swift; sourceTree = "<group>"; };
+		CC3001D32F6C0001003F9001 /* TrendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendView.swift; sourceTree = "<group>"; };
 		BB2001C12F5B0001002E8001 /* StoreIntelligenceEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreIntelligenceEngine.swift; sourceTree = "<group>"; };
 		BB2001C32F5B0001002E8001 /* StoreIntelligenceCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreIntelligenceCardView.swift; sourceTree = "<group>"; };
 
@@ -349,6 +353,7 @@
 		634EA02D2E9E7F1E001F7BBB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CC3001D52F6C0001003F9001 /* Analytics */,
 				63B966AA2FD9BA1000433979 /* Report */,
 				63B965EC2FD98DBC00433979 /* BudgetSettingsView.swift */,
 				637D58B12F2441C100A8000C /* Store */,
@@ -605,6 +610,7 @@
 		AA1001B22F4A0001001F7001 /* Intelligence */ = {
 			isa = PBXGroup;
 			children = (
+				CC3001D12F6C0001003F9001 /* TrendEngine.swift */,
 				AA1001B32F4A0002001F7001 /* BudgetSummaryEngine.swift */,
 				AA1001AA2F4A0001001F7001 /* HomeSnapshot.swift */,
 				AA1001AC2F4A0001001F7001 /* HomeInsightEngine.swift */,
@@ -614,7 +620,15 @@
 			path = Intelligence;
 			sourceTree = "<group>";
 		};
-		/* End PBXGroup section */
+				CC3001D52F6C0001003F9001 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				CC3001D32F6C0001003F9001 /* TrendView.swift */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
 		634EA0B42EA02D4F001F7BBB /* eTixWidgetExtension */ = {
@@ -804,6 +818,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CC3001D22F6C0001003F9001 /* TrendEngine.swift in Sources */,
+				CC3001D42F6C0001003F9001 /* TrendView.swift in Sources */,
 				AA1001B42F4A0002001F7001 /* BudgetSummaryEngine.swift in Sources */,
 				AA1001B62F4A0002001F7001 /* BudgetSummaryCardView.swift in Sources */,
 				AA1001AB2F4A0001001F7001 /* HomeSnapshot.swift in Sources */,
