@@ -6,39 +6,51 @@ struct InsightCardView: View {
     let isPrimary: Bool
 
     var body: some View {
-        NavigationLink {
-            resolvedDestination
-        } label: {
-            HStack(spacing: 14) {
-                Image(systemName: insight.icon)
-                    .font(.title3)
-                    .foregroundColor(iconColor)
-                    .frame(width: 28)
-
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(insight.title)
-                        .font(isPrimary ? .subheadline.weight(.semibold) : .footnote.weight(.semibold))
-                        .foregroundColor(.primary)
-                        .multilineTextAlignment(.leading)
-                    Text(insight.subtitle)
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+        Group {
+            if insight.destination == .none {
+                cardContent
+            } else {
+                NavigationLink {
+                    resolvedDestination
+                } label: {
+                    cardContent
                 }
+                .buttonStyle(.plain)
+            }
+        }
+        .onAppear {
+            InsightMemory.markShown(insight.id)
+        }
+    }
 
-                Spacer()
+    private var cardContent: some View {
+        HStack(spacing: 14) {
+            Image(systemName: insight.icon)
+                .font(.title3)
+                .foregroundColor(iconColor)
+                .frame(width: 28)
 
+            VStack(alignment: .leading, spacing: 4) {
+                Text(insight.title)
+                    .font(isPrimary ? .subheadline.weight(.semibold) : .footnote.weight(.semibold))
+                    .foregroundColor(.primary)
+                    .multilineTextAlignment(.leading)
+                Text(insight.subtitle)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+
+            Spacer()
+
+            if insight.destination != .none {
                 Image(systemName: "chevron.right")
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
-            .padding(isPrimary ? 20 : 16)
-            .background(cardBackground)
-            .cornerRadius(16)
         }
-        .buttonStyle(.plain)
-        .onAppear {
-            InsightMemory.markShown(insight.id)
-        }
+        .padding(isPrimary ? 20 : 16)
+        .background(cardBackground)
+        .cornerRadius(16)
     }
 
     // MARK: - Destination
@@ -52,6 +64,8 @@ struct InsightCardView: View {
             StoreDetailView(storeName: name)
         case .monthlyReport:
             MonthlyReportView()
+        case .none:
+            EmptyView()
         }
     }
 
@@ -62,6 +76,7 @@ struct InsightCardView: View {
         case .critical: return .red
         case .warning:  return .orange
         case .neutral:  return Theme.primaryBlue
+        case .positive: return .green
         }
     }
 
@@ -70,6 +85,7 @@ struct InsightCardView: View {
         case .critical: return Color.red.opacity(0.08)
         case .warning:  return Color.orange.opacity(0.08)
         case .neutral:  return Color(.secondarySystemGroupedBackground)
+        case .positive: return Color.green.opacity(0.08)
         }
     }
 }

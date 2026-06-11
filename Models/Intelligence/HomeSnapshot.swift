@@ -27,8 +27,14 @@ struct HomeSnapshot {
     let storeLastVisitMillis: [String: Int64]
     let storeOldestMillis: [String: Int64]
 
+    // MARK: - Plus gros ticket de la période (biggestPurchase)
+    let maxPeriodTicketAmount: Double
+    let maxPeriodTicketStore: String
+
     // MARK: - Global
     let allTimeTicketCount: Int
+    /// Ticket le plus récent all-time, 0 si aucun (captureReminder)
+    let lastTicketMillis: Int64
     let daysLeftInMonth: Int
 
     // MARK: - Init
@@ -52,6 +58,9 @@ struct HomeSnapshot {
         var stAllTimeCounts: [String: Int] = [:]
         var stLastVisit: [String: Int64] = [:]
         var stOldest: [String: Int64] = [:]
+        var lastTicketMs: Int64 = 0
+        var maxTicketAmount: Double = 0
+        var maxTicketStore = ""
 
         for ticket in tickets {
             let ms = ticket.dateMillis
@@ -61,10 +70,16 @@ struct HomeSnapshot {
             stAllTimeCounts[store, default: 0] += 1
             if ms > (stLastVisit[store] ?? Int64.min) { stLastVisit[store] = ms }
             if ms < (stOldest[store] ?? Int64.max)    { stOldest[store] = ms }
+            if ms > lastTicketMs { lastTicketMs = ms }
 
             if ms >= curStart && ms < curEnd {
                 periodTotal += ticket.amount
                 periodCount += 1
+
+                if ticket.amount > maxTicketAmount {
+                    maxTicketAmount = ticket.amount
+                    maxTicketStore = store
+                }
 
                 let catKey = ticket.category.lowercased()
                 if !catKey.isEmpty {
@@ -94,7 +109,10 @@ struct HomeSnapshot {
         self.storeAllTimeCounts = stAllTimeCounts
         self.storeLastVisitMillis = stLastVisit
         self.storeOldestMillis = stOldest
+        self.maxPeriodTicketAmount = maxTicketAmount
+        self.maxPeriodTicketStore = maxTicketStore
         self.allTimeTicketCount = tickets.count
+        self.lastTicketMillis = lastTicketMs
 
         let calendar = Calendar.current
         let monthEnd = DateRangeHelper.currentRange(for: .month).end

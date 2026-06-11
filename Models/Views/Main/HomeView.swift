@@ -88,11 +88,18 @@ struct HomeView: View {
         HomeSnapshot(tickets: Array(tickets), range: range)
     }
 
+    /// Résultat brut du moteur store — consommé par l'insight engine (exclusion
+    /// newStore vs newMerchant) puis par la carte, après application du masquage
+    private var rawStoreIntelligence: StoreIntelligence? {
+        StoreIntelligenceEngine.evaluate(snapshot: homeSnapshot, range: range)
+    }
+
     private var activeInsights: [HomeInsight] {
         HomeInsightEngine.evaluate(
             snapshot: homeSnapshot,
             budgets: budgets,
-            range: range
+            range: range,
+            storeIntelligence: rawStoreIntelligence
         )
     }
 
@@ -103,7 +110,7 @@ struct HomeView: View {
 
     private var storeIntelligence: StoreIntelligence? {
         guard activeInsights.first?.id != .budgetExceeded else { return nil }
-        return StoreIntelligenceEngine.evaluate(snapshot: homeSnapshot, range: range)
+        return rawStoreIntelligence
     }
 
     // MARK: - Body
