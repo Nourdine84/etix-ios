@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA2001112F500011001F8001 /* SectionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2001012F500001001F8001 /* SectionLabel.swift */; };
+		AA2001122F500012001F8002 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2001022F500002001F8002 /* PrimaryButton.swift */; };
+		AA2001132F500013001F8003 /* CardContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2001032F500003001F8003 /* CardContainer.swift */; };
+		AA2001142F500014001F8004 /* CategoryStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2001042F500004001F8004 /* CategoryStyle.swift */; };
+		AA2001152F500015001F8005 /* CategoryIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2001052F500005001F8005 /* CategoryIconView.swift */; };
+		AA2001162F500016001F8006 /* StatBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2001062F500006001F8006 /* StatBlock.swift */; };
+		AA2001172F500017001F8007 /* ProgressCapsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2001072F500007001F8007 /* ProgressCapsule.swift */; };
 		CC3001D22F6C0001003F9001 /* TrendEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3001D12F6C0001003F9001 /* TrendEngine.swift */; };
 		CC3001D42F6C0001003F9001 /* TrendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3001D32F6C0001003F9001 /* TrendView.swift */; };
 		BB2001C22F5B0001002E8001 /* StoreIntelligenceEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2001C12F5B0001002E8001 /* StoreIntelligenceEngine.swift */; };
@@ -148,6 +155,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AA2001012F500001001F8001 /* SectionLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionLabel.swift; sourceTree = "<group>"; };
+		AA2001022F500002001F8002 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
+		AA2001032F500003001F8003 /* CardContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardContainer.swift; sourceTree = "<group>"; };
+		AA2001042F500004001F8004 /* CategoryStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryStyle.swift; sourceTree = "<group>"; };
+		AA2001052F500005001F8005 /* CategoryIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryIconView.swift; sourceTree = "<group>"; };
+		AA2001062F500006001F8006 /* StatBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatBlock.swift; sourceTree = "<group>"; };
+		AA2001072F500007001F8007 /* ProgressCapsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCapsule.swift; sourceTree = "<group>"; };
 		CC3001D12F6C0001003F9001 /* TrendEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendEngine.swift; sourceTree = "<group>"; };
 		CC3001D32F6C0001003F9001 /* TrendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendView.swift; sourceTree = "<group>"; };
 		BB2001C12F5B0001002E8001 /* StoreIntelligenceEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreIntelligenceEngine.swift; sourceTree = "<group>"; };
@@ -317,9 +331,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA2001002F500000001F8000 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				AA2001012F500001001F8001 /* SectionLabel.swift */,
+				AA2001022F500002001F8002 /* PrimaryButton.swift */,
+				AA2001032F500003001F8003 /* CardContainer.swift */,
+				AA2001042F500004001F8004 /* CategoryStyle.swift */,
+				AA2001052F500005001F8005 /* CategoryIconView.swift */,
+				AA2001062F500006001F8006 /* StatBlock.swift */,
+				AA2001072F500007001F8007 /* ProgressCapsule.swift */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
 		634EA02B2E9E7EE9001F7BBB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				AA2001002F500000001F8000 /* DesignSystem */,
 				AA1001B22F4A0001001F7001 /* Intelligence */,
 				63CDBC102F3BDABC001503FF /* Settings */,
 				637D58AC2F24413E00A8000C /* Domain */,
@@ -818,6 +847,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA2001112F500011001F8001 /* SectionLabel.swift in Sources */,
+				AA2001122F500012001F8002 /* PrimaryButton.swift in Sources */,
+				AA2001132F500013001F8003 /* CardContainer.swift in Sources */,
+				AA2001142F500014001F8004 /* CategoryStyle.swift in Sources */,
+				AA2001152F500015001F8005 /* CategoryIconView.swift in Sources */,
+				AA2001162F500016001F8006 /* StatBlock.swift in Sources */,
+				AA2001172F500017001F8007 /* ProgressCapsule.swift in Sources */,
 				CC3001D22F6C0001003F9001 /* TrendEngine.swift in Sources */,
 				CC3001D42F6C0001003F9001 /* TrendView.swift in Sources */,
 				AA1001B42F4A0002001F7001 /* BudgetSummaryEngine.swift in Sources */,

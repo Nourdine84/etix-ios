@@ -1,5 +1,9 @@
 import SwiftUI
 
+/// ⚠️ DÉPRÉCIÉ — ne plus utiliser dans les nouveaux écrans.
+/// Utiliser `PrimaryButton` (Models/DesignSystem) : le CTA officiel V2.
+/// Ce composant sera supprimé quand AddTicketView et OnboardingView
+/// auront migré lors de leurs redesigns respectifs.
 struct eTixButton: View {
     var title: String
     var icon: String? = nil
