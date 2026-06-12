@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA2001182F500018001F8008 /* EtixBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2001082F500008001F8008 /* EtixBadge.swift */; };
 		AA2001112F500011001F8001 /* SectionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2001012F500001001F8001 /* SectionLabel.swift */; };
 		AA2001122F500012001F8002 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2001022F500002001F8002 /* PrimaryButton.swift */; };
 		AA2001132F500013001F8003 /* CardContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2001032F500003001F8003 /* CardContainer.swift */; };
@@ -155,6 +156,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AA2001082F500008001F8008 /* EtixBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EtixBadge.swift; sourceTree = "<group>"; };
 		AA2001012F500001001F8001 /* SectionLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionLabel.swift; sourceTree = "<group>"; };
 		AA2001022F500002001F8002 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		AA2001032F500003001F8003 /* CardContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardContainer.swift; sourceTree = "<group>"; };
@@ -334,6 +336,7 @@
 		AA2001002F500000001F8000 /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
+				AA2001082F500008001F8008 /* EtixBadge.swift */,
 				AA2001012F500001001F8001 /* SectionLabel.swift */,
 				AA2001022F500002001F8002 /* PrimaryButton.swift */,
 				AA2001032F500003001F8003 /* CardContainer.swift */,
@@ -847,6 +850,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA2001182F500018001F8008 /* EtixBadge.swift in Sources */,
 				AA2001112F500011001F8001 /* SectionLabel.swift in Sources */,
 				AA2001122F500012001F8002 /* PrimaryButton.swift in Sources */,
 				AA2001132F500013001F8003 /* CardContainer.swift in Sources */,
@@ -1052,8 +1056,6 @@
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -1092,8 +1094,6 @@
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
