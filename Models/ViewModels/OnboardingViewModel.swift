@@ -1,24 +1,42 @@
 import SwiftUI
 
 final class OnboardingViewModel: ObservableObject {
+
+    /// Arc narratif validé : Promesse → Mécanique → Payoff.
     @Published var pages: [OnboardingPage] = [
         OnboardingPage(
             title: "Bienvenue sur eTix",
-            subtitle: "Centralisez vos tickets facilement, sans papier.",
-            systemImage: "ticket.fill",
-            accent: Theme.primaryBlue
+            subtitle: "Retrouvez tous vos tickets au même endroit.",
+            hero: .badge,
+            features: []
         ),
         OnboardingPage(
-            title: "Ajoutez en 2 secondes",
-            subtitle: "Saisissez magasin, montant, date et catégorie.",
-            systemImage: "plus.circle.fill",
-            accent: Theme.primaryBlue
+            title: "Ajoute, classe, retrouve",
+            subtitle: "Scannez vos tickets, organisez vos achats et retrouvez chaque dépense facilement.",
+            hero: nil,
+            features: [
+                OnboardingPage.Feature(
+                    icon: "camera.fill",
+                    keyword: "Scannez",
+                    text: "depuis une photo ou en saisie manuelle"
+                ),
+                OnboardingPage.Feature(
+                    icon: "folder.fill",
+                    keyword: "Classez",
+                    text: "par catégorie, automatiquement"
+                ),
+                OnboardingPage.Feature(
+                    icon: "magnifyingglass",
+                    keyword: "Retrouvez",
+                    text: "vos achats par magasin ou catégorie"
+                )
+            ]
         ),
         OnboardingPage(
-            title: "Analysez vos dépenses",
-            subtitle: "Totaux par catégorie, filtres de période, et plus à venir.",
-            systemImage: "chart.bar.fill",
-            accent: Theme.primaryBlue
+            title: "Gardez le contrôle de vos dépenses",
+            subtitle: "Comprenez où va votre argent, suivez vos budgets et retrouvez chaque achat en quelques secondes.",
+            hero: .symbol("chart.line.uptrend.xyaxis"),
+            features: []
         )
     ]
 

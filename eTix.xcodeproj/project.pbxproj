@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA2001192F500019001F8009 /* AmbientBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2001092F500009001F8009 /* AmbientBackground.swift */; };
 		AA2001182F500018001F8008 /* EtixBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2001082F500008001F8008 /* EtixBadge.swift */; };
 		AA2001112F500011001F8001 /* SectionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2001012F500001001F8001 /* SectionLabel.swift */; };
 		AA2001122F500012001F8002 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2001022F500002001F8002 /* PrimaryButton.swift */; };
@@ -97,7 +98,6 @@
 		63DBD7EA2EEADDED00D1A8EF /* OCRExtractedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7E92EEADDB100D1A8EF /* OCRExtractedData.swift */; };
 		63DBD7EC2EEADE1A00D1A8EF /* OCRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7EB2EEADE0900D1A8EF /* OCRScannerView.swift */; };
 		63DBD7F22EEAFEA400D1A8EF /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7F12EEAFE9300D1A8EF /* OnboardingView.swift */; };
-		63DBD7F62EEB015100D1A8EF /* AnimatedPageSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7F52EEB015100D1A8EF /* AnimatedPageSymbol.swift */; };
 		63DBD8002EEB1CBF00D1A8EF /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03B2E9E818C001F7BBB /* Ticket.swift */; };
 		63DBD8082EEC425400D1A8EF /* PopupContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD8072EEC423B00D1A8EF /* PopupContainer.swift */; };
 		63DBD80A2EEC429B00D1A8EF /* SuccessPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD8092EEC428500D1A8EF /* SuccessPopup.swift */; };
@@ -156,6 +156,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AA2001092F500009001F8009 /* AmbientBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmbientBackground.swift; sourceTree = "<group>"; };
 		AA2001082F500008001F8008 /* EtixBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EtixBadge.swift; sourceTree = "<group>"; };
 		AA2001012F500001001F8001 /* SectionLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionLabel.swift; sourceTree = "<group>"; };
 		AA2001022F500002001F8002 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
@@ -243,7 +244,6 @@
 		63DBD7E92EEADDB100D1A8EF /* OCRExtractedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRExtractedData.swift; sourceTree = "<group>"; };
 		63DBD7EB2EEADE0900D1A8EF /* OCRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRScannerView.swift; sourceTree = "<group>"; };
 		63DBD7F12EEAFE9300D1A8EF /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		63DBD7F52EEB015100D1A8EF /* AnimatedPageSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedPageSymbol.swift; sourceTree = "<group>"; };
 		63DBD8072EEC423B00D1A8EF /* PopupContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupContainer.swift; sourceTree = "<group>"; };
 		63DBD8092EEC428500D1A8EF /* SuccessPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessPopup.swift; sourceTree = "<group>"; };
 		63DBD80B2EEC42BC00D1A8EF /* ErrorPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorPopup.swift; sourceTree = "<group>"; };
@@ -336,6 +336,7 @@
 		AA2001002F500000001F8000 /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
+				AA2001092F500009001F8009 /* AmbientBackground.swift */,
 				AA2001082F500008001F8008 /* EtixBadge.swift */,
 				AA2001012F500001001F8001 /* SectionLabel.swift */,
 				AA2001022F500002001F8002 /* PrimaryButton.swift */,
@@ -453,7 +454,6 @@
 			isa = PBXGroup;
 			children = (
 				63DBD7F12EEAFE9300D1A8EF /* OnboardingView.swift */,
-				63DBD7F52EEB015100D1A8EF /* AnimatedPageSymbol.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -850,6 +850,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA2001192F500019001F8009 /* AmbientBackground.swift in Sources */,
 				AA2001182F500018001F8008 /* EtixBadge.swift in Sources */,
 				AA2001112F500011001F8001 /* SectionLabel.swift in Sources */,
 				AA2001122F500012001F8002 /* PrimaryButton.swift in Sources */,
@@ -868,7 +869,6 @@
 				AA1001B12F4A0001001F7001 /* InsightCardView.swift in Sources */,
 				637D58B02F24419200A8000C /* StoreListViewModel.swift in Sources */,
 				637D58A92F243F0000A8000C /* CategoryExportViewModel.swift in Sources */,
-				63DBD7F62EEB015100D1A8EF /* AnimatedPageSymbol.swift in Sources */,
 				634EA0562E9E8FD3001F7BBB /* CategoryView.swift in Sources */,
 				634EA0532E9E8FBC001F7BBB /* HomeView.swift in Sources */,
 				63DBD80A2EEC429B00D1A8EF /* SuccessPopup.swift in Sources */,

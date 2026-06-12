@@ -7,7 +7,6 @@ struct SplashView: View {
 
     @EnvironmentObject var session: SessionViewModel
 
-    @Environment(\.colorScheme) private var scheme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @State private var badgeOpacity: Double = 0
@@ -23,7 +22,8 @@ struct SplashView: View {
 
             // Atmosphère — sous le badge, volontairement discrète :
             // le badge doit rester l'unique point focal.
-            atmosphere
+            AmbientBackground()
+                .opacity(accentsOpacity)
 
             // Héros : badge + wordmark
             VStack(spacing: 24) {
@@ -51,62 +51,6 @@ struct SplashView: View {
                 session.decideNextAfterSplash()
             }
         }
-    }
-
-    // MARK: - Atmosphère
-
-    private var atmosphere: some View {
-        ZStack {
-            // Glow radial derrière le badge
-            RadialGradient(
-                colors: [
-                    scheme == .dark
-                        ? Theme.primaryBlue.opacity(0.10)
-                        : Color.white.opacity(0.60),
-                    .clear
-                ],
-                center: .center,
-                startRadius: 0,
-                endRadius: 220
-            )
-            .offset(y: -40)
-
-            // Halo d'horizon bas
-            Ellipse()
-                .fill(Theme.primaryBlue.opacity(scheme == .dark ? 0.16 : 0.08))
-                .frame(width: 500, height: 120)
-                .blur(radius: 50)
-                .offset(y: 420)
-
-            // Micro-étoiles statiques — dark uniquement
-            if scheme == .dark {
-                stars
-            }
-        }
-        .opacity(accentsOpacity)
-        .ignoresSafeArea()
-    }
-
-    /// Points statiques seedés — positions fixes, aucune animation.
-    private var stars: some View {
-        Canvas { context, canvasSize in
-            var seed: UInt32 = 9
-            func next() -> CGFloat {
-                seed = seed &* 1_664_525 &+ 1_013_904_223
-                return CGFloat(seed % 1000) / 1000
-            }
-            for _ in 0..<14 {
-                let x = next() * canvasSize.width
-                let y = next() * canvasSize.height
-                let radius = 0.6 + next() * 1.2
-                let alpha = 0.05 + next() * 0.10
-                context.fill(
-                    Path(ellipseIn: CGRect(x: x, y: y, width: radius * 2, height: radius * 2)),
-                    with: .color(.white.opacity(alpha))
-                )
-            }
-        }
-        .allowsHitTesting(false)
     }
 
     /// 3 étincelles max, très discrètes — règle produit validée.
