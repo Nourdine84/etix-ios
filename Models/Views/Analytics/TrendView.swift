@@ -43,12 +43,16 @@ struct TrendView: View {
             }
         }
         .chartYAxis {
-            AxisMarks(position: .leading) { _ in
+            AxisMarks(position: .leading) { value in
                 AxisGridLine()
                     .foregroundStyle(Color(.systemFill))
-                AxisValueLabel(format: FloatingPointFormatStyle<Double>.number.precision(.fractionLength(0)))
-                    .font(.caption2)
-                    .foregroundStyle(Color.secondary)
+                AxisValueLabel {
+                    if let amount = value.as(Double.self) {
+                        Text(String(format: "%.0f", amount))
+                    }
+                }
+                .font(.caption2)
+                .foregroundStyle(Color.secondary)
             }
         }
         .frame(height: 180)
