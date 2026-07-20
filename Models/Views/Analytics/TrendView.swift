@@ -46,7 +46,7 @@ struct TrendView: View {
             AxisMarks(position: .leading) { _ in
                 AxisGridLine()
                     .foregroundStyle(Color(.systemFill))
-                AxisValueLabel(format: .number.precision(.fractionLength(0)))
+                AxisValueLabel(format: FloatingPointFormatStyle<Double>.number.precision(.fractionLength(0)))
                     .font(.caption2)
                     .foregroundStyle(Color.secondary)
             }
