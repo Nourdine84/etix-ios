@@ -46,7 +46,7 @@ class AddTicketViewModel: ObservableObject {
     }
 
     func handleOCRResult(_ result: OCRExtractedData) {
-        if let store = result.storeName {
+        if let store = result.storeName.value {
             storeName = store
             if category.isEmpty {
                 if let suggestion = StoreCategoryMapper.suggest(for: store, context: context) {
@@ -58,10 +58,10 @@ class AddTicketViewModel: ObservableObject {
                 }
             }
         }
-        if let amt = result.amount {
+        if let amt = result.amount.value {
             amount = String(format: "%.2f", amt)
         }
-        if let d = result.date {
+        if let d = result.date.value {
             date = d
         }
     }

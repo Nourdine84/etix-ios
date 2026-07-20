@@ -96,6 +96,7 @@
 		63DBD7E52EEADA6D00D1A8EF /* CameraPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7E42EEADA5D00D1A8EF /* CameraPermission.swift */; };
 		63DBD7E72EEADCED00D1A8EF /* OCRNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7E62EEADCCC00D1A8EF /* OCRNotifications.swift */; };
 		63DBD7EA2EEADDED00D1A8EF /* OCRExtractedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7E92EEADDB100D1A8EF /* OCRExtractedData.swift */; };
+		CA20010B2F600002001FA002 /* ReceiptParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20010A2F600001001FA001 /* ReceiptParser.swift */; };
 		63DBD7EC2EEADE1A00D1A8EF /* OCRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7EB2EEADE0900D1A8EF /* OCRScannerView.swift */; };
 		63DBD7F22EEAFEA400D1A8EF /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7F12EEAFE9300D1A8EF /* OnboardingView.swift */; };
 		63DBD8002EEB1CBF00D1A8EF /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03B2E9E818C001F7BBB /* Ticket.swift */; };
@@ -242,6 +243,7 @@
 		63DBD7E42EEADA5D00D1A8EF /* CameraPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermission.swift; sourceTree = "<group>"; };
 		63DBD7E62EEADCCC00D1A8EF /* OCRNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRNotifications.swift; sourceTree = "<group>"; };
 		63DBD7E92EEADDB100D1A8EF /* OCRExtractedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRExtractedData.swift; sourceTree = "<group>"; };
+		CA20010A2F600001001FA001 /* ReceiptParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptParser.swift; sourceTree = "<group>"; };
 		63DBD7EB2EEADE0900D1A8EF /* OCRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRScannerView.swift; sourceTree = "<group>"; };
 		63DBD7F12EEAFE9300D1A8EF /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		63DBD8072EEC423B00D1A8EF /* PopupContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupContainer.swift; sourceTree = "<group>"; };
@@ -586,6 +588,7 @@
 			children = (
 				63B965E62FD97DF800433979 /* StoreCategoryMapper.swift */,
 				63DBD7E92EEADDB100D1A8EF /* OCRExtractedData.swift */,
+				CA20010A2F600001001FA001 /* ReceiptParser.swift */,
 			);
 			path = OCR;
 			sourceTree = "<group>";
@@ -931,6 +934,7 @@
 				63DBD7E52EEADA6D00D1A8EF /* CameraPermission.swift in Sources */,
 				63DBD7E22EEAD88E00D1A8EF /* TicketFilterSheet.swift in Sources */,
 				63DBD7EA2EEADDED00D1A8EF /* OCRExtractedData.swift in Sources */,
+				CA20010B2F600002001FA002 /* ReceiptParser.swift in Sources */,
 				637D58AE2F24415700A8000C /* StoreTotal.swift in Sources */,
 				637D58B52F2442AC00A8000C /* StoreDetailView.swift in Sources */,
 							BB2001C22F5B0001002E8001 /* StoreIntelligenceEngine.swift in Sources */,

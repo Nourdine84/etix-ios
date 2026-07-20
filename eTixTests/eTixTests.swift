@@ -2,15 +2,52 @@
 //  eTixTests.swift
 //  eTixTests
 //
-//  Created by Tonidjoe on 07/09/2025.
-//
 
 import Testing
+@testable import eTix
 
-struct eTixTests {
+struct ReceiptParserTests {
 
-    @Test func example() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+    @Test func amountOnTotalLineIsHighConfidence() {
+        let r = ReceiptParser.parse("AUCHAN\nPain 1,20\nTOTAL 12,50 EUR")
+        #expect(r.amount.value == 12.50)
+        #expect(r.amount.confidence == .high)
     }
 
+    @Test func amountFallbackIsLowConfidence() {
+        let r = ReceiptParser.parse("AUCHAN\nArticle 3,40")
+        #expect(r.amount.value == 3.40)
+        #expect(r.amount.confidence == .low)
+    }
+
+    @Test func commaAndDotDecimalsBothParsed() {
+        #expect(ReceiptParser.parse("TOTAL 9,99").amount.value == 9.99)
+        #expect(ReceiptParser.parse("TOTAL 9.99").amount.value == 9.99)
+    }
+
+    @Test func storeNameFromTopLineIsMediumConfidence() {
+        let r = ReceiptParser.parse("Carrefour City\n12/03/2024\nTOTAL 5,00")
+        #expect(r.storeName.value == "Carrefour City")
+        #expect(r.storeName.confidence == .medium)
+    }
+
+    @Test func dateRecognizedIsHighConfidence() {
+        let r = ReceiptParser.parse("Magasin\n05/01/2024\nTOTAL 5,00")
+        #expect(r.date.value != nil)
+        #expect(r.date.confidence == .high)
+    }
+
+    @Test func emptyTextYieldsNoneEverywhere() {
+        let r = ReceiptParser.parse("")
+        #expect(r.amount.value == nil)
+        #expect(r.amount.confidence == .none)
+        #expect(r.date.confidence == .none)
+        #expect(r.storeName.confidence == .none)
+    }
+
+    @Test func missingValueForcesNoneConfidence() {
+        // Invariant : une valeur nil impose toujours .none, même si on tente .high
+        let field = OCRField<String>(value: nil, confidence: .high)
+        #expect(field.confidence == .none)
+    }
 }
