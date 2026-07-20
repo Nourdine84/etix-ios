@@ -1,6 +1,15 @@
 import SwiftUI
 import CoreData
 
+/// Home V3 Cockpit — maquette Accueil V2 + Intelligence Layer + Design System.
+///
+/// Architecture performance : un **unique** `HomeSnapshot` est construit par
+/// render (un seul passage O(N) sur les tickets), puis threadé aux moteurs et
+/// aux sous-vues. Plus aucune couche KPI legacy en parallèle : tous les
+/// agrégats dérivent du snapshot.
+///
+/// Cartes contextuelles : Budget ⊻ Store, résolues de façon déterministe
+/// (voir `resolveContextCard`).
 struct HomeView: View {
 
     @Environment(\.managedObjectContext) private var context
@@ -10,205 +19,165 @@ struct HomeView: View {
     @State private var range: TimeRange = AppSettings.load().defaultRange
     @State private var budgets: [String: Double] = BudgetStore.load()
 
-    // MARK: - Filtering
+    // MARK: - Carte contextuelle
 
-    private var filteredTickets: [Ticket] {
-        let r = DateRangeHelper.currentRange(for: range)
-        let startMs = DateRangeHelper.millis(r.start)
-        let endMs = DateRangeHelper.millis(r.end)
-        return tickets.filter {
-            $0.dateMillis >= startMs && $0.dateMillis < endMs
+    private enum ContextCard {
+        case budget(BudgetSummary)
+        case store(StoreIntelligence)
+        case none
+    }
+
+    /// Règle déterministe (validée) — une seule carte contextuelle :
+    /// 1. Budget si une **action est nécessaire** (état critical/exceeded ≥ 80 %)
+    /// 2. sinon Store Intelligence (hors doublon `dominantStore` déjà en insight)
+    /// 3. sinon Budget informatif (comfortable/caution)
+    /// 4. sinon aucune
+    private func resolveContextCard(
+        budget: BudgetSummary?,
+        store: StoreIntelligence?,
+        insights: [HomeInsight]
+    ) -> ContextCard {
+        if let b = budget, b.state == .critical || b.state == .exceeded {
+            return .budget(b)
         }
-    }
-
-    // MARK: - KPIs
-
-    private var totalAmount: Double {
-        filteredTickets.reduce(0) { $0 + $1.amount }
-    }
-
-    private var ticketCount: Int { filteredTickets.count }
-
-    private var averageAmount: Double {
-        guard ticketCount > 0 else { return 0 }
-        return totalAmount / Double(ticketCount)
-    }
-
-    private var previousPeriodTotal: Double {
-        let r = DateRangeHelper.previousRange(for: range)
-        let startMs = DateRangeHelper.millis(r.start)
-        let endMs = DateRangeHelper.millis(r.end)
-        return tickets.filter {
-            $0.dateMillis >= startMs && $0.dateMillis < endMs
-        }.reduce(0) { $0 + $1.amount }
-    }
-
-    private var deltaPercent: Double? {
-        guard previousPeriodTotal > 0 else { return nil }
-        return ((totalAmount - previousPeriodTotal) / previousPeriodTotal) * 100
-    }
-
-    private var deltaLabel: String {
-        switch range {
-        case .today:  return "vs hier"
-        case .month:  return "vs mois précédent"
-        case .year:   return "vs année précédente"
+        if let s = store {
+            let duplicatesInsight = s.kind == .dominantStore
+                && insights.contains { $0.id == .dominantStore }
+            if !duplicatesInsight { return .store(s) }
         }
-    }
-
-    // MARK: - Analytics
-
-    private var topCategory: (name: String, total: Double)? {
-        guard !filteredTickets.isEmpty else { return nil }
-        return Dictionary(grouping: filteredTickets) { $0.category }
-            .map { ($0.key, $0.value.reduce(0) { $0 + $1.amount }) }
-            .max { $0.1 < $1.1 }
-            .map { (name: $0.0, total: $0.1) }
-    }
-
-    private var topStore: (name: String, total: Double)? {
-        guard !filteredTickets.isEmpty else { return nil }
-        return Dictionary(grouping: filteredTickets) { $0.storeName }
-            .map { ($0.key, $0.value.reduce(0) { $0 + $1.amount }) }
-            .max { $0.1 < $1.1 }
-            .map { (name: $0.0, total: $0.1) }
-    }
-
-    private var biggestTicket: Ticket? {
-        filteredTickets.max { $0.amount < $1.amount }
-    }
-
-    private var lastTicket: Ticket? {
-        filteredTickets.max { $0.dateMillis < $1.dateMillis }
-    }
-
-    // MARK: - Intelligence
-
-    private var homeSnapshot: HomeSnapshot {
-        HomeSnapshot(tickets: Array(tickets), range: range)
-    }
-
-    /// Résultat brut du moteur store — consommé par l'insight engine (exclusion
-    /// newStore vs newMerchant) puis par la carte, après application du masquage
-    private var rawStoreIntelligence: StoreIntelligence? {
-        StoreIntelligenceEngine.evaluate(snapshot: homeSnapshot, range: range)
-    }
-
-    private var activeInsights: [HomeInsight] {
-        HomeInsightEngine.evaluate(
-            snapshot: homeSnapshot,
-            budgets: budgets,
-            range: range,
-            storeIntelligence: rawStoreIntelligence
-        )
-    }
-
-    private var budgetSummary: BudgetSummary? {
-        guard range == .month else { return nil }
-        return BudgetSummaryEngine.compute(snapshot: homeSnapshot, budgets: budgets)
-    }
-
-    private var storeIntelligence: StoreIntelligence? {
-        guard activeInsights.first?.id != .budgetExceeded else { return nil }
-        return rawStoreIntelligence
+        if let b = budget { return .budget(b) }
+        return .none
     }
 
     // MARK: - Body
 
     var body: some View {
-        NavigationStack {
+        // Source unique — un seul passage O(N).
+        let snap = HomeSnapshot(tickets: Array(tickets), range: range)
+        let rawStore = StoreIntelligenceEngine.evaluate(snapshot: snap, range: range)
+        let insights = HomeInsightEngine.evaluate(
+            snapshot: snap,
+            budgets: budgets,
+            range: range,
+            storeIntelligence: rawStore
+        )
+        let budget = range == .month
+            ? BudgetSummaryEngine.compute(snapshot: snap, budgets: budgets)
+            : nil
+        let contextCard = resolveContextCard(budget: budget, store: rawStore, insights: insights)
+
+        return NavigationStack {
             ZStack {
-                Color(.systemGroupedBackground)
+                Theme.Background.primary
                     .ignoresSafeArea()
 
                 ScrollView {
-                    VStack(spacing: 48) {
-                        header
-                        dominantHero
+                    VStack(spacing: Theme.Spacing.section) {
+                        header(allTime: snap.allTimeTicketCount)
+                        heroCard(snap: snap)
                         periodSelector
-                        if !activeInsights.isEmpty {
-                            insightCardsSection
+
+                        if !insights.isEmpty {
+                            insightCards(insights)
                         }
-                        if let summary = budgetSummary {
-                            BudgetSummaryCardView(summary: summary)
+
+                        contextCardView(contextCard)
+
+                        if snap.allTimeTicketCount > 0 {
+                            trendCard(snap: snap)
                         }
-                        if let intel = storeIntelligence {
-                            StoreIntelligenceCardView(intelligence: intel)
-                        }
-                        secondaryKPIs
-                        if !filteredTickets.isEmpty {
-                            analyticsSection
-                        }
-                        quickActions
-                        if range == .month && !filteredTickets.isEmpty {
-                            reportPreviewCard
-                        }
+
+                        actions
                     }
-                    .padding(.horizontal, 24)
-                    .padding(.top, 60)
-                    .padding(.bottom, 40)
+                    .padding(.horizontal, Theme.Spacing.xxl)
+                    .padding(.top, Theme.Spacing.xl)
+                    .padding(.bottom, Theme.Spacing.section)
                 }
                 .scrollIndicators(.hidden)
             }
-            .navigationTitle("")
-            .navigationBarTitleDisplayMode(.inline)
+            .toolbar(.hidden, for: .navigationBar)
             .onAppear {
                 budgets = BudgetStore.load()
             }
         }
     }
 
-    // MARK: - Insight Cards
-
-    private var insightCardsSection: some View {
-        VStack(spacing: 12) {
-            ForEach(Array(activeInsights.enumerated()), id: \.element.id) { index, insight in
-                InsightCardView(insight: insight, isPrimary: index == 0)
-            }
-        }
-    }
-
     // MARK: - Header
 
-    private var header: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text("eTix")
-                .font(.caption)
-                .tracking(2)
-                .foregroundColor(.secondary)
-            Text("Votre activité financière")
-                .font(.system(size: 22, weight: .bold))
+    /// Badge « e » (identité, continuité Splash/Onboarding) + titre + greeting
+    /// générique (aucun prénom, pas de profil) + nombre de tickets enregistrés.
+    private func header(allTime: Int) -> some View {
+        VStack(spacing: Theme.Spacing.m) {
+            EtixBadge(size: 52)
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Accueil")
+                    .font(Theme.Typography.screenTitle)
+                    .foregroundColor(.primary)
+                Text(greeting)
+                    .font(Theme.Typography.subheadline)
+                    .foregroundColor(.secondary)
+                Text(countLabel(allTime))
+                    .font(Theme.Typography.caption)
+                    .foregroundColor(.secondary)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    // MARK: - Dominant Hero
+    // MARK: - Hero
 
-    private var dominantHero: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("TOTAL")
-                .font(.caption)
-                .tracking(1.5)
-                .foregroundColor(.secondary)
-            AnimatedAmountText(value: totalAmount)
-                .font(.system(size: 64, weight: .heavy, design: .rounded))
-                .foregroundColor(.primary)
-            Text("\(ticketCount) transactions")
-                .font(.caption)
-                .foregroundColor(.secondary)
-            if let delta = deltaPercent {
-                HStack(spacing: 4) {
-                    Image(systemName: delta >= 0 ? "arrow.up.right" : "arrow.down.right")
-                        .font(.caption2.weight(.semibold))
-                    Text(String(format: "%+.1f%%", delta))
-                        .font(.caption.weight(.semibold))
-                    Text(deltaLabel)
-                        .font(.caption)
+    /// Hero épuré : montant principal directement sur le fond, avec un glow
+    /// statique discret derrière (aucune animation, aucune surface, aucune
+    /// mascotte). Hiérarchie typographique = overline → montant → delta.
+    private func heroCard(snap: HomeSnapshot) -> some View {
+        let total = snap.periodTotal
+        let previous = snap.previousPeriodTotal
+        let delta: Double? = previous > 0 ? (total - previous) / previous * 100 : nil
+
+        return ZStack {
+            RadialGradient(
+                colors: [Theme.primaryBlue.opacity(0.18), .clear],
+                center: .center,
+                startRadius: 0,
+                endRadius: 180
+            )
+            .frame(height: 190)
+            .blur(radius: 30)
+            .allowsHitTesting(false)
+
+            VStack(alignment: .leading, spacing: Theme.Spacing.s) {
+                SectionLabel(text: heroLabel)
+
+                AnimatedAmountText(value: total)
+                    .font(.system(size: 48, weight: .heavy, design: .rounded))
+                    .foregroundColor(.primary)
+
+                if let delta {
+                    deltaChip(delta)
                 }
-                .foregroundColor(delta >= 0 ? .red : .green)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    /// Sémantique financière verrouillée : hausse des dépenses = rouge,
+    /// baisse = vert.
+    private func deltaChip(_ delta: Double) -> some View {
+        let isUp = delta >= 0
+        let color: Color = isUp ? .red : .green
+        return HStack(spacing: 4) {
+            Image(systemName: isUp ? "arrow.up.right" : "arrow.down.right")
+            Text(String(format: "%+.1f %%", delta))
+            Text(deltaLabel)
+                .foregroundColor(.secondary)
+        }
+        .font(.caption.weight(.semibold))
+        .foregroundColor(color)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 5)
+        .background(color.opacity(0.12))
+        .clipShape(Capsule())
     }
 
     // MARK: - Period Selector
@@ -222,187 +191,165 @@ struct HomeView: View {
         .pickerStyle(.segmented)
     }
 
-    // MARK: - Secondary KPIs
+    // MARK: - Insights (≤ 2)
 
-    private var secondaryKPIs: some View {
-        HStack(spacing: 20) {
-            statCard(label: "MOYENNE", value: String(format: "%.2f €", averageAmount))
-            statCard(label: "TICKETS", value: "\(ticketCount)")
-        }
-    }
-
-    // MARK: - Analytics
-
-    private var analyticsSection: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text("INSIGHTS")
-                .font(.caption2)
-                .tracking(1.5)
-                .foregroundColor(.secondary)
-
-            HStack(spacing: 16) {
-                analyticsCard(
-                    label: "TOP CATÉGORIE",
-                    primary: topCategory?.name ?? "—",
-                    secondary: topCategory.map { String(format: "%.2f €", $0.total) } ?? ""
-                )
-                analyticsCard(
-                    label: "TOP MAGASIN",
-                    primary: topStore?.name ?? "—",
-                    secondary: topStore.map { String(format: "%.2f €", $0.total) } ?? ""
-                )
-            }
-
-            HStack(spacing: 16) {
-                analyticsCard(
-                    label: "PLUS GROS ACHAT",
-                    primary: biggestTicket.map { String(format: "%.2f €", $0.amount) } ?? "—",
-                    secondary: biggestTicket?.storeName ?? ""
-                )
-                analyticsCard(
-                    label: "DERNIER ACHAT",
-                    primary: lastTicket.map { shortDate($0.dateMillis) } ?? "—",
-                    secondary: lastTicket.map { String(format: "%.2f €", $0.amount) } ?? ""
-                )
+    private func insightCards(_ insights: [HomeInsight]) -> some View {
+        VStack(spacing: Theme.Spacing.m) {
+            ForEach(Array(insights.enumerated()), id: \.element.id) { index, insight in
+                InsightCardView(insight: insight, isPrimary: index == 0)
             }
         }
     }
 
-    // MARK: - Quick Actions
+    // MARK: - Carte contextuelle
 
-    private var quickActions: some View {
-        VStack(spacing: 12) {
+    @ViewBuilder
+    private func contextCardView(_ card: ContextCard) -> some View {
+        switch card {
+        case .budget(let summary):
+            BudgetSummaryCardView(summary: summary)
+        case .store(let intelligence):
+            StoreIntelligenceCardView(intelligence: intelligence)
+        case .none:
+            EmptyView()
+        }
+    }
+
+    // MARK: - Aperçu utile : tendance 6 mois + panier moyen
+
+    private func trendCard(snap: HomeSnapshot) -> some View {
+        let points = TrendEngine.monthlyTrend(tickets: Array(tickets))
+        let average = snap.periodTicketCount > 0
+            ? snap.periodTotal / Double(snap.periodTicketCount)
+            : 0
+
+        return NavigationLink {
+            MonthlyReportView()
+        } label: {
+            VStack(alignment: .leading, spacing: Theme.Spacing.l) {
+                HStack {
+                    SectionLabel(text: "Tendance 6 mois")
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                }
+
+                trendBars(points)
+
+                Divider()
+
+                StatBlock(label: "Panier moyen", value: euros2(average))
+            }
+            .card()
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func trendBars(_ points: [MonthlyTrendPoint]) -> some View {
+        let maxValue = max(points.map(\.total).max() ?? 1, 1)
+        return HStack(alignment: .bottom, spacing: Theme.Spacing.s) {
+            ForEach(Array(points.enumerated()), id: \.element.id) { index, point in
+                VStack(spacing: 6) {
+                    RoundedRectangle(cornerRadius: 4, style: .continuous)
+                        .fill(
+                            index == points.count - 1
+                                ? Theme.primaryBlue
+                                : Theme.primaryBlue.opacity(0.30)
+                        )
+                        .frame(height: max(6, CGFloat(point.total / maxValue) * 70))
+                    Text(point.month)
+                        .font(.system(size: 9, weight: .medium))
+                        .foregroundColor(.secondary)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
+                }
+                .frame(maxWidth: .infinity)
+            }
+        }
+        .frame(height: 92, alignment: .bottom)
+    }
+
+    // MARK: - Actions
+
+    /// Scanner = action principale (bleu). Ajout manuel = secondaire.
+    private var actions: some View {
+        VStack(spacing: Theme.Spacing.m) {
             NavigationLink {
                 AddTicketView(autoStartScanner: true)
             } label: {
-                HStack(spacing: 12) {
-                    Image(systemName: "camera.viewfinder")
-                        .font(.system(size: 22, weight: .semibold))
-                    Text("Scanner un ticket")
-                        .font(.headline)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 18)
-                .background(Theme.primaryBlue)
-                .foregroundColor(.white)
-                .cornerRadius(16)
+                actionLabel(icon: "camera.viewfinder", title: "Scanner un ticket")
+                    .foregroundColor(.white)
+                    .background(Theme.primaryBlue)
+                    .cornerRadius(Theme.Radius.button)
+                    .shadow(color: Theme.primaryBlue.opacity(0.30), radius: 8, y: 4)
             }
             .buttonStyle(.plain)
 
             NavigationLink {
                 AddTicketView()
             } label: {
-                HStack(spacing: 12) {
-                    Image(systemName: "plus")
-                        .font(.system(size: 18, weight: .semibold))
-                    Text("Ajout manuel")
-                        .font(.headline)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 18)
-                .background(Color(.secondarySystemGroupedBackground))
-                .foregroundColor(.primary)
-                .cornerRadius(16)
+                actionLabel(icon: "plus", title: "Ajout manuel")
+                    .foregroundColor(.primary)
+                    .background(Theme.Background.surface)
+                    .cornerRadius(Theme.Radius.button)
             }
             .buttonStyle(.plain)
         }
     }
 
-    // MARK: - Report Preview Card
-
-    private var reportMonthName: String {
-        let df = DateFormatter()
-        df.locale = Locale(identifier: "fr_FR")
-        df.dateFormat = "MMMM"
-        return df.string(from: Date()).uppercased()
-    }
-
-    private var reportPreviewCard: some View {
-        NavigationLink {
-            MonthlyReportView()
-        } label: {
-            HStack(spacing: 16) {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text("RAPPORT DE \(reportMonthName)")
-                        .font(.caption2)
-                        .tracking(1)
-                        .foregroundColor(.secondary)
-
-                    HStack(spacing: 0) {
-                        Text(String(format: "%.2f €", totalAmount))
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundColor(.primary)
-                        Text("  ·  \(ticketCount) ticket\(ticketCount > 1 ? "s" : "")")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                        if let delta = deltaPercent {
-                            Text("  ·  \(String(format: "%+.1f%%", delta))")
-                                .font(.subheadline.weight(.medium))
-                                .foregroundColor(delta >= 0 ? .red : .green)
-                        }
-                    }
-                }
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-            }
-            .padding(20)
-            .background(Color(.secondarySystemGroupedBackground))
-            .cornerRadius(20)
+    private func actionLabel(icon: String, title: String) -> some View {
+        HStack(spacing: Theme.Spacing.s) {
+            Image(systemName: icon)
+                .font(.headline)
+            Text(title)
+                .font(Theme.Typography.headline)
         }
-        .buttonStyle(.plain)
+        .frame(maxWidth: .infinity)
+        .frame(height: 52)
     }
 
-    // MARK: - Reusable Components
+    // MARK: - Labels dérivés
 
-    private func statCard(label: String, value: String) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(label)
-                .font(.caption2)
-                .tracking(1)
-                .foregroundColor(.secondary)
-            Text(value)
-                .font(.title2.weight(.semibold))
-                .foregroundColor(.primary)
+    private var greeting: String {
+        let hour = Calendar.current.component(.hour, from: Date())
+        return (5..<18).contains(hour) ? "Bonjour" : "Bonsoir"
+    }
+
+    private func countLabel(_ count: Int) -> String {
+        count == 0
+            ? "Aucun ticket enregistré"
+            : "\(count) ticket\(count > 1 ? "s" : "") enregistré\(count > 1 ? "s" : "")"
+    }
+
+    private var heroLabel: String {
+        switch range {
+        case .today: return "Dépenses du jour"
+        case .month: return "Dépenses du mois"
+        case .year:  return "Dépenses de l'année"
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(20)
-        .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(20)
     }
 
-    private func analyticsCard(label: String, primary: String, secondary: String) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(label)
-                .font(.caption2)
-                .tracking(1)
-                .foregroundColor(.secondary)
-            Text(primary)
-                .font(.subheadline.weight(.semibold))
-                .foregroundColor(.primary)
-                .lineLimit(1)
-                .truncationMode(.tail)
-            if !secondary.isEmpty {
-                Text(secondary)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                    .lineLimit(1)
-            }
+    private var deltaLabel: String {
+        switch range {
+        case .today: return "vs hier"
+        case .month: return "vs mois dernier"
+        case .year:  return "vs an dernier"
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(16)
-        .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(16)
     }
 
-    // MARK: - Helpers
-
-    private func shortDate(_ ms: Int64) -> String {
-        let f = DateFormatter()
-        f.locale = Locale(identifier: "fr_FR")
-        f.dateStyle = .medium
-        f.timeStyle = .none
-        return f.string(from: Date(timeIntervalSince1970: Double(ms) / 1000))
+    private func euros2(_ value: Double) -> String {
+        String(format: "%.2f €", value)
     }
+}
+
+#Preview("Light") {
+    HomeView()
+        .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
+}
+
+#Preview("Dark") {
+    HomeView()
+        .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
+        .preferredColorScheme(.dark)
 }

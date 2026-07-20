@@ -7,10 +7,7 @@ struct BudgetSummaryCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
 
-            Text("BUDGETS DU MOIS")
-                .font(.caption2)
-                .tracking(1)
-                .foregroundColor(.secondary)
+            SectionLabel(text: "Budgets du mois")
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(headline)
@@ -23,15 +20,11 @@ struct BudgetSummaryCardView: View {
 
             // Barre de progression globale
             VStack(alignment: .leading, spacing: 6) {
-                ZStack(alignment: .leading) {
-                    Capsule()
-                        .fill(Color(.systemFill))
-                        .frame(height: 6)
-                    Capsule()
-                        .fill(barColor(summary.state))
-                        .scaleEffect(x: min(summary.globalRatio, 1.0), anchor: .leading)
-                        .frame(height: 6)
-                }
+                ProgressCapsule(
+                    progress: summary.globalRatio,
+                    color: barColor(summary.state),
+                    height: 6
+                )
                 HStack {
                     Text("\(Int(summary.globalRatio * 100))%")
                         .font(.caption2.weight(.semibold))
@@ -71,16 +64,13 @@ struct BudgetSummaryCardView: View {
             Text(line.categoryName)
                 .font(.caption)
                 .lineLimit(1)
+                .minimumScaleFactor(0.8)
                 .frame(width: 90, alignment: .leading)
-            ZStack(alignment: .leading) {
-                Capsule()
-                    .fill(Color(.systemFill))
-                    .frame(height: 4)
-                Capsule()
-                    .fill(barColor(line.state))
-                    .scaleEffect(x: min(line.ratio, 1.0), anchor: .leading)
-                    .frame(height: 4)
-            }
+            ProgressCapsule(
+                progress: line.ratio,
+                color: barColor(line.state),
+                height: 4
+            )
             Text("\(Int(line.ratio * 100))%")
                 .font(.caption2.weight(.semibold))
                 .foregroundColor(barColor(line.state))
