@@ -51,3 +51,34 @@ struct ReceiptParserTests {
         #expect(field.confidence == .none)
     }
 }
+
+struct AmountParserTests {
+
+    @Test func commaIsNormalized() {
+        #expect(AmountParser.parse("12,50") == 12.50)
+    }
+
+    @Test func dotStillWorks() {
+        #expect(AmountParser.parse("12.50") == 12.50)
+    }
+
+    @Test func surroundingWhitespaceTrimmed() {
+        #expect(AmountParser.parse("  9,99 ") == 9.99)
+    }
+
+    @Test func zeroRejected() {
+        #expect(AmountParser.parse("0") == nil)
+    }
+
+    @Test func negativeRejected() {
+        #expect(AmountParser.parse("-5,00") == nil)
+    }
+
+    @Test func emptyRejected() {
+        #expect(AmountParser.parse("") == nil)
+    }
+
+    @Test func nonNumericRejected() {
+        #expect(AmountParser.parse("abc") == nil)
+    }
+}

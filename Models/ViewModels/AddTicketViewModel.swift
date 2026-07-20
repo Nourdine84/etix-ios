@@ -18,7 +18,7 @@ class AddTicketViewModel: ObservableObject {
 
     @discardableResult
     func saveTicket() -> Bool {
-        guard let amountValue = Double(amount),
+        guard let amountValue = AmountParser.parse(amount),
               !storeName.trimmingCharacters(in: .whitespaces).isEmpty else {
             return false
         }

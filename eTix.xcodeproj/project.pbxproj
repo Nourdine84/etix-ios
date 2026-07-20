@@ -45,6 +45,7 @@
 		634EA0562E9E8FD3001F7BBB /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0452E9E82DA001F7BBB /* CategoryView.swift */; };
 		634EA0572E9E8FDB001F7BBB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0442E9E82C0001F7BBB /* SettingsView.swift */; };
 		634EA0592E9E8FF0001F7BBB /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03C2E9E81AD001F7BBB /* DateUtils.swift */; };
+		CA20010D2F600004001FA004 /* AmountParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20010C2F600003001FA003 /* AmountParser.swift */; };
 		634EA0812E9EDF04001F7BBB /* CategoryTotal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0802E9EDEF4001F7BBB /* CategoryTotal.swift */; };
 		634EA0852E9EE423001F7BBB /* AppAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0842E9EE3FF001F7BBB /* AppAppearance.swift */; };
 		634EA0882E9FD77E001F7BBB /* eTixButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0872E9FD768001F7BBB /* eTixButton.swift */; };
@@ -186,6 +187,7 @@
 		634EA0392E9E814E001F7BBB /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		634EA03B2E9E818C001F7BBB /* Ticket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ticket.swift; sourceTree = "<group>"; };
 		634EA03C2E9E81AD001F7BBB /* DateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
+		CA20010C2F600003001FA003 /* AmountParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountParser.swift; sourceTree = "<group>"; };
 		634EA03D2E9E81D2001F7BBB /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
 		634EA03E2E9E81E8001F7BBB /* AddTicketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTicketViewModel.swift; sourceTree = "<group>"; };
 		634EA03F2E9E8211001F7BBB /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
@@ -431,6 +433,7 @@
 				634EA0AF2EA01E3E001F7BBB /* WidgetSync.swift */,
 				634EA0892E9FD7AD001F7BBB /* Haptic.swift */,
 				634EA03C2E9E81AD001F7BBB /* DateUtils.swift */,
+				CA20010C2F600003001FA003 /* AmountParser.swift */,
 				634EA0862E9FD717001F7BBB /* UIComponents */,
 			);
 			path = Utils;
@@ -927,6 +930,7 @@
 				637D58B32F2441DC00A8000C /* StoreListView.swift in Sources */,
 				634EA08D2E9FDA49001F7BBB /* SplashView.swift in Sources */,
 				634EA0592E9E8FF0001F7BBB /* DateUtils.swift in Sources */,
+				CA20010D2F600004001FA004 /* AmountParser.swift in Sources */,
 				63B965EB2FD98D6200433979 /* BudgetStore.swift in Sources */,
 				637D58A02F2438F200A8000C /* CategoryDonutView.swift in Sources */,
 				637D58B72F24433000A8000C /* StoreBarChartView.swift in Sources */,
