@@ -130,7 +130,7 @@ struct StoreIntelligenceEngine {
         return StoreIntelligence(
             kind: .absentRegular,
             storeName: b.store,
-            title: "Tu n'es pas allé(e) chez \(b.storeName) depuis \(b.daysSince) j",
+            title: "Tu n'es pas allé(e) chez \(b.store) depuis \(b.daysSince) j",
             subtitle: "Fréquence habituelle : tous les \(b.avgDays) jours",
             icon: "clock.badge.questionmark"
         )
@@ -162,8 +162,8 @@ struct StoreIntelligenceEngine {
         let daysLabel = b.daysAgo == 0 ? "aujourd'hui" : "il y a \(b.daysAgo) j"
         return StoreIntelligence(
             kind: .newMerchant,
-            storeName: b.storeName,
-            title: "Nouveau : \(b.storeName)",
+            storeName: b.store,
+            title: "Nouveau : \(b.store)",
             subtitle: "\(euros(b.amount)) · première visite \(daysLabel)",
             icon: "sparkles"
         )
