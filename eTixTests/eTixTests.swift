@@ -82,3 +82,22 @@ struct AmountParserTests {
         #expect(AmountParser.parse("abc") == nil)
     }
 }
+
+struct FieldConfidenceMappingTests {
+
+    @Test func highMapsToVerified() {
+        #expect(FieldConfidence(ocr: .high) == .verified)
+    }
+
+    @Test func mediumMapsToToVerify() {
+        #expect(FieldConfidence(ocr: .medium) == .toVerify)
+    }
+
+    @Test func lowMapsToToVerify() {
+        #expect(FieldConfidence(ocr: .low) == .toVerify)
+    }
+
+    @Test func noneMapsToNilNoBadge() {
+        #expect(FieldConfidence(ocr: .none) == nil)
+    }
+}
