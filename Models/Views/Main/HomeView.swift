@@ -12,7 +12,6 @@ import CoreData
 /// (voir `resolveContextCard`).
 struct HomeView: View {
 
-    @Environment(\.managedObjectContext) private var context
     @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
     private var tickets: FetchedResults<Ticket>
 
@@ -32,13 +31,24 @@ struct HomeView: View {
     /// 2. sinon Store Intelligence (hors doublon `dominantStore` déjà en insight)
     /// 3. sinon Budget informatif (comfortable/caution)
     /// 4. sinon aucune
+    ///
+    /// A3 — « une info une seule fois » : quand l'insight `budgetExceeded` est
+    /// affiché, la carte Budget est masquée **uniquement si elle ne ferait que
+    /// le répéter** (un seul budget suivi = même catégorie que l'insight). Dès
+    /// qu'elle apporte plus (≥ 2 catégories : vue globale, budget restant,
+    /// progression), elle reste.
     private func resolveContextCard(
         budget: BudgetSummary?,
         store: StoreIntelligence?,
         insights: [HomeInsight]
     ) -> ContextCard {
         if let b = budget, b.state == .critical || b.state == .exceeded {
-            return .budget(b)
+            let repeatsInsight = insights.first?.id == .budgetExceeded
+                && b.lines.count <= 1
+            if !repeatsInsight { return .budget(b) }
+            // Carte masquée (pur doublon) — on laisse la place au Store le cas échéant.
+            if let s = store { return .store(s) }
+            return .none
         }
         if let s = store {
             let duplicatesInsight = s.kind == .dominantStore
@@ -152,6 +162,8 @@ struct HomeView: View {
                 AnimatedAmountText(value: total)
                     .font(.system(size: 48, weight: .heavy, design: .rounded))
                     .foregroundColor(.primary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
 
                 if let delta {
                     deltaChip(delta)
