@@ -100,6 +100,7 @@
 		63DBD7EC2EEADE1A00D1A8EF /* OCRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7EB2EEADE0900D1A8EF /* OCRScannerView.swift */; };
 		CA2001112F600008001FA008 /* ScannerIntroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2001102F600007001FA007 /* ScannerIntroView.swift */; };
 		CA2001152F60000C001FA00C /* OCRProcessingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2001142F60000B001FA00B /* OCRProcessingView.swift */; };
+		CA2001172F60000E001FA00E /* CameraPrimingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2001162F60000D001FA00D /* CameraPrimingView.swift */; };
 		63DBD7F22EEAFEA400D1A8EF /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7F12EEAFE9300D1A8EF /* OnboardingView.swift */; };
 		63DBD8002EEB1CBF00D1A8EF /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03B2E9E818C001F7BBB /* Ticket.swift */; };
 		63DBD8082EEC425400D1A8EF /* PopupContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD8072EEC423B00D1A8EF /* PopupContainer.swift */; };
@@ -249,6 +250,7 @@
 		63DBD7EB2EEADE0900D1A8EF /* OCRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRScannerView.swift; sourceTree = "<group>"; };
 		CA2001102F600007001FA007 /* ScannerIntroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerIntroView.swift; sourceTree = "<group>"; };
 		CA2001142F60000B001FA00B /* OCRProcessingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRProcessingView.swift; sourceTree = "<group>"; };
+		CA2001162F60000D001FA00D /* CameraPrimingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPrimingView.swift; sourceTree = "<group>"; };
 		63DBD7F12EEAFE9300D1A8EF /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		63DBD8072EEC423B00D1A8EF /* PopupContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupContainer.swift; sourceTree = "<group>"; };
 		63DBD8092EEC428500D1A8EF /* SuccessPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessPopup.swift; sourceTree = "<group>"; };
@@ -584,6 +586,7 @@
 				63DBD7EB2EEADE0900D1A8EF /* OCRScannerView.swift */,
 				CA2001102F600007001FA007 /* ScannerIntroView.swift */,
 				CA2001142F60000B001FA00B /* OCRProcessingView.swift */,
+				CA2001162F60000D001FA00D /* CameraPrimingView.swift */,
 			);
 			path = OCR;
 			sourceTree = "<group>";
@@ -909,6 +912,7 @@
 				63DBD7EC2EEADE1A00D1A8EF /* OCRScannerView.swift in Sources */,
 				CA2001112F600008001FA008 /* ScannerIntroView.swift in Sources */,
 				CA2001152F60000C001FA00C /* OCRProcessingView.swift in Sources */,
+				CA2001172F60000E001FA00E /* CameraPrimingView.swift in Sources */,
 				63B965E72FD97DF800433979 /* StoreCategoryMapper.swift in Sources */,
 				63CDBC142F3BDB13001503FF /* SettingsViewModel.swift in Sources */,
 				634EA0362E9E8136001F7BBB /* eTixApp.swift in Sources */,

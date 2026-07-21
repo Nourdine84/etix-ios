@@ -3,11 +3,12 @@ import AVFoundation
 
 /// Point d'entrée **unique** du scan et orchestrateur de son flux.
 ///
-/// Réconcilie la maquette V2 (badge, cadre, guidage) avec la réalité technique :
-/// la capture reste faite par `VNDocumentCameraViewController` (ADR-0004,
-/// Option C). Enchaîne : intro → capture → **traitement OCR hors main thread**
-/// (écran dédié) → livraison du résultat, ou repli « rien détecté ».
-/// Centralise aussi la permission caméra.
+/// Réconcilie la maquette V2 (badge, cadre avec ticket + coins, guidage) avec la
+/// réalité technique : la capture reste faite par `VNDocumentCameraViewController`
+/// (ADR-0004, Option C). Enchaîne : intro → (priming caméra si 1er accès) →
+/// capture → **traitement OCR hors main thread** → livraison, ou repli
+/// « rien détecté ». Le cadre est une **illustration statique** (aucun aperçu
+/// caméra custom).
 struct ScannerIntroView: View {
 
     /// Appelé avec le résultat OCR une fois un ticket lu avec succès.
@@ -19,6 +20,7 @@ struct ScannerIntroView: View {
     @State private var isScanning = false      // caméra système présentée
     @State private var isProcessing = false    // reconnaissance OCR en cours
     @State private var showNotFound = false     // aucun champ détecté
+    @State private var showPriming = false      // écran de priming caméra
     @State private var showDeniedAlert = false
 
     var body: some View {
@@ -30,6 +32,11 @@ struct ScannerIntroView: View {
                 OCRProcessingView()
             } else if showNotFound {
                 notFoundView
+            } else if showPriming {
+                CameraPrimingView(
+                    onAllow: { requestAccessAndScan() },
+                    onRefuse: { showPriming = false }
+                )
             } else {
                 introContent
             }
@@ -65,10 +72,10 @@ struct ScannerIntroView: View {
 
             VStack(spacing: Theme.Spacing.s) {
                 Text("Scanner un ticket")
-                    .font(.system(size: 24, weight: .bold, design: .rounded))
+                    .font(.system(.title2, design: .rounded).weight(.bold))
                     .foregroundColor(.primary)
-                Text("Positionne ton ticket dans le cadre.\neTix lit le magasin, le montant et la date.")
-                    .font(Theme.Typography.subheadline)
+                Text("Positionne ton ticket dans le cadre pour le scanner.")
+                    .font(.subheadline)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
             }
@@ -82,25 +89,55 @@ struct ScannerIntroView: View {
             Button("Annuler") {
                 dismiss()
             }
-            .font(Theme.Typography.subheadline)
+            .font(.subheadline)
             .foregroundColor(.secondary)
         }
         .padding(.horizontal, Theme.Spacing.xxl)
         .padding(.vertical, Theme.Spacing.section)
     }
 
+    /// Cadre statique conforme à la maquette : illustration de ticket + coins
+    /// d'accroche. Ce n'est PAS un aperçu caméra (Option C).
     private var scannerFrame: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: Theme.Radius.xl, style: .continuous)
-                .strokeBorder(
-                    Theme.primaryBlue.opacity(0.5),
-                    style: StrokeStyle(lineWidth: 2.5, lineCap: .round)
-                )
-            Image(systemName: "doc.text.viewfinder")
-                .font(.system(size: 72, weight: .light))
-                .foregroundColor(Theme.primaryBlue.opacity(0.7))
+        receiptIllustration
+            .frame(width: 200, height: 250)
+            .overlay(
+                CornerBrackets(length: 30)
+                    .stroke(
+                        Theme.primaryBlue.opacity(0.75),
+                        style: StrokeStyle(lineWidth: 3, lineCap: .round)
+                    )
+            )
+    }
+
+    private var receiptIllustration: some View {
+        VStack(alignment: .leading, spacing: 7) {
+            Circle()
+                .fill(Theme.primaryBlue.opacity(0.25))
+                .frame(width: 22, height: 22)
+            receiptLine(0.55)
+            Spacer().frame(height: 2)
+            receiptLine(0.9)
+            receiptLine(0.8)
+            receiptLine(0.7)
+            Spacer(minLength: 4)
+            HStack {
+                receiptLine(0.30)
+                Spacer()
+                receiptLine(0.22)
+            }
         }
-        .frame(width: 210, height: 250)
+        .padding(14)
+        .frame(width: 150, height: 185)
+        .background(Color.white)
+        .cornerRadius(Theme.Radius.m)
+        .shadow(color: .black.opacity(0.12), radius: 8, y: 3)
+    }
+
+    private func receiptLine(_ fraction: CGFloat) -> some View {
+        RoundedRectangle(cornerRadius: 2)
+            .fill(Color.gray.opacity(0.35))
+            .frame(width: 122 * fraction, height: 5)
     }
 
     // MARK: - Repli « rien détecté »
@@ -115,10 +152,10 @@ struct ScannerIntroView: View {
 
             VStack(spacing: Theme.Spacing.s) {
                 Text("Aucune information détectée")
-                    .font(.system(size: 20, weight: .semibold, design: .rounded))
+                    .font(.system(.title3, design: .rounded).weight(.semibold))
                     .foregroundColor(.primary)
                 Text("Le ticket n'a pas pu être lu. Réessaie en cadrant mieux, ou saisis les informations manuellement.")
-                    .font(Theme.Typography.subheadline)
+                    .font(.subheadline)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
             }
@@ -133,14 +170,14 @@ struct ScannerIntroView: View {
             Button("Saisir manuellement") {
                 dismiss()
             }
-            .font(Theme.Typography.subheadline)
+            .font(.subheadline)
             .foregroundColor(.secondary)
         }
         .padding(.horizontal, Theme.Spacing.xxl)
         .padding(.vertical, Theme.Spacing.section)
     }
 
-    // MARK: - Flux
+    // MARK: - Flux OCR (inchangé — aucun changement d'architecture)
 
     private func handleCapture(_ image: UIImage) {
         isProcessing = true
@@ -164,12 +201,8 @@ struct ScannerIntroView: View {
             isScanning = true
 
         case .notDetermined:
-            AVCaptureDevice.requestAccess(for: .video) { granted in
-                DispatchQueue.main.async {
-                    cameraStatus = AVCaptureDevice.authorizationStatus(for: .video)
-                    if granted { isScanning = true }
-                }
-            }
+            // Priming premium AVANT la boîte de dialogue système.
+            showPriming = true
 
         case .denied, .restricted:
             showDeniedAlert = true
@@ -179,9 +212,55 @@ struct ScannerIntroView: View {
         }
     }
 
+    /// Déclenché par « Autoriser » du priming : demande la permission système,
+    /// puis ouvre la caméra si accordée.
+    private func requestAccessAndScan() {
+        AVCaptureDevice.requestAccess(for: .video) { granted in
+            DispatchQueue.main.async {
+                cameraStatus = AVCaptureDevice.authorizationStatus(for: .video)
+                showPriming = false
+                if granted { isScanning = true }
+            }
+        }
+    }
+
     private func openSettings() {
         if let url = URL(string: UIApplication.openSettingsURLString) {
             UIApplication.shared.open(url)
         }
+    }
+}
+
+// MARK: - Coins d'accroche
+
+/// Quatre coins d'accroche dessinés autour du cadre scanner (style maquette).
+private struct CornerBrackets: Shape {
+    var length: CGFloat = 30
+
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        let l = length
+
+        // Haut-gauche
+        path.move(to: CGPoint(x: rect.minX, y: rect.minY + l))
+        path.addLine(to: CGPoint(x: rect.minX, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.minX + l, y: rect.minY))
+
+        // Haut-droite
+        path.move(to: CGPoint(x: rect.maxX - l, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY + l))
+
+        // Bas-droite
+        path.move(to: CGPoint(x: rect.maxX, y: rect.maxY - l))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.maxX - l, y: rect.maxY))
+
+        // Bas-gauche
+        path.move(to: CGPoint(x: rect.minX + l, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY - l))
+
+        return path
     }
 }

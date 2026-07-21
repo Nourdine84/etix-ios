@@ -23,7 +23,7 @@ struct OCRProcessingView: View {
                     .controlSize(.large)
 
                 Text("Lecture du ticket…")
-                    .font(.system(size: 20, weight: .semibold, design: .rounded))
+                    .font(.system(.title3, design: .rounded).weight(.semibold))
                     .foregroundColor(.primary)
 
                 VStack(alignment: .leading, spacing: Theme.Spacing.m) {
