@@ -94,12 +94,12 @@
 		63DBD7E02EEAD76700D1A8EF /* TicketEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7DF2EEAD75600D1A8EF /* TicketEditView.swift */; };
 		CA20010F2F600006001FA006 /* TicketForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20010E2F600005001FA005 /* TicketForm.swift */; };
 		63DBD7E22EEAD88E00D1A8EF /* TicketFilterSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7E12EEAD87900D1A8EF /* TicketFilterSheet.swift */; };
-		63DBD7E52EEADA6D00D1A8EF /* CameraPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7E42EEADA5D00D1A8EF /* CameraPermission.swift */; };
-		63DBD7E72EEADCED00D1A8EF /* OCRNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7E62EEADCCC00D1A8EF /* OCRNotifications.swift */; };
 		63DBD7EA2EEADDED00D1A8EF /* OCRExtractedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7E92EEADDB100D1A8EF /* OCRExtractedData.swift */; };
 		CA20010B2F600002001FA002 /* ReceiptParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20010A2F600001001FA001 /* ReceiptParser.swift */; };
+		CA2001132F60000A001FA00A /* TextRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2001122F600009001FA009 /* TextRecognizer.swift */; };
 		63DBD7EC2EEADE1A00D1A8EF /* OCRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7EB2EEADE0900D1A8EF /* OCRScannerView.swift */; };
 		CA2001112F600008001FA008 /* ScannerIntroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2001102F600007001FA007 /* ScannerIntroView.swift */; };
+		CA2001152F60000C001FA00C /* OCRProcessingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2001142F60000B001FA00B /* OCRProcessingView.swift */; };
 		63DBD7F22EEAFEA400D1A8EF /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7F12EEAFE9300D1A8EF /* OnboardingView.swift */; };
 		63DBD8002EEB1CBF00D1A8EF /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03B2E9E818C001F7BBB /* Ticket.swift */; };
 		63DBD8082EEC425400D1A8EF /* PopupContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD8072EEC423B00D1A8EF /* PopupContainer.swift */; };
@@ -243,12 +243,12 @@
 		63DBD7DF2EEAD75600D1A8EF /* TicketEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketEditView.swift; sourceTree = "<group>"; };
 		CA20010E2F600005001FA005 /* TicketForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketForm.swift; sourceTree = "<group>"; };
 		63DBD7E12EEAD87900D1A8EF /* TicketFilterSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketFilterSheet.swift; sourceTree = "<group>"; };
-		63DBD7E42EEADA5D00D1A8EF /* CameraPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermission.swift; sourceTree = "<group>"; };
-		63DBD7E62EEADCCC00D1A8EF /* OCRNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRNotifications.swift; sourceTree = "<group>"; };
 		63DBD7E92EEADDB100D1A8EF /* OCRExtractedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRExtractedData.swift; sourceTree = "<group>"; };
 		CA20010A2F600001001FA001 /* ReceiptParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptParser.swift; sourceTree = "<group>"; };
+		CA2001122F600009001FA009 /* TextRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRecognizer.swift; sourceTree = "<group>"; };
 		63DBD7EB2EEADE0900D1A8EF /* OCRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRScannerView.swift; sourceTree = "<group>"; };
 		CA2001102F600007001FA007 /* ScannerIntroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerIntroView.swift; sourceTree = "<group>"; };
+		CA2001142F60000B001FA00B /* OCRProcessingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRProcessingView.swift; sourceTree = "<group>"; };
 		63DBD7F12EEAFE9300D1A8EF /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		63DBD8072EEC423B00D1A8EF /* PopupContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupContainer.swift; sourceTree = "<group>"; };
 		63DBD8092EEC428500D1A8EF /* SuccessPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessPopup.swift; sourceTree = "<group>"; };
@@ -430,7 +430,6 @@
 				63B965EA2FD98D6200433979 /* BudgetStore.swift */,
 				63CDBC072F3BC62E001503FF /* DateRangeHelper.swift */,
 				63CDBC052F3BC5FD001503FF /* TimeRange.swift */,
-				63DBD7E62EEADCCC00D1A8EF /* OCRNotifications.swift */,
 				63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */,
 				634EA0AF2EA01E3E001F7BBB /* WidgetSync.swift */,
 				634EA0892E9FD7AD001F7BBB /* Haptic.swift */,
@@ -584,7 +583,7 @@
 			children = (
 				63DBD7EB2EEADE0900D1A8EF /* OCRScannerView.swift */,
 				CA2001102F600007001FA007 /* ScannerIntroView.swift */,
-				63DBD7E42EEADA5D00D1A8EF /* CameraPermission.swift */,
+				CA2001142F60000B001FA00B /* OCRProcessingView.swift */,
 			);
 			path = OCR;
 			sourceTree = "<group>";
@@ -595,6 +594,7 @@
 				63B965E62FD97DF800433979 /* StoreCategoryMapper.swift */,
 				63DBD7E92EEADDB100D1A8EF /* OCRExtractedData.swift */,
 				CA20010A2F600001001FA001 /* ReceiptParser.swift */,
+				CA2001122F600009001FA009 /* TextRecognizer.swift */,
 			);
 			path = OCR;
 			sourceTree = "<group>";
@@ -906,9 +906,9 @@
 				63CDBBF62F3BAF2A001503FF /* StoreComparisonDonutView.swift in Sources */,
 				6309A1B52F3B9C8A002B98B6 /* StoreComparisonViewModel.swift in Sources */,
 				63CDBC082F3BC632001503FF /* DateRangeHelper.swift in Sources */,
-				63DBD7E72EEADCED00D1A8EF /* OCRNotifications.swift in Sources */,
 				63DBD7EC2EEADE1A00D1A8EF /* OCRScannerView.swift in Sources */,
 				CA2001112F600008001FA008 /* ScannerIntroView.swift in Sources */,
+				CA2001152F60000C001FA00C /* OCRProcessingView.swift in Sources */,
 				63B965E72FD97DF800433979 /* StoreCategoryMapper.swift in Sources */,
 				63CDBC142F3BDB13001503FF /* SettingsViewModel.swift in Sources */,
 				634EA0362E9E8136001F7BBB /* eTixApp.swift in Sources */,
@@ -939,10 +939,10 @@
 				637D58A02F2438F200A8000C /* CategoryDonutView.swift in Sources */,
 				637D58B72F24433000A8000C /* StoreBarChartView.swift in Sources */,
 				63CDBC062F3BC609001503FF /* TimeRange.swift in Sources */,
-				63DBD7E52EEADA6D00D1A8EF /* CameraPermission.swift in Sources */,
 				63DBD7E22EEAD88E00D1A8EF /* TicketFilterSheet.swift in Sources */,
 				63DBD7EA2EEADDED00D1A8EF /* OCRExtractedData.swift in Sources */,
 				CA20010B2F600002001FA002 /* ReceiptParser.swift in Sources */,
+				CA2001132F60000A001FA00A /* TextRecognizer.swift in Sources */,
 				637D58AE2F24415700A8000C /* StoreTotal.swift in Sources */,
 				637D58B52F2442AC00A8000C /* StoreDetailView.swift in Sources */,
 							BB2001C22F5B0001002E8001 /* StoreIntelligenceEngine.swift in Sources */,

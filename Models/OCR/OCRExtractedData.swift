@@ -38,4 +38,9 @@ struct OCRExtractedData {
     let storeName: OCRField<String>
     let amount: OCRField<Double>
     let date: OCRField<Date>
+
+    /// Aucun champ détecté — permet un repli « rien détecté » côté UI.
+    var isEmpty: Bool {
+        storeName.value == nil && amount.value == nil && date.value == nil
+    }
 }

@@ -101,3 +101,14 @@ struct FieldConfidenceMappingTests {
         #expect(FieldConfidence(ocr: .none) == nil)
     }
 }
+
+struct OCRExtractedDataTests {
+
+    @Test func emptyResultIsEmpty() {
+        #expect(ReceiptParser.parse("").isEmpty)
+    }
+
+    @Test func resultWithAmountIsNotEmpty() {
+        #expect(!ReceiptParser.parse("TOTAL 12,50").isEmpty)
+    }
+}

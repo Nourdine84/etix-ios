@@ -1,23 +1,24 @@
 import SwiftUI
 import AVFoundation
 
-/// Écran d'introduction premium avant l'ouverture du scanner système.
+/// Point d'entrée **unique** du scan et orchestrateur de son flux.
 ///
 /// Réconcilie la maquette V2 (badge, cadre, guidage) avec la réalité technique :
-/// la **capture reste faite par `VNDocumentCameraViewController`** (ADR-0004,
-/// Option C). Cet écran centralise la demande de permission caméra et constitue
-/// le point d'entrée **unique** du scan (depuis Home comme depuis AddTicket).
-///
-/// Étape 5 : l'orchestration (traitement OCR, succès, machine à états) viendra
-/// s'appuyer sur ce point d'entrée.
+/// la capture reste faite par `VNDocumentCameraViewController` (ADR-0004,
+/// Option C). Enchaîne : intro → capture → **traitement OCR hors main thread**
+/// (écran dédié) → livraison du résultat, ou repli « rien détecté ».
+/// Centralise aussi la permission caméra.
 struct ScannerIntroView: View {
 
-    /// Appelé avec le résultat OCR une fois un ticket scanné.
+    /// Appelé avec le résultat OCR une fois un ticket lu avec succès.
     let onScanned: (OCRExtractedData) -> Void
 
     @Environment(\.dismiss) private var dismiss
+
     @State private var cameraStatus = AVCaptureDevice.authorizationStatus(for: .video)
-    @State private var showScanner = false
+    @State private var isScanning = false      // caméra système présentée
+    @State private var isProcessing = false    // reconnaissance OCR en cours
+    @State private var showNotFound = false     // aucun champ détecté
     @State private var showDeniedAlert = false
 
     var body: some View {
@@ -25,47 +26,21 @@ struct ScannerIntroView: View {
             Theme.Background.primary
                 .ignoresSafeArea()
 
-            VStack(spacing: Theme.Spacing.xl) {
-                Spacer(minLength: 0)
-
-                EtixBadge(size: 64)
-
-                scannerFrame
-
-                VStack(spacing: Theme.Spacing.s) {
-                    Text("Scanner un ticket")
-                        .font(.system(size: 24, weight: .bold, design: .rounded))
-                        .foregroundColor(.primary)
-                    Text("Positionne ton ticket dans le cadre.\neTix lit le magasin, le montant et la date.")
-                        .font(Theme.Typography.subheadline)
-                        .foregroundColor(.secondary)
-                        .multilineTextAlignment(.center)
-                }
-
-                Spacer(minLength: 0)
-
-                PrimaryButton(title: "Scanner", icon: "camera.viewfinder") {
-                    startScan()
-                }
-
-                Button("Annuler") {
-                    dismiss()
-                }
-                .font(Theme.Typography.subheadline)
-                .foregroundColor(.secondary)
+            if isProcessing {
+                OCRProcessingView()
+            } else if showNotFound {
+                notFoundView
+            } else {
+                introContent
             }
-            .padding(.horizontal, Theme.Spacing.xxl)
-            .padding(.vertical, Theme.Spacing.section)
         }
-        .fullScreenCover(isPresented: $showScanner) {
+        .fullScreenCover(isPresented: $isScanning) {
             OCRScannerView(
-                onScanResult: { result in
-                    onScanned(result)
-                    dismiss()
-                },
+                onCaptured: { image in handleCapture(image) },
                 onCancel: {
-                    // Retour propre à l'intro (l'utilisateur peut réessayer).
-                    showScanner = false
+                    // Retour propre à l'intro — rien ne reste bloqué.
+                    isProcessing = false
+                    showNotFound = false
                 }
             )
             .ignoresSafeArea()
@@ -78,7 +53,41 @@ struct ScannerIntroView: View {
         }
     }
 
-    // MARK: - Cadre illustratif (style maquette, sans caméra live)
+    // MARK: - Intro
+
+    private var introContent: some View {
+        VStack(spacing: Theme.Spacing.xl) {
+            Spacer(minLength: 0)
+
+            EtixBadge(size: 64)
+
+            scannerFrame
+
+            VStack(spacing: Theme.Spacing.s) {
+                Text("Scanner un ticket")
+                    .font(.system(size: 24, weight: .bold, design: .rounded))
+                    .foregroundColor(.primary)
+                Text("Positionne ton ticket dans le cadre.\neTix lit le magasin, le montant et la date.")
+                    .font(Theme.Typography.subheadline)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+            }
+
+            Spacer(minLength: 0)
+
+            PrimaryButton(title: "Scanner", icon: "camera.viewfinder") {
+                startScan()
+            }
+
+            Button("Annuler") {
+                dismiss()
+            }
+            .font(Theme.Typography.subheadline)
+            .foregroundColor(.secondary)
+        }
+        .padding(.horizontal, Theme.Spacing.xxl)
+        .padding(.vertical, Theme.Spacing.section)
+    }
 
     private var scannerFrame: some View {
         ZStack {
@@ -94,18 +103,71 @@ struct ScannerIntroView: View {
         .frame(width: 210, height: 250)
     }
 
+    // MARK: - Repli « rien détecté »
+
+    private var notFoundView: some View {
+        VStack(spacing: Theme.Spacing.xl) {
+            Spacer(minLength: 0)
+
+            Image(systemName: "doc.questionmark")
+                .font(.system(size: 56, weight: .light))
+                .foregroundColor(.secondary)
+
+            VStack(spacing: Theme.Spacing.s) {
+                Text("Aucune information détectée")
+                    .font(.system(size: 20, weight: .semibold, design: .rounded))
+                    .foregroundColor(.primary)
+                Text("Le ticket n'a pas pu être lu. Réessaie en cadrant mieux, ou saisis les informations manuellement.")
+                    .font(Theme.Typography.subheadline)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+            }
+
+            Spacer(minLength: 0)
+
+            PrimaryButton(title: "Réessayer", icon: "arrow.clockwise") {
+                showNotFound = false
+                startScan()
+            }
+
+            Button("Saisir manuellement") {
+                dismiss()
+            }
+            .font(Theme.Typography.subheadline)
+            .foregroundColor(.secondary)
+        }
+        .padding(.horizontal, Theme.Spacing.xxl)
+        .padding(.vertical, Theme.Spacing.section)
+    }
+
+    // MARK: - Flux
+
+    private func handleCapture(_ image: UIImage) {
+        isProcessing = true
+        TextRecognizer.recognize(image) { text in
+            let result = ReceiptParser.parse(text)
+            isProcessing = false
+            if result.isEmpty {
+                showNotFound = true
+            } else {
+                onScanned(result)
+                dismiss()
+            }
+        }
+    }
+
     // MARK: - Permission caméra (centralisée ici)
 
     private func startScan() {
         switch cameraStatus {
         case .authorized:
-            showScanner = true
+            isScanning = true
 
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video) { granted in
                 DispatchQueue.main.async {
                     cameraStatus = AVCaptureDevice.authorizationStatus(for: .video)
-                    if granted { showScanner = true }
+                    if granted { isScanning = true }
                 }
             }
 
