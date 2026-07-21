@@ -31,5 +31,11 @@ Fiabilité, maintenance quasi nulle, qualité OCR supérieure, conformité HIG.
   réinitialisé, l'utilisateur reste sur AddTicket*. Le **retour automatique vers Home** est
   **volontairement différé au Sprint 6 (Navigation)**. Ce n'est **pas un défaut**.
 - Reconnaissance déplacée hors du main-thread → plus de gel pendant l'OCR.
-- Dettes ouvertes associées : D1 (scoring montant, P1), D2 (annulation traitement, P2),
+
+## Limites connues
+- **Propagation du thème (D6, P3)** : les écrans du flux scanner sont présentés
+  dans un `fullScreenCover`, qui **n'hérite pas** du `.preferredColorScheme` de la
+  racine. Ils suivent donc le **thème système**, pas le choix de thème eTix.
+  Fonctionnel en Light/Dark système ; incohérence visuelle uniquement. Différé — voir ROADMAP.
+- Autres dettes associées : D1 (scoring montant, P1), D2 (annulation traitement, P2),
   D5 (fragilité `.sheet`/`.fullScreenCover`, P3 watch item non reproductible) — voir ROADMAP.
