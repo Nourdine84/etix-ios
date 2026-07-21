@@ -1,26 +1,31 @@
 import SwiftUI
 import AVFoundation
 
-/// Point d'entrée **unique** du scan et orchestrateur de son flux.
+/// Étapes du flux scanner — **source de vérité unique** du parcours.
+enum ScannerStep {
+    case intro
+    case priming
+    case camera
+    case processing
+    case notFound
+}
+
+/// Conteneur de flux du scanner (ex-ScannerIntroView), présenté dans **l'unique**
+/// `fullScreenCover` d'AddTicketView. Il ne présente lui-même **aucune** modale :
+/// toutes les étapes (intro, priming, caméra, traitement, repli) sont le
+/// **contenu échangé** de cette cover, piloté par `ScannerStep`. Ceci supprime
+/// par construction le problème des covers imbriqués.
 ///
-/// Réconcilie la maquette V2 (badge, cadre avec ticket + coins, guidage) avec la
-/// réalité technique : la capture reste faite par `VNDocumentCameraViewController`
-/// (ADR-0004, Option C). Enchaîne : intro → (priming caméra si 1er accès) →
-/// capture → **traitement OCR hors main thread** → livraison, ou repli
-/// « rien détecté ». Le cadre est une **illustration statique** (aucun aperçu
-/// caméra custom).
-struct ScannerIntroView: View {
+/// Capture : `VNDocumentCameraViewController` (ADR-0004, Option C) — inchangé.
+struct ScannerFlowView: View {
 
     /// Appelé avec le résultat OCR une fois un ticket lu avec succès.
     let onScanned: (OCRExtractedData) -> Void
 
     @Environment(\.dismiss) private var dismiss
 
+    @State private var step: ScannerStep = .intro
     @State private var cameraStatus = AVCaptureDevice.authorizationStatus(for: .video)
-    @State private var isScanning = false      // caméra système présentée
-    @State private var isProcessing = false    // reconnaissance OCR en cours
-    @State private var showNotFound = false     // aucun champ détecté
-    @State private var showPriming = false      // écran de priming caméra
     @State private var showDeniedAlert = false
 
     var body: some View {
@@ -28,29 +33,29 @@ struct ScannerIntroView: View {
             Theme.Background.primary
                 .ignoresSafeArea()
 
-            if isProcessing {
-                OCRProcessingView()
-            } else if showNotFound {
-                notFoundView
-            } else if showPriming {
+            switch step {
+            case .intro:
+                introContent
+
+            case .priming:
                 CameraPrimingView(
                     onAllow: { requestAccessAndScan() },
-                    onRefuse: { showPriming = false }
+                    onRefuse: { step = .intro }
                 )
-            } else {
-                introContent
+
+            case .camera:
+                OCRScannerView(
+                    onCaptured: { image in handleCapture(image) },
+                    onCancel: { step = .intro }
+                )
+                .ignoresSafeArea()
+
+            case .processing:
+                OCRProcessingView()
+
+            case .notFound:
+                notFoundView
             }
-        }
-        .fullScreenCover(isPresented: $isScanning) {
-            OCRScannerView(
-                onCaptured: { image in handleCapture(image) },
-                onCancel: {
-                    // Retour propre à l'intro — rien ne reste bloqué.
-                    isProcessing = false
-                    showNotFound = false
-                }
-            )
-            .ignoresSafeArea()
         }
         .alert("Accès caméra requis", isPresented: $showDeniedAlert) {
             Button("Réglages") { openSettings() }
@@ -96,8 +101,8 @@ struct ScannerIntroView: View {
         .padding(.vertical, Theme.Spacing.section)
     }
 
-    /// Cadre statique conforme à la maquette : illustration de ticket + coins
-    /// d'accroche. Ce n'est PAS un aperçu caméra (Option C).
+    /// Cadre statique conforme à la maquette : ticket illustré + coins d'accroche.
+    /// Ce n'est PAS un aperçu caméra (Option C).
     private var scannerFrame: some View {
         receiptIllustration
             .frame(width: 200, height: 250)
@@ -163,8 +168,7 @@ struct ScannerIntroView: View {
             Spacer(minLength: 0)
 
             PrimaryButton(title: "Réessayer", icon: "arrow.clockwise") {
-                showNotFound = false
-                startScan()
+                step = .camera
             }
 
             Button("Saisir manuellement") {
@@ -177,49 +181,42 @@ struct ScannerIntroView: View {
         .padding(.vertical, Theme.Spacing.section)
     }
 
-    // MARK: - Flux OCR (inchangé — aucun changement d'architecture)
+    // MARK: - Transitions (ScannerFlowView est le SEUL propriétaire)
 
-    private func handleCapture(_ image: UIImage) {
-        isProcessing = true
-        TextRecognizer.recognize(image) { text in
-            let result = ReceiptParser.parse(text)
-            isProcessing = false
-            if result.isEmpty {
-                showNotFound = true
-            } else {
-                onScanned(result)
-                dismiss()
-            }
-        }
-    }
-
-    // MARK: - Permission caméra (centralisée ici)
-
+    /// intro/priming → caméra, en fonction de la permission.
     private func startScan() {
         switch cameraStatus {
         case .authorized:
-            isScanning = true
-
+            step = .camera
         case .notDetermined:
-            // Priming premium AVANT la boîte de dialogue système.
-            showPriming = true
-
+            step = .priming
         case .denied, .restricted:
             showDeniedAlert = true
-
         @unknown default:
             break
         }
     }
 
-    /// Déclenché par « Autoriser » du priming : demande la permission système,
-    /// puis ouvre la caméra si accordée.
+    /// priming « Autoriser » → dialogue système → caméra si accordé.
     private func requestAccessAndScan() {
         AVCaptureDevice.requestAccess(for: .video) { granted in
             DispatchQueue.main.async {
                 cameraStatus = AVCaptureDevice.authorizationStatus(for: .video)
-                showPriming = false
-                if granted { isScanning = true }
+                step = granted ? .camera : .intro
+            }
+        }
+    }
+
+    /// caméra → traitement → fermeture (résultat exploitable) ou notFound (vide).
+    private func handleCapture(_ image: UIImage) {
+        step = .processing
+        TextRecognizer.recognize(image) { text in
+            let result = ReceiptParser.parse(text)
+            if result.isEmpty {
+                step = .notFound
+            } else {
+                onScanned(result)
+                dismiss()
             }
         }
     }

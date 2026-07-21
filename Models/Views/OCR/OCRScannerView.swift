@@ -4,7 +4,7 @@ import VisionKit
 /// Pur wrapper de capture autour de `VNDocumentCameraViewController`
 /// (ADR-0004, Option C). Ne fait QUE capturer : il retourne l'image de la
 /// première page. La reconnaissance de texte (TextRecognizer) et le parsing
-/// (ReceiptParser) sont orchestrés en aval par `ScannerIntroView`, hors du
+/// (ReceiptParser) sont orchestrés en aval par `ScannerFlowView`, hors du
 /// main thread et avec un écran de traitement.
 struct OCRScannerView: UIViewControllerRepresentable {
 
@@ -33,26 +33,24 @@ struct OCRScannerView: UIViewControllerRepresentable {
             self.parent = parent
         }
 
+        // Événementiel uniquement : OCRScannerView ne ferme aucune modale et
+        // ne connaît pas ScannerStep. ScannerFlowView possède les transitions.
         func documentCameraViewController(_ controller: VNDocumentCameraViewController,
                                           didFinishWith scan: VNDocumentCameraScan) {
             guard scan.pageCount > 0 else {
-                controller.dismiss(animated: true)
                 parent.onCancel?()
                 return
             }
             let image = scan.imageOfPage(at: 0)
             parent.onCaptured(image)
-            controller.dismiss(animated: true)
         }
 
         func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
-            controller.dismiss(animated: true)
             parent.onCancel?()
         }
 
         func documentCameraViewController(_ controller: VNDocumentCameraViewController,
                                           didFailWithError error: Error) {
-            controller.dismiss(animated: true)
             parent.onCancel?()
         }
     }

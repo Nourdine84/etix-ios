@@ -9,7 +9,7 @@ struct AddTicketView: View {
 
     @State private var showSuccessPopup   = false
     @State private var showErrorPopup     = false
-    @State private var showScannerIntro   = false
+    @State private var showScanFlow       = false
     @State private var showCategoryPicker = false
     @State private var didAutoLaunchScanner = false
 
@@ -64,13 +64,14 @@ struct AddTicketView: View {
                 // re-render ne doivent jamais rouvrir le scanner
                 guard autoStartScanner, !didAutoLaunchScanner else { return }
                 didAutoLaunchScanner = true
-                showScannerIntro = true
+                showScanFlow = true
             }
 
-            // Point d'entrée scanner UNIFIÉ (Home + AddTicket) — intro premium
-            // + permission centralisée, puis capture VNDocumentCamera.
-            .fullScreenCover(isPresented: $showScannerIntro) {
-                ScannerIntroView { result in
+            // UNIQUE modale du flux scanner (Home + AddTicket). Tout le parcours
+            // (intro, priming, caméra, traitement, repli) est piloté à l'intérieur
+            // par ScannerFlowView via ScannerStep — aucune cover imbriquée.
+            .fullScreenCover(isPresented: $showScanFlow) {
+                ScannerFlowView { result in
                     viewModel.handleOCRResult(result)
                 }
             }
@@ -112,7 +113,7 @@ struct AddTicketView: View {
     private var scanButton: some View {
         Button {
             Haptic.light()
-            showScannerIntro = true
+            showScanFlow = true
         } label: {
             HStack(spacing: Theme.Spacing.s) {
                 Image(systemName: "camera.viewfinder")
