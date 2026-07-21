@@ -39,6 +39,5 @@ struct PopupContainer<Content: View>: View {
                     removal: .opacity
                 ))
         }
-        .animation(.easeInOut(duration: 0.18), value: UUID())
     }
 }
