@@ -184,7 +184,10 @@ struct ScannerFlowView: View {
     // MARK: - Transitions (ScannerFlowView est le SEUL propriétaire)
 
     /// intro/priming → caméra, en fonction de la permission.
+    /// Le statut est relu à chaque appel : après un aller-retour dans les
+    /// Réglages, un accès fraîchement accordé est pris en compte.
     private func startScan() {
+        cameraStatus = AVCaptureDevice.authorizationStatus(for: .video)
         switch cameraStatus {
         case .authorized:
             step = .camera
@@ -197,12 +200,18 @@ struct ScannerFlowView: View {
         }
     }
 
-    /// priming « Autoriser » → dialogue système → caméra si accordé.
+    /// priming « Autoriser » → dialogue système → caméra si accordé,
+    /// sinon retour à l'intro + alerte explicite (accès requis / Réglages).
     private func requestAccessAndScan() {
         AVCaptureDevice.requestAccess(for: .video) { granted in
             DispatchQueue.main.async {
                 cameraStatus = AVCaptureDevice.authorizationStatus(for: .video)
-                step = granted ? .camera : .intro
+                if granted {
+                    step = .camera
+                } else {
+                    step = .intro
+                    showDeniedAlert = true
+                }
             }
         }
     }
