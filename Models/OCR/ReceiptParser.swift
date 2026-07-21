@@ -51,7 +51,10 @@ enum ReceiptParser {
     // MARK: - Magasin
 
     /// Première ligne plausible dans les 5 premières → confiance **moyenne**.
-    /// Repli sur la toute première ligne → confiance **faible**.
+    /// Aucun repli : si aucune ligne plausible n'est trouvée, le magasin reste
+    /// **non détecté** (`.missing`). Cela évite d'injecter un nom fantôme à
+    /// partir de bruit OCR et permet à un résultat réellement vide de rester
+    /// vide (écran « Aucune information détectée »).
     static func extractStore(from lines: [String]) -> OCRField<String> {
         for line in lines.prefix(5) {
             let t = line.trimmingCharacters(in: .whitespaces)
@@ -62,9 +65,6 @@ enum ReceiptParser {
             guard !lower.hasPrefix("ticket") && !lower.hasPrefix("n°")
                     && !lower.hasPrefix("facture") && !lower.hasPrefix("recu") else { continue }
             return OCRField(value: t.capitalized, confidence: .medium)
-        }
-        if let first = lines.first?.trimmingCharacters(in: .whitespaces), !first.isEmpty {
-            return OCRField(value: first.capitalized, confidence: .low)
         }
         return .missing
     }

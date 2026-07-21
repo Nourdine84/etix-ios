@@ -31,6 +31,14 @@ struct ReceiptParserTests {
         #expect(r.storeName.confidence == .medium)
     }
 
+    @Test func noPhantomStoreFromNumericNoise() {
+        // Bruit non exploitable : plus de repli lines.first → aucun nom fantôme,
+        // et le résultat reste vide (écran « Aucune information détectée »).
+        let r = ReceiptParser.parse("123")
+        #expect(r.storeName.value == nil)
+        #expect(r.isEmpty)
+    }
+
     @Test func dateRecognizedIsHighConfidence() {
         let r = ReceiptParser.parse("Magasin\n05/01/2024\nTOTAL 5,00")
         #expect(r.date.value != nil)
