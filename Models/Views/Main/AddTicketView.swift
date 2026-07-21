@@ -4,13 +4,12 @@ import CoreData
 struct AddTicketView: View {
     @EnvironmentObject var viewModel: AddTicketViewModel
 
-    /// CTA Scanner du HomeView — ouvre le scanner OCR dès l'apparition
+    /// CTA Scanner du HomeView — ouvre l'intro scanner dès l'apparition
     var autoStartScanner: Bool = false
 
     @State private var showSuccessPopup   = false
     @State private var showErrorPopup     = false
-    @State private var showPermission     = false
-    @State private var showOCRScanner     = false
+    @State private var showScannerIntro   = false
     @State private var showCategoryPicker = false
     @State private var didAutoLaunchScanner = false
 
@@ -65,28 +64,17 @@ struct AddTicketView: View {
                 // re-render ne doivent jamais rouvrir le scanner
                 guard autoStartScanner, !didAutoLaunchScanner else { return }
                 didAutoLaunchScanner = true
-                DispatchQueue.main.async {
-                    showOCRScanner = true
-                }
+                showScannerIntro = true
             }
 
-            // MARK: OCR listeners
-            .onReceive(NotificationCenter.default.publisher(for: .openOCRScanner)) { _ in
-                showOCRScanner = true
-            }
-            .onReceive(NotificationCenter.default.publisher(for: .openCameraPermission)) { _ in
-                showPermission = true
-            }
-
-            // MARK: Sheets
-            .sheet(isPresented: $showPermission) {
-                CameraPermissionView()
-            }
-            .sheet(isPresented: $showOCRScanner) {
-                OCRScannerView { result in
+            // Point d'entrée scanner UNIFIÉ (Home + AddTicket) — intro premium
+            // + permission centralisée, puis capture VNDocumentCamera.
+            .fullScreenCover(isPresented: $showScannerIntro) {
+                ScannerIntroView { result in
                     viewModel.handleOCRResult(result)
                 }
             }
+
             .sheet(isPresented: $showCategoryPicker, onDismiss: {
                 viewModel.ocrCategorySuggestion = nil
             }) {
@@ -124,7 +112,7 @@ struct AddTicketView: View {
     private var scanButton: some View {
         Button {
             Haptic.light()
-            NotificationCenter.default.post(name: .openCameraPermission, object: nil)
+            showScannerIntro = true
         } label: {
             HStack(spacing: Theme.Spacing.s) {
                 Image(systemName: "camera.viewfinder")

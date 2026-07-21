@@ -5,6 +5,7 @@ import Vision
 struct OCRScannerView: UIViewControllerRepresentable {
 
     let onScanResult: (OCRExtractedData) -> Void
+    var onCancel: (() -> Void)? = nil
 
     func makeUIViewController(context: Context) -> VNDocumentCameraViewController {
         let controller = VNDocumentCameraViewController()
@@ -50,11 +51,13 @@ struct OCRScannerView: UIViewControllerRepresentable {
 
         func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
             controller.dismiss(animated: true)
+            parent.onCancel?()
         }
 
         func documentCameraViewController(_ controller: VNDocumentCameraViewController,
                                           didFailWithError error: Error) {
             controller.dismiss(animated: true)
+            parent.onCancel?()
         }
 
         // MARK: - Vision Text Recognition
