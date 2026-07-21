@@ -4,156 +4,78 @@ import CoreData
 struct AddTicketView: View {
     @EnvironmentObject var viewModel: AddTicketViewModel
 
-    /// CTA Scanner du HomeView — ouvre le scanner OCR dès l'apparition
+    /// CTA Scanner du HomeView — ouvre l'intro scanner dès l'apparition
     var autoStartScanner: Bool = false
 
     @State private var showSuccessPopup   = false
     @State private var showErrorPopup     = false
-    @State private var showPermission     = false
-    @State private var showOCRScanner     = false
+    @State private var showScanFlow       = false
     @State private var showCategoryPicker = false
     @State private var didAutoLaunchScanner = false
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: 20) {
+            ZStack {
+                Theme.Background.primary
+                    .ignoresSafeArea()
 
-                    // MARK: Scan OCR
-                    Button {
-                        Haptic.light()
-                        NotificationCenter.default.post(name: .openCameraPermission, object: nil)
-                    } label: {
-                        HStack(spacing: 12) {
-                            Image(systemName: "camera.viewfinder")
-                                .font(.system(size: 22, weight: .bold))
-                            Text("Scanner un ticket")
-                                .font(.headline)
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Theme.primaryBlue.opacity(0.12))
-                        .foregroundColor(Theme.primaryBlue)
-                        .cornerRadius(14)
-                    }
-                    .padding(.horizontal)
+                ScrollView {
+                    VStack(spacing: Theme.Spacing.xl) {
 
-                    // MARK: Form Card
-                    VStack(alignment: .leading, spacing: 16) {
+                        scanButton
 
-                        Text("Informations du ticket")
-                            .font(.headline)
-                            .padding(.bottom, 4)
-
-                        Group {
-                            TextField("Nom du magasin", text: $viewModel.storeName)
-                                .textInputAutocapitalization(.words)
-                                .textFieldStyle(.roundedBorder)
-
-                            TextField("Montant (€)", text: $viewModel.amount)
-                                .keyboardType(.decimalPad)
-                                .textFieldStyle(.roundedBorder)
-
-                            DatePicker("Date",
-                                       selection: $viewModel.date,
-                                       displayedComponents: .date)
-                        }
-
-                        // Category picker row
-                        Button {
-                            Haptic.light()
-                            showCategoryPicker = true
-                        } label: {
-                            HStack {
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text(viewModel.category.isEmpty ? "Catégorie" : viewModel.category)
-                                        .foregroundColor(
-                                            viewModel.category.isEmpty
-                                            ? Color(.placeholderText)
-                                            : .primary
-                                        )
-
-                                    if viewModel.ocrCategorySuggestion != nil {
-                                        HStack(spacing: 3) {
-                                            Image(systemName: "wand.and.stars")
-                                                .font(.caption2)
-                                            Text("Suggéré par l'OCR")
-                                                .font(.caption2)
-                                        }
-                                        .foregroundColor(Theme.primaryBlue.opacity(0.8))
-                                    }
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-
-                                Image(systemName: "chevron.right")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
+                        TicketForm(
+                            storeName: $viewModel.storeName,
+                            amount: $viewModel.amount,
+                            date: $viewModel.date,
+                            category: $viewModel.category,
+                            description: $viewModel.description,
+                            storeConfidence: FieldConfidence(ocr: viewModel.storeConfidence),
+                            amountConfidence: FieldConfidence(ocr: viewModel.amountConfidence),
+                            dateConfidence: FieldConfidence(ocr: viewModel.dateConfidence),
+                            categorySuggested: viewModel.ocrCategorySuggestion != nil,
+                            onPickCategory: {
+                                Haptic.light()
+                                showCategoryPicker = true
                             }
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, viewModel.ocrCategorySuggestion != nil ? 6 : 0)
-                            .frame(minHeight: 34)
-                            .background(Color(.systemBackground))
-                            .cornerRadius(6)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 6)
-                                    .stroke(Color(.separator), lineWidth: 0.5)
-                            )
-                        }
-                        .buttonStyle(.plain)
+                        )
 
-                        TextField("Description (optionnel)", text: $viewModel.description)
-                            .textFieldStyle(.roundedBorder)
-                    }
-                    .padding()
-                    .background(Color(.secondarySystemGroupedBackground))
-                    .cornerRadius(16)
-                    .shadow(color: .black.opacity(0.08), radius: 5, y: 2)
-                    .padding(.horizontal)
-
-                    // MARK: Save
-                    eTixButton(title: "Enregistrer", icon: "tray.and.arrow.down.fill") {
-                        if viewModel.saveTicket() {
-                            Haptic.success()
-                            showSuccessPopup = true
-                            WidgetSync.updateSnapshot(context: viewModel.context)
-                        } else {
-                            Haptic.error()
-                            showErrorPopup = true
+                        PrimaryButton(title: "Enregistrer", icon: "tray.and.arrow.down.fill") {
+                            if viewModel.saveTicket() {
+                                Haptic.success()
+                                showSuccessPopup = true
+                                WidgetSync.updateSnapshot(context: viewModel.context)
+                            } else {
+                                Haptic.error()
+                                showErrorPopup = true
+                            }
                         }
                     }
-                    .padding(.horizontal)
+                    .padding(.horizontal, Theme.Spacing.xxl)
+                    .padding(.top, Theme.Spacing.l)
+                    .padding(.bottom, Theme.Spacing.xl)
                 }
-                .padding(.top)
+                .scrollIndicators(.hidden)
             }
-            .background(Color(.systemGroupedBackground).ignoresSafeArea())
             .navigationTitle("Ajouter un ticket")
+            .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 // Un seul lancement automatique garanti — un retour arrière ou un
                 // re-render ne doivent jamais rouvrir le scanner
                 guard autoStartScanner, !didAutoLaunchScanner else { return }
                 didAutoLaunchScanner = true
-                DispatchQueue.main.async {
-                    showOCRScanner = true
-                }
+                showScanFlow = true
             }
 
-            // MARK: OCR listeners
-            .onReceive(NotificationCenter.default.publisher(for: .openOCRScanner)) { _ in
-                showOCRScanner = true
-            }
-            .onReceive(NotificationCenter.default.publisher(for: .openCameraPermission)) { _ in
-                showPermission = true
-            }
-
-            // MARK: Sheets
-            .sheet(isPresented: $showPermission) {
-                CameraPermissionView()
-            }
-            .sheet(isPresented: $showOCRScanner) {
-                OCRScannerView { result in
+            // UNIQUE modale du flux scanner (Home + AddTicket). Tout le parcours
+            // (intro, priming, caméra, traitement, repli) est piloté à l'intérieur
+            // par ScannerFlowView via ScannerStep — aucune cover imbriquée.
+            .fullScreenCover(isPresented: $showScanFlow) {
+                ScannerFlowView { result in
                     viewModel.handleOCRResult(result)
                 }
             }
+
             .sheet(isPresented: $showCategoryPicker, onDismiss: {
                 viewModel.ocrCategorySuggestion = nil
             }) {
@@ -184,5 +106,27 @@ struct AddTicketView: View {
                 .zIndex(10)
             }
         }
+    }
+
+    // MARK: - Scan (action secondaire, DS V2)
+
+    private var scanButton: some View {
+        Button {
+            Haptic.light()
+            showScanFlow = true
+        } label: {
+            HStack(spacing: Theme.Spacing.s) {
+                Image(systemName: "camera.viewfinder")
+                    .font(.system(size: 20, weight: .semibold))
+                Text("Scanner un ticket")
+                    .font(Theme.Typography.headline)
+            }
+            .foregroundColor(Theme.primaryBlue)
+            .frame(maxWidth: .infinity)
+            .frame(height: 52)
+            .background(Theme.primaryBlue.opacity(0.12))
+            .cornerRadius(Theme.Radius.button)
+        }
+        .buttonStyle(.plain)
     }
 }

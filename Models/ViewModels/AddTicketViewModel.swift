@@ -10,6 +10,11 @@ class AddTicketViewModel: ObservableObject {
     @Published var description: String = ""
     @Published var ocrCategorySuggestion: CategoryConfidence? = nil
 
+    // Confiance OCR par champ (couche métier) — mappée en FieldConfidence côté vue.
+    @Published var storeConfidence: OCRConfidence = .none
+    @Published var amountConfidence: OCRConfidence = .none
+    @Published var dateConfidence: OCRConfidence = .none
+
     let context: NSManagedObjectContext
 
     init(context: NSManagedObjectContext) {
@@ -18,7 +23,7 @@ class AddTicketViewModel: ObservableObject {
 
     @discardableResult
     func saveTicket() -> Bool {
-        guard let amountValue = Double(amount),
+        guard let amountValue = AmountParser.parse(amount),
               !storeName.trimmingCharacters(in: .whitespaces).isEmpty else {
             return false
         }
@@ -46,8 +51,9 @@ class AddTicketViewModel: ObservableObject {
     }
 
     func handleOCRResult(_ result: OCRExtractedData) {
-        if let store = result.storeName {
+        if let store = result.storeName.value {
             storeName = store
+            storeConfidence = result.storeName.confidence
             if category.isEmpty {
                 if let suggestion = StoreCategoryMapper.suggest(for: store, context: context) {
                     category = suggestion.category
@@ -58,11 +64,13 @@ class AddTicketViewModel: ObservableObject {
                 }
             }
         }
-        if let amt = result.amount {
+        if let amt = result.amount.value {
             amount = String(format: "%.2f", amt)
+            amountConfidence = result.amount.confidence
         }
-        if let d = result.date {
+        if let d = result.date.value {
             date = d
+            dateConfidence = result.date.confidence
         }
     }
 
@@ -73,5 +81,23 @@ class AddTicketViewModel: ObservableObject {
         category = ""
         description = ""
         ocrCategorySuggestion = nil
+        storeConfidence = .none
+        amountConfidence = .none
+        dateConfidence = .none
+    }
+}
+
+// MARK: - Mapping confiance OCR → affichage
+
+/// Traduit la confiance métier (`OCRConfidence`) en badge d'affichage
+/// (`FieldConfidence`). Vit côté Add (couche qui connaît l'OCR) afin que
+/// `TicketForm` reste totalement agnostique. `.none` ⇒ aucun badge.
+extension FieldConfidence {
+    init?(ocr: OCRConfidence) {
+        switch ocr {
+        case .high:            self = .verified
+        case .medium, .low:    self = .toVerify
+        case .none:            return nil
+        }
     }
 }

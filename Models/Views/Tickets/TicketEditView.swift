@@ -27,49 +27,29 @@ struct TicketEditView: View {
 
     var body: some View {
         NavigationStack {
-            Form {
-                Section("Informations") {
-                    HStack(spacing: 12) {
-                        Image(systemName: "storefront")
-                            .foregroundColor(.secondary)
-                            .frame(width: 20)
-                        TextField("Magasin", text: $store)
-                    }
+            ZStack {
+                Theme.Background.primary
+                    .ignoresSafeArea()
 
-                    HStack(spacing: 12) {
-                        Image(systemName: "eurosign.circle")
-                            .foregroundColor(.secondary)
-                            .frame(width: 20)
-                        TextField("Montant", text: $amount)
-                            .keyboardType(.decimalPad)
-                            .foregroundColor(amountInvalid ? .red : .primary)
-                            .onChange(of: amount) { _, _ in amountInvalid = false }
-                    }
-
-                    Button {
-                        showCategoryPicker = true
-                    } label: {
-                        HStack(spacing: 12) {
-                            Image(systemName: "tag")
-                                .foregroundColor(.secondary)
-                                .frame(width: 20)
-                            Text(category.isEmpty ? "Catégorie" : category)
-                                .foregroundColor(category.isEmpty ? Color(.placeholderText) : .primary)
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                                .font(.caption2)
-                                .foregroundColor(.secondary)
+                ScrollView {
+                    TicketForm(
+                        storeName: $store,
+                        amount: $amount,
+                        date: $date,
+                        category: $category,
+                        description: $description,
+                        amountInvalid: amountInvalid,
+                        onPickCategory: {
+                            Haptic.light()
+                            showCategoryPicker = true
                         }
-                    }
-                    .buttonStyle(.plain)
-
-                    DatePicker("Date", selection: $date, displayedComponents: .date)
+                    )
+                    .padding(.horizontal, Theme.Spacing.xxl)
+                    .padding(.vertical, Theme.Spacing.l)
                 }
-
-                Section("Note") {
-                    TextField("Description (optionnel)", text: $description, axis: .vertical)
-                        .lineLimit(3...6)
-                }
+                .scrollIndicators(.hidden)
+                // Le montant redevient valide dès que l'utilisateur le corrige.
+                .onChange(of: amount) { _, _ in amountInvalid = false }
             }
             .navigationTitle("Modifier")
             .navigationBarTitleDisplayMode(.inline)
@@ -96,8 +76,7 @@ struct TicketEditView: View {
     // MARK: - Save
 
     private func saveChanges() {
-        let normalized = amount.replacingOccurrences(of: ",", with: ".")
-        guard let amountValue = Double(normalized), amountValue > 0 else {
+        guard let amountValue = AmountParser.parse(amount) else {
             amountInvalid = true
             Haptic.error()
             return

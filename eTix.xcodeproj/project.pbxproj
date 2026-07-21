@@ -45,9 +45,9 @@
 		634EA0562E9E8FD3001F7BBB /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0452E9E82DA001F7BBB /* CategoryView.swift */; };
 		634EA0572E9E8FDB001F7BBB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0442E9E82C0001F7BBB /* SettingsView.swift */; };
 		634EA0592E9E8FF0001F7BBB /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03C2E9E81AD001F7BBB /* DateUtils.swift */; };
+		CA20010D2F600004001FA004 /* AmountParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20010C2F600003001FA003 /* AmountParser.swift */; };
 		634EA0812E9EDF04001F7BBB /* CategoryTotal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0802E9EDEF4001F7BBB /* CategoryTotal.swift */; };
 		634EA0852E9EE423001F7BBB /* AppAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0842E9EE3FF001F7BBB /* AppAppearance.swift */; };
-		634EA0882E9FD77E001F7BBB /* eTixButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0872E9FD768001F7BBB /* eTixButton.swift */; };
 		634EA08A2E9FD7CD001F7BBB /* Haptic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0892E9FD7AD001F7BBB /* Haptic.swift */; };
 		634EA08D2E9FDA49001F7BBB /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA08C2E9FDA3D001F7BBB /* SplashView.swift */; };
 		634EA0A22E9FF550001F7BBB /* OnboardingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0A12E9FF536001F7BBB /* OnboardingPage.swift */; };
@@ -92,11 +92,15 @@
 		63DBD7D92EE8650500D1A8EF /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */; };
 		63DBD7DE2EEAD75100D1A8EF /* TicketDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7DD2EEAD73700D1A8EF /* TicketDetailView.swift */; };
 		63DBD7E02EEAD76700D1A8EF /* TicketEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7DF2EEAD75600D1A8EF /* TicketEditView.swift */; };
+		CA20010F2F600006001FA006 /* TicketForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20010E2F600005001FA005 /* TicketForm.swift */; };
 		63DBD7E22EEAD88E00D1A8EF /* TicketFilterSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7E12EEAD87900D1A8EF /* TicketFilterSheet.swift */; };
-		63DBD7E52EEADA6D00D1A8EF /* CameraPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7E42EEADA5D00D1A8EF /* CameraPermission.swift */; };
-		63DBD7E72EEADCED00D1A8EF /* OCRNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7E62EEADCCC00D1A8EF /* OCRNotifications.swift */; };
 		63DBD7EA2EEADDED00D1A8EF /* OCRExtractedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7E92EEADDB100D1A8EF /* OCRExtractedData.swift */; };
+		CA20010B2F600002001FA002 /* ReceiptParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20010A2F600001001FA001 /* ReceiptParser.swift */; };
+		CA2001132F60000A001FA00A /* TextRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2001122F600009001FA009 /* TextRecognizer.swift */; };
 		63DBD7EC2EEADE1A00D1A8EF /* OCRScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7EB2EEADE0900D1A8EF /* OCRScannerView.swift */; };
+		CA2001152F60000C001FA00C /* OCRProcessingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2001142F60000B001FA00B /* OCRProcessingView.swift */; };
+		CA2001192F600010001FA010 /* ScannerFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2001182F60000F001FA00F /* ScannerFlowView.swift */; };
+		CA2001172F60000E001FA00E /* CameraPrimingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2001162F60000D001FA00D /* CameraPrimingView.swift */; };
 		63DBD7F22EEAFEA400D1A8EF /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD7F12EEAFE9300D1A8EF /* OnboardingView.swift */; };
 		63DBD8002EEB1CBF00D1A8EF /* Ticket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03B2E9E818C001F7BBB /* Ticket.swift */; };
 		63DBD8082EEC425400D1A8EF /* PopupContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DBD8072EEC423B00D1A8EF /* PopupContainer.swift */; };
@@ -185,6 +189,7 @@
 		634EA0392E9E814E001F7BBB /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		634EA03B2E9E818C001F7BBB /* Ticket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ticket.swift; sourceTree = "<group>"; };
 		634EA03C2E9E81AD001F7BBB /* DateUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
+		CA20010C2F600003001FA003 /* AmountParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountParser.swift; sourceTree = "<group>"; };
 		634EA03D2E9E81D2001F7BBB /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
 		634EA03E2E9E81E8001F7BBB /* AddTicketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTicketViewModel.swift; sourceTree = "<group>"; };
 		634EA03F2E9E8211001F7BBB /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
@@ -196,7 +201,6 @@
 		634EA0482E9E8393001F7BBB /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		634EA0802E9EDEF4001F7BBB /* CategoryTotal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTotal.swift; sourceTree = "<group>"; };
 		634EA0842E9EE3FF001F7BBB /* AppAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearance.swift; sourceTree = "<group>"; };
-		634EA0872E9FD768001F7BBB /* eTixButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eTixButton.swift; sourceTree = "<group>"; };
 		634EA0892E9FD7AD001F7BBB /* Haptic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptic.swift; sourceTree = "<group>"; };
 		634EA08C2E9FDA3D001F7BBB /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		634EA0A12E9FF536001F7BBB /* OnboardingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPage.swift; sourceTree = "<group>"; };
@@ -238,11 +242,15 @@
 		63DBD7D82EE864ED00D1A8EF /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		63DBD7DD2EEAD73700D1A8EF /* TicketDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketDetailView.swift; sourceTree = "<group>"; };
 		63DBD7DF2EEAD75600D1A8EF /* TicketEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketEditView.swift; sourceTree = "<group>"; };
+		CA20010E2F600005001FA005 /* TicketForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketForm.swift; sourceTree = "<group>"; };
 		63DBD7E12EEAD87900D1A8EF /* TicketFilterSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketFilterSheet.swift; sourceTree = "<group>"; };
-		63DBD7E42EEADA5D00D1A8EF /* CameraPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermission.swift; sourceTree = "<group>"; };
-		63DBD7E62EEADCCC00D1A8EF /* OCRNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRNotifications.swift; sourceTree = "<group>"; };
 		63DBD7E92EEADDB100D1A8EF /* OCRExtractedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRExtractedData.swift; sourceTree = "<group>"; };
+		CA20010A2F600001001FA001 /* ReceiptParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptParser.swift; sourceTree = "<group>"; };
+		CA2001122F600009001FA009 /* TextRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRecognizer.swift; sourceTree = "<group>"; };
 		63DBD7EB2EEADE0900D1A8EF /* OCRScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRScannerView.swift; sourceTree = "<group>"; };
+		CA2001142F60000B001FA00B /* OCRProcessingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRProcessingView.swift; sourceTree = "<group>"; };
+		CA2001182F60000F001FA00F /* ScannerFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerFlowView.swift; sourceTree = "<group>"; };
+		CA2001162F60000D001FA00D /* CameraPrimingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPrimingView.swift; sourceTree = "<group>"; };
 		63DBD7F12EEAFE9300D1A8EF /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		63DBD8072EEC423B00D1A8EF /* PopupContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupContainer.swift; sourceTree = "<group>"; };
 		63DBD8092EEC428500D1A8EF /* SuccessPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessPopup.swift; sourceTree = "<group>"; };
@@ -424,11 +432,11 @@
 				63B965EA2FD98D6200433979 /* BudgetStore.swift */,
 				63CDBC072F3BC62E001503FF /* DateRangeHelper.swift */,
 				63CDBC052F3BC5FD001503FF /* TimeRange.swift */,
-				63DBD7E62EEADCCC00D1A8EF /* OCRNotifications.swift */,
 				63DBD7D52EE8645F00D1A8EF /* PDFExportService.swift */,
 				634EA0AF2EA01E3E001F7BBB /* WidgetSync.swift */,
 				634EA0892E9FD7AD001F7BBB /* Haptic.swift */,
 				634EA03C2E9E81AD001F7BBB /* DateUtils.swift */,
+				CA20010C2F600003001FA003 /* AmountParser.swift */,
 				634EA0862E9FD717001F7BBB /* UIComponents */,
 			);
 			path = Utils;
@@ -437,7 +445,6 @@
 		634EA0862E9FD717001F7BBB /* UIComponents */ = {
 			isa = PBXGroup;
 			children = (
-				634EA0872E9FD768001F7BBB /* eTixButton.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";
@@ -567,6 +574,7 @@
 			children = (
 				63DBD7E12EEAD87900D1A8EF /* TicketFilterSheet.swift */,
 				63DBD7DF2EEAD75600D1A8EF /* TicketEditView.swift */,
+				CA20010E2F600005001FA005 /* TicketForm.swift */,
 				63DBD7DD2EEAD73700D1A8EF /* TicketDetailView.swift */,
 			);
 			path = Tickets;
@@ -576,7 +584,9 @@
 			isa = PBXGroup;
 			children = (
 				63DBD7EB2EEADE0900D1A8EF /* OCRScannerView.swift */,
-				63DBD7E42EEADA5D00D1A8EF /* CameraPermission.swift */,
+				CA2001142F60000B001FA00B /* OCRProcessingView.swift */,
+				CA2001182F60000F001FA00F /* ScannerFlowView.swift */,
+				CA2001162F60000D001FA00D /* CameraPrimingView.swift */,
 			);
 			path = OCR;
 			sourceTree = "<group>";
@@ -586,6 +596,8 @@
 			children = (
 				63B965E62FD97DF800433979 /* StoreCategoryMapper.swift */,
 				63DBD7E92EEADDB100D1A8EF /* OCRExtractedData.swift */,
+				CA20010A2F600001001FA001 /* ReceiptParser.swift */,
+				CA2001122F600009001FA009 /* TextRecognizer.swift */,
 			);
 			path = OCR;
 			sourceTree = "<group>";
@@ -887,6 +899,7 @@
 				63B965E92FD9805900433979 /* CategoryPickerSheet.swift in Sources */,
 				637D58C32F24518C00A8000C /* StoreComparisonBarChartView.swift in Sources */,
 				63DBD7E02EEAD76700D1A8EF /* TicketEditView.swift in Sources */,
+				CA20010F2F600006001FA006 /* TicketForm.swift in Sources */,
 				634EA0B02EA01E52001F7BBB /* WidgetSync.swift in Sources */,
 				634EA0502E9E8F8C001F7BBB /* AddTicketViewModel.swift in Sources */,
 				634EA04B2E9E899E001F7BBB /* SessionViewModel.swift in Sources */,
@@ -896,8 +909,10 @@
 				63CDBBF62F3BAF2A001503FF /* StoreComparisonDonutView.swift in Sources */,
 				6309A1B52F3B9C8A002B98B6 /* StoreComparisonViewModel.swift in Sources */,
 				63CDBC082F3BC632001503FF /* DateRangeHelper.swift in Sources */,
-				63DBD7E72EEADCED00D1A8EF /* OCRNotifications.swift in Sources */,
 				63DBD7EC2EEADE1A00D1A8EF /* OCRScannerView.swift in Sources */,
+				CA2001152F60000C001FA00C /* OCRProcessingView.swift in Sources */,
+				CA2001192F600010001FA010 /* ScannerFlowView.swift in Sources */,
+				CA2001172F60000E001FA00E /* CameraPrimingView.swift in Sources */,
 				63B965E72FD97DF800433979 /* StoreCategoryMapper.swift in Sources */,
 				63CDBC142F3BDB13001503FF /* SettingsViewModel.swift in Sources */,
 				634EA0362E9E8136001F7BBB /* eTixApp.swift in Sources */,
@@ -910,7 +925,6 @@
 				634EA0522E9E8F9F001F7BBB /* CategoryViewModel.swift in Sources */,
 				6309A1B72F3B9CFA002B98B6 /* StoreComparison.swift in Sources */,
 				637D58A22F24391A00A8000C /* CategoryRowView.swift in Sources */,
-				634EA0882E9FD77E001F7BBB /* eTixButton.swift in Sources */,
 				63CDBC122F3BDAFB001503FF /* AppSettings.swift in Sources */,
 				637D58BF2F244B1700A8000C /* StoreComparisonView.swift in Sources */,
 				637D58A72F243E5B00A8000C /* CategoryBarChartView.swift in Sources */,
@@ -924,13 +938,15 @@
 				637D58B32F2441DC00A8000C /* StoreListView.swift in Sources */,
 				634EA08D2E9FDA49001F7BBB /* SplashView.swift in Sources */,
 				634EA0592E9E8FF0001F7BBB /* DateUtils.swift in Sources */,
+				CA20010D2F600004001FA004 /* AmountParser.swift in Sources */,
 				63B965EB2FD98D6200433979 /* BudgetStore.swift in Sources */,
 				637D58A02F2438F200A8000C /* CategoryDonutView.swift in Sources */,
 				637D58B72F24433000A8000C /* StoreBarChartView.swift in Sources */,
 				63CDBC062F3BC609001503FF /* TimeRange.swift in Sources */,
-				63DBD7E52EEADA6D00D1A8EF /* CameraPermission.swift in Sources */,
 				63DBD7E22EEAD88E00D1A8EF /* TicketFilterSheet.swift in Sources */,
 				63DBD7EA2EEADDED00D1A8EF /* OCRExtractedData.swift in Sources */,
+				CA20010B2F600002001FA002 /* ReceiptParser.swift in Sources */,
+				CA2001132F60000A001FA00A /* TextRecognizer.swift in Sources */,
 				637D58AE2F24415700A8000C /* StoreTotal.swift in Sources */,
 				637D58B52F2442AC00A8000C /* StoreDetailView.swift in Sources */,
 							BB2001C22F5B0001002E8001 /* StoreIntelligenceEngine.swift in Sources */,
