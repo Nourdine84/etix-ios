@@ -120,3 +120,73 @@ struct OCRExtractedDataTests {
         #expect(!ReceiptParser.parse("TOTAL 12,50").isEmpty)
     }
 }
+
+struct FinancialStateEngineTests {
+
+    private func inputs(
+        total: Double = 100,
+        previous: Double = 100,
+        count: Int = 10,
+        budgetTense: Bool = false
+    ) -> FinancialInputs {
+        FinancialInputs(
+            periodTotal: total,
+            previousPeriodTotal: previous,
+            allTimeTicketCount: count,
+            budgetTense: budgetTense
+        )
+    }
+
+    // MARK: Paliers de maturité (Progressive Intelligence)
+
+    @Test func noDataIsWelcome() {
+        #expect(FinancialStateEngine.evaluate(inputs(count: 0))
+                == FinancialState(kind: .welcome, tone: .neutral))
+    }
+
+    @Test func fewTicketsIsBuilding() {
+        #expect(FinancialStateEngine.evaluate(inputs(count: 2)).kind == .building)
+    }
+
+    @Test func noPreviousPeriodIsSteady() {
+        #expect(FinancialStateEngine.evaluate(inputs(total: 100, previous: 0, count: 10)).kind == .steady)
+    }
+
+    // MARK: Tendance
+
+    @Test func strongRiseIsHighSpending() {
+        #expect(FinancialStateEngine.evaluate(inputs(total: 200, previous: 100)).kind == .highSpending)
+    }
+
+    @Test func clearDropIsSaving() {
+        #expect(FinancialStateEngine.evaluate(inputs(total: 80, previous: 100)).kind == .saving)
+    }
+
+    @Test func slightRiseKind() {
+        #expect(FinancialStateEngine.evaluate(inputs(total: 112, previous: 100)).kind == .slightRise)
+    }
+
+    @Test func moderateDropIsUnderControl() {
+        #expect(FinancialStateEngine.evaluate(inputs(total: 95, previous: 100)).kind == .underControl)
+    }
+
+    @Test func nearFlatIsSteady() {
+        #expect(FinancialStateEngine.evaluate(inputs(total: 103, previous: 100)).kind == .steady)
+    }
+
+    // MARK: L'état métier ne dépend pas QUE du delta
+
+    @Test func budgetTenseEscalatesBeyondDelta() {
+        let s = FinancialStateEngine.evaluate(inputs(total: 101, previous: 100, budgetTense: true))
+        #expect(s.kind == .highSpending)
+        #expect(s.tone == .attention)
+    }
+
+    // MARK: Altitude globale — l'API ne renvoie QUE kind + tone
+    // (structurellement : ni catégorie, ni magasin, ni action).
+
+    @Test func stateExposesOnlyGlobalKindAndTone() {
+        let s = FinancialStateEngine.evaluate(inputs(total: 200, previous: 100))
+        #expect(s == FinancialState(kind: .highSpending, tone: .attention))
+    }
+}
