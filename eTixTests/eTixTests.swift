@@ -126,12 +126,14 @@ struct FinancialStateEngineTests {
     private func inputs(
         total: Double = 100,
         previous: Double = 100,
+        currentCount: Int = 5,
         count: Int = 10,
         budgetTense: Bool = false
     ) -> FinancialInputs {
         FinancialInputs(
             periodTotal: total,
             previousPeriodTotal: previous,
+            currentPeriodTicketCount: currentCount,
             allTimeTicketCount: count,
             budgetTense: budgetTense
         )
@@ -148,8 +150,37 @@ struct FinancialStateEngineTests {
         #expect(FinancialStateEngine.evaluate(inputs(count: 2)).kind == .building)
     }
 
-    @Test func noPreviousPeriodIsSteady() {
-        #expect(FinancialStateEngine.evaluate(inputs(total: 100, previous: 0, count: 10)).kind == .steady)
+    @Test func matureButNoPreviousIsBuildingNeverSteady() {
+        // Utilisateur mature, mais aucune période précédente → building (pas steady) :
+        // on n'affirme pas une stabilité sans comparaison.
+        let s = FinancialStateEngine.evaluate(inputs(total: 100, previous: 0, count: 10))
+        #expect(s.kind == .building)
+        #expect(s.kind != .steady)
+    }
+
+    @Test func manyHistoricalButZeroCurrentIsBuildingNeverSaving() {
+        // Historique fourni, mais 0 ticket sur la période courante (total = 0) :
+        // ne doit surtout PAS être lu comme une économie.
+        let s = FinancialStateEngine.evaluate(
+            inputs(total: 0, previous: 200, currentCount: 0, count: 20)
+        )
+        #expect(s.kind == .building)
+        #expect(s.kind != .saving)
+    }
+
+    @Test func budgetTenseWithInsufficientCurrentDataDoesNotTriggerHighSpending() {
+        // Budget tendu mais données courantes insuffisantes → maturité d'abord :
+        // building, jamais highSpending.
+        let s = FinancialStateEngine.evaluate(
+            inputs(total: 0, previous: 200, currentCount: 0, count: 20, budgetTense: true)
+        )
+        #expect(s.kind == .building)
+        #expect(s.kind != .highSpending)
+    }
+
+    @Test func validComparisonNearZeroIsSteady() {
+        // Comparaison valide, variation quasi nulle → steady.
+        #expect(FinancialStateEngine.evaluate(inputs(total: 100, previous: 100, count: 10)).kind == .steady)
     }
 
     // MARK: Tendance
