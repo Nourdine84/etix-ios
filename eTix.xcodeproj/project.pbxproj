@@ -26,6 +26,8 @@
 		AA1001B62F4A0002001F7001 /* BudgetSummaryCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1001B52F4A0002001F7001 /* BudgetSummaryCardView.swift */; };
 
 		AA1001AB2F4A0001001F7001 /* HomeSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1001AA2F4A0001001F7001 /* HomeSnapshot.swift */; };
+		CA3001612F510061001FA061 /* HistoryQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3001512F510051001FA051 /* HistoryQuery.swift */; };
+		CA3001622F510062001FA062 /* HistoryDigest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3001522F510052001FA052 /* HistoryDigest.swift */; };
 		AA1001AD2F4A0001001F7001 /* HomeInsightEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1001AC2F4A0001001F7001 /* HomeInsightEngine.swift */; };
 		AA1001AF2F4A0001001F7001 /* InsightMemory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1001AE2F4A0001001F7001 /* InsightMemory.swift */; };
 		AA1001B12F4A0001001F7001 /* InsightCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1001B02F4A0001001F7001 /* InsightCardView.swift */; };
@@ -180,6 +182,8 @@
 		AA1001B52F4A0002001F7001 /* BudgetSummaryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetSummaryCardView.swift; sourceTree = "<group>"; };
 
 		AA1001AA2F4A0001001F7001 /* HomeSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSnapshot.swift; sourceTree = "<group>"; };
+		CA3001512F510051001FA051 /* HistoryQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryQuery.swift; sourceTree = "<group>"; };
+		CA3001522F510052001FA052 /* HistoryDigest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDigest.swift; sourceTree = "<group>"; };
 		AA1001AC2F4A0001001F7001 /* HomeInsightEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInsightEngine.swift; sourceTree = "<group>"; };
 		AA1001AE2F4A0001001F7001 /* InsightMemory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightMemory.swift; sourceTree = "<group>"; };
 		AA1001B02F4A0001001F7001 /* InsightCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightCardView.swift; sourceTree = "<group>"; };
@@ -660,6 +664,8 @@
 				CC3001D12F6C0001003F9001 /* TrendEngine.swift */,
 				AA1001B32F4A0002001F7001 /* BudgetSummaryEngine.swift */,
 				AA1001AA2F4A0001001F7001 /* HomeSnapshot.swift */,
+				CA3001512F510051001FA051 /* HistoryQuery.swift */,
+				CA3001522F510052001FA052 /* HistoryDigest.swift */,
 				AA1001AC2F4A0001001F7001 /* HomeInsightEngine.swift */,
 				AA1001AE2F4A0001001F7001 /* InsightMemory.swift */,
 							BB2001C12F5B0001002E8001 /* StoreIntelligenceEngine.swift */,
@@ -880,6 +886,8 @@
 				AA1001B42F4A0002001F7001 /* BudgetSummaryEngine.swift in Sources */,
 				AA1001B62F4A0002001F7001 /* BudgetSummaryCardView.swift in Sources */,
 				AA1001AB2F4A0001001F7001 /* HomeSnapshot.swift in Sources */,
+				CA3001612F510061001FA061 /* HistoryQuery.swift in Sources */,
+				CA3001622F510062001FA062 /* HistoryDigest.swift in Sources */,
 				AA1001AD2F4A0001001F7001 /* HomeInsightEngine.swift in Sources */,
 				AA1001AF2F4A0001001F7001 /* InsightMemory.swift in Sources */,
 				AA1001B12F4A0001001F7001 /* InsightCardView.swift in Sources */,
