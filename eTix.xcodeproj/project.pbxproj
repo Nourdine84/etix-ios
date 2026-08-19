@@ -16,6 +16,7 @@
 		AA2001152F500015001F8005 /* CategoryIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2001052F500005001F8005 /* CategoryIconView.swift */; };
 		AA2001162F500016001F8006 /* StatBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2001062F500006001F8006 /* StatBlock.swift */; };
 		AA2001172F500017001F8007 /* ProgressCapsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2001072F500007001F8007 /* ProgressCapsule.swift */; };
+		AA20011A2F50001A001F801A /* TicketRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA20012A2F50002A001F802A /* TicketRow.swift */; };
 		CC3001D22F6C0001003F9001 /* TrendEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3001D12F6C0001003F9001 /* TrendEngine.swift */; };
 		CC3001D42F6C0001003F9001 /* TrendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3001D32F6C0001003F9001 /* TrendView.swift */; };
 		BB2001C22F5B0001002E8001 /* StoreIntelligenceEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2001C12F5B0001002E8001 /* StoreIntelligenceEngine.swift */; };
@@ -169,6 +170,7 @@
 		AA2001052F500005001F8005 /* CategoryIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryIconView.swift; sourceTree = "<group>"; };
 		AA2001062F500006001F8006 /* StatBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatBlock.swift; sourceTree = "<group>"; };
 		AA2001072F500007001F8007 /* ProgressCapsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCapsule.swift; sourceTree = "<group>"; };
+		AA20012A2F50002A001F802A /* TicketRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketRow.swift; sourceTree = "<group>"; };
 		CC3001D12F6C0001003F9001 /* TrendEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendEngine.swift; sourceTree = "<group>"; };
 		CC3001D32F6C0001003F9001 /* TrendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendView.swift; sourceTree = "<group>"; };
 		BB2001C12F5B0001002E8001 /* StoreIntelligenceEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreIntelligenceEngine.swift; sourceTree = "<group>"; };
@@ -353,6 +355,7 @@
 				AA2001052F500005001F8005 /* CategoryIconView.swift */,
 				AA2001062F500006001F8006 /* StatBlock.swift */,
 				AA2001072F500007001F8007 /* ProgressCapsule.swift */,
+				AA20012A2F50002A001F802A /* TicketRow.swift */,
 			);
 			path = DesignSystem;
 			sourceTree = "<group>";
@@ -871,6 +874,7 @@
 				AA2001152F500015001F8005 /* CategoryIconView.swift in Sources */,
 				AA2001162F500016001F8006 /* StatBlock.swift in Sources */,
 				AA2001172F500017001F8007 /* ProgressCapsule.swift in Sources */,
+				AA20011A2F50001A001F801A /* TicketRow.swift in Sources */,
 				CC3001D22F6C0001003F9001 /* TrendEngine.swift in Sources */,
 				CC3001D42F6C0001003F9001 /* TrendView.swift in Sources */,
 				AA1001B42F4A0002001F7001 /* BudgetSummaryEngine.swift in Sources */,
