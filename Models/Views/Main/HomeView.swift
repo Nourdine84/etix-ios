@@ -18,6 +18,8 @@ struct HomeView: View {
     @State private var range: TimeRange = AppSettings.load().defaultRange
     @State private var budgets: [String: Double] = BudgetStore.load()
 
+    @Environment(\.colorScheme) private var scheme
+
     // MARK: - Carte contextuelle
 
     private enum ContextCard {
@@ -118,7 +120,12 @@ struct HomeView: View {
     /// générique (aucun prénom, pas de profil) + nombre de tickets enregistrés.
     private func header(allTime: Int) -> some View {
         VStack(spacing: Theme.Spacing.m) {
-            EtixBadge(size: 52)
+            ZStack {
+                if scheme == .dark {
+                    headerStars
+                }
+                EtixBadge(size: 52)
+            }
 
             VStack(alignment: .leading, spacing: 4) {
                 Text("Accueil")
@@ -136,6 +143,31 @@ struct HomeView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
+    }
+
+    /// Étoiles statiques discrètes derrière le badge — **Dark uniquement**,
+    /// **scopées au header** (aucun plein écran). Positions seedées, aucune
+    /// animation.
+    private var headerStars: some View {
+        Canvas { context, size in
+            var seed: UInt32 = 7
+            func next() -> CGFloat {
+                seed = seed &* 1_664_525 &+ 1_013_904_223
+                return CGFloat(seed % 1000) / 1000
+            }
+            for _ in 0..<10 {
+                let x = next() * size.width
+                let y = next() * size.height
+                let radius = 0.5 + next() * 1.0
+                let alpha = 0.06 + next() * 0.10
+                context.fill(
+                    Path(ellipseIn: CGRect(x: x, y: y, width: radius * 2, height: radius * 2)),
+                    with: .color(.white.opacity(alpha))
+                )
+            }
+        }
+        .frame(width: 220, height: 90)
+        .allowsHitTesting(false)
     }
 
     // MARK: - Hero
