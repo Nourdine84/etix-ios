@@ -1,110 +1,55 @@
 import SwiftUI
 import CoreData
 
+/// History V2 — mission : **« où est mon ticket ? »**.
+///
+/// Recherche-first (magasin · catégorie · description/OCR), regroupement par
+/// jour, rendu via une **dérivation pure unique** (`HistoryDigestEngine`)
+/// construite une fois par render — aucun état dérivé stocké, aucun cache.
+///
+/// History n'est pas une seconde Home : pas de moyenne, pas de magasin
+/// dominant, pas de narration financière. Le seul chiffre agrégé est un
+/// **compteur de résultat** contextuel.
 struct TicketHistoryView: View {
 
     @Environment(\.managedObjectContext) private var context
     @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
     private var tickets: FetchedResults<Ticket>
 
-    @State private var searchText    = ""
-    @State private var showFilter    = false
+    @State private var searchText  = ""
+    @State private var showFilter  = false
     @State private var filterStart: Date? = nil
     @State private var filterEnd:   Date? = nil
 
-    // MARK: - Filtering
+    // MARK: - Requête (source unique de la dérivation)
+
+    private var query: HistoryQuery {
+        HistoryQuery(
+            text: searchText,
+            startDate: filterStart,
+            endDate: filterEnd,
+            sort: .recentFirst
+        )
+    }
 
     private var isFilterActive: Bool {
         filterStart != nil || filterEnd != nil
     }
 
-    private var filteredTickets: [Ticket] {
-        let cal = Calendar.current
-        return tickets.filter { ticket in
-            let matchesSearch = searchText.isEmpty
-                || ticket.storeName.localizedCaseInsensitiveContains(searchText)
-                || ticket.category.localizedCaseInsensitiveContains(searchText)
-
-            let date = DateUtils.date(fromMillis: ticket.dateMillis)
-
-            let matchesStart = filterStart.map { start in
-                ticket.dateMillis >= DateRangeHelper.millis(cal.startOfDay(for: start))
-            } ?? true
-
-            let matchesEnd = filterEnd.map { end in
-                let dayAfter = cal.date(byAdding: .day, value: 1, to: cal.startOfDay(for: end))!
-                return ticket.dateMillis < DateRangeHelper.millis(dayAfter)
-            } ?? true
-
-            return matchesSearch && matchesStart && matchesEnd
-        }
-    }
-
-    // MARK: - Grouping
-
-    private var groupedTickets: [(label: String, tickets: [Ticket])] {
-        let cal = Calendar.current
-        let now = Date()
-        let startOfToday     = cal.startOfDay(for: now)
-        let startOfYesterday = cal.date(byAdding: .day, value: -1, to: startOfToday)!
-        let startOfWeek      = cal.date(from: cal.dateComponents([.yearForWeekOfYear, .weekOfYear], from: now))!
-        let startOfMonth     = cal.date(from: cal.dateComponents([.year, .month], from: now))!
-
-        var buckets: [(String, [Ticket])] = [
-            ("Aujourd'hui",   []),
-            ("Hier",          []),
-            ("Cette semaine", []),
-            ("Ce mois",       []),
-            ("Plus ancien",   [])
-        ]
-
-        for ticket in filteredTickets {
-            let day = cal.startOfDay(for: DateUtils.date(fromMillis: ticket.dateMillis))
-            if      day >= startOfToday     { buckets[0].1.append(ticket) }
-            else if day >= startOfYesterday { buckets[1].1.append(ticket) }
-            else if day >= startOfWeek      { buckets[2].1.append(ticket) }
-            else if day >= startOfMonth     { buckets[3].1.append(ticket) }
-            else                            { buckets[4].1.append(ticket) }
-        }
-
-        return buckets.filter { !$0.1.isEmpty }
-    }
-
     // MARK: - Body
 
     var body: some View {
-        NavigationStack {
+        // Dérivation unique — une fois par render (comme HomeSnapshot).
+        let digest = HistoryDigestEngine.build(tickets: Array(tickets), query: query)
+
+        return NavigationStack {
             ZStack {
-                Color(.systemGroupedBackground).ignoresSafeArea()
+                Theme.Background.primary.ignoresSafeArea()
 
-                if filteredTickets.isEmpty {
-                    emptyState
+                if digest.sections.isEmpty {
+                    emptyState(isNarrowed: digest.isNarrowed)
                 } else {
-                    ScrollView {
-                        VStack(spacing: 32) {
-                            ForEach(groupedTickets, id: \.label) { section in
-                                VStack(alignment: .leading, spacing: 12) {
-                                    Text(section.label.uppercased())
-                                        .font(.caption2)
-                                        .tracking(1)
-                                        .foregroundColor(.secondary)
-
-                                    ForEach(section.tickets, id: \.objectID) { ticket in
-                                        NavigationLink {
-                                            TicketDetailView(ticket: ticket)
-                                        } label: {
-                                            ticketCard(ticket)
-                                        }
-                                        .buttonStyle(.plain)
-                                    }
-                                }
-                            }
-                        }
-                        .padding(.horizontal, 24)
-                        .padding(.top, 20)
-                        .padding(.bottom, 40)
-                    }
-                    .scrollIndicators(.hidden)
+                    content(digest)
                 }
             }
             .navigationTitle("Historique")
@@ -118,12 +63,13 @@ struct TicketHistoryView: View {
                               : "line.3.horizontal.decrease.circle")
                             .foregroundColor(isFilterActive ? Theme.primaryBlue : .primary)
                     }
+                    .accessibilityLabel("Filtres")
                 }
             }
             .searchable(
                 text: $searchText,
                 placement: .navigationBarDrawer(displayMode: .automatic),
-                prompt: "Rechercher un magasin ou une catégorie"
+                prompt: "Rechercher un magasin, une catégorie…"
             )
             .sheet(isPresented: $showFilter) {
                 TicketFilterSheet(
@@ -135,62 +81,89 @@ struct TicketHistoryView: View {
         }
     }
 
-    // MARK: - Ticket Card
+    // MARK: - Contenu
 
-    private func ticketCard(_ ticket: Ticket) -> some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(ticket.storeName)
-                    .font(.headline)
-                    .foregroundColor(.primary)
+    private func content(_ digest: HistoryDigest<Ticket>) -> some View {
+        ScrollView {
+            LazyVStack(alignment: .leading, spacing: Theme.Spacing.section) {
 
-                HStack(spacing: 6) {
-                    if !ticket.category.isEmpty {
-                        Text(ticket.category)
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                        Text("·")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
+                resultMeter(digest)
+
+                ForEach(digest.sections) { section in
+                    VStack(alignment: .leading, spacing: Theme.Spacing.m) {
+                        daySectionHeader(section, showTotal: !digest.isNarrowed)
+
+                        ForEach(section.rows) { row in
+                            NavigationLink {
+                                TicketDetailView(ticket: row.item)
+                            } label: {
+                                TicketRow(ticket: row.item, matchedSnippet: row.snippet)
+                            }
+                            .buttonStyle(.plain)
+                        }
                     }
-                    Text(DateUtils.shortString(fromMillis: ticket.dateMillis))
-                        .font(.caption)
-                        .foregroundColor(.secondary)
                 }
             }
+            .padding(.horizontal, Theme.Spacing.xxl)
+            .padding(.top, Theme.Spacing.l)
+            .padding(.bottom, Theme.Spacing.section)
+        }
+        .scrollIndicators(.hidden)
+    }
+
+    /// Compteur de résultat contextuel — **jamais** un mini-dashboard.
+    /// Sans recherche/filtre : « N tickets ». Sinon : « n résultats · total ».
+    @ViewBuilder
+    private func resultMeter(_ digest: HistoryDigest<Ticket>) -> some View {
+        if digest.isNarrowed {
+            Text("\(digest.resultCount) résultat\(digest.resultCount > 1 ? "s" : "") · \(amountString(digest.resultTotal))")
+                .font(.subheadline.weight(.medium))
+                .foregroundColor(.secondary)
+                .accessibilityLabel("\(digest.resultCount) résultats, total \(amountString(digest.resultTotal))")
+        } else {
+            Text("\(digest.resultCount) ticket\(digest.resultCount > 1 ? "s" : "")")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+        }
+    }
+
+    /// En-tête de jour — **helper privé** (pas encore un composant DS partagé).
+    /// Utilise un style dynamique (`.caption`) pour honorer Dynamic Type.
+    private func daySectionHeader(_ section: HistorySection<Ticket>, showTotal: Bool) -> some View {
+        HStack {
+            Text(section.label.uppercased())
+                .font(.caption.weight(.medium))
+                .tracking(1)
+                .foregroundColor(.secondary)
 
             Spacer()
 
-            Text(String(format: "%.2f €", ticket.amount))
-                .font(.subheadline.weight(.semibold))
-                .foregroundStyle(
-                    LinearGradient(
-                        colors: [Theme.primaryBlue, Theme.primaryBlue.opacity(0.75)],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
+            if showTotal {
+                Text(amountString(section.dayTotal))
+                    .font(.caption.weight(.semibold))
+                    .foregroundColor(.secondary)
+            }
         }
-        .padding(.vertical, 14)
-        .padding(.horizontal, 20)
-        .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(16)
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(.isHeader)
     }
 
-    // MARK: - Empty State
+    // MARK: - États vides
 
-    private var emptyState: some View {
-        VStack(spacing: 16) {
-            Image(systemName: searchText.isEmpty && !isFilterActive ? "tray" : "magnifyingglass")
+    @ViewBuilder
+    private func emptyState(isNarrowed: Bool) -> some View {
+        VStack(spacing: Theme.Spacing.l) {
+            Image(systemName: isNarrowed ? "magnifyingglass" : "tray")
                 .font(.system(size: 40))
                 .foregroundColor(.secondary)
 
-            Text(searchText.isEmpty && !isFilterActive ? "Aucun ticket" : "Aucun résultat")
+            Text(isNarrowed ? "Aucun résultat" : "Aucun ticket")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
 
-            if isFilterActive {
-                Button("Effacer les filtres") {
+            if isNarrowed {
+                Button("Effacer") {
+                    searchText  = ""
                     filterStart = nil
                     filterEnd   = nil
                 }
@@ -198,5 +171,12 @@ struct TicketHistoryView: View {
                 .foregroundColor(Theme.primaryBlue)
             }
         }
+        .padding(Theme.Spacing.xxl)
+    }
+
+    // MARK: - Format
+
+    private func amountString(_ value: Double) -> String {
+        String(format: "%.2f €", value)
     }
 }
