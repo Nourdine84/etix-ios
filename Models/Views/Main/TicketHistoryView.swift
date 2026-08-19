@@ -24,6 +24,10 @@ struct TicketHistoryView: View {
     @State private var maxAmount:   Double? = nil
     @State private var sort: HistorySort = .recentFirst
 
+    // Actions de ligne (confirmation obligatoire avant suppression).
+    @State private var pendingDelete: Ticket? = nil
+    @State private var editing: Ticket? = nil
+
     // MARK: - Requête (source unique de la dérivation)
 
     private var query: HistoryQuery {
@@ -87,36 +91,75 @@ struct TicketHistoryView: View {
                     onReset:   resetFilters
                 )
             }
+            .sheet(item: $editing) { ticket in
+                TicketEditView(ticket: ticket)
+            }
+            .overlay {
+                if let ticket = pendingDelete {
+                    ConfirmDeletePopup {
+                        performDelete(ticket)
+                        pendingDelete = nil
+                    } onCancel: {
+                        pendingDelete = nil
+                    }
+                    .zIndex(10)
+                }
+            }
         }
     }
 
     // MARK: - Contenu
 
     private func content(_ digest: HistoryDigest<Ticket>) -> some View {
-        ScrollView {
-            LazyVStack(alignment: .leading, spacing: Theme.Spacing.section) {
-
+        List {
+            Section {
                 resultMeter(digest)
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                    .listRowInsets(EdgeInsets(top: Theme.Spacing.s, leading: Theme.Spacing.xxl,
+                                              bottom: 0, trailing: Theme.Spacing.xxl))
+            }
 
-                ForEach(digest.sections) { section in
-                    VStack(alignment: .leading, spacing: Theme.Spacing.m) {
-                        daySectionHeader(section, showTotal: !digest.isNarrowed)
-
-                        ForEach(section.rows) { row in
-                            NavigationLink {
-                                TicketDetailView(ticket: row.item)
+            ForEach(digest.sections) { section in
+                Section {
+                    ForEach(section.rows) { row in
+                        NavigationLink {
+                            TicketDetailView(ticket: row.item)
+                        } label: {
+                            TicketRow(ticket: row.item, matchedSnippet: row.snippet)
+                        }
+                        .buttonStyle(.plain)
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets(top: Theme.Spacing.xs, leading: Theme.Spacing.xxl,
+                                                  bottom: Theme.Spacing.xs, trailing: Theme.Spacing.xxl))
+                        .swipeActions(edge: .trailing) {
+                            Button(role: .destructive) {
+                                pendingDelete = row.item
                             } label: {
-                                TicketRow(ticket: row.item, matchedSnippet: row.snippet)
+                                Label("Supprimer", systemImage: "trash")
                             }
-                            .buttonStyle(.plain)
+                        }
+                        .contextMenu {
+                            Button {
+                                editing = row.item
+                            } label: {
+                                Label("Modifier", systemImage: "pencil")
+                            }
+                            Button(role: .destructive) {
+                                pendingDelete = row.item
+                            } label: {
+                                Label("Supprimer", systemImage: "trash")
+                            }
                         }
                     }
+                } header: {
+                    daySectionHeader(section, showTotal: !digest.isNarrowed)
                 }
             }
-            .padding(.horizontal, Theme.Spacing.xxl)
-            .padding(.top, Theme.Spacing.l)
-            .padding(.bottom, Theme.Spacing.section)
         }
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
         .scrollIndicators(.hidden)
     }
 
@@ -192,6 +235,17 @@ struct TicketHistoryView: View {
         minAmount   = nil
         maxAmount   = nil
         sort        = .recentFirst
+    }
+
+    /// Suppression confirmée uniquement (jamais en un seul geste).
+    private func performDelete(_ ticket: Ticket) {
+        context.delete(ticket)
+        do {
+            try context.save()
+            Haptic.medium()
+        } catch {
+            print("❌ Delete failed:", error)
+        }
     }
 
     // MARK: - Format
