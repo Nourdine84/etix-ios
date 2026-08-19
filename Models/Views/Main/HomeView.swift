@@ -84,7 +84,7 @@ struct HomeView: View {
                     .ignoresSafeArea()
 
                 ScrollView {
-                    VStack(spacing: Theme.Spacing.section) {
+                    VStack(spacing: Theme.Spacing.xl) {
                         header(allTime: snap.allTimeTicketCount)
                         heroCard(snap: snap, budget: budget)
                         periodSelector
