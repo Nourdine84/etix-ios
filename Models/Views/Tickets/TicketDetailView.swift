@@ -8,6 +8,8 @@ struct TicketDetailView: View {
 
     @State private var showConfirmDeletePopup = false
     @State private var showEdit = false
+    @State private var showShare = false
+    @State private var shareItems: [Any] = []
 
     let ticket: Ticket
 
@@ -24,7 +26,6 @@ struct TicketDetailView: View {
                     if let desc = ticket.ticketDescription, !desc.isEmpty {
                         descriptionCard(desc)
                     }
-                    actions
                 }
                 .padding(.horizontal, 24)
                 .padding(.top, 32)
@@ -32,10 +33,45 @@ struct TicketDetailView: View {
             }
             .scrollIndicators(.hidden)
         }
-        .navigationTitle("")
+        .navigationTitle("Détail")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Modifier") {
+                    Haptic.light()
+                    showEdit = true
+                }
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                Menu {
+                    Button {
+                        sharePlainSummary()
+                    } label: {
+                        Label("Partager", systemImage: "square.and.arrow.up")
+                    }
+                    Button {
+                        exportPDF()
+                    } label: {
+                        Label("Exporter en PDF", systemImage: "doc.richtext")
+                    }
+                    Divider()
+                    Button(role: .destructive) {
+                        Haptic.medium()
+                        showConfirmDeletePopup = true
+                    } label: {
+                        Label("Supprimer", systemImage: "trash")
+                    }
+                } label: {
+                    Image(systemName: "ellipsis.circle")
+                }
+                .accessibilityLabel("Plus d'actions")
+            }
+        }
         .sheet(isPresented: $showEdit) {
             TicketEditView(ticket: ticket)
+        }
+        .sheet(isPresented: $showShare) {
+            ShareSheet(items: shareItems)
         }
         .overlay {
             if showConfirmDeletePopup {
@@ -158,32 +194,33 @@ struct TicketDetailView: View {
         .cornerRadius(20)
     }
 
-    // MARK: - Actions
+    // MARK: - Actions (barre de navigation)
 
-    private var actions: some View {
-        VStack(spacing: 12) {
-            Button {
-                Haptic.light()
-                showEdit = true
-            } label: {
-                Text("Modifier")
-                    .font(.headline)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 18)
-                    .background(Color(.secondarySystemGroupedBackground))
-                    .foregroundColor(.primary)
-                    .cornerRadius(20)
-            }
+    /// Partager = **résumé texte** (intention « envoyer vite »), pas un PDF.
+    private func sharePlainSummary() {
+        Haptic.light()
+        let parts = [
+            ticket.storeName,
+            String(format: "%.2f €", ticket.amount),
+            formattedWeekday + " " + formattedDay + " " + formattedMonthYear,
+            ticket.category
+        ].filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
+        shareItems = [parts.joined(separator: " — ")]
+        showShare = true
+    }
 
-            Button(role: .destructive) {
-                Haptic.medium()
-                showConfirmDeletePopup = true
-            } label: {
-                Text("Supprimer ce ticket")
-                    .font(.footnote)
-                    .foregroundColor(.red.opacity(0.8))
-                    .padding(.vertical, 8)
-            }
+    /// Exporter = **PDF** (intention « document »), via le service partagé.
+    private func exportPDF() {
+        Haptic.light()
+        do {
+            let data = try PDFExportService.exportTicket(ticket)
+            let url = FileManager.default.temporaryDirectory
+                .appendingPathComponent("ticket-\(ticket.id).pdf")
+            try data.write(to: url, options: .atomic)
+            shareItems = [url]
+            showShare = true
+        } catch {
+            print("❌ PDF export failed:", error)
         }
     }
 
