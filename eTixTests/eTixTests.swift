@@ -120,3 +120,19 @@ struct OCRExtractedDataTests {
         #expect(!ReceiptParser.parse("TOTAL 12,50").isEmpty)
     }
 }
+
+struct PDFExportServiceTests {
+
+    @Test func singleTicketExportProducesNonEmptyPDF() throws {
+        let context = PersistenceController.shared.container.viewContext
+        let ticket = Ticket(context: context)
+        ticket.storeName = "Auchan"
+        ticket.amount = 87.50
+        ticket.category = "Alimentation"
+        ticket.dateMillis = 1_713_100_000_000
+        defer { context.delete(ticket) }
+
+        let data = try PDFExportService.exportTicket(ticket)
+        #expect(!data.isEmpty)
+    }
+}

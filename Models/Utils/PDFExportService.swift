@@ -35,6 +35,22 @@ struct PDFExportService {
         )
     }
 
+    /// Génère un PDF pour **un seul ticket**, en réutilisant **exactement** le
+    /// même document, les mêmes styles, helpers de dessin et pagination que
+    /// l'export mensuel (une seule ligne de tableau, période = date du ticket).
+    /// Aucune logique de rendu dupliquée : les deux exports partagent
+    /// `generatePDF(for:…)` et tous ses `draw*`.
+    static func exportTicket(_ ticket: Ticket) throws -> Data {
+        let date = Date(timeIntervalSince1970: TimeInterval(ticket.dateMillis) / 1000.0)
+        return try generatePDF(
+            for: [ticket],
+            monthStart: date,
+            monthEnd: date,
+            total: ticket.amount,
+            count: 1
+        )
+    }
+
     // MARK: - Fetch
 
     private static func fetchTickets(from start: Date,
