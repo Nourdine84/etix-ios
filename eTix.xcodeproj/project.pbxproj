@@ -42,6 +42,7 @@
 		634EA0502E9E8F8C001F7BBB /* AddTicketViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03E2E9E81E8001F7BBB /* AddTicketViewModel.swift */; };
 		634EA0522E9E8F9F001F7BBB /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA03F2E9E8211001F7BBB /* CategoryViewModel.swift */; };
 		634EA0532E9E8FBC001F7BBB /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0482E9E8393001F7BBB /* HomeView.swift */; };
+		CA20011F2F600016001FA016 /* HomeFinancialCopy.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA20011E2F600015001FA015 /* HomeFinancialCopy.swift */; };
 		634EA0542E9E8FC3001F7BBB /* AddTicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0472E9E8378001F7BBB /* AddTicketView.swift */; };
 		634EA0552E9E8FCB001F7BBB /* TicketHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0462E9E82F2001F7BBB /* TicketHistoryView.swift */; };
 		634EA0562E9E8FD3001F7BBB /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634EA0452E9E82DA001F7BBB /* CategoryView.swift */; };
@@ -203,6 +204,7 @@
 		634EA0462E9E82F2001F7BBB /* TicketHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketHistoryView.swift; sourceTree = "<group>"; };
 		634EA0472E9E8378001F7BBB /* AddTicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTicketView.swift; sourceTree = "<group>"; };
 		634EA0482E9E8393001F7BBB /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		CA20011E2F600015001FA015 /* HomeFinancialCopy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFinancialCopy.swift; sourceTree = "<group>"; };
 		634EA0802E9EDEF4001F7BBB /* CategoryTotal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTotal.swift; sourceTree = "<group>"; };
 		634EA0842E9EE3FF001F7BBB /* AppAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearance.swift; sourceTree = "<group>"; };
 		634EA0892E9FD7AD001F7BBB /* Haptic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptic.swift; sourceTree = "<group>"; };
@@ -422,6 +424,7 @@
 				AA1001B02F4A0001001F7001 /* InsightCardView.swift */,
 				634EA0432E9E82A4001F7BBB /* MainView.swift */,
 				634EA0482E9E8393001F7BBB /* HomeView.swift */,
+				CA20011E2F600015001FA015 /* HomeFinancialCopy.swift */,
 				634EA0472E9E8378001F7BBB /* AddTicketView.swift */,
 				634EA0462E9E82F2001F7BBB /* TicketHistoryView.swift */,
 				634EA0442E9E82C0001F7BBB /* SettingsView.swift */,
@@ -891,6 +894,7 @@
 				637D58A92F243F0000A8000C /* CategoryExportViewModel.swift in Sources */,
 				634EA0562E9E8FD3001F7BBB /* CategoryView.swift in Sources */,
 				634EA0532E9E8FBC001F7BBB /* HomeView.swift in Sources */,
+				CA20011F2F600016001FA016 /* HomeFinancialCopy.swift in Sources */,
 				63DBD80A2EEC429B00D1A8EF /* SuccessPopup.swift in Sources */,
 				63CDBBF82F3BAFEC001503FF /* DonutSlice.swift in Sources */,
 				63DBD80C2EEC42E500D1A8EF /* ErrorPopup.swift in Sources */,

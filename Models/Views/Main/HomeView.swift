@@ -84,7 +84,7 @@ struct HomeView: View {
                 ScrollView {
                     VStack(spacing: Theme.Spacing.section) {
                         header(allTime: snap.allTimeTicketCount)
-                        heroCard(snap: snap)
+                        heroCard(snap: snap, budget: budget)
                         periodSelector
 
                         if !insights.isEmpty {
@@ -140,10 +140,25 @@ struct HomeView: View {
     /// Hero épuré : montant principal directement sur le fond, avec un glow
     /// statique discret derrière (aucune animation, aucune surface, aucune
     /// mascotte). Hiérarchie typographique = overline → montant → delta.
-    private func heroCard(snap: HomeSnapshot) -> some View {
+    private func heroCard(snap: HomeSnapshot, budget: BudgetSummary?) -> some View {
         let total = snap.periodTotal
         let previous = snap.previousPeriodTotal
-        let delta: Double? = previous > 0 ? (total - previous) / previous * 100 : nil
+
+        // Comparaison exploitable — même règle de maturité que le moteur.
+        let hasComparison = previous > 0
+            && snap.periodTicketCount > 0
+            && snap.allTimeTicketCount >= 3
+        let delta: Double? = hasComparison ? (total - previous) / previous * 100 : nil
+
+        // FinancialState = source de vérité (Home ne modifie ni kind ni tone).
+        // Dérivé du snapshot déjà calculé → aucun nouveau passage O(N).
+        let state = FinancialStateEngine.evaluate(FinancialInputs(
+            periodTotal: snap.periodTotal,
+            previousPeriodTotal: snap.previousPeriodTotal,
+            currentPeriodTicketCount: snap.periodTicketCount,
+            allTimeTicketCount: snap.allTimeTicketCount,
+            budgetTense: budget.map { $0.state == .critical || $0.state == .exceeded } ?? false
+        ))
 
         return ZStack {
             RadialGradient(
@@ -156,40 +171,81 @@ struct HomeView: View {
             .blur(radius: 30)
             .allowsHitTesting(false)
 
+            // Structure FIXE — 4 slots toujours présents (seul le contenu varie).
             VStack(alignment: .leading, spacing: Theme.Spacing.s) {
-                SectionLabel(text: heroLabel)
-
-                AnimatedAmountText(value: total)
+                heroLabelRow                          // [1] label + icône
+                AnimatedAmountText(value: total)      // [2] montant
                     .font(.system(size: 48, weight: .heavy, design: .rounded))
                     .foregroundColor(.primary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.5)
-
-                if let delta {
-                    deltaChip(delta)
-                }
+                deltaChip(delta)                      // [3] delta (toujours)
+                narrationLine(state)                  // [4] narration (toujours)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 
-    /// Sémantique financière verrouillée : hausse des dépenses = rouge,
-    /// baisse = vert.
-    private func deltaChip(_ delta: Double) -> some View {
-        let isUp = delta >= 0
-        let color: Color = isUp ? .red : .green
-        return HStack(spacing: 4) {
-            Image(systemName: isUp ? "arrow.up.right" : "arrow.down.right")
-            Text(String(format: "%+.1f %%", delta))
-            Text(deltaLabel)
+    /// [1] Label + icône d'identité (SF Symbol inline — aucun composant DS).
+    private var heroLabelRow: some View {
+        HStack(spacing: Theme.Spacing.xs) {
+            Image(systemName: "creditcard")
+                .font(.system(size: 11, weight: .semibold))
                 .foregroundColor(.secondary)
+            SectionLabel(text: heroLabel)
         }
-        .font(.caption.weight(.semibold))
-        .foregroundColor(color)
-        .padding(.horizontal, 10)
-        .padding(.vertical, 5)
-        .background(color.opacity(0.12))
-        .clipShape(Capsule())
+    }
+
+    /// [3] Chip delta — TOUJOURS présent. Sémantique : hausse = rouge, baisse =
+    /// vert. Sans comparaison exploitable → état neutre (pas de faux chiffre,
+    /// pas de couleur d'alerte).
+    @ViewBuilder
+    private func deltaChip(_ delta: Double?) -> some View {
+        if let delta {
+            let isUp = delta >= 0
+            let color: Color = isUp ? .red : .green
+            HStack(spacing: 4) {
+                Image(systemName: isUp ? "arrow.up.right" : "arrow.down.right")
+                Text(String(format: "%+.1f %%", delta))
+                Text(deltaLabel)
+                    .foregroundColor(.secondary)
+            }
+            .font(.caption.weight(.semibold))
+            .foregroundColor(color)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 5)
+            .background(color.opacity(0.12))
+            .clipShape(Capsule())
+        } else {
+            HStack(spacing: 4) {
+                Image(systemName: "minus")
+                Text("Pas de comparaison")
+            }
+            .font(.caption.weight(.semibold))
+            .foregroundColor(.secondary)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 5)
+            .background(Color.secondary.opacity(0.12))
+            .clipShape(Capsule())
+        }
+    }
+
+    /// [4] Narration — une ligne, style sémantique, couleur dérivée du ton.
+    /// Phrases naturellement courtes ; minimumScaleFactor n'est qu'un filet.
+    private func narrationLine(_ state: FinancialState) -> some View {
+        Text(HomeFinancialCopy.message(for: state, range: range))
+            .font(.subheadline)
+            .foregroundColor(narrationColor(state.tone))
+            .lineLimit(1)
+            .minimumScaleFactor(0.85)
+    }
+
+    private func narrationColor(_ tone: FinancialTone) -> Color {
+        switch tone {
+        case .positive:  return .green
+        case .neutral:   return .secondary
+        case .attention: return .orange
+        }
     }
 
     // MARK: - Period Selector
