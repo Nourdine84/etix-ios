@@ -127,6 +127,9 @@ struct HomeView: View {
                 Text(greeting)
                     .font(Theme.Typography.subheadline)
                     .foregroundColor(.secondary)
+                Text(greetingWish)
+                    .font(Theme.Typography.subheadline)
+                    .foregroundColor(.secondary)
                 Text(countLabel(allTime))
                     .font(Theme.Typography.caption)
                     .foregroundColor(.secondary)
@@ -382,6 +385,11 @@ struct HomeView: View {
     private var greeting: String {
         let hour = Calendar.current.component(.hour, from: Date())
         return (5..<18).contains(hour) ? "Bonjour" : "Bonsoir"
+    }
+
+    private var greetingWish: String {
+        let hour = Calendar.current.component(.hour, from: Date())
+        return (5..<18).contains(hour) ? "Bonne journée" : "Bonne soirée"
     }
 
     private func countLabel(_ count: Int) -> String {
