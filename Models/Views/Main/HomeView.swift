@@ -19,6 +19,11 @@ struct HomeView: View {
     @State private var budgets: [String: Double] = BudgetStore.load()
 
     @Environment(\.colorScheme) private var scheme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+    /// Bascule d'entrée : passe à `true` au premier `onAppear` pour déclencher
+    /// l'apparition échelonnée. Purement visuel — n'affecte aucun agrégat.
+    @State private var appeared = false
 
     // MARK: - Carte contextuelle
 
@@ -85,21 +90,21 @@ struct HomeView: View {
 
                 ScrollView {
                     VStack(spacing: Theme.Spacing.xl) {
-                        header(allTime: snap.allTimeTicketCount)
-                        heroCard(snap: snap, budget: budget)
-                        periodSelector
+                        entrance(0) { header(allTime: snap.allTimeTicketCount) }
+                        entrance(1) { heroCard(snap: snap, budget: budget) }
+                        entrance(2) { periodSelector }
 
                         if !insights.isEmpty {
-                            insightCards(insights)
+                            entrance(3) { insightCards(insights) }
                         }
 
-                        contextCardView(contextCard)
+                        entrance(4) { contextCardView(contextCard) }
 
                         if snap.allTimeTicketCount > 0 {
-                            trendCard(snap: snap)
+                            entrance(5) { trendCard(snap: snap) }
                         }
 
-                        actions
+                        entrance(6) { actions }
                     }
                     .padding(.horizontal, Theme.Spacing.xxl)
                     .padding(.top, Theme.Spacing.xl)
@@ -110,8 +115,27 @@ struct HomeView: View {
             .toolbar(.hidden, for: .navigationBar)
             .onAppear {
                 budgets = BudgetStore.load()
+                appeared = true
             }
         }
+    }
+
+    /// Apparition échelonnée d'un bloc — **opacity + offset uniquement**, jamais
+    /// de changement de layout (l'offset est un transform, il ne pousse pas les
+    /// voisins). Neutralisée sous Reduce Motion (état final, aucune animation).
+    @ViewBuilder
+    private func entrance<Content: View>(
+        _ index: Int,
+        @ViewBuilder content: () -> Content
+    ) -> some View {
+        let shown = appeared || reduceMotion
+        content()
+            .opacity(shown ? 1 : 0)
+            .offset(y: shown ? 0 : 12)
+            .animation(
+                reduceMotion ? nil : .easeOut(duration: 0.4).delay(Double(index) * 0.06),
+                value: appeared
+            )
     }
 
     // MARK: - Header
