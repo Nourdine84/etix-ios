@@ -13,8 +13,14 @@ import CoreData
 struct TicketHistoryView: View {
 
     @Environment(\.managedObjectContext) private var context
+    @Environment(\.colorScheme) private var scheme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @FetchRequest(fetchRequest: Ticket.fetchAllRequest())
     private var tickets: FetchedResults<Ticket>
+
+    /// Bascule d'entrée — passe à `true` au premier `onAppear` (apparition
+    /// échelonnée). Purement visuel, n'affecte aucun agrégat.
+    @State private var appeared = false
 
     @State private var searchText  = ""
     @State private var showFilter  = false
@@ -105,6 +111,7 @@ struct TicketHistoryView: View {
                     .zIndex(10)
                 }
             }
+            .onAppear { appeared = true }
         }
     }
 
@@ -113,14 +120,18 @@ struct TicketHistoryView: View {
     private func content(_ digest: HistoryDigest<Ticket>) -> some View {
         List {
             Section {
-                resultMeter(digest)
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
-                    .listRowInsets(EdgeInsets(top: Theme.Spacing.s, leading: Theme.Spacing.xxl,
-                                              bottom: 0, trailing: Theme.Spacing.xxl))
+                ZStack(alignment: .leading) {
+                    if scheme == .dark { headerAmbient }
+                    resultMeter(digest)
+                }
+                .modifier(EntranceEffect(index: 0, appeared: appeared, reduceMotion: reduceMotion))
+                .listRowBackground(Color.clear)
+                .listRowSeparator(.hidden)
+                .listRowInsets(EdgeInsets(top: Theme.Spacing.s, leading: Theme.Spacing.xxl,
+                                          bottom: 0, trailing: Theme.Spacing.xxl))
             }
 
-            ForEach(digest.sections) { section in
+            ForEach(Array(digest.sections.enumerated()), id: \.element.id) { index, section in
                 Section {
                     ForEach(section.rows) { row in
                         NavigationLink {
@@ -129,6 +140,7 @@ struct TicketHistoryView: View {
                             TicketRow(ticket: row.item, matchedSnippet: row.snippet)
                         }
                         .buttonStyle(.plain)
+                        .modifier(EntranceEffect(index: index + 1, appeared: appeared, reduceMotion: reduceMotion))
                         .listRowBackground(Color.clear)
                         .listRowSeparator(.hidden)
                         .listRowInsets(EdgeInsets(top: Theme.Spacing.xs, leading: Theme.Spacing.xxl,
@@ -248,9 +260,57 @@ struct TicketHistoryView: View {
         }
     }
 
+    // MARK: - Ambiance header (Dark uniquement, scopée, helper privé)
+
+    /// Micro-étoiles statiques seedées derrière le compteur — **Dark seulement**,
+    /// discrètes, limitées à la zone d'en-tête. Pas de composant DS partagé
+    /// tant qu'un second consommateur ne le justifie pas ; `AmbientBackground`
+    /// (plein écran) reste inchangé.
+    private var headerAmbient: some View {
+        Canvas { context, size in
+            var seed: UInt32 = 11
+            func next() -> CGFloat {
+                seed = seed &* 1_664_525 &+ 1_013_904_223
+                return CGFloat(seed % 1000) / 1000
+            }
+            for _ in 0..<9 {
+                let x = next() * size.width
+                let y = next() * size.height
+                let radius = 0.5 + next() * 0.9
+                let alpha = 0.05 + next() * 0.08
+                context.fill(
+                    Path(ellipseIn: CGRect(x: x, y: y, width: radius * 2, height: radius * 2)),
+                    with: .color(.white.opacity(alpha))
+                )
+            }
+        }
+        .frame(height: 40)
+        .allowsHitTesting(false)
+    }
+
     // MARK: - Format
 
     private func amountString(_ value: Double) -> String {
         String(format: "%.2f €", value)
+    }
+}
+
+/// Apparition échelonnée d'un bloc — **opacity + offset uniquement**, jamais de
+/// changement de layout. Neutralisée sous Reduce Motion (état final, sans
+/// animation). Chorégraphie partagée avec Home V3.
+private struct EntranceEffect: ViewModifier {
+    let index: Int
+    let appeared: Bool
+    let reduceMotion: Bool
+
+    func body(content: Content) -> some View {
+        let shown = appeared || reduceMotion
+        return content
+            .opacity(shown ? 1 : 0)
+            .offset(y: shown ? 0 : 10)
+            .animation(
+                reduceMotion ? nil : .easeOut(duration: 0.35).delay(Double(index) * 0.05),
+                value: appeared
+            )
     }
 }
