@@ -20,6 +20,9 @@ struct TicketHistoryView: View {
     @State private var showFilter  = false
     @State private var filterStart: Date? = nil
     @State private var filterEnd:   Date? = nil
+    @State private var minAmount:   Double? = nil
+    @State private var maxAmount:   Double? = nil
+    @State private var sort: HistorySort = .recentFirst
 
     // MARK: - Requête (source unique de la dérivation)
 
@@ -28,12 +31,15 @@ struct TicketHistoryView: View {
             text: searchText,
             startDate: filterStart,
             endDate: filterEnd,
-            sort: .recentFirst
+            minAmount: minAmount,
+            maxAmount: maxAmount,
+            sort: sort
         )
     }
 
+    /// Un **filtre** est actif (le tri seul ne compte pas — cf. `isNarrowed`).
     private var isFilterActive: Bool {
-        filterStart != nil || filterEnd != nil
+        filterStart != nil || filterEnd != nil || minAmount != nil || maxAmount != nil
     }
 
     // MARK: - Body
@@ -75,7 +81,10 @@ struct TicketHistoryView: View {
                 TicketFilterSheet(
                     startDate: $filterStart,
                     endDate:   $filterEnd,
-                    onClear:   {}
+                    minAmount: $minAmount,
+                    maxAmount: $maxAmount,
+                    sort:      $sort,
+                    onReset:   resetFilters
                 )
             }
         }
@@ -163,15 +172,26 @@ struct TicketHistoryView: View {
 
             if isNarrowed {
                 Button("Effacer") {
-                    searchText  = ""
-                    filterStart = nil
-                    filterEnd   = nil
+                    searchText = ""
+                    resetFilters()
                 }
                 .font(.caption.weight(.medium))
                 .foregroundColor(Theme.primaryBlue)
             }
         }
         .padding(Theme.Spacing.xxl)
+    }
+
+    // MARK: - Actions
+
+    /// Réinitialise **les filtres** (pas la recherche ni le tri temporel par
+    /// défaut). Utilisé par la sheet et l'état vide.
+    private func resetFilters() {
+        filterStart = nil
+        filterEnd   = nil
+        minAmount   = nil
+        maxAmount   = nil
+        sort        = .recentFirst
     }
 
     // MARK: - Format
