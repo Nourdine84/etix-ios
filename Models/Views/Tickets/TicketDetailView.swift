@@ -1,35 +1,50 @@
 import SwiftUI
 import CoreData
 
+/// Ticket Detail V2 — mission : **« est-ce bien ce ticket, et que puis-je en faire ? »**.
+///
+/// Hero C (stub) : le montant est **libéré sur le fond**, rattaché juste dessous
+/// à une **carte d'identité** ; les deux se lisent comme **un seul objet ticket**
+/// (« total imprimé » + « corps du reçu »). Calme, précis, plus silencieux que
+/// Home. 100 % Design System, aucune donnée inventée.
 struct TicketDetailView: View {
 
     @Environment(\.managedObjectContext) private var context
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.colorScheme) private var scheme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @State private var showConfirmDeletePopup = false
     @State private var showEdit = false
     @State private var showShare = false
     @State private var shareItems: [Any] = []
+    @State private var noteExpanded = false
+
+    /// Le montant scale avec Dynamic Type (garde-fou `minimumScaleFactor`,
+    /// pas mécanisme principal). Base 40 pt, référence `largeTitle`.
+    @ScaledMetric(relativeTo: .largeTitle) private var amountSize: CGFloat = 40
 
     let ticket: Ticket
 
     var body: some View {
-        ZStack {
-            Color(.systemGroupedBackground)
-                .ignoresSafeArea()
+        ZStack(alignment: .top) {
+            Theme.Background.primary.ignoresSafeArea()
+            if scheme == .dark { headerAmbient }
 
             ScrollView {
-                VStack(spacing: 32) {
-                    heroAmount
-                    dateCard
-                    infoGrid
-                    if let desc = ticket.ticketDescription, !desc.isEmpty {
-                        descriptionCard(desc)
+                VStack(alignment: .leading, spacing: Theme.Spacing.xl) {
+
+                    // Stub : montant + carte, rattachés (écart serré).
+                    VStack(alignment: .leading, spacing: Theme.Spacing.m) {
+                        heroAmount
+                        identityCard
                     }
+
+                    noteSection
                 }
-                .padding(.horizontal, 24)
-                .padding(.top, 32)
-                .padding(.bottom, 48)
+                .padding(.horizontal, Theme.Spacing.xxl)
+                .padding(.top, Theme.Spacing.xl)
+                .padding(.bottom, Theme.Spacing.section)
             }
             .scrollIndicators(.hidden)
         }
@@ -86,112 +101,122 @@ struct TicketDetailView: View {
         }
     }
 
-    // MARK: - Hero
+    // MARK: - Hero (montant libéré, aligné sur la grille de la carte)
 
     private var heroAmount: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("MONTANT")
-                .font(.caption)
-                .tracking(1.5)
-                .foregroundColor(.secondary)
-            Text(String(format: "%.2f €", ticket.amount))
-                .font(.system(size: 56, weight: .heavy, design: .rounded))
-                .kerning(-1.5)
-                .foregroundStyle(
-                    LinearGradient(
-                        colors: [Theme.primaryBlue, Theme.primaryBlue.opacity(0.75)],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-            Text(ticket.storeName)
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        Text(formattedAmount)
+            .font(.system(size: amountSize, weight: .heavy, design: .rounded))
+            .foregroundColor(.primary)
+            .lineLimit(1)
+            .minimumScaleFactor(0.5)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            // Aligne le bord gauche du montant avec le contenu de la carte.
+            .padding(.leading, Theme.Spacing.l)
+            .accessibilityAddTraits(.isHeader)
     }
 
-    // MARK: - Date Card
+    // MARK: - Carte d'identité
 
-    private var dateCard: some View {
-        HStack(spacing: 20) {
-            VStack(alignment: .leading, spacing: 2) {
-                Text(formattedDay)
-                    .font(.system(size: 40, weight: .heavy, design: .rounded))
+    private var identityCard: some View {
+        VStack(spacing: 0) {
+            HStack(spacing: Theme.Spacing.m) {
+                storeMonogram
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(ticket.storeName)
+                        .font(.headline)
+                        .foregroundColor(.primary)
+                        .lineLimit(2)
+                    Text(dateString)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+                Spacer(minLength: 0)
+            }
+
+            Divider().padding(.vertical, Theme.Spacing.m)
+
+            HStack(spacing: Theme.Spacing.m) {
+                CategoryIconView(category: ticket.category, size: 40)
+                Text(categoryLabel)
+                    .font(.subheadline.weight(.medium))
                     .foregroundColor(.primary)
-                Text(formattedMonthYear)
-                    .font(.footnote.weight(.medium))
-                    .foregroundColor(.secondary)
+                    .lineLimit(2)
+                Spacer(minLength: 0)
             }
-            Divider().frame(height: 44)
-            VStack(alignment: .leading, spacing: 4) {
-                Text("DATE D'ACHAT")
-                    .font(.caption2)
-                    .tracking(1)
-                    .foregroundColor(.secondary)
-                Text(formattedWeekday)
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundColor(.primary)
-            }
-            Spacer()
         }
-        .padding(20)
-        .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(20)
+        .card(radius: Theme.Radius.l, padding: Theme.Spacing.l)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("\(formattedAmount), \(ticket.storeName), \(dateString), \(categoryLabel)")
     }
 
-    // MARK: - Info Grid
-
-    private var infoGrid: some View {
-        HStack(spacing: 16) {
-            infoCard(icon: "storefront", label: "MAGASIN", value: ticket.storeName)
-            infoCard(icon: "tag.fill", label: "CATÉGORIE", value: ticket.category)
-        }
+    /// Monogramme magasin — helper privé (promotion DS différée). Règle triviale :
+    /// **première lettre utile + couleur stable** (hash FNV du nom). Aucun logo.
+    private var storeMonogram: some View {
+        RoundedRectangle(cornerRadius: 12, style: .continuous)
+            .fill(monogramColor(ticket.storeName))
+            .frame(width: 40, height: 40)
+            .overlay(
+                Text(monogramLetter(ticket.storeName))
+                    .font(.headline.weight(.bold))
+                    .foregroundColor(.white)
+            )
+            .accessibilityHidden(true)
     }
 
-    private func infoCard(icon: String, label: String, value: String) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(spacing: 6) {
-                Image(systemName: icon)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                Text(label)
-                    .font(.caption2)
-                    .tracking(1)
-                    .foregroundColor(.secondary)
-            }
-            Text(value)
-                .font(.subheadline.weight(.semibold))
-                .foregroundColor(.primary)
-                .lineLimit(2)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(16)
-        .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(16)
-    }
+    // MARK: - Note (hors carte, section secondaire sobre)
 
-    // MARK: - Description
-
-    private func descriptionCard(_ desc: String) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(spacing: 6) {
-                Image(systemName: "text.alignleft")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
+    @ViewBuilder
+    private var noteSection: some View {
+        if let note = ticket.ticketDescription?.trimmingCharacters(in: .whitespacesAndNewlines),
+           !note.isEmpty {
+            VStack(alignment: .leading, spacing: Theme.Spacing.s) {
                 Text("NOTE")
-                    .font(.caption2)
+                    .font(.caption.weight(.medium))
                     .tracking(1)
                     .foregroundColor(.secondary)
+
+                Text(note)
+                    .font(.subheadline)
+                    .foregroundColor(.primary)
+                    .lineLimit(noteExpanded ? nil : 4)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                if note.count > 140 {
+                    Button(noteExpanded ? "Voir moins" : "Voir plus") {
+                        withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.2)) {
+                            noteExpanded.toggle()
+                        }
+                    }
+                    .font(.caption.weight(.semibold))
+                    .foregroundColor(Theme.primaryBlue)
+                }
             }
-            Text(desc)
-                .font(.body)
-                .foregroundColor(.primary)
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(20)
-        .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(20)
+    }
+
+    // MARK: - Ambiance Dark scopée header (helper privé, dark only)
+
+    private var headerAmbient: some View {
+        Canvas { ctx, size in
+            var seed: UInt32 = 13
+            func next() -> CGFloat {
+                seed = seed &* 1_664_525 &+ 1_013_904_223
+                return CGFloat(seed % 1000) / 1000
+            }
+            for _ in 0..<10 {
+                let x = next() * size.width
+                let y = next() * size.height
+                let r = 0.5 + next() * 1.0
+                let a = 0.05 + next() * 0.09
+                ctx.fill(Path(ellipseIn: CGRect(x: x, y: y, width: r * 2, height: r * 2)),
+                         with: .color(.white.opacity(a)))
+            }
+        }
+        .frame(height: 170)
+        .frame(maxWidth: .infinity, alignment: .top)
+        .allowsHitTesting(false)
+        .ignoresSafeArea()
     }
 
     // MARK: - Actions (barre de navigation)
@@ -199,12 +224,8 @@ struct TicketDetailView: View {
     /// Partager = **résumé texte** (intention « envoyer vite »), pas un PDF.
     private func sharePlainSummary() {
         Haptic.light()
-        let parts = [
-            ticket.storeName,
-            String(format: "%.2f €", ticket.amount),
-            formattedWeekday + " " + formattedDay + " " + formattedMonthYear,
-            ticket.category
-        ].filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
+        let parts = [ticket.storeName, formattedAmount, dateString, categoryLabel]
+            .filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
         shareItems = [parts.joined(separator: " — ")]
         showShare = true
     }
@@ -224,42 +245,45 @@ struct TicketDetailView: View {
         }
     }
 
-    // MARK: - Helpers
+    // MARK: - Dérivés présentationnels
 
-    private var ticketDate: Date {
-        Date(timeIntervalSince1970: Double(ticket.dateMillis) / 1000)
+    private var categoryLabel: String {
+        let c = ticket.category.trimmingCharacters(in: .whitespaces)
+        return c.isEmpty ? "Sans catégorie" : c
     }
 
-    private static let dayFormatter: DateFormatter = {
-        let f = DateFormatter()
-        f.dateFormat = "dd"
+    private var dateString: String {
+        DateUtils.shortString(fromMillis: ticket.dateMillis)
+    }
+
+    private static let currencyFormatter: NumberFormatter = {
+        let f = NumberFormatter()
+        f.numberStyle = .currency
+        f.currencyCode = "EUR"
+        f.locale = .current
         return f
     }()
 
-    private static let monthYearFormatter: DateFormatter = {
-        let f = DateFormatter()
-        f.locale = Locale(identifier: "fr_FR")
-        f.dateFormat = "MMMM yyyy"
-        return f
-    }()
-
-    private static let weekdayFormatter: DateFormatter = {
-        let f = DateFormatter()
-        f.locale = Locale(identifier: "fr_FR")
-        f.dateFormat = "EEEE"
-        return f
-    }()
-
-    private var formattedDay: String {
-        Self.dayFormatter.string(from: ticketDate)
+    private var formattedAmount: String {
+        Self.currencyFormatter.string(from: NSNumber(value: ticket.amount))
+            ?? String(format: "%.2f €", ticket.amount)
     }
 
-    private var formattedMonthYear: String {
-        Self.monthYearFormatter.string(from: ticketDate).capitalized
+    private func monogramLetter(_ name: String) -> String {
+        for ch in name where ch.isLetter || ch.isNumber {
+            return String(ch).uppercased()
+        }
+        return "?"
     }
 
-    private var formattedWeekday: String {
-        Self.weekdayFormatter.string(from: ticketDate).capitalized
+    private func monogramColor(_ name: String) -> Color {
+        let palette: [Color] = [.blue, .green, .orange, .purple, .pink, .teal, .indigo, .mint, .red, .cyan]
+        var hash: UInt32 = 2_166_136_261
+        for byte in name.lowercased().utf8 {
+            hash ^= UInt32(byte)
+            hash = hash &* 16_777_619
+        }
+        return palette[Int(hash % UInt32(palette.count))]
     }
 
     private func deleteTicket() {
