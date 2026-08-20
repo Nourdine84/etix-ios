@@ -29,7 +29,7 @@ struct TicketDetailView: View {
     var body: some View {
         ZStack(alignment: .top) {
             Theme.Background.primary.ignoresSafeArea()
-            if scheme == .dark { headerAmbient }
+            heroGlow
 
             ScrollView {
                 VStack(alignment: .leading, spacing: Theme.Spacing.xl) {
@@ -109,9 +109,9 @@ struct TicketDetailView: View {
             .foregroundColor(.primary)
             .lineLimit(1)
             .minimumScaleFactor(0.5)
+            // Aligné sur le **bord de la carte** (inset d'écran), une seule
+            // colonne montant/carte — cohérent avec le hero gauche de Home V3.
             .frame(maxWidth: .infinity, alignment: .leading)
-            // Aligne le bord gauche du montant avec le contenu de la carte.
-            .padding(.leading, Theme.Spacing.l)
             .accessibilityAddTraits(.isHeader)
     }
 
@@ -152,13 +152,14 @@ struct TicketDetailView: View {
     /// Monogramme magasin — helper privé (promotion DS différée). Règle triviale :
     /// **première lettre utile + couleur stable** (hash FNV du nom). Aucun logo.
     private var storeMonogram: some View {
-        RoundedRectangle(cornerRadius: 12, style: .continuous)
-            .fill(monogramColor(ticket.storeName))
+        let tint = monogramColor(ticket.storeName)
+        return RoundedRectangle(cornerRadius: 12, style: .continuous)
+            .fill(tint.opacity(0.18))
             .frame(width: 40, height: 40)
             .overlay(
                 Text(monogramLetter(ticket.storeName))
                     .font(.headline.weight(.bold))
-                    .foregroundColor(.white)
+                    .foregroundColor(tint)
             )
             .accessibilityHidden(true)
     }
@@ -195,25 +196,20 @@ struct TicketDetailView: View {
         }
     }
 
-    // MARK: - Ambiance Dark scopée header (helper privé, dark only)
+    // MARK: - Glow englobant (helper privé, profondeur subtile, scopé header)
 
-    private var headerAmbient: some View {
-        Canvas { ctx, size in
-            var seed: UInt32 = 13
-            func next() -> CGFloat {
-                seed = seed &* 1_664_525 &+ 1_013_904_223
-                return CGFloat(seed % 1000) / 1000
-            }
-            for _ in 0..<10 {
-                let x = next() * size.width
-                let y = next() * size.height
-                let r = 0.5 + next() * 1.0
-                let a = 0.05 + next() * 0.09
-                ctx.fill(Path(ellipseIn: CGRect(x: x, y: y, width: r * 2, height: r * 2)),
-                         with: .color(.white.opacity(a)))
-            }
-        }
-        .frame(height: 170)
+    /// Halo radial **très discret** derrière le stub (montant + carte) : il unit
+    /// les deux en un seul objet et apporte de la profondeur, sans jamais se
+    /// remarquer avant le Hero. Plus calme que Home (opacité moindre).
+    private var heroGlow: some View {
+        RadialGradient(
+            colors: [Theme.primaryBlue.opacity(scheme == .dark ? 0.14 : 0.06), .clear],
+            center: .center,
+            startRadius: 0,
+            endRadius: 210
+        )
+        .frame(height: 250)
+        .blur(radius: 40)
         .frame(maxWidth: .infinity, alignment: .top)
         .allowsHitTesting(false)
         .ignoresSafeArea()
